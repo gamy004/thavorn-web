@@ -11356,3 +11356,39 @@ a.text-dark:focus {
   }
 }
 
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: #d8d8d8;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #d8d8d8;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #909090;
+}
+
+.flex-row {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-flow: row;
+  -webkit-box-pack: stretch;
+          justify-content: stretch;
+}
+
+.flex-column {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-flow: column;
+  -webkit-box-pack: stretch;
+          justify-content: stretch;
+}
+

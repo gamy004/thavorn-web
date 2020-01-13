@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../components/HelloWorld'
+import pawn from '../components/pawn'
 Vue.use(VueRouter)
 const routes = [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'pawn',
+      component: pawn
     },
   ]
 
