@@ -18,3 +18,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group([
+    'as' => 'api:',
+    'prefix' => 'api',
+    'namespace' => '\App\Http\Api\Controllers',
+    'middleware' => ['parse.api'],
+], function () {
+    Route::resources([
+        'users' => 'UserController'
+    ]);
+});
