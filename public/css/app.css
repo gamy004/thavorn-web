@@ -11356,6 +11356,10 @@ a.text-dark:focus {
   }
 }
 
+body {
+  font-family: "Kanit", sans-serif;
+}
+
 ::-webkit-scrollbar-track {
   border-radius: 3px;
   background-color: #d8d8d8;
@@ -11370,6 +11374,20 @@ a.text-dark:focus {
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
   background-color: #909090;
+}
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .flex-row {
@@ -11390,5 +11408,12 @@ a.text-dark:focus {
           flex-flow: column;
   -webkit-box-pack: stretch;
           justify-content: stretch;
+}
+
+.card {
+  margin: 20px;
+  padding: 5%;
+  background-color: white;
+  border: #909090 solid 0.3px;
 }
 

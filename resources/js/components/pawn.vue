@@ -1,22 +1,24 @@
 <template>
   <div>
-    <section>
-        <h2>ข้อมูลส่วนตัวลูกค้า</h2>
+    <section class="card">
+      <h2>ข้อมูลส่วนตัวลูกค้า</h2>
+      <information />
+    </section>
+    <section class="card">
+      <h2>ข้อมูลทอง</h2>
+
     </section>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import information from './form/information.vue'
 
 export default Vue.extend({
   name: 'nevbar',
-  props: {
-    msg: String,
-    logo: {
-      type : [Boolean, Number],
-      default : false
-    }
+  components:{
+    information
   },
 });
 </script>
