@@ -38,9 +38,9 @@ $factory->define(User::class, function (Faker $faker, $options) {
 });
 
 $factory->state(User::class, 'customer', [
-    'role_id' => Role::where('role', 'customer')->first()->id
+    'role_id' => Role::firstOrCreate(['role' => 'customer'])->id
 ]);
 
 $factory->state(User::class, 'admin', [
-    'role_id' => Role::where('role', 'admin')->first()->id
+    'role_id' => Role::firstOrCreate(['role' => 'admin'])->id
 ]);
