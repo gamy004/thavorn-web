@@ -39,6 +39,22 @@ input[type=number] {
   -moz-appearance:textfield;
 }
 
+.h-flex-row-s-flex-col{
+  display: flex;
+  flex-flow: row;
+  @media(max-width: 991px){
+    flex-flow:  column;
+  }
+}
+
+.h-flex-col-s-flex-row{
+  display: flex;
+  flex-flow: row;
+  @media(max-width: 991px){
+    flex-flow:  column;
+  }
+}
+
 .flex-row{
 display: flex;
 flex-flow: row;
@@ -55,4 +71,49 @@ margin: 20px;
 padding: 5%;
 background-color: white;
 border: #909090 solid 0.3px;
+}
+
+.sec-form{
+  margin: 12px 0 12px 0;
+}
+
+.head-form{
+  margin-bottom: 6px;
+}
+
+.item-flex-center{
+  align-items: center;
+  display: flex;
+}
+
+.hover-table:hover {
+  background-color: #f3f3f3;
+  transition: background-color linear 100ms;
+}
+.pt-20{
+  padding-top: 20px;
+}
+.pt-10{
+  padding-top: 10px;
+}
+
+.pb-20{
+  padding-bottom: 20px;
+}
+.pb-10{
+  padding-bottom: 10px;
+}
+
+.pl-20{
+  padding-left: 20px;
+}
+.pl-10{
+  padding-left: 10px;
+}
+
+.pr-20{
+  padding-right: 20px;
+}
+.pr-10{
+  padding-right: 10px;
 }
