@@ -1,6 +1,6 @@
 <template>
   <div class="color-cus">
-      <menu-item msg="asdasdsss" />
+    <menu-item v-for="item in menuOBJ" :imgURL="item.img" :msg="item.msg" :key="item.msg" />
   </div>
 </template>
 
@@ -18,6 +18,24 @@ export default Vue.extend({
   props: {
     msg: String,
   },
+  data() {
+    return{
+      menuOBJ: [
+        {
+          msg : "การจำนำ",
+          img : "images/hand.svg"
+        },
+        {
+          msg : "ต่ออายุดอกเบี้ย",
+          img : "images/clock.svg"
+        },
+        {
+          msg : "ไถ่ถอน",
+          img : "images/switch.svg"
+        },
+      ]
+    }
+  }
 });
 </script>
 

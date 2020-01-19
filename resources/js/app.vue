@@ -2,7 +2,7 @@
   <div>
     <navbar :logo="1" />
     <div class="col-12 p-0 flex-row">
-      <menul class="w-cus  m-0 p-0"></menul>
+      <menul class="col-2 max-width m-0 p-0"></menul>
       <router-view class="p-0 w-100 able-overflow"></router-view>
     </div>
   </div>
@@ -32,11 +32,7 @@ body{
   display: flex;
   flex-flow: column;
 }
-.flex-row{
-  display: flex;
-  flex-flow: row;
-  justify-content: stretch;
-}
+
 .w-cus{
   min-width: 180px;
 }
@@ -44,20 +40,7 @@ body{
   height: calc(100vh - 50px);
   overflow-y: scroll;
 }
-::-webkit-scrollbar-track {
-  border-radius: 3px;
-  background-color: #d8d8d8;
+.max-width{
+  max-width: 240px;
 }
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background-color: #d8d8d8;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  background-color: #909090;
-}
-
 </style>

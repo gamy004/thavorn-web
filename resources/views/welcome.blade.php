@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="css/app.css">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        
+        <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">
         <!-- Styles -->
         {{-- <style>
             html, body {
