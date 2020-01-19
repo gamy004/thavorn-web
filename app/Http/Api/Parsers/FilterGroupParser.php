@@ -3,7 +3,7 @@
 namespace App\Http\Api\Parsers;
 
 use InvalidArgumentException;
-use App\Contracts\ParserInterface;
+use App\Http\Api\Contracts\ParserInterface;
 
 class FilterGroupParser extends BaseParser implements ParserInterface {
     protected $template = [

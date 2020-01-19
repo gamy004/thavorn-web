@@ -137,7 +137,7 @@ class Architect
     /**
      * Resolve a mode resolver class if it has not been resolved before
      * @param  string $mode The mode to be resolved
-     * @return App\Api\Resolvers\ModeResolverInterface
+     * @return App\Http\Api\Resolvers\ModeResolverInterface
      */
     private function resolveMode($mode)
     {
@@ -150,7 +150,7 @@ class Architect
     /**
      * Instantiate a mode resolver class
      * @param  string $mode [description]
-     * @return App\Api\Resolvers\ModeResolverInterface
+     * @return App\Http\Api\Resolvers\ModeResolverInterface
      */
     private function createModeResolver($mode)
     {

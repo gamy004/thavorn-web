@@ -3,7 +3,7 @@
 namespace App\Http\Api\Parsers;
 
 use App\IOCs\Data;
-use App\Contracts\ParserInterface;
+use App\Http\Api\Contracts\ParserInterface;
 
 class SelectParser extends BaseParser implements ParserInterface {
     protected $template = [

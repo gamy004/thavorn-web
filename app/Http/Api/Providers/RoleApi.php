@@ -4,7 +4,7 @@ namespace App\Http\Api\Providers;
 
 use Exception;
 use App\IOCs\DBCol;
-use App\Api\BaseApi;
+use App\Http\Api\BaseApi;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Arr;

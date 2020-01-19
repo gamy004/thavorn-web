@@ -2,7 +2,7 @@
 
 namespace App\Http\Api\Parsers;
 
-use App\Contracts\ParserInterface;
+use App\Http\Api\Contracts\ParserInterface;
 
 class MapParser extends BaseParser implements ParserInterface {
 

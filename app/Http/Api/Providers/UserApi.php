@@ -43,46 +43,6 @@ class UserApi extends BaseApi implements ApiInterface
         return [$model, $raw];
     }
 
-    public function update(Model $user, array $raw)
-    {
-        try {
-            DB::beginTransaction();
-
-            $record = [];
-            $record = $this->parseGeneralFields($record, $raw);
-            $record = $this->parsePassword($record, $raw);
-            $user->update($record);
-
-            DB::commit();
-
-            return $this->find($user->id);
-        } catch (Exception $exception) {
-            DB::rollback();
-            Log::error($exception);
-            throw $exception;
-        }
-    }
-
-    public function restore($id)
-    {
-        try {
-            DB::beginTransaction();
-
-            $restore = $this->originalModel
-                ->withTrashed()
-                ->where(DBCol::ID, $id)
-                ->restore();
-
-            DB::commit();
-        } catch (Exception $exception) {
-            DB::rollback();
-
-            Log::error($exception);
-
-            throw $exception;
-        }
-    }
-
     private function parsePassword(array $raw = [])
     {
         if (isset($raw[DBCol::PASSWORD])) {

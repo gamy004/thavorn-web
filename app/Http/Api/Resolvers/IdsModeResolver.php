@@ -2,7 +2,7 @@
 
 namespace App\Http\Api\Resolvers;
 
-use App\Api\Utility;
+use App\Http\Api\Utility;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 

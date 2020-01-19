@@ -7,8 +7,8 @@ use InvalidArgumentException;
 use App\IOCs\Data;
 use App\IOCs\DBCol;
 use App\Http\Api\Parser;
-use App\Api\Utility;
-use App\Api\Architect;
+use App\Http\Api\Utility;
+use App\Http\Api\Architect;
 use App\Http\Api\Parsers\BaseParser;
 use App\Http\Api\Parsers\SelectParser;
 use App\Http\Api\Parsers\PaginateParser;
@@ -151,7 +151,7 @@ abstract class BaseApi
         return $data;
     }
 
-    public function show(Model $model)
+    public function show($model)
     {
         try {
             $data = $this->find($model->{DBCol::ID});
@@ -189,7 +189,7 @@ abstract class BaseApi
         return $this->find($model->{DBCol::ID});
     }
 
-    public function update(Model $model, array $raw)
+    public function update($model, array $raw)
     {
         try {
             DB::beginTransaction();
@@ -223,7 +223,7 @@ abstract class BaseApi
         return !empty($fields) ? Arr::only($raw, $fields) : $raw;
     }
 
-    public function destroy(Model $model)
+    public function destroy($model)
     {
         try {
             DB::beginTransaction();
@@ -273,7 +273,8 @@ abstract class BaseApi
         try {
             DB::beginTransaction();
 
-            $restore = $this->originalModel->withTrashed()
+            $restore = $this->originalModel
+                ->withTrashed()
                 ->findOrFail($id)
                 ->restore();
 

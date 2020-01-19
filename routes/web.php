@@ -23,7 +23,7 @@ Route::group([
     'as' => 'api:',
     'prefix' => 'api',
     'namespace' => '\App\Http\Api\Controllers',
-    'middleware' => ['parse.api'],
+    'middleware' => ['api.parse'],
 ], function () {
     Route::resources([
         'users' => 'UserController'
