@@ -4,6 +4,9 @@ namespace App\IOCs;
 
 class DBCol
 {
+    const FIRST_NAME = 'first_name';
+    const LAST_NAME = 'first_name';
+
     const ID = 'id';
     const USERNAME = 'username';
     const NAME = 'name';
