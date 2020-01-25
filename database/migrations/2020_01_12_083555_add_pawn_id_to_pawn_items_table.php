@@ -14,7 +14,7 @@ class AddPawnIdToPawnItemsTable extends Migration
     public function up()
     {
         Schema::table('pawn_items', function (Blueprint $table) {
-            $table->unsignedBigInteger('pawn_id');
+            $table->unsignedBigInteger('pawn_id')->nullable();
             $table->foreign('pawn_id')
                   ->references('id')
                   ->on('pawns')

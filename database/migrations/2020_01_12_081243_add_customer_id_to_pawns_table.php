@@ -14,7 +14,7 @@ class AddCustomerIdToPawnsTable extends Migration
     public function up()
     {
         Schema::table('pawns', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')
                             ->references('id')
                             ->on('users')

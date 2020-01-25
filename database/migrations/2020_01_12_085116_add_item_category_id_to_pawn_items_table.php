@@ -14,7 +14,7 @@ class AddItemCategoryIdToPawnItemsTable extends Migration
     public function up()
     {
         Schema::table('pawn_items', function (Blueprint $table) {
-             $table->unsignedBigInteger('item_category_id');
+             $table->unsignedBigInteger('item_category_id')->nullable();
              $table->foreign('item_category_id')
                    ->references('id')
                    ->on('item_categories')
