@@ -6,9 +6,9 @@
             <div class="sec-form">
                 <div class="head-form">ประเภทของทอง</div>
                 
-                <select class="form-control">
-                    <option value="asd">asd</option>
-                    <option value="a151sd">151</option>
+                <select class="form-control" v-model="inputType">
+                    <option value="asd" key="asd">asd</option>
+                    <option value="a151sd" key="a151sd">151</option>
                 </select>
             </div>
 
@@ -33,14 +33,14 @@
             <div class="sec-form">
                 <div class="head-form">ความเสียหาย</div>
                     <div class="flex-column">
-                    <div class="form-check mr-3">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios1" value="hasDamage" v-model="inputDamage" >
+                    <div class="form-check mr-3" @click="updateDamage('hasDamage')">
+                        <input class="form-check-input " type="radio" name="exampleRadios" id="sexRadios1" value="มีตำหนิ" v-model="inputDamage" >
                         <label class="form-check-label" for="exampleRadios1">
                         ไม่เสียหาย
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="noDamage"  v-model="inputDamage" checked>
+                    <div class="form-check" @click="updateDamage('noDamage')">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="ไม่มีตำหนิ"  v-model="inputDamage" checked>
                         <label class="form-check-label" for="exampleRadios2">
                         เสียหาย
                         </label>
@@ -49,26 +49,31 @@
             </div>
 
             <div class="sec-form">
-                <button class=" btn btn-primary">อัพเดทตาราง</button>
+                <button @click="addGold" class=" btn btn-primary">อัพเดทตาราง</button>
             </div>
 
         </div>
-
+        
         <div class="col-lg-8 col-12 mt-5 p-0 m-lg-2">
-            <div class="w-100 border-cus border-radius-cus">
-                <div class="flex-row w-100 flex-cus pt-20 pb-20 bg-primary text-white">
-                    <div>ประเภททอง</div>
-                    <div>น้ำหนัก(กรัม)</div>
-                    <div>มูลค่า(บาท)</div>
-                    <div>ความเสียหาย</div>
-                </div>
-                <div v-for="item in tableData" :key="item.type" class="flex-row w-100 flex-cus hover-table pt-10 pb-10 border-radius-cus">
-                    <div>{{item.type}}</div>
-                    <div>{{item.width}}</div>
-                    <div>{{item.price}}</div>
-                    <div>{{item.damage}}</div>
-                </div>
-            </div>
+
+            <table>
+                <tbody>
+                    <tr class="bg-primary text-white">
+                        <th>ประเภททอง</th>
+                        <th>น้ำหนัก(กรัม)</th>
+                        <th>มูลค่า(บาท)</th>
+                        <th>ความเสียหาย</th>
+                        <th></th>
+                    </tr>
+                    <tr v-for="(item, index) in tableData" :key="item.type">
+                        <td>{{item.type}}</td>
+                        <td>{{item.width}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.damage}}</td>
+                        <td @click="removeIndex(index)"> X </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -83,31 +88,38 @@ export default Vue.extend({
   name: 'goldForm',
   data() {
     return {
-        tableData : [
-            {
-                type: 'asd',
-                width: '100',
-                price: '1500',
-                damage: 'yes'
-            },
-            {
-                type: 'asd',
-                width: '100',
-                price: '1500',
-                damage: 'yes'
-            }
-        ],
+        tableData : [],
         inputDamage: 'noDamage',
         inputGoldWidth: '',
         goldPrice: '',
-
+        inputType: ''
     }
+  },
+  methods: {
+    updateDamage(val) {
+      this.inputDamage = val;
+    },
+    addGold() {
+        let obj = {
+            type: this.inputType,
+            width: this.inputGoldWidth,
+            price: this.goldPrice,
+            damage: this.inputDamage,
+        }
+        this.tableData.push(obj)
+    },
+    removeIndex(index) {
+        this.tableData.splice(index,1);
+    },
   },
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.margin-cus{
+    margin-top: 18px;
+}
 .flex-cus{
     justify-content: space-around;
 }
@@ -119,6 +131,7 @@ export default Vue.extend({
   }
 }
 .grow-1{
+  display: flex;
   flex-grow: 1;
 }
 .border-cus{
@@ -126,5 +139,23 @@ export default Vue.extend({
 }
 .border-radius-cus{
     border-radius: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    border-radius: calc(1px + 0.2vw);
+    font-size: calc(9px + 0.5vw);
+}
+
+table td, table th {
+    padding: 1vw;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:hover {background-color: #ddd;}
+table th {
+    font-weight: 400;
 }
 </style>

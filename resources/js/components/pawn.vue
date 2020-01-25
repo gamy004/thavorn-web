@@ -8,6 +8,11 @@
       <h2>ข้อมูลทอง</h2>
       <goldForm />
     </section>
+    <section class="card">
+      <h2>ส่วนดอกเบี้ย</h2>
+      <interest />
+      <saveSection />
+    </section>
   </div>
 </template>
 
@@ -15,12 +20,16 @@
 import Vue from 'vue';
 import information from './form/information.vue'
 import goldForm from './form/goldForm.vue'
+import interest from './form/interest.vue'
+import saveSection from './saveSection.vue'
 
 export default Vue.extend({
   name: 'nevbar',
   components:{
     information,
-    goldForm
+    goldForm,
+    interest,
+    saveSection
   },
 });
 </script>
