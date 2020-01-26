@@ -2,7 +2,7 @@
   <div>
     <div class="sec-form">
       <div class="head-form">เลขบัตรประชาชน</div>
-      <input type="Number" class="form-control" v-model="cardNumber" required>
+      <input type="text" class="form-control" v-model="cardNumber" required>
     </div>
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
@@ -17,15 +17,15 @@
     <div class="sec-form">
       <div class="head-form">เพศ</div>
       <div class="flex-row">
-        <div class="form-check mr-3">
-          <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios1" value="male" v-model="sex" checked>
-          <label class="form-check-label" for="exampleRadios1">
+        <div class="form-check mr-3" @click="updateSex('M')">
+          <input class="form-check-input" type="radio" value="M" v-model="sex" checked>
+          <label class="form-check-label">
           ชาย
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="female"  v-model="sex">
-          <label class="form-check-label" for="exampleRadios2">
+        <div class="form-check" @click="updateSex('F')">
+          <input class="form-check-input" type="radio" value="F"  v-model="sex">
+          <label class="form-check-label">
           หญิง
           </label>
         </div>
@@ -56,10 +56,15 @@ export default Vue.extend({
       name : "",
       surname : "",
       cardNumber : "",
-      sex : "male",
+      sex : "M",
       phone: "",
       line: "",
       facebook: "",
+    }
+  },
+  methods: {
+    updateSex(val) {
+      this.sex = val;
     }
   },
 });
