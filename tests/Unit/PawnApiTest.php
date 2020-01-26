@@ -269,6 +269,7 @@ class PawnApiTest extends TestCase
     public function testCreatePawnItems()
     {
         $pawn = factory(Pawn::class)->create();
+        
         $pawn_items = factory(PawnItem::class, 2)->raw();
         
         $pawn = $this->api->updateItems($pawn, compact('pawn_items'));

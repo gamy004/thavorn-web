@@ -45,11 +45,24 @@ class PawnItem extends Model
     public function updateItemCategoryById($item_category_id)
     {
         try {
-            $item_category = ItemCategory::findOrFail($item_category_id);
+            $item_category = ItemCategory::findOrFail(
+                $item_category_id
+            );
             
             $this->updateItemCategory($item_category);
         } catch (ModelNotFoundException $exception) {
             throw new Exception("ItemCategory not found");
+            
+            // $item_category = ItemCategory::withTrashed()
+            //     ->find($item_category_id);
+
+            // if (!is_null($item_category)) {
+            //     $item_category->restore();
+
+            //     $this->updateItemCategory($item_category);
+            // } else {
+            //     throw new Exception("ItemCategory not found");
+            // }
         }
 
         return $this;
