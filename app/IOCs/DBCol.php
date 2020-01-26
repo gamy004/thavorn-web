@@ -21,7 +21,15 @@ class DBCol
     const REMEMBER_TOKEN = 'remember_token';
     const EMAIL_VERIFIED_AT = 'email_verified_at';
 
-    const INTEREST_RATE = 'intertest_rate';
+    const INTEREST_RATE = 'interest_rate';
+
+    const ITEM_WEIGHT = 'item_weight';
+    const ITEM_WEIGHT_UNIT = 'item_weight_unit';
+    const ITEM_VALUE = 'item_value';
+    const ITEM_VALUE_UNIT = 'item_value_unit';
+
+    const ITEM_CATEGORY = 'item_category';
+    const ITEM_DAMAGE = 'item_damage';
     
     const USERNAME = 'username';
     const NAME = 'name';

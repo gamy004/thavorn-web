@@ -20,4 +20,11 @@ class Role extends Model
     {
         return $this->hasMany(User::class, self::FK);
     }
+
+    public function scopeCustomer($query)
+    {
+        return $query->firstOrCreate([
+            DBCol::ROLE => "customer"
+        ]);
+    }
 }

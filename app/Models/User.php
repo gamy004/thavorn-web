@@ -30,8 +30,7 @@ class User extends Authenticatable
         DBCol::LINE,
         DBCol::EMAIL,
         DBCol::PHONE_NUMBER,
-        DBCol::PASSWORD,
-        Role::FK
+        DBCol::PASSWORD
     ];
 
     /**
@@ -58,16 +57,47 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, Role::FK);
     }
 
-    public function updateRole($role_id)
+    public function pawns()
+    {
+        return $this->hasMany(Pawn::class, Pawn::USER_FK);
+    }
+
+    public function updateRoleByRoleId($role_id)
     {
         try {
             $role = Role::findOrFail($role_id);
             
-            $this->role()->associate($role);
+            $this->updateRole($role);
         } catch (ModelNotFoundException $exception) {
             throw new Exception("Role not found");
         }
 
         return $this;
+    }
+
+    public function updateRole(Role $role)
+    {
+        $this->role()
+            ->associate($role)
+            ->save();
+
+        return $this;
+    }
+
+    public function assignRoleCustomer()
+    {
+        $customer_role = Role::customer();
+
+        $this->updateRole($customer_role);
+
+        return $this;
+    }
+
+    public function scopeIdCard($query, $id_card)
+    {
+        return $query->where(
+            DBCol::IDENTITY_CARD_ID,
+            $id_card
+        )->firstOrFail();
     }
 }
