@@ -76,7 +76,7 @@ class PawnApiTest extends TestCase
 
     //     $result->each(
     //         function($user) use ($user_ids) {
-    //             $this->assertContains(
+    //             $this->assertContains($pawn_item->{DBCol::ID}, $all_pawn_item_ids
     //                 $user->{DBCol::ID}, $user_ids
     //             );
     //         }
@@ -151,19 +151,29 @@ class PawnApiTest extends TestCase
             "customer_id" => null
         ]);
 
+        $pawn_items = factory(PawnItem::class, 2)->raw([
+            Pawn::FK => null
+        ]);
+
         $data = array_merge(
             ["user" => $user_data],
-            [DBCol::INTEREST_RATE => $pawn_data[DBCol::INTEREST_RATE]]
+            [DBCol::INTEREST_RATE => $pawn_data[DBCol::INTEREST_RATE]],
+            ["pawn_items" => $pawn_items]
         );
 
         $pawn = $this->api->store($data)->first();
 
+        // check new pawn was in a database
         $this->assertDatabaseHas(
             $pawn->getModel()->getTable(),
             $pawn->toArray()
         );
 
+        // check new pawn items equaled the number of pawn items in created from the factory
+        $this->assertCount(2, $pawn->pawn_items);
+
         $customer_role = Role::customer();
+
         $pawn_customer = User::find($pawn->customer_id);
 
         // Check if pawn's user is customer
@@ -262,6 +272,82 @@ class PawnApiTest extends TestCase
     }
 
     /**
+     * A test to update pawn with new item.
+     *
+     * @return void
+     */
+    public function testUpdatePawnWithNewItem()
+    {
+        $pawn = factory(Pawn::class)->create();
+
+
+        $old_items_count = $pawn->pawn_items()->count();
+
+
+        $old_pawn_data = $pawn->toArray();
+
+        $new_pawn_items_data = factory(PawnItem::class, 2)->raw([
+            Pawn::FK => null
+        ]);
+
+        $new_data = array_merge(
+            ["pawn_items" => $new_pawn_items_data],
+            $old_pawn_data
+        );
+
+        $pawn = $this->api->update($pawn, $new_data)->first();
+
+        $new_items_count = $pawn->pawn_items()->count();
+
+        // check new items count equal the number in the factory function
+        $this->assertEquals(2, $new_items_count);
+
+        // old and new count must be different
+        $this->assertTrue(
+            $old_items_count != $new_items_count
+        );
+    }
+
+    /**
+     * A test to update pawn with the same item.
+     *
+     * @return void
+     */
+    public function testUpdatePawnWithSameItem()
+    {
+        $pawn = factory(Pawn::class)->create();
+
+        $new_pawn_items_data = factory(PawnItem::class, 2)->create([
+            Pawn::FK => $pawn->{DBCol::ID}
+        ]);
+
+        $old_items_count = $pawn->pawn_items()->count();
+        $old_items_ids = $pawn->pawn_items->pluck(DBCol::ID)->toArray();
+        $old_pawn_data = $pawn->toArray();
+
+        $new_data = array_merge(
+            ["pawn_items" => $new_pawn_items_data->toArray()],
+            $old_pawn_data
+        );
+
+        $pawn = $this->api->update($pawn, $new_data)->first();
+
+        $new_items_count = $pawn->pawn_items()->count();
+        $new_items_ids = $pawn->pawn_items->pluck(DBCol::ID)->toArray();
+
+        // check new items count must equal the number in the factory function
+        $this->assertEquals(2, $new_items_count);
+
+        // check new and old ids must be the same
+        $this->assertEquals($old_items_ids, $new_items_ids);
+
+        // old and new count must be the same number
+        $this->assertTrue(
+            $old_items_count === $new_items_count
+        );
+    }
+
+    /**
      * A test to create pawn items
      * 
      * @return void
@@ -279,20 +365,75 @@ class PawnApiTest extends TestCase
         $this->assertCount(2, $pawn_items);
     }
 
-    // /**
-    //  * A test to delete user.
-    //  *
-    //  * @return void
-    //  */
-    // public function testDestroyPawn()
-    // {
-    //     $user = factory(User::class)->create();
+    /**
+     * A test to update pawn items
+     * 
+     * @return void
+     */
+    public function testUpdatePawnItems()
+    {
+        $pawn = factory(Pawn::class)->create();
+        
+        $old_pawn_items = factory(PawnItem::class, 2)->create([
+            Pawn::FK => $pawn->{DBCol::ID}
+        ]);
 
-    //     $message = $this->api->destroy($user);
+        $new_pawn_items = factory(PawnItem::class, 2)->raw([
+            Pawn::FK => null
+        ]);
+        
+        $all_pawn_items = array_merge(
+            $old_pawn_items->toArray(),
+            $new_pawn_items
+        );
+        
+        $pawn = $this->api->updateItems($pawn, [
+            "pawn_items" => $all_pawn_items
+        ]);
 
-    //     $this->assertSoftDeleted(
-    //         $user->getModel()->getTable(),
-    //         $user->toArray()
-    //     );
-    // }
+        $pawn_items = $pawn->pawn_items;
+
+        $all_pawn_item_ids = $pawn_items->pluck(DBCol::ID)->toArray();
+
+        $this->assertCount(4, $pawn_items);
+
+        // assert the old item id still in the loaded items
+        $old_pawn_items->each(
+            function($pawn_item) use ($all_pawn_item_ids) {
+                $this->assertContains($pawn_item->{DBCol::ID}, $all_pawn_item_ids);
+            }
+        );
+
+        // assert the pawn id is the same in the loaded items
+        $pawn_items->each(
+            function($pawn_item) use ($pawn) {
+                $this->assertEquals($pawn->{DBCol::ID}, $pawn_item->{Pawn::FK});
+            }
+        );
+    }
+
+    /**
+     * A test to delete pawn.
+     *
+     * @return void
+     */
+    public function testDestroyPawn()
+    {
+        $pawn = factory(Pawn::class)->create();
+
+        $old_pawn_items = factory(PawnItem::class, 2)->create([
+            Pawn::FK => $pawn->{DBCol::ID}
+        ]);
+            
+        $message = $this->api->destroy($pawn);
+
+        $pawn_items_count = PawnItem::where(Pawn::FK, $pawn->{DBCol::ID})->count();
+
+        $this->assertEquals(0, $pawn_items_count);
+        
+        $this->assertSoftDeleted(
+            $pawn->getModel()->getTable(),
+            $pawn->toArray()
+        );
+    }
 }

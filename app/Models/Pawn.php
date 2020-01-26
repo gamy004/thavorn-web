@@ -13,6 +13,30 @@ class Pawn extends Model
     const FK = 'pawn_id';
     const USER_FK = 'customer_id';
 
+    protected static function boot() {
+        parent::boot();
+    
+        static::deleting(function($pawn) {
+            // soft delete each item
+            $pawn->pawn_items()->each(
+                function($pawn_item) {
+                    $pawn_item->delete();
+                }
+            );
+        });
+
+        static::restoring(function($pawn) {
+            // restore each item
+            $pawn->pawn_items()
+                ->withTrashed()
+                ->each(
+                    function($pawn_item) {
+                        $pawn_item->restore();
+                    }
+                );
+        });
+    }
+
     protected $fillable = [
         DBCol::INTEREST_RATE
     ];

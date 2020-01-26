@@ -16,6 +16,30 @@ class User extends Authenticatable
 
     const FK = 'user_id';
 
+    protected static function boot() {
+        parent::boot();
+    
+        static::deleting(function($user) {
+            // soft delete each pawn
+            $user->pawns()->each(
+                function($pawn) {
+                    $pawn->delete();
+                }
+            );
+        });
+
+        static::restoring(function($user) {
+            // restore each pawn
+            $user->pawns()
+                ->withTrashed()
+                ->each(
+                    function($pawn) {
+                        $pawn->restore();
+                    }
+                );
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *

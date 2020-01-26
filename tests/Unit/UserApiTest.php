@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\IOCs\DBCol;
 use Tests\TestCase;
+use App\Models\Pawn;
 use App\Models\Role;
 use App\Models\User;
 use App\Http\Api\Parser;
@@ -186,8 +187,16 @@ class UserApiTest extends TestCase
     public function testDestroyUser()
     {
         $user = factory(User::class)->create();
+        
+        $old_pawns = factory(Pawn::class, 2)->create([
+            Pawn::USER_FK => $user->{DBCol::ID}
+        ]);
 
         $message = $this->api->destroy($user);
+
+        $pawns_count = Pawn::where(Pawn::USER_FK, $user->{DBCol::ID})->count();
+
+        $this->assertEquals(0, $pawns_count);
 
         $this->assertSoftDeleted(
             $user->getModel()->getTable(),
