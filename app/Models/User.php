@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use Exception;
+use App\IOCs\DBCol;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use SoftDeletes, Notifiable;
+
+    const FK = 'user_id';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +22,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        DBCol::IDENTITY_CARD_ID,
+        DBCol::FIRST_NAME,
+        DBCol::LAST_NAME,
+        DBCol::GENDER,
+        DBCol::FACEBOOK,
+        DBCol::LINE,
+        DBCol::EMAIL,
+        DBCol::PHONE_NUMBER,
+        DBCol::PASSWORD,
+        Role::FK
     ];
 
     /**
@@ -25,7 +40,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        DBCol::PASSWORD,
+        DBCol::REMEMBER_TOKEN
     ];
 
     /**
@@ -34,6 +50,24 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        DBCol::EMAIL_VERIFIED_AT => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, Role::FK);
+    }
+
+    public function updateRole($role_id)
+    {
+        try {
+            $role = Role::findOrFail($role_id);
+            
+            $this->role()->associate($role);
+        } catch (ModelNotFoundException $exception) {
+            throw new Exception("Role not found");
+        }
+
+        return $this;
+    }
 }

@@ -20,10 +20,10 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(Pawn::class, function (Faker $faker, $options) {
-    $customer_role = Role::where('role', 'customer')->first();
+    $customer_role = Role::firstOrCreate(['role' => 'customer']);
 
     if (is_null($customer_role)) {
-        $customer_role = Role::create(['role' => 'customer']);
+        $customer_role = Role::firstOrCreate(['role' => 'customer']);
     }
 
     return [

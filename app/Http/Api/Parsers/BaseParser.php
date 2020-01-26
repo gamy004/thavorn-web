@@ -35,6 +35,7 @@ class BaseParser
         'FIELDS'            => 'fields',
         'SELECT'            => 'select',
         'SEARCH'            => 'search',
+        'KEYWORD'           => 'keyword',
         'VALUE'             => 'value',
         'MAP'               => 'map',
         'REDUCE'            => 'reduce'

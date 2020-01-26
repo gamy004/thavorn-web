@@ -172,7 +172,7 @@ abstract class BaseApi
             }
 
             $record = $this->parseFields($raw);
-
+            
             $model = $this->originalModel->create($record);
 
             DB::commit();
@@ -183,7 +183,7 @@ abstract class BaseApi
         }
 
         if(method_exists($this, 'stored')) {
-            $model = $this->stored($model);
+            $model = $this->stored($model, $raw, $record);
         }
 
         return $this->find($model->{DBCol::ID});
@@ -210,7 +210,7 @@ abstract class BaseApi
         }
 
         if(method_exists($this, 'updated')) {
-            $model = $this->updated($model);
+            $model = $this->updated($model, $raw, $record);
         }
 
         return $this->find($model->{DBCol::ID});
@@ -218,7 +218,9 @@ abstract class BaseApi
 
     private function parseFields($raw)
     {
-        $fields = property_exists($this, 'fields') && is_array($this->fields) ? $this->fields : [];
+        $model = $this->getOriginalModel();
+
+        $fields = isset($model) ? $model->getFillable() : [];
         
         return !empty($fields) ? Arr::only($raw, $fields) : $raw;
     }
@@ -228,22 +230,28 @@ abstract class BaseApi
         try {
             DB::beginTransaction();
 
+            if(method_exists($this, 'beforeDestroy')) {
+                $model = $this->beforeDestroy($model);
+            }
+
             $model->delete();
 
             DB::commit();
-
-            return response()->json([
-                "message" => "destroy success",
-                "id" => $model->{DBCol::ID},
-                "deleted_at" => $model->{DBCol::DELETED_AT}
-            ]);
         } catch (Exception $exception) {
             DB::rollback();
-
             Log::error($exception);
-
-            throw new Exception("Error Handle Deleting Resource Request");
+            throw $exception;
         }
+
+        if(method_exists($this, 'destroyed')) {
+            $model = $this->destroyed($model);
+        }
+
+        return [
+            "message" => "Destroy success",
+            "id" => $model->{DBCol::ID},
+            "deleted_at" => $model->{DBCol::DELETED_AT}
+        ];
     }
 
     public function forceDelete($id)
@@ -256,16 +264,16 @@ abstract class BaseApi
                 ->forceDelete();
 
             DB::commit();
-
-            return response()->json([
-                "message" => "force destroy success",
-                "id" => $id
-            ]);
         } catch (Exception $exception) {
             DB::rollback();
             Log::error($exception);
             throw $exception;
         }
+
+        return [
+            "message" => "Force destroy success",
+            "id" => $id
+        ];
     }
 
     public function restore($id)
@@ -514,17 +522,13 @@ abstract class BaseApi
         }
         
         $keywords = getWords($search_data[Data::KEYWORD]);
-        // dd($keywords);
+
         $fields = $search_data[Data::FIELDS];
 
         if (count($keywords) && !empty($fields)) {
             $builder = $this->model;
             // $new_query = $this->createQueryBuilder();
             // $new_query_expression = DB::raw("select * from ({$builder->toSql()}) as original")->getValue();
-
-            // dd($new_query->fromQuery($new_query_expression, $builder->getQuery()));
-            // $keyword = "ACMI";
-            // $keyword = strtolower($keyword);
             $main_table = $this->getBaseBuilderTable();
 
             $new_builder = $this->createQueryBuilder()
@@ -557,17 +561,9 @@ abstract class BaseApi
             //     $new_builder->orWhereRaw("LOWER(`original`.`$field`) LIKE '%$keyword%'");
             // }
 
-            // dd($new_builder->get());
-
             $this->model = $new_builder;
 
             unset($new_builder);
-            // dd($new_builder->toSql(), $new_builder->get());
-            // dd($builder->toSql());
-            // if ($this->getBaseBuilderTable() === 'machines') {
-            //     dd([$builder->toSql(), $fn],
-            //     $args);
-            // }
         }
     }
 

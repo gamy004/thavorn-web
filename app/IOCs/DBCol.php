@@ -4,23 +4,33 @@ namespace App\IOCs;
 
 class DBCol
 {
-    const FIRST_NAME = 'first_name';
-    const LAST_NAME = 'first_name';
-
     const ID = 'id';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+    const DELETED_AT = 'deleted_at';
+    
+    const FIRST_NAME = 'first_name';
+    const LAST_NAME = 'last_name';
+    const IDENTITY_CARD_ID = 'identity_card_id';
+    const GENDER = 'gender';
+    const FACEBOOK = 'facebook';
+    const LINE = 'line';
+    const EMAIL = 'email';
+    const PHONE_NUMBER = 'phone_number';
+    const PASSWORD = 'password';
+    const REMEMBER_TOKEN = 'remember_token';
+    const EMAIL_VERIFIED_AT = 'email_verified_at';
+
+    const INTEREST_RATE = 'intertest_rate';
+    
     const USERNAME = 'username';
     const NAME = 'name';
-    const EMAIL = 'email';
-    const PASSWORD = 'password';
-    const PHONE = 'phone';
     const AVATAR = 'avatar';
     const AVAILABLE = 'available';
     const INBOX_SETTINGS = 'inbox_settings';
     const ROLE = 'role';
     const TYPE = 'type';
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
-    const DELETED_AT = 'deleted_at';
+    
     const EXPIRE_AT = 'expire_at';
     const REF = 'ref';
     const VALUE = 'value';
@@ -32,6 +42,7 @@ class DBCol
     const UNIQUE = 'unique';
     const NOTE = 'note';
     const UUID = 'uuid';
+
     /**
      * ISSUE
      */
@@ -41,10 +52,12 @@ class DBCol
     const RECIPIENT_ID = 'recipient_id';
     const ARCHIVE = 'archive';
     const DRAFT = 'draft';
+
     /**
      * ISSUE_CATEGORY
      */
     const CATEGORY = 'category';
+
     /**
      * ISSUE STATUS
      */
@@ -56,10 +69,12 @@ class DBCol
     const STATUS_UPDATED_AT = 'status_updated_at';
     const STARTED_AT = 'started_at';
     const ENDED_AT = 'ended_at';
+
     /**
      * ISSUE NOTE
      */
     const CREATED_BY = 'created_by';
+
     /**
      * File
      */
@@ -71,11 +86,4 @@ class DBCol
     const PATH = 'path';
     const URL = 'url';
     const _PUBLIC = 'public';
-
-    const GROUP_ID = 'group_id';
-    const SUB_GROUP_ID = 'sub_group_id';
-    const ROLE_ID = 'role_id';
-    const TYPE_ID = 'type_id';
-    const AVATAR_ID = 'avatar_id';
-    const PARENT_ID = 'parent_id';
 }
