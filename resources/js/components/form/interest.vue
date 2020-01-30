@@ -4,7 +4,7 @@
         <div class="head-form">จำนวนดอกเบี้ยต่อเดือน(%)</div>
 
         <div class="flex-row">
-            <input type="text" class="form-control" v-model="rate">
+            <input type="text" class="form-control" v-model="interest_rate">
         </div>
     </div>
   </div>
@@ -17,7 +17,7 @@ export default Vue.extend({
   name: 'interest',
   data() {
     return {
-        rate : '',
+        interest_rate : '',
     }
   },
   methods: {

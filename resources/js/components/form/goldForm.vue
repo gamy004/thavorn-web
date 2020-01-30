@@ -6,9 +6,9 @@
             <div class="sec-form">
                 <div class="head-form">ประเภทของทอง</div>
                 
-                <select class="form-control" v-model="inputType">
-                    <option value="asd" key="asd">asd</option>
-                    <option value="a151sd" key="a151sd">151</option>
+                <select class="form-control" v-model="item_category_id">
+                    <option value="1" key="asd">asd</option>
+                    <option value="2" key="a151sd">151</option>
                 </select>
             </div>
 
@@ -16,7 +16,7 @@
                 <div class="head-form">น้ำหนักทอง</div>
 
                 <div class="flex-row">
-                    <input type="text" class="form-control" v-model="inputGoldWidth">
+                    <input type="text" class="form-control" v-model="item_weight">
                     <span class="item-flex-center ml-1">กรัม</span>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                 <div class="head-form">มูลค่าทอง</div>
 
                 <div class="flex-row">
-                    <input type="text" class="form-control" v-model="goldPrice">
+                    <input type="number" class="form-control" v-model="item_value">
                     <span class="item-flex-center ml-1">บาท</span>
                 </div>
             </div>
@@ -34,13 +34,13 @@
                 <div class="head-form">ความเสียหาย</div>
                     <div class="flex-column">
                     <div class="form-check mr-3" @click="updateDamage('hasDamage')">
-                        <input class="form-check-input " type="radio" name="exampleRadios" id="sexRadios1" value="มีตำหนิ" v-model="inputDamage" >
+                        <input class="form-check-input " type="radio" name="exampleRadios" id="sexRadios1" value="0" v-model="item_damage_id" >
                         <label class="form-check-label" for="exampleRadios1">
                         ไม่เสียหาย
                         </label>
                     </div>
                     <div class="form-check" @click="updateDamage('noDamage')">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="ไม่มีตำหนิ"  v-model="inputDamage" checked>
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="1"  v-model="item_damage_id" checked>
                         <label class="form-check-label" for="exampleRadios2">
                         เสียหาย
                         </label>
@@ -74,6 +74,7 @@
                     </tr>
                 </tbody>
             </table>
+            <div v-if="tableData.length">รวมมูลค่า(บาท)  {{sumPrice}}</div>
         </div>
 
     </div>
@@ -89,28 +90,47 @@ export default Vue.extend({
   data() {
     return {
         tableData : [],
-        inputDamage: 'noDamage',
-        inputGoldWidth: '',
-        goldPrice: '',
-        inputType: ''
+        item_damage_id: 0,
+        item_weight: '',
+        item_value: '',
+        item_category_id: ''
     }
+  },
+  computed: {
+      sumPrice() {
+        let output = 0;
+        if(this.tableData && this.tableData.length) {
+            this.tableData.forEach( item => {
+                output +=  parseInt(item.price)
+            });
+        }
+        return output
+      }
   },
   methods: {
     updateDamage(val) {
-      this.inputDamage = val;
+      this.item_damage_id = val;
     },
     addGold() {
         let obj = {
-            type: this.inputType,
-            width: this.inputGoldWidth,
-            price: this.goldPrice,
-            damage: this.inputDamage,
+            type: this.item_category_id,
+            width: this.item_weight,
+            price: this.item_value,
+            damage: this.item_damage_id,
         }
         this.tableData.push(obj)
     },
     removeIndex(index) {
         this.tableData.splice(index,1);
     },
+    exchangeIdToDamageValue(id) {
+        for (let i = 0; i < this.damage.length; i++) {
+            if (this.damage[i].id === id) {
+                return this.damage[i].item_damage
+            }
+        }
+        return 'Error'
+    }
   },
 });
 </script>
