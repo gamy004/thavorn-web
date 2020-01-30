@@ -2,11 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\User;
 use App\Models\Role;
-use Faker\Generator as Faker;
+use App\Models\User;
 use Illuminate\Support\Str;
-
+use Faker\Generator as Faker;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -31,7 +30,7 @@ $factory->define(User::class, function (Faker $faker, $options) {
         'phone_number' => Str::random(10),
         'gender' => $gender,
         'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'password' => 'password',
         'remember_token' => Str::random(10),
         'role_id' => isset($options['role_id']) ? $options['role_id'] : factory(Role::class)->create()->id
     ];

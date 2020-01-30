@@ -2,13 +2,43 @@
 
 namespace App\Models;
 
+use Exception;
+use App\IOCs\DBCol;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use SoftDeletes, Notifiable;
+
+    const FK = 'user_id';
+
+    protected static function boot() {
+        parent::boot();
+    
+        static::deleting(function($user) {
+            // soft delete each pawn
+            $user->pawns()->each(
+                function($pawn) {
+                    $pawn->delete();
+                }
+            );
+        });
+
+        static::restoring(function($user) {
+            // restore each pawn
+            $user->pawns()
+                ->withTrashed()
+                ->each(
+                    function($pawn) {
+                        $pawn->restore();
+                    }
+                );
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +46,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        DBCol::IDENTITY_CARD_ID,
+        DBCol::FIRST_NAME,
+        DBCol::LAST_NAME,
+        DBCol::GENDER,
+        DBCol::FACEBOOK,
+        DBCol::LINE,
+        DBCol::EMAIL,
+        DBCol::PHONE_NUMBER,
+        DBCol::PASSWORD
     ];
 
     /**
@@ -25,7 +63,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        DBCol::PASSWORD,
+        DBCol::REMEMBER_TOKEN
     ];
 
     /**
@@ -34,6 +73,55 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        DBCol::EMAIL_VERIFIED_AT => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, Role::FK);
+    }
+
+    public function pawns()
+    {
+        return $this->hasMany(Pawn::class, Pawn::USER_FK);
+    }
+
+    public function updateRoleByRoleId($role_id)
+    {
+        try {
+            $role = Role::findOrFail($role_id);
+            
+            $this->updateRole($role);
+        } catch (ModelNotFoundException $exception) {
+            throw new Exception("Role not found");
+        }
+
+        return $this;
+    }
+
+    public function updateRole(Role $role)
+    {
+        $this->role()
+            ->associate($role)
+            ->save();
+
+        return $this;
+    }
+
+    public function assignRoleCustomer()
+    {
+        $customer_role = Role::customer();
+
+        $this->updateRole($customer_role);
+
+        return $this;
+    }
+
+    public function scopeIdCard($query, $id_card)
+    {
+        return $query->where(
+            DBCol::IDENTITY_CARD_ID,
+            $id_card
+        )->firstOrFail();
+    }
 }
