@@ -1,6 +1,12 @@
 <template>
   <div class="color-cus">
-    <menu-item v-for="item in menuOBJ" :imgURL="item.img" :msg="item.msg" :key="item.msg" />
+    <menu-item 
+    v-for="item in menuOBJ" 
+    :imgURL="item.img" 
+    :msg="item.msg" 
+    :key="item.msg" 
+    v-bind:class="[item.val === route ? 'active' : null]" 
+    @click.native="clickRoute(item.val)" />
   </div>
 </template>
 
@@ -23,19 +29,33 @@ export default Vue.extend({
       menuOBJ: [
         {
           msg : "การจำนำ",
-          img : "images/hand.svg"
+          img : "images/hand.svg",
+          val : "pawn"
         },
         {
           msg : "ต่ออายุดอกเบี้ย",
-          img : "images/clock.svg"
+          img : "images/clock.svg",
+          val : "renew"
         },
         {
           msg : "ไถ่ถอน",
-          img : "images/switch.svg"
+          img : "images/switch.svg",
+          val : "redeem"
         },
       ]
     }
-  }
+  },
+  computed: {
+    route() {
+      return this.$route.path.substr(1,this.$route.path.length)
+    }
+  },
+  methods: {
+    clickRoute(val){
+      console.log(val);
+      this.$router.replace(val)
+    }
+  },
 });
 </script>
 
@@ -47,5 +67,8 @@ export default Vue.extend({
 img{
   height: 30px;
   width: auto;
+}
+.active{
+  background-color: #3e4449;
 }
 </style>

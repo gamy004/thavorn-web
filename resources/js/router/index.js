@@ -9,17 +9,26 @@ const routes = [
     {
       path: '/pawn',
       name: 'pawn',
-      component: pawn
+      component: pawn,
+      meta: {
+        activeMenu: 'pawn'
+      }
     },
     {
       path: '/redeem',
       name: 'redeem',
-      component: redeem
+      component: redeem,
+      meta: {
+        activeMenu: 'redeem'
+      }
     },
     {
       path: '/renew',
       name: 'renew',
-      component: renew
+      component: renew,
+      meta: {
+        activeMenu: 'renew'
+      }
     },
   ]
 
