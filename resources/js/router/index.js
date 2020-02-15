@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import pawn from '../components/pawn'
 import redeem from '../components/redeem'
 import renew from '../components/renew'
+import PageNotFound from '../components/pageNotFound'
 
 Vue.use(VueRouter)
 const routes = [
@@ -29,6 +30,10 @@ const routes = [
       meta: {
         activeMenu: 'renew'
       }
+    },
+    {
+      path: '*',
+      component: PageNotFound
     },
   ]
 
