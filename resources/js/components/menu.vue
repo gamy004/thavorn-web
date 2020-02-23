@@ -14,6 +14,7 @@
 import Vue from 'vue';
 import navbar from './nevbar.vue'
 import menuItem from './menuItem.vue'
+import axios from 'axios'
 
 export default Vue.extend({
   name: 'menul',
@@ -59,8 +60,18 @@ export default Vue.extend({
     clickRoute(val){
       console.log(val);
       this.$router.replace(val)
+    },
+    async getGoldPrice() {
+      const endPoint = axios.create({
+        baseURL: 'https://data-asg.goldprice.org/dbXRates/THB',
+      });
+      let res = await endPoint.get()
+      console.log(res);
     }
   },
+  mounted() {
+    this.getGoldPrice()
+    },
 });
 </script>
 

@@ -35,7 +35,7 @@ export default Vue.extend({
       phone: "",
       line: "",
       facebook: "",
-      pawnId
+      pawnId: ""
     }
   },
   methods: {
