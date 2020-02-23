@@ -19,17 +19,20 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require("axios");
+const axios = require("axios");
 
-window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.api = axios.create({
+    baseURL: "/api",
+    headers: {
+        "X-Requested-With": "XMLHttpRequest"
+    }
+});
 
-async function test() {
-    return await axios.get("https://data-asg.goldprice.org/dbXRates/THB");
-}
+window.goldPriceApi = axios.create({
+    baseURL: "https://data-asg.goldprice.org/dbXRates/THB"
+});
 
-let res = test();
-
-console.log(res);
+// window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

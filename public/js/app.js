@@ -2376,12 +2376,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
-  name: 'menul',
+  name: "menul",
   components: {
     navbar: _nevbar_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     menuItem: _menuItem_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -2424,22 +2425,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _getGoldPrice = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var endPoint, res;
+        var res1, res2;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                endPoint = axios__WEBPACK_IMPORTED_MODULE_4___default.a.create({
-                  baseURL: 'https://data-asg.goldprice.org/dbXRates/THB'
-                });
-                _context.next = 3;
-                return endPoint.get();
+                _context.next = 2;
+                return window.api.get("users");
 
-              case 3:
-                res = _context.sent;
-                console.log(res);
+              case 2:
+                res1 = _context.sent;
+                _context.next = 5;
+                return window.goldPriceApi.get();
 
               case 5:
+                res2 = _context.sent;
+                console.log(1234, res1, res2);
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -9614,7 +9617,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa]{\n        background-color: #2f353a\n}\nimg[data-v-7bc860aa]{\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa]{\n  background-color: #3e4449;\n}\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
 
 // exports
 
@@ -62310,18 +62313,8 @@ module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
   \***********************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -62343,39 +62336,18 @@ try {
  */
 
 
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
-function test() {
-  return _test.apply(this, arguments);
-}
+window.api = axios.create({
+  baseURL: "/api",
+  headers: {
+    "X-Requested-With": "XMLHttpRequest"
+  }
+});
+window.goldPriceApi = axios.create({
+  baseURL: "https://data-asg.goldprice.org/dbXRates/THB"
+}); // window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-function _test() {
-  _test = _asyncToGenerator(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return axios.get("https://data-asg.goldprice.org/dbXRates/THB");
-
-          case 2:
-            return _context.abrupt("return", _context.sent);
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _test.apply(this, arguments);
-}
-
-var res = test();
-console.log(res);
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
