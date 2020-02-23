@@ -2,8 +2,11 @@
 
 namespace App\Http\Api\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Api\Contracts\ApiInterface;
-use App\Models\User;
+use App\Http\Api\Contracts\StoreFormRequestInterface;
+use App\Http\Api\Contracts\UpdateFormRequestInterface;
 
 class BaseApiController extends Controller
 {
@@ -22,24 +25,24 @@ class BaseApiController extends Controller
         return $this->api->index();
     }
 
-    public function show(User $user)
+    public function show(Model $model)
     {
-        return $this->api->show($user);
+        return $this->api->show($model);
     }
 
-    public function store(Request $request)
+    public function store(StoreFormRequestInterface $request)
     {
         return $this->api->store($request->all());
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateFormRequestInterface $request, Model $model)
     {
-        return $this->api->update($user, $request->all());
+        return $this->api->update($model, $request->all());
     }
 
-    public function destroy(User $user)
+    public function destroy(Model $model)
     {
-        return $this->api->destroy($user);
+        return $this->api->destroy($model);
     }
 
     public function restore($id)

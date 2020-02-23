@@ -26,6 +26,7 @@ Route::group([
     'middleware' => ['api.parse'],
 ], function () {
     Route::resources([
-        'users' => 'UserController'
+        'users' => 'UserController',
+        'pawns' => 'PawnController'
     ]);
 });
