@@ -23,6 +23,7 @@ const axios = require("axios");
 
 window.api = axios.create({
     baseURL: "/api",
+    paramsSerializer: $.param,
     headers: {
         "X-Requested-With": "XMLHttpRequest"
     }

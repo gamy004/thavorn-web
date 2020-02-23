@@ -64,7 +64,17 @@ export default Vue.extend({
     },
     async getGoldPrice() {
       // UserApiTest path tests/Unit/UserApiTest.php
-      let res1 = await window.api.get("users");
+      let res1 = await window.api.get("users", {
+        params: {
+          filters: [
+            {
+              key: "id",
+              value: [1, 2, 3],
+              operator: "in"
+            }
+          ]
+        }
+      });
       let res2 = await window.goldPriceApi.get();
       console.log(1234, res1, res2);
     }

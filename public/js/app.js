@@ -2431,7 +2431,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return window.api.get("users");
+                return window.api.get("users", {
+                  params: {
+                    filters: [{
+                      key: "id",
+                      value: [1, 2, 3],
+                      operator: "in"
+                    }]
+                  }
+                });
 
               case 2:
                 res1 = _context.sent;
@@ -62340,6 +62348,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 window.api = axios.create({
   baseURL: "/api",
+  paramsSerializer: $.param,
   headers: {
     "X-Requested-With": "XMLHttpRequest"
   }
