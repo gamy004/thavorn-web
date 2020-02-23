@@ -2350,10 +2350,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _nevbar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nevbar.vue */ "./resources/js/components/nevbar.vue");
-/* harmony import */ var _menuItem_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menuItem.vue */ "./resources/js/components/menuItem.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nevbar_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nevbar.vue */ "./resources/js/components/nevbar.vue");
+/* harmony import */ var _menuItem_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./menuItem.vue */ "./resources/js/components/menuItem.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2369,11 +2379,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'menul',
   components: {
-    navbar: _nevbar_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    menuItem: _menuItem_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    navbar: _nevbar_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    menuItem: _menuItem_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: {
     msg: String
@@ -2408,7 +2419,43 @@ __webpack_require__.r(__webpack_exports__);
     clickRoute: function clickRoute(val) {
       console.log(val);
       this.$router.replace(val);
-    }
+    },
+    getGoldPrice: function () {
+      var _getGoldPrice = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var endPoint, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                endPoint = axios__WEBPACK_IMPORTED_MODULE_4___default.a.create({
+                  baseURL: 'https://data-asg.goldprice.org/dbXRates/THB'
+                });
+                _context.next = 3;
+                return endPoint.get();
+
+              case 3:
+                res = _context.sent;
+                console.log(res);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function getGoldPrice() {
+        return _getGoldPrice.apply(this, arguments);
+      }
+
+      return getGoldPrice;
+    }()
+  },
+  mounted: function mounted() {
+    this.getGoldPrice();
   }
 }));
 
@@ -2732,7 +2779,7 @@ __webpack_require__.r(__webpack_exports__);
       phone: "",
       line: "",
       facebook: "",
-      pawnId: pawnId
+      pawnId: ""
     };
   },
   methods: {
