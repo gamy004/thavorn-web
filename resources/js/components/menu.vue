@@ -38,6 +38,11 @@ export default Vue.extend({
           val : "renew"
         },
         {
+          msg : "ขอเพิ่มข้อมูล",
+          img : "images/income.svg",
+          val : "updatepawn"
+        },
+        {
           msg : "ไถ่ถอน",
           img : "images/switch.svg",
           val : "redeem"
