@@ -22,8 +22,17 @@ class ApiServiceProvider extends ServiceProvider
         \App\Http\Api\Controllers\UserController::class => [
             "api" => \App\Http\Api\Providers\UserApi::class
         ],
+        \App\Http\Api\Controllers\PawnItemController::class => [
+            "api" => \App\Http\Api\Providers\PawnItemApi::class
+        ],
         \App\Http\Api\Controllers\PawnUserItemController::class => [
             "api" => \App\Http\Api\Providers\PawnUserItemApi::class
+        ],
+        \App\Http\Api\Controllers\ItemDamageController::class => [
+            "api" => \App\Http\Api\Providers\ItemDamageApi::class
+        ],
+        \App\Http\Api\Controllers\ItemCategoryController::class => [
+            "api" => \App\Http\Api\Providers\ItemCategoryApi::class
         ],
         \App\Http\Api\Controllers\PawnController::class => [
             "api" => \App\Http\Api\Providers\PawnApi::class,

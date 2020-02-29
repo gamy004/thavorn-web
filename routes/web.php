@@ -28,6 +28,9 @@ Route::group([
     Route::resources([
         'users' => 'UserController',
         'pawns' => 'PawnController',
-        'pawn_user_items' => 'PawnUserItemController'
+        'pawn_items' => 'PawnItemController',
+        'pawn_user_items' => 'PawnUserItemController',
+        'item_damages' => 'ItemDamageController',
+        'item_categories' => 'ItemCategoryController'
     ]);
 });

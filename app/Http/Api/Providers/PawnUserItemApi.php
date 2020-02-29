@@ -64,6 +64,8 @@ class PawnUserItemApi extends BaseApi implements ApiInterface
             sprintf('%s.%s', $item_category_table, DBCol::ID)
         )->select(
             sprintf('%s.*', $pawn_item_table),
+            sprintf('%s.%s', $user_table, DBCol::FIRST_NAME),
+            sprintf('%s.%s', $user_table, DBCol::LAST_NAME),
             sprintf('%s.%s', $pawn_table, DBCol::PAWN_NO),
             sprintf('%s.%s', $pawn_table, Pawn::USER_FK),
             sprintf('%s.%s', $user_table, DBCol::IDENTITY_CARD_ID),
