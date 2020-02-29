@@ -68,7 +68,7 @@ class PawnUserItemApi extends BaseApi implements ApiInterface
             sprintf('%s.%s', $pawn_table, Pawn::USER_FK),
             sprintf('%s.%s', $user_table, DBCol::IDENTITY_CARD_ID),
             sprintf('%s.%s', $item_damage_table, DBCol::ITEM_DAMAGE),
-            sprintf('%s.%s', $item_category_table, DBCol::ITEM_CATEGORY),
+            sprintf('%s.%s', $item_category_table, DBCol::ITEM_CATEGORY)
         );
 
         return $query;
