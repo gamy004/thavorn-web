@@ -4,7 +4,6 @@
       <h2>ข้อมูลการจำนำ</h2>
       <SearchInformation />
       <goldForm class="mt-20" />
-      <saveSection class="mt-20" useType='update' />
     </section>
   </div>
 </template>

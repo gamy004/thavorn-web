@@ -11514,3 +11514,15 @@ input[type=number] {
   background-color: #e7e7e7 !important;
 }
 
+.hint {
+  background-color: #f3f3f3;
+  border-color: white;
+}
+
+.hint:hover {
+  background-color: #20a8d8 !important;
+  -webkit-transition: background-color linear 100ms;
+  transition: background-color linear 100ms;
+  color: white;
+}
+

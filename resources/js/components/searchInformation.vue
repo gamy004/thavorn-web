@@ -43,6 +43,9 @@ export default Vue.extend({
       this.sex = val;
     }
   },
+  watch: {
+    
+  },
 });
 </script>
 

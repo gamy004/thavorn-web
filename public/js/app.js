@@ -2069,7 +2069,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       tableData: [],
-      item_damage_id: 0,
+      item_damage_id: '2',
       item_weight: '',
       item_value: '',
       item_category_id: ''
@@ -2127,8 +2127,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
 //
 //
 //
@@ -2178,8 +2187,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
-  name: 'imformation',
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   data: function data() {
     return {
       name: "",
@@ -2188,12 +2196,92 @@ __webpack_require__.r(__webpack_exports__);
       sex: "M",
       phone: "",
       line: "",
-      facebook: ""
+      facebook: "",
+      suggest_id: [],
+      tmpUser: [],
+      suggestStatus: false
     };
   },
   methods: {
     updateSex: function updateSex(val) {
       this.sex = val;
+    },
+    updateForm: function updateForm(id) {
+      for (var i = 0; i < this.tmpUser.length; i++) {
+        if (this.tmpUser[i].identity_card_id === id) {
+          this.suggestStatus = true;
+          var res = this.tmpUser[i];
+          this.cardNumber = res.identity_card_id;
+          this.surname = res.last_name;
+          this.name = res.first_name;
+          this.sex = res.gender;
+          this.facebook = res.facebook;
+          this.line = res.line;
+          this.phone = res.phone_number;
+          console.log(res.identity_card_id);
+          break;
+        }
+      }
+    }
+  },
+  watch: {
+    cardNumber: {
+      handler: function () {
+        var _handler = _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(cardNumber) {
+          var _this = this;
+
+          var res1, res;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return window.api.get("users", {
+                    params: {
+                      filters: [{
+                        key: "identity_card_id",
+                        value: cardNumber,
+                        operator: "ct"
+                      }]
+                    }
+                  });
+
+                case 2:
+                  res1 = _context.sent;
+                  console.log(res1.data.users);
+
+                  if (this.suggestStatus) {
+                    this.suggestStatus = false;
+                    this.suggest_id = [];
+                    this.tmpUser = [];
+                  } else if (res1.data.users.length > 0 && this.cardNumber.length > 0) {
+                    res = res1.data.users;
+                    this.suggest_id = [];
+                    this.tmpUser = res;
+                    res.forEach(function (item) {
+                      _this.suggest_id.push(item.identity_card_id);
+                    });
+                  } else {
+                    this.suggest_id = [];
+                    this.tmpUser = [];
+                  }
+
+                case 5:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function handler(_x) {
+          return _handler.apply(this, arguments);
+        }
+
+        return handler;
+      }()
     }
   }
 }));
@@ -2228,7 +2316,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'interest',
   data: function data() {
     return {
-      interest_rate: ''
+      interest_rate: '3'
     };
   },
   methods: {}
@@ -2434,9 +2522,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return window.api.get("users", {
                   params: {
                     filters: [{
-                      key: "id",
-                      value: [1, 2, 3],
-                      operator: "in"
+                      key: "identity_card_id",
+                      value: 'nPIZ',
+                      operator: "ct"
                     }]
                   }
                 });
@@ -2448,7 +2536,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 res2 = _context.sent;
-                console.log(1234, res1, res2);
+                console.log(1234, res1.data.users[0], res2);
 
               case 7:
               case "end":
@@ -2724,7 +2812,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
   name: 'saveSection',
@@ -2733,12 +2820,7 @@ __webpack_require__.r(__webpack_exports__);
       rate: ''
     };
   },
-  props: {
-    useType: {
-      type: [String, Number],
-      "default": 'create'
-    }
-  },
+  props: {},
   methods: {}
 }));
 
@@ -2797,7 +2879,8 @@ __webpack_require__.r(__webpack_exports__);
     updateSex: function updateSex(val) {
       this.sex = val;
     }
-  }
+  },
+  watch: {}
 }));
 
 /***/ }),
@@ -2817,7 +2900,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_interest_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/interest.vue */ "./resources/js/components/form/interest.vue");
 /* harmony import */ var _saveSection_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./saveSection.vue */ "./resources/js/components/saveSection.vue");
 /* harmony import */ var _searchInformation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./searchInformation */ "./resources/js/components/searchInformation.vue");
-//
 //
 //
 //
@@ -9606,7 +9688,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
+exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
 
 // exports
 
@@ -9625,7 +9707,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
 
 // exports
 
@@ -9644,7 +9726,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\r\n", ""]);
 
 // exports
 
@@ -45954,7 +46036,7 @@ var render = function() {
                 staticClass: "form-check mr-3",
                 on: {
                   click: function($event) {
-                    return _vm.updateDamage("hasDamage")
+                    return _vm.updateDamage("1")
                   }
                 }
               },
@@ -45972,13 +46054,13 @@ var render = function() {
                   attrs: {
                     type: "radio",
                     name: "exampleRadios",
-                    id: "sexRadios1",
-                    value: "0"
+                    id: "DamageRadios1",
+                    value: "1"
                   },
-                  domProps: { checked: _vm._q(_vm.item_damage_id, "0") },
+                  domProps: { checked: _vm._q(_vm.item_damage_id, "1") },
                   on: {
                     change: function($event) {
-                      _vm.item_damage_id = "0"
+                      _vm.item_damage_id = "1"
                     }
                   }
                 }),
@@ -46004,7 +46086,7 @@ var render = function() {
                 staticClass: "form-check",
                 on: {
                   click: function($event) {
-                    return _vm.updateDamage("noDamage")
+                    return _vm.updateDamage("2")
                   }
                 }
               },
@@ -46022,14 +46104,14 @@ var render = function() {
                   attrs: {
                     type: "radio",
                     name: "exampleRadios",
-                    id: "sexRadios2",
-                    value: "1",
+                    id: "DamageRadios2",
+                    value: "2",
                     checked: ""
                   },
-                  domProps: { checked: _vm._q(_vm.item_damage_id, "1") },
+                  domProps: { checked: _vm._q(_vm.item_damage_id, "2") },
                   on: {
                     change: function($event) {
-                      _vm.item_damage_id = "1"
+                      _vm.item_damage_id = "2"
                     }
                   }
                 }),
@@ -46142,31 +46224,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "sec-form" }, [
-      _c("div", { staticClass: "head-form" }, [_vm._v("เลขบัตรประชาชน")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.cardNumber,
-            expression: "cardNumber"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", required: "" },
-        domProps: { value: _vm.cardNumber },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+    _c(
+      "div",
+      { staticClass: "sec-form" },
+      [
+        _c("div", { staticClass: "head-form" }, [_vm._v("เลขบัตรประชาชน")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.cardNumber,
+              expression: "cardNumber"
             }
-            _vm.cardNumber = $event.target.value
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", required: "" },
+          domProps: { value: _vm.cardNumber },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.cardNumber = $event.target.value
+            }
           }
-        }
-      })
-    ]),
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.suggest_id, function(item) {
+          return _c(
+            "div",
+            {
+              key: item,
+              staticClass: "form-control hint",
+              on: {
+                click: function($event) {
+                  return _vm.updateForm(item)
+                }
+              }
+            },
+            [_vm._v(_vm._s(item))]
+          )
+        })
+      ],
+      2
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "h-flex-row-s-flex-col" }, [
       _c("div", { staticClass: "sec-form grow-1 mr-lg-2" }, [
@@ -46950,23 +47053,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "section-btn" }, [
-    _vm.useType === "create"
-      ? _c("button", { staticClass: "btn btn-success btn-lg mr-3" }, [
-          _vm._v("บันทึก")
-        ])
-      : _vm.useType === "update"
-      ? _c("button", { staticClass: "btn btn-success btn-lg mr-3" }, [
-          _vm._v("บันทึก")
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("button", { staticClass: "btn btn-outline-danger btn-lg" }, [
-      _vm._v("ยกเลิก")
-    ])
-  ])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "section-btn" }, [
+      _c("button", { staticClass: "btn btn-success btn-lg mr-3" }, [
+        _vm._v("บันทึก")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-outline-danger btn-lg" }, [
+        _vm._v("ยกเลิก")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -47101,12 +47205,7 @@ var render = function() {
         _vm._v(" "),
         _c("SearchInformation"),
         _vm._v(" "),
-        _c("goldForm", { staticClass: "mt-20" }),
-        _vm._v(" "),
-        _c("saveSection", {
-          staticClass: "mt-20",
-          attrs: { useType: "update" }
-        })
+        _c("goldForm", { staticClass: "mt-20" })
       ],
       1
     )
@@ -62313,7 +62412,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
+module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
 
 /***/ }),
 
@@ -63583,8 +63682,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/narayutputjaika/Workspaces/laravel/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/narayutputjaika/Workspaces/laravel/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

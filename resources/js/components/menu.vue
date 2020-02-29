@@ -68,15 +68,15 @@ export default Vue.extend({
         params: {
           filters: [
             {
-              key: "id",
-              value: [1, 2, 3],
-              operator: "in"
+              key: "identity_card_id",
+              value: 'nPIZ',
+              operator: "ct"
             }
           ]
         }
       });
       let res2 = await window.goldPriceApi.get();
-      console.log(1234, res1, res2);
+      console.log(1234, res1.data.users[0], res2);
     }
   },
   mounted() {
