@@ -38,6 +38,7 @@ class Pawn extends Model
     }
 
     protected $fillable = [
+        DBCol::PAWN_NO,
         DBCol::INTEREST_RATE
     ];
 

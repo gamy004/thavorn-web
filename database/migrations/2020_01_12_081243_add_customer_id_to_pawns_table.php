@@ -29,6 +29,8 @@ class AddCustomerIdToPawnsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('pawns', function (Blueprint $table) {
+            $table->dropForeign(['customer_id']);
+        });
     }
 }

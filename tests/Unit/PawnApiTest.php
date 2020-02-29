@@ -24,119 +24,6 @@ class PawnApiTest extends TestCase
         $this->api = app(PawnApi::class);
         $this->parser = app(Parser::class);
     }
-
-    // /**
-    //  * A test to get user.
-    //  *
-    //  * @return void
-    //  */
-    // public function testGetUser()
-    // {
-    //     $count = 2;
-    //     $key = 'users';
-
-    //     $user_data = factory(User::class, $count)->create();
-        
-    //     $users = $this->api->get($key);
-
-    //     $this->assertArrayHasKey($key, $users->toArray());
-    //     $this->assertCount($count, $users->get($key));
-    // }
-
-    // /**
-    //  * A test to get user by id.
-    //  *
-    //  * @return void
-    //  */
-    // public function testGetUserById()
-    // {
-    //     $count = 2;
-    //     $key = 'users';
-
-    //     $user_data = factory(User::class, $count)->create();
-
-    //     $user_ids = $user_data->pluck(DBCol::ID)->toArray();
-
-    //     factory(User::class)->create(); // another user who not has the matched
-
-    //     $this->parser->parse([
-    //         "filters" => [
-    //             [
-    //                 "key" => DBCol::ID,
-    //                 "value" => $user_ids,
-    //                 "operator" => "in"
-    //             ]
-    //         ],
-    //     ]);
-        
-    //     $users = $this->api->get($key);
-    //     $result = $users->get($key);
-
-    //     $this->assertCount($count, $result);
-
-    //     $result->each(
-    //         function($user) use ($user_ids) {
-    //             $this->assertContains($pawn_item->{DBCol::ID}, $all_pawn_item_ids
-    //                 $user->{DBCol::ID}, $user_ids
-    //             );
-    //         }
-    //     );
-    // }
-
-    // /**
-    //  * A test to search user by first_name.
-    //  *
-    //  * @return void
-    //  */
-    // public function testSearchUserByFirstName()
-    // {
-    //     $count = 2;
-    //     $test_first_name = "TestFirstName";
-    //     $key = 'users';
-
-    //     factory(User::class, $count)->create();
-
-    //     $searched_user = factory(User::class)->create([
-    //         DBCol::FIRST_NAME => $test_first_name
-    //     ]); // another user who not has the matched name
-
-    //     $this->parser->parse([
-    //         "search" => [
-    //             "keyword" => $searched_user->{DBCol::FIRST_NAME},
-    //             "fields" => [
-    //                 DBCol::FIRST_NAME
-    //             ] // If not specify, it wil not search search
-    //         ],
-    //     ]);
-        
-    //     $users = $this->api->get($key);
-    //     $result = $users->get($key);
-    //     $user = $result->first();
-
-    //     $this->assertCount(1, $result);
-    //     $this->assertEquals($user->{DBCol::FIRST_NAME}, $test_first_name);
-    // }
-
-    // /**
-    //  * A test to create user.
-    //  *
-    //  * @return void
-    //  */
-    // public function testGetUserWithRole()
-    // {
-    //     $this->parser->parse([
-    //         "includes" => ["role"],
-    //     ]);
-
-    //     $user_data = factory(User::class)->create();
-        
-    //     $usersWithRole = $this->api->get('users');
-        
-    //     $userWithRole = $usersWithRole->get('users')->first();
-
-    //     $this->assertArrayHasKey('role', $userWithRole->getRelations());
-    //     $this->assertInstanceOf(Role::class, $userWithRole->role);
-    // }
     
     /**
      * A test to create pawn.
@@ -157,7 +44,10 @@ class PawnApiTest extends TestCase
 
         $data = array_merge(
             ["user" => $user_data],
-            [DBCol::INTEREST_RATE => $pawn_data[DBCol::INTEREST_RATE]],
+            [
+                DBCol::PAWN_NO => $pawn_data[DBCol::PAWN_NO],
+                DBCol::INTEREST_RATE => $pawn_data[DBCol::INTEREST_RATE]
+            ],
             ["pawn_items" => $pawn_items]
         );
 

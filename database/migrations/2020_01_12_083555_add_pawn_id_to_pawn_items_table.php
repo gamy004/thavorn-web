@@ -30,7 +30,7 @@ class AddPawnIdToPawnItemsTable extends Migration
     public function down()
     {
         Schema::table('pawn_items', function (Blueprint $table) {
-            //
+            $table->dropForeign(['pawn_id']);
         });
     }
 }

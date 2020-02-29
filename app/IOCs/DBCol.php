@@ -21,6 +21,7 @@ class DBCol
     const REMEMBER_TOKEN = 'remember_token';
     const EMAIL_VERIFIED_AT = 'email_verified_at';
 
+    const PAWN_NO = 'pawn_no';
     const INTEREST_RATE = 'interest_rate';
 
     const ITEM_WEIGHT = 'item_weight';

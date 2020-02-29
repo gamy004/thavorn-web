@@ -28,6 +28,7 @@ $factory->define(Pawn::class, function (Faker $faker, $options) {
 
     return [
         'interest_rate' => $faker->randomFloat(2, 0, 20),
+        'pawn_no' => uniqid(),
         'customer_id' => isset($options['customer_id']) ? $options['customer_id'] : factory(User::class)->create([
             'role_id' => $customer_role->id
         ])->id

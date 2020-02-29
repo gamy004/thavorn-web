@@ -20,7 +20,13 @@ class ApiServiceProvider extends ServiceProvider
 
     protected $controllers = [
         \App\Http\Api\Controllers\UserController::class => [
-            "api" => \App\Http\Api\Providers\UserApi::class,
+            "api" => \App\Http\Api\Providers\UserApi::class
+        ],
+        \App\Http\Api\Controllers\PawnUserItemController::class => [
+            "api" => \App\Http\Api\Providers\PawnUserItemApi::class
+        ],
+        \App\Http\Api\Controllers\PawnController::class => [
+            "api" => \App\Http\Api\Providers\PawnApi::class,
             "validations" => [
                 self::REQUEST_STORE => \App\Http\Api\Requests\PawnRequest\StorePawnRequest::class,
                 self::REQUEST_UPDATE => \App\Http\Api\Requests\PawnRequest\UpdatePawnRequest::class,

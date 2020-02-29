@@ -24,13 +24,6 @@ class PawnApi extends BaseApi implements ApiInterface
         $this->pawnItemApi = $pawnItemApi;
     }
 
-    // protected function beforeStore(array $raw = [])
-    // {
-    //     $raw = $this->parsePassword($raw);
-
-    //     return $raw;
-    // }
-
     protected function stored(Model $model, array $raw = [], array $record = [])
     {
         $model = $this->updateUser($model, $raw);
@@ -38,13 +31,6 @@ class PawnApi extends BaseApi implements ApiInterface
 
         return $model;
     }
-
-    // public function beforeUpdate(Model $model, array $raw = [])
-    // {
-    //     $raw = $this->parsePassword($raw);
-
-    //     return [$model, $raw];
-    // }
 
     protected function updated(Model $model, array $raw = [], array $record = [])
     {

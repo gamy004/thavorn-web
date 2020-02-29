@@ -27,6 +27,7 @@ Route::group([
 ], function () {
     Route::resources([
         'users' => 'UserController',
-        // 'pawns' => 'PawnController'
+        'pawns' => 'PawnController',
+        'pawn_user_items' => 'PawnUserItemController'
     ]);
 });

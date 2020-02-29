@@ -18,6 +18,7 @@ class CreatePawnsTable extends Migration
     {
         Schema::create('pawns', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('pawn_no')->unique();
             $table->decimal('interest_rate', 8, 2);
             $table->timestamps();
             $table->softDeletes();
