@@ -129,3 +129,12 @@ border: #909090 solid 0.3px;
 .showData{
   background-color: #e7e7e7 !important;
 }
+.hint{
+  background-color: #f3f3f3;
+  border-color: white;
+}
+.hint:hover {
+  background-color: #20a8d8 !important;
+  transition: background-color linear 100ms;
+  color: white;
+}

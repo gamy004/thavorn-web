@@ -17,7 +17,7 @@ export default Vue.extend({
   name: 'interest',
   data() {
     return {
-        interest_rate : '',
+        interest_rate : '3',
     }
   },
   methods: {

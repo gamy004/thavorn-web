@@ -33,14 +33,14 @@
             <div class="sec-form">
                 <div class="head-form">ความเสียหาย</div>
                     <div class="flex-column">
-                    <div class="form-check mr-3" @click="updateDamage('hasDamage')">
-                        <input class="form-check-input " type="radio" name="exampleRadios" id="sexRadios1" value="0" v-model="item_damage_id" >
+                    <div class="form-check mr-3" @click="updateDamage('1')">
+                        <input class="form-check-input " type="radio" name="exampleRadios" id="DamageRadios1" value="1" v-model="item_damage_id" >
                         <label class="form-check-label" for="exampleRadios1">
                         ไม่เสียหาย
                         </label>
                     </div>
-                    <div class="form-check" @click="updateDamage('noDamage')">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="sexRadios2" value="1"  v-model="item_damage_id" checked>
+                    <div class="form-check" @click="updateDamage('2')">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="DamageRadios2" value="2"  v-model="item_damage_id" checked>
                         <label class="form-check-label" for="exampleRadios2">
                         เสียหาย
                         </label>
@@ -90,7 +90,7 @@ export default Vue.extend({
   data() {
     return {
         tableData : [],
-        item_damage_id: 0,
+        item_damage_id: '2',
         item_weight: '',
         item_value: '',
         item_category_id: ''
@@ -105,7 +105,7 @@ export default Vue.extend({
             });
         }
         return output
-      }
+      },
   },
   methods: {
     updateDamage(val) {

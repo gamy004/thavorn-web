@@ -3,6 +3,7 @@
     <div class="sec-form">
       <div class="head-form">เลขบัตรประชาชน</div>
       <input type="text" class="form-control" v-model="cardNumber" required>
+      <div class="form-control hint" v-for="item in suggest_id" :key="item" @click="updateForm(item)">{{item}}</div>
     </div>
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
@@ -50,7 +51,6 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'imformation',
   data() {
     return {
       name : "",
@@ -60,12 +60,68 @@ export default Vue.extend({
       phone: "",
       line: "",
       facebook: "",
+      suggest_id: [],
+      tmpUser: [],
+      suggestStatus: false
     }
   },
   methods: {
     updateSex(val) {
       this.sex = val;
+    },
+    updateForm(id) {
+      for (let i = 0; i < this.tmpUser.length; i++) {
+        if (this.tmpUser[i].identity_card_id === id) {
+          this.suggestStatus = true
+          let res = this.tmpUser[i]
+          this.cardNumber = res.identity_card_id
+          this.surname = res.last_name
+          this.name = res.first_name
+          this.sex = res.gender
+          this.facebook = res.facebook
+          this.line = res.line
+          this.phone = res.phone_number
+          console.log( res.identity_card_id);
+          break;
+        }
+      }
     }
+  },
+  watch: {
+    cardNumber: {
+      async handler(cardNumber) {
+
+        let res1 = await window.api.get("users", {
+        params: {
+          filters: [
+            {
+              key: "identity_card_id",
+              value: cardNumber,
+              operator: "ct"
+            }
+          ]
+        }
+        });
+        console.log(res1.data.users);
+        if (this.suggestStatus) {
+          this.suggestStatus = false
+          this.suggest_id = []
+          this.tmpUser = []
+        }
+        else if(res1.data.users.length > 0 && this.cardNumber.length > 0) {
+          let res = res1.data.users
+          this.suggest_id = []
+          this.tmpUser = res
+          res.forEach( item => {
+            this.suggest_id.push(item.identity_card_id)
+          });
+        }else {
+          this.suggest_id = []
+          this.tmpUser = []
+        }
+
+      }
+    },
   },
 });
 </script>
