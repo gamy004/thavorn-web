@@ -2,8 +2,8 @@
   <div>
     <section class="card">
       <h2>ข้อมูลการจำนำ</h2>
-      <SearchInformation />
-      <goldForm class="mt-20" />
+      <SearchInformation @sentDataPawnItem="updateData" />
+      <goldForm class="mt-20" :data="pawnItem" />
     </section>
   </div>
 </template>
@@ -22,6 +22,16 @@ export default Vue.extend({
     interest,
     saveSection,
     SearchInformation
+  },
+  data() {
+    return {
+        pawnItem : [],
+    }
+  },
+  methods: {
+    updateData(data) {
+      this.pawnItem = data
+    }
   },
 });
 </script>

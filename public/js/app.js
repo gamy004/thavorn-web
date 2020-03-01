@@ -2075,6 +2075,19 @@ __webpack_require__.r(__webpack_exports__);
       item_category_id: ''
     };
   },
+  props: {
+    data: {
+      type: Array,
+      defult: []
+    }
+  },
+  watch: {
+    data: {
+      handler: function handler(data) {
+        this.tableData = data;
+      }
+    }
+  },
   computed: {
     sumPrice: function sumPrice() {
       var output = 0;
@@ -2094,10 +2107,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     addGold: function addGold() {
       var obj = {
-        type: this.item_category_id,
-        width: this.item_weight,
-        price: this.item_value,
-        damage: this.item_damage_id
+        item_category_id: this.item_category_id,
+        item_weight: this.item_weight,
+        item_value: this.item_value,
+        item_damage_id: this.item_damage_id
       };
       this.tableData.push(obj);
     },
@@ -2835,8 +2848,25 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
 //
 //
 //
@@ -2861,7 +2891,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'searchInformation',
   data: function data() {
     return {
@@ -2872,15 +2902,191 @@ __webpack_require__.r(__webpack_exports__);
       phone: "",
       line: "",
       facebook: "",
-      pawnId: ""
+      pawnId: "",
+      pawn_item_suggest_id: [],
+      tmpPawnItem: [],
+      pawnItemStatus: false
     };
   },
   methods: {
     updateSex: function updateSex(val) {
       this.sex = val;
+    },
+    search: function () {
+      var _search = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(item) {
+        var _this = this;
+
+        var res1, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!item) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 3;
+                return window.api.get("pawn_user_items", {
+                  params: {
+                    search: {
+                      keyword: item,
+                      fields: ['identity_card_id', 'pawn_no']
+                    }
+                  }
+                });
+
+              case 3:
+                res1 = _context.sent;
+
+                // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
+                if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item)) {
+                  this.pawnItemStatus = false;
+                  this.pawn_item_suggest_id = [];
+                  this.tmpPawnItem = [];
+                } else if (res1.data.pawn_items.length > 0) {
+                  res = res1.data.pawn_items;
+                  this.pawn_item_suggest_id = [];
+                  this.tmpPawnItem = res;
+                  res.forEach(function (ele) {
+                    if (ele.pawn_no.match(item)) {
+                      _this.pawn_item_suggest_id.push(ele.pawn_no);
+                    } else if (ele.identity_card_id.match(item)) {
+                      _this.pawn_item_suggest_id.push(ele.identity_card_id);
+                    }
+                  });
+                  this.pawn_item_suggest_id = _toConsumableArray(new Set(this.pawn_item_suggest_id));
+                } else {
+                  this.pawn_item_suggest_id = [];
+                  this.tmpPawnItem = [];
+                }
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function search(_x) {
+        return _search.apply(this, arguments);
+      }
+
+      return search;
+    }(),
+    updateForm: function () {
+      var _updateForm = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+        var status, pawnItem, i, res, userId, resUser, userData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                status = true;
+                pawnItem = [];
+                i = 0;
+
+              case 3:
+                if (!(i < this.tmpPawnItem.length)) {
+                  _context2.next = 22;
+                  break;
+                }
+
+                if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id)) {
+                  _context2.next = 19;
+                  break;
+                }
+
+                res = this.tmpPawnItem[i];
+
+                if (!status) {
+                  _context2.next = 18;
+                  break;
+                }
+
+                this.pawnItemStatus = true;
+                this.cardNumber = id;
+                userId = this.tmpPawnItem[i].identity_card_id;
+                _context2.next = 12;
+                return window.api.get("users", {
+                  params: {
+                    filters: [{
+                      key: "identity_card_id",
+                      value: userId,
+                      operator: "eq"
+                    }]
+                  }
+                });
+
+              case 12:
+                resUser = _context2.sent;
+                userData = resUser.data.users[0];
+                this.surname = userData.first_name;
+                this.name = userData.last_name;
+                pawnItem.push(res);
+                status = false;
+
+              case 18:
+                pawnItem.push(res);
+
+              case 19:
+                i++;
+                _context2.next = 3;
+                break;
+
+              case 22:
+                if (pawnItem) {
+                  this.$emit('sentDataPawnItem', pawnItem);
+                }
+
+              case 23:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateForm(_x2) {
+        return _updateForm.apply(this, arguments);
+      }
+
+      return updateForm;
+    }()
+  },
+  watch: {
+    cardNumber: {
+      handler: function () {
+        var _handler = _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(cardNumber) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  this.search(cardNumber);
+
+                case 1:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, this);
+        }));
+
+        function handler(_x3) {
+          return _handler.apply(this, arguments);
+        }
+
+        return handler;
+      }()
     }
   },
-  watch: {}
+  mounted: function mounted() {}
 }));
 
 /***/ }),
@@ -2922,6 +3128,16 @@ __webpack_require__.r(__webpack_exports__);
     interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     SearchInformation: _searchInformation__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  data: function data() {
+    return {
+      pawnItem: []
+    };
+  },
+  methods: {
+    updateData: function updateData(data) {
+      this.pawnItem = data;
+    }
   }
 }));
 
@@ -46151,13 +46367,13 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.tableData, function(item, index) {
                 return _c("tr", { key: item.type }, [
-                  _c("td", [_vm._v(_vm._s(item.type))]),
+                  _c("td", [_vm._v(_vm._s(item.item_category_id))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.width))]),
+                  _c("td", [_vm._v(_vm._s(item.item_weight))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.price))]),
+                  _c("td", [_vm._v(_vm._s(item.item_value))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.damage))]),
+                  _c("td", [_vm._v(_vm._s(item.item_damage_id))]),
                   _vm._v(" "),
                   _c(
                     "td",
@@ -47093,57 +47309,54 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "sec-form" }, [
-      _c("div", { staticClass: "head-form" }, [_vm._v("เลขบัตรประชาชน")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.cardNumber,
-            expression: "cardNumber"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", required: "" },
-        domProps: { value: _vm.cardNumber },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+    _c(
+      "div",
+      { staticClass: "sec-form" },
+      [
+        _c("div", { staticClass: "head-form" }, [
+          _vm._v("เลขที่บัตรจำนำ หรือ เลขบัตรประชาชน")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.cardNumber,
+              expression: "cardNumber"
             }
-            _vm.cardNumber = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "sec-form" }, [
-      _c("div", { staticClass: "head-form" }, [_vm._v("เลขที่บัตรจำนำ")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.pawnId,
-            expression: "pawnId"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", required: "" },
-        domProps: { value: _vm.pawnId },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", required: "" },
+          domProps: { value: _vm.cardNumber },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.cardNumber = $event.target.value
             }
-            _vm.pawnId = $event.target.value
           }
-        }
-      })
-    ]),
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.pawn_item_suggest_id, function(item) {
+          return _c(
+            "div",
+            {
+              key: item,
+              staticClass: "form-control hint",
+              on: {
+                click: function($event) {
+                  return _vm.updateForm(item)
+                }
+              }
+            },
+            [_vm._v(_vm._s(item))]
+          )
+        })
+      ],
+      2
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "h-flex-row-s-flex-col" }, [
       _c("div", { staticClass: "sec-form grow-1 mr-lg-2" }, [
@@ -47203,9 +47416,9 @@ var render = function() {
       [
         _c("h2", [_vm._v("ข้อมูลการจำนำ")]),
         _vm._v(" "),
-        _c("SearchInformation"),
+        _c("SearchInformation", { on: { sentDataPawnItem: _vm.updateData } }),
         _vm._v(" "),
-        _c("goldForm", { staticClass: "mt-20" })
+        _c("goldForm", { staticClass: "mt-20", attrs: { data: _vm.pawnItem } })
       ],
       1
     )

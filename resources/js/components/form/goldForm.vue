@@ -66,10 +66,10 @@
                         <th></th>
                     </tr>
                     <tr v-for="(item, index) in tableData" :key="item.type">
-                        <td>{{item.type}}</td>
-                        <td>{{item.width}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.damage}}</td>
+                        <td>{{item.item_category_id}}</td>
+                        <td>{{item.item_weight}}</td>
+                        <td>{{item.item_value}}</td>
+                        <td>{{item.item_damage_id}}</td>
                         <td @click="removeIndex(index)"> X </td>
                     </tr>
                 </tbody>
@@ -96,6 +96,19 @@ export default Vue.extend({
         item_category_id: ''
     }
   },
+  props: {
+    data: {
+        type: Array,
+        defult: []
+    },
+  },
+  watch: {
+    data: {
+      handler(data) {
+        this.tableData = data
+      }
+    },
+  },
   computed: {
       sumPrice() {
         let output = 0;
@@ -113,10 +126,10 @@ export default Vue.extend({
     },
     addGold() {
         let obj = {
-            type: this.item_category_id,
-            width: this.item_weight,
-            price: this.item_value,
-            damage: this.item_damage_id,
+            item_category_id: this.item_category_id,
+            item_weight: this.item_weight,
+            item_value: this.item_value,
+            item_damage_id: this.item_damage_id,
         }
         this.tableData.push(obj)
     },
