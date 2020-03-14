@@ -5,8 +5,7 @@ namespace App\Http\Api\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Api\Contracts\ApiInterface;
-use App\Http\Api\Contracts\StoreFormRequestInterface;
-use App\Http\Api\Contracts\UpdateFormRequestInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BaseApiController extends Controller
 {
@@ -25,23 +24,35 @@ class BaseApiController extends Controller
         return $this->api->index();
     }
 
-    public function show(Model $model)
+    public function show($id)
     {
-        return $this->api->show($model);
+        return $this->api->find($id);
     }
 
-    public function store(StoreFormRequestInterface $request)
+    public function store(Request $request)
     {
         return $this->api->store($request->all());
     }
 
-    public function update(UpdateFormRequestInterface $request, Model $model)
+    public function update(Request $request, $id)
     {
+        $model = $this->api->find($id)->first();
+        
+        if (is_null($model)) {
+            throw new ModelNotFoundException("Model not found", 1);   
+        }
+
         return $this->api->update($model, $request->all());
     }
 
-    public function destroy(Model $model)
+    public function destroy($id)
     {
+        $model = $this->api->find($id)->first();
+
+        if (is_null($model)) {
+            throw new ModelNotFoundException("Model not found", 1);   
+        }
+
         return $this->api->destroy($model);
     }
 
