@@ -23,7 +23,11 @@ class ApiServiceProvider extends ServiceProvider
             "api" => \App\Http\Api\Providers\UserApi::class
         ],
         \App\Http\Api\Controllers\PawnItemController::class => [
-            "api" => \App\Http\Api\Providers\PawnItemApi::class
+            "api" => \App\Http\Api\Providers\PawnItemApi::class,
+            "validations" => [
+                self::REQUEST_STORE => \App\Http\Api\Requests\PawnItemRequests\StorePawnItemRequest::class,
+                self::REQUEST_UPDATE => \App\Http\Api\Requests\PawnRequests\UpdatePawnItemRequest::class,
+            ]
         ],
         \App\Http\Api\Controllers\PawnUserItemController::class => [
             "api" => \App\Http\Api\Providers\PawnUserItemApi::class
@@ -37,8 +41,8 @@ class ApiServiceProvider extends ServiceProvider
         \App\Http\Api\Controllers\PawnController::class => [
             "api" => \App\Http\Api\Providers\PawnApi::class,
             "validations" => [
-                self::REQUEST_STORE => \App\Http\Api\Requests\PawnRequest\StorePawnRequest::class,
-                self::REQUEST_UPDATE => \App\Http\Api\Requests\PawnRequest\UpdatePawnRequest::class,
+                self::REQUEST_STORE => \App\Http\Api\Requests\PawnRequests\StorePawnRequest::class,
+                self::REQUEST_UPDATE => \App\Http\Api\Requests\PawnRequests\UpdatePawnRequest::class,
             ]
         ]
     ];
