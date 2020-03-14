@@ -2,7 +2,7 @@
   <div>
     <section class="card">
       <h2>ข้อมูลส่วนตัวลูกค้า</h2>
-      <information />
+      <information @emit:information="updateInformation" />
     </section>
     <section class="card">
       <h2>ข้อมูลทอง</h2>
@@ -24,12 +24,21 @@ import interest from './form/interest.vue'
 import saveSection from './saveSection.vue'
 
 export default Vue.extend({
-  name: 'nevbar',
   components:{
     information,
     goldForm,
     interest,
     saveSection
+  },
+  data() {
+    return {
+        userData : {},
+    }
+  },
+  methods: {
+    updateInformation(data) {
+      this.userData = data
+    }
   },
 });
 </script>

@@ -1977,8 +1977,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
 //
 //
 //
@@ -2064,15 +2075,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'goldForm',
   data: function data() {
     return {
       tableData: [],
-      item_damage_id: '2',
-      item_weight: '',
-      item_value: '',
-      item_category_id: ''
+      activeGlodData: {
+        id: null,
+        item_category_id: null,
+        item_weight: null,
+        item_value: null,
+        item_damage_id: 2
+      },
+      editIndex: null
     };
   },
   props: {
@@ -2094,7 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.tableData && this.tableData.length) {
         this.tableData.forEach(function (item) {
-          output += parseInt(item.price);
+          output += parseInt(item.item_value);
         });
       }
 
@@ -2103,16 +2118,58 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateDamage: function updateDamage(val) {
-      this.item_damage_id = val;
+      this.activeGlodData.item_damage_id = val;
     },
-    addGold: function addGold() {
-      var obj = {
-        item_category_id: this.item_category_id,
-        item_weight: this.item_weight,
-        item_value: this.item_value,
-        item_damage_id: this.item_damage_id
+    addGold: function () {
+      var _addGold = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this.editIndex === null) {
+                  this.tableData.push(this.activeGlodData);
+                  this.clearForm();
+                } else {
+                  this.tableData[this.editIndex] = this.activeGlodData;
+
+                  if (this.activeGlodData.id) {
+                    //Update DB pawn
+                    window.api.patch("pawn_items/".concat(this.activeGlodData.id), {
+                      item_weight: this.activeGlodData.item_weight,
+                      item_value: this.activeGlodData.item_value,
+                      item_category_id: this.activeGlodData.item_category_id,
+                      item_damage_id: this.activeGlodData.item_damage_id
+                    });
+                  }
+
+                  this.clearForm();
+                }
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function addGold() {
+        return _addGold.apply(this, arguments);
+      }
+
+      return addGold;
+    }(),
+    clearForm: function clearForm() {
+      this.activeGlodData = {
+        id: null,
+        item_category_id: null,
+        item_weight: null,
+        item_value: null,
+        item_damage_id: 2
       };
-      this.tableData.push(obj);
+      this.editIndex = null;
     },
     removeIndex: function removeIndex(index) {
       this.tableData.splice(index, 1);
@@ -2125,6 +2182,14 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return 'Error';
+    },
+    getToForm: function getToForm(data, index) {
+      this.editIndex = index;
+      this.activeGlodData.id = data.id;
+      this.activeGlodData.item_category_id = data.item_category_id;
+      this.activeGlodData.item_weight = data.item_weight;
+      this.activeGlodData.item_value = data.item_value;
+      this.activeGlodData.item_damage_id = data.item_damage_id;
     }
   }
 }));
@@ -2203,13 +2268,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   data: function data() {
     return {
-      name: "",
-      surname: "",
-      cardNumber: "",
-      sex: "M",
-      phone: "",
-      line: "",
-      facebook: "",
+      userData: {
+        id: null,
+        name: "",
+        surname: "",
+        cardNumber: "",
+        sex: "M",
+        phone: "",
+        line: "",
+        facebook: ""
+      },
       suggest_id: [],
       tmpUser: [],
       suggestStatus: false
@@ -2224,25 +2292,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (this.tmpUser[i].identity_card_id === id) {
           this.suggestStatus = true;
           var res = this.tmpUser[i];
-          this.cardNumber = res.identity_card_id;
-          this.surname = res.last_name;
-          this.name = res.first_name;
-          this.sex = res.gender;
-          this.facebook = res.facebook;
-          this.line = res.line;
-          this.phone = res.phone_number;
-          console.log(res.identity_card_id);
+          this.userData.cardNumber = res.identity_card_id;
+          this.userData.surname = res.last_name;
+          this.userData.name = res.first_name;
+          this.userData.sex = res.gender;
+          this.userData.facebook = res.facebook;
+          this.userData.line = res.line;
+          this.userData.phone = res.phone_number;
           break;
         }
       }
     }
   },
   watch: {
-    cardNumber: {
+    userData: {
+      deep: true,
       handler: function () {
         var _handler = _asyncToGenerator(
         /*#__PURE__*/
-        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(cardNumber) {
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(userData) {
           var _this = this;
 
           var res1, res;
@@ -2255,7 +2323,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     params: {
                       filters: [{
                         key: "identity_card_id",
-                        value: cardNumber,
+                        value: userData.cardNumber,
                         operator: "ct"
                       }]
                     }
@@ -2269,7 +2337,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     this.suggestStatus = false;
                     this.suggest_id = [];
                     this.tmpUser = [];
-                  } else if (res1.data.users.length > 0 && this.cardNumber.length > 0) {
+                  } else if (res1.data.users.length > 0 && this.userData.cardNumber.length > 0) {
                     res = res1.data.users;
                     this.suggest_id = [];
                     this.tmpUser = res;
@@ -2281,7 +2349,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     this.tmpUser = [];
                   }
 
-                case 5:
+                  this.$emit("emit:information", this.userData);
+
+                case 6:
                 case "end":
                   return _context.stop();
               }
@@ -2706,12 +2776,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
-  name: 'nevbar',
   components: {
     information: _form_information_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     goldForm: _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  data: function data() {
+    return {
+      userData: {}
+    };
+  },
+  methods: {
+    updateInformation: function updateInformation(data) {
+      this.userData = data;
+    }
   }
 }));
 
@@ -9771,7 +9850,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".margin-cus[data-v-9b132318] {\n  margin-top: 18px;\n}\n.flex-cus[data-v-9b132318] {\n  justify-content: space-around;\n}\n.h-flex-row-s-flex-col[data-v-9b132318] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n}\n@media (max-width: 991px) {\n.h-flex-row-s-flex-col[data-v-9b132318] {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-flow: column;\n}\n}\n.grow-1[data-v-9b132318] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-flex: 1;\n          flex-grow: 1;\n}\n.border-cus[data-v-9b132318] {\n  border: rgba(0, 0, 0, 0.2) solid 1px;\n}\n.border-radius-cus[data-v-9b132318] {\n  border-radius: 5px;\n}\ntable[data-v-9b132318] {\n  border-collapse: collapse;\n  width: 100%;\n  text-align: center;\n  border-radius: calc(1px + 0.2vw);\n  font-size: calc(9px + 0.5vw);\n}\ntable td[data-v-9b132318], table th[data-v-9b132318] {\n  padding: 1vw;\n}\ntable tr[data-v-9b132318]:nth-child(even) {\n  background-color: #f2f2f2;\n}\ntable tr[data-v-9b132318]:hover {\n  background-color: #ddd;\n}\ntable th[data-v-9b132318] {\n  font-weight: 400;\n}", ""]);
+exports.push([module.i, ".margin-cus[data-v-9b132318] {\n  margin-top: 18px;\n}\n.flex-cus[data-v-9b132318] {\n  justify-content: space-around;\n}\n.h-flex-row-s-flex-col[data-v-9b132318] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n}\n@media (max-width: 991px) {\n.h-flex-row-s-flex-col[data-v-9b132318] {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-flow: column;\n}\n}\n.grow-1[data-v-9b132318] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-flex: 1;\n          flex-grow: 1;\n}\n.border-cus[data-v-9b132318] {\n  border: rgba(0, 0, 0, 0.2) solid 1px;\n}\n.border-radius-cus[data-v-9b132318] {\n  border-radius: 5px;\n}\ntable[data-v-9b132318] {\n  border-collapse: collapse;\n  width: 100%;\n  text-align: center;\n  border-radius: calc(1px + 0.2vw);\n  font-size: calc(9px + 0.5vw);\n}\ntable td[data-v-9b132318], table th[data-v-9b132318] {\n  padding: 1vw;\n}\ntable tr[data-v-9b132318]:nth-child(even) {\n  background-color: #f2f2f2;\n}\ntable tr[data-v-9b132318]:hover {\n  background-color: #ddd;\n}\ntable th[data-v-9b132318] {\n  font-weight: 400;\n}\n.activeClass[data-v-9b132318] {\n  background-color: #ff9c9c !important;\n}\n.activeClass[data-v-9b132318]:hover {\n  background-color: #ff7d7d !important;\n}", ""]);
 
 // exports
 
@@ -46145,8 +46224,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.item_category_id,
-                  expression: "item_category_id"
+                  value: _vm.activeGlodData.item_category_id,
+                  expression: "activeGlodData.item_category_id"
                 }
               ],
               staticClass: "form-control",
@@ -46160,9 +46239,11 @@ var render = function() {
                       var val = "_value" in o ? o._value : o.value
                       return val
                     })
-                  _vm.item_category_id = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
+                  _vm.$set(
+                    _vm.activeGlodData,
+                    "item_category_id",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
                 }
               }
             },
@@ -46187,19 +46268,23 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.item_weight,
-                  expression: "item_weight"
+                  value: _vm.activeGlodData.item_weight,
+                  expression: "activeGlodData.item_weight"
                 }
               ],
               staticClass: "form-control",
               attrs: { type: "text" },
-              domProps: { value: _vm.item_weight },
+              domProps: { value: _vm.activeGlodData.item_weight },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.item_weight = $event.target.value
+                  _vm.$set(
+                    _vm.activeGlodData,
+                    "item_weight",
+                    $event.target.value
+                  )
                 }
               }
             }),
@@ -46219,19 +46304,23 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.item_value,
-                  expression: "item_value"
+                  value: _vm.activeGlodData.item_value,
+                  expression: "activeGlodData.item_value"
                 }
               ],
               staticClass: "form-control",
               attrs: { type: "number" },
-              domProps: { value: _vm.item_value },
+              domProps: { value: _vm.activeGlodData.item_value },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.item_value = $event.target.value
+                  _vm.$set(
+                    _vm.activeGlodData,
+                    "item_value",
+                    $event.target.value
+                  )
                 }
               }
             }),
@@ -46262,8 +46351,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.item_damage_id,
-                      expression: "item_damage_id"
+                      value: _vm.activeGlodData.item_damage_id,
+                      expression: "activeGlodData.item_damage_id"
                     }
                   ],
                   staticClass: "form-check-input ",
@@ -46273,10 +46362,12 @@ var render = function() {
                     id: "DamageRadios1",
                     value: "1"
                   },
-                  domProps: { checked: _vm._q(_vm.item_damage_id, "1") },
+                  domProps: {
+                    checked: _vm._q(_vm.activeGlodData.item_damage_id, "1")
+                  },
                   on: {
                     change: function($event) {
-                      _vm.item_damage_id = "1"
+                      return _vm.$set(_vm.activeGlodData, "item_damage_id", "1")
                     }
                   }
                 }),
@@ -46312,8 +46403,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.item_damage_id,
-                      expression: "item_damage_id"
+                      value: _vm.activeGlodData.item_damage_id,
+                      expression: "activeGlodData.item_damage_id"
                     }
                   ],
                   staticClass: "form-check-input",
@@ -46324,10 +46415,12 @@ var render = function() {
                     value: "2",
                     checked: ""
                   },
-                  domProps: { checked: _vm._q(_vm.item_damage_id, "2") },
+                  domProps: {
+                    checked: _vm._q(_vm.activeGlodData.item_damage_id, "2")
+                  },
                   on: {
                     change: function($event) {
-                      _vm.item_damage_id = "2"
+                      return _vm.$set(_vm.activeGlodData, "item_damage_id", "2")
                     }
                   }
                 }),
@@ -46366,27 +46459,41 @@ var render = function() {
               _vm._m(0),
               _vm._v(" "),
               _vm._l(_vm.tableData, function(item, index) {
-                return _c("tr", { key: item.type }, [
-                  _c("td", [_vm._v(_vm._s(item.item_category_id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.item_weight))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.item_value))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.item_damage_id))]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.removeIndex(index)
-                        }
+                return _c(
+                  "tr",
+                  {
+                    key: index,
+                    class: [
+                      _vm.editIndex === index ? "activeClass" : "notSelect"
+                    ],
+                    on: {
+                      click: function($event) {
+                        return _vm.getToForm(item, index)
                       }
-                    },
-                    [_vm._v(" X ")]
-                  )
-                ])
+                    }
+                  },
+                  [
+                    _c("td", [_vm._v(_vm._s(item.item_category_id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.item_weight))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.item_value))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.item_damage_id))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.removeIndex(index)
+                          }
+                        }
+                      },
+                      [_vm._v(" X ")]
+                    )
+                  ]
+                )
               })
             ],
             2
@@ -46451,19 +46558,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.cardNumber,
-              expression: "cardNumber"
+              value: _vm.userData.cardNumber,
+              expression: "userData.cardNumber"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.cardNumber },
+          domProps: { value: _vm.userData.cardNumber },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.cardNumber = $event.target.value
+              _vm.$set(_vm.userData, "cardNumber", $event.target.value)
             }
           }
         }),
@@ -46496,19 +46603,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.name,
-              expression: "name"
+              value: _vm.userData.name,
+              expression: "userData.name"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.name },
+          domProps: { value: _vm.userData.name },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.name = $event.target.value
+              _vm.$set(_vm.userData, "name", $event.target.value)
             }
           }
         })
@@ -46522,19 +46629,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.surname,
-              expression: "surname"
+              value: _vm.userData.surname,
+              expression: "userData.surname"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.surname },
+          domProps: { value: _vm.userData.surname },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.surname = $event.target.value
+              _vm.$set(_vm.userData, "surname", $event.target.value)
             }
           }
         })
@@ -46561,16 +46668,16 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.sex,
-                  expression: "sex"
+                  value: _vm.userData.sex,
+                  expression: "userData.sex"
                 }
               ],
               staticClass: "form-check-input",
               attrs: { type: "radio", value: "M", checked: "" },
-              domProps: { checked: _vm._q(_vm.sex, "M") },
+              domProps: { checked: _vm._q(_vm.userData.sex, "M") },
               on: {
                 change: function($event) {
-                  _vm.sex = "M"
+                  return _vm.$set(_vm.userData, "sex", "M")
                 }
               }
             }),
@@ -46597,16 +46704,16 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.sex,
-                  expression: "sex"
+                  value: _vm.userData.sex,
+                  expression: "userData.sex"
                 }
               ],
               staticClass: "form-check-input",
               attrs: { type: "radio", value: "F" },
-              domProps: { checked: _vm._q(_vm.sex, "F") },
+              domProps: { checked: _vm._q(_vm.userData.sex, "F") },
               on: {
                 change: function($event) {
-                  _vm.sex = "F"
+                  return _vm.$set(_vm.userData, "sex", "F")
                 }
               }
             }),
@@ -46627,19 +46734,19 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.phone,
-            expression: "phone"
+            value: _vm.userData.phone,
+            expression: "userData.phone"
           }
         ],
         staticClass: "form-control",
         attrs: { type: "text", required: "" },
-        domProps: { value: _vm.phone },
+        domProps: { value: _vm.userData.phone },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.phone = $event.target.value
+            _vm.$set(_vm.userData, "phone", $event.target.value)
           }
         }
       })
@@ -46653,19 +46760,19 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.facebook,
-            expression: "facebook"
+            value: _vm.userData.facebook,
+            expression: "userData.facebook"
           }
         ],
         staticClass: "form-control",
         attrs: { type: "text" },
-        domProps: { value: _vm.facebook },
+        domProps: { value: _vm.userData.facebook },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.facebook = $event.target.value
+            _vm.$set(_vm.userData, "facebook", $event.target.value)
           }
         }
       })
@@ -46679,19 +46786,19 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.line,
-            expression: "line"
+            value: _vm.userData.line,
+            expression: "userData.line"
           }
         ],
         staticClass: "form-control",
         attrs: { type: "text" },
-        domProps: { value: _vm.line },
+        domProps: { value: _vm.userData.line },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.line = $event.target.value
+            _vm.$set(_vm.userData, "line", $event.target.value)
           }
         }
       })
@@ -47147,7 +47254,7 @@ var render = function() {
       [
         _c("h2", [_vm._v("ข้อมูลส่วนตัวลูกค้า")]),
         _vm._v(" "),
-        _c("information")
+        _c("information", { on: { "emit:information": _vm.updateInformation } })
       ],
       1
     ),
