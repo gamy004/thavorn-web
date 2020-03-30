@@ -6,12 +6,12 @@
     </section>
     <section class="card">
       <h2>ข้อมูลทอง</h2>
-      <goldForm />
+      <goldForm @emit:gold="updateGold" />
     </section>
     <section class="card">
       <h2>ส่วนดอกเบี้ย</h2>
-      <interest />
-      <saveSection />
+      <interest @emit:interest="updateInterest" />
+      <saveSection @click:save="saveData" />
     </section>
   </div>
 </template>
@@ -33,11 +33,29 @@ export default Vue.extend({
   data() {
     return {
         userData : {},
+        goldData : [],
+        interest : 3
     }
   },
   methods: {
     updateInformation(data) {
       this.userData = data
+    },
+    updateGold(data) {
+      this.goldData = data
+    },
+    updateInterest(data) {
+      this.interest = parseInt(data)
+    },
+    saveData() {
+      let pawn = {
+        pawn_no : null,
+        user : this.userData,
+        pawn_items : this.goldData,
+        interest_rate : this.interest
+      }
+      window.api.post(`pawns`, {pawn});
+      console.log('Sent data',pawn);
     }
   },
 });

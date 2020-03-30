@@ -4,7 +4,7 @@
         <div class="head-form">จำนวนดอกเบี้ยต่อเดือน(%)</div>
 
         <div class="flex-row">
-            <input type="text" class="form-control" v-model="interest_rate">
+            <input type="number" class="form-control" min="0" max="100" v-model="interest_rate">
         </div>
     </div>
   </div>
@@ -17,12 +17,17 @@ export default Vue.extend({
   name: 'interest',
   data() {
     return {
-        interest_rate : '3',
+        interest_rate : 3,
     }
   },
-  methods: {
-
-  },
+  watch: {
+    immediate: true,
+    interest_rate: {
+      async handler(interest_rate) {
+        this.$emit('emit:interest',interest_rate)
+      }
+    }
+  }
 });
 </script>
 

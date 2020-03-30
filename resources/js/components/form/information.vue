@@ -77,6 +77,7 @@ export default Vue.extend({
         if (this.tmpUser[i].identity_card_id === id) {
           this.suggestStatus = true
           let res = this.tmpUser[i]
+          this.userData.id = res.id
           this.userData.cardNumber = res.identity_card_id
           this.userData.surname = res.last_name
           this.userData.name = res.first_name
@@ -116,6 +117,9 @@ export default Vue.extend({
           this.tmpUser = res
           res.forEach( item => {
             this.suggest_id.push(item.identity_card_id)
+            if (this.suggest_id !== userData.cardNumber) {
+              userData.id = null
+            }
           });
         }else {
           this.suggest_id = []

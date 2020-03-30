@@ -1,6 +1,6 @@
 <template>
   <div class="section-btn">
-      <button class="btn btn-success btn-lg mr-3">บันทึก</button>
+      <button class="btn btn-success btn-lg mr-3" @click="$emit('click:save')">บันทึก</button>
       <button class="btn btn-outline-danger btn-lg">ยกเลิก</button>
   </div>
 </template>

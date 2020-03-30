@@ -108,8 +108,9 @@ export default Vue.extend({
             this.name = userData.last_name
             pawnItem.push(res)
             status = false
+          }else {
+            pawnItem.push(res)
           }
-          pawnItem.push(res)
         }
       }
       if (pawnItem) {
