@@ -29,21 +29,15 @@ class BaseApiController extends Controller
         return $this->api->find($id);
     }
 
-    public function store(Request $request)
-    {
-        return $this->api->store($request->all());
-    }
+    // public function store(Request $request)
+    // {
+    //     return $this->api->store($request->all());
+    // }
 
-    public function update(Request $request, $id)
-    {
-        $model = $this->api->find($id)->first();
-        
-        if (is_null($model)) {
-            throw new ModelNotFoundException("Model not found", 1);   
-        }
-
-        return $this->api->update($model, $request->all());
-    }
+    // public function update(Request $request, $model)
+    // {
+    //     return $this->api->update($model, $request->all());
+    // }
 
     public function destroy($id)
     {
