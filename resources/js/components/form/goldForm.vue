@@ -100,7 +100,8 @@ export default Vue.extend({
             item_value: null,
             item_damage_id: 2,
         },
-        editIndex : null
+        editIndex : null,
+        category_item : []
     }
   },
   props: {
@@ -116,6 +117,9 @@ export default Vue.extend({
       }
     },
   },
+  mounted() {
+      this.getCategoryItem()
+  },
   computed: {
       sumPrice() {
         let output = 0;
@@ -126,8 +130,13 @@ export default Vue.extend({
         }
         return output
       },
+
   },
   methods: {
+    async getCategoryItem() {
+        let res = await window.api.get(`item_categories`)
+        this.category_item = res.data.item_categories
+    },
     updateDamage(val) {
       this.activeGlodData.item_damage_id = val;
     },
