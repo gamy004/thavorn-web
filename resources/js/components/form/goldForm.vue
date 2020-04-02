@@ -32,16 +32,10 @@
             <div class="sec-form">
                 <div class="head-form">ความเสียหาย</div>
                     <div class="flex-column">
-                    <div class="form-check mr-3" @click="updateDamage('1')">
-                        <input class="form-check-input " type="radio" name="exampleRadios" id="DamageRadios1" value="1" v-model="activeGlodData.item_damage_id" >
-                        <label class="form-check-label" for="exampleRadios1">
-                        ไม่เสียหาย
-                        </label>
-                    </div>
-                    <div class="form-check" @click="updateDamage('2')">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="DamageRadios2" value="2"  v-model="activeGlodData.item_damage_id" checked>
-                        <label class="form-check-label" for="exampleRadios2">
-                        เสียหาย
+                    <div class="form-check mr-3" v-if="damage_item" v-for="item in damage_item" :key="item.id" @click="updateDamage(item.id)">
+                        <input class="form-check-input " type="radio" :name="item.item_damage" :id="item.id" :value="item.id" v-model="activeGlodData.item_damage_id" >
+                        <label class="form-check-label" :for="item.item_damage">
+                        {{item.item_damage}}
                         </label>
                     </div>
                 </div>
@@ -68,10 +62,10 @@
                     :key="index" 
                     v-bind:class="[editIndex === index ? 'activeClass' : 'notSelect']" 
                     @click="getToForm(item,index)">
-                        <td>{{item.item_category_id}}</td>
+                        <td>{{calCatetory(item.item_category_id)}}</td>
                         <td>{{item.item_weight}}</td>
                         <td>{{item.item_value}}</td>
-                        <td>{{item.item_damage_id}}</td>
+                        <td>{{calDamage(item.item_damage_id)}}</td>
                         <td @click="removeIndex(index)"> X </td>
                     </tr>
                 </tbody>
@@ -100,7 +94,9 @@ export default Vue.extend({
             item_damage_id: 2,
         },
         editIndex : null,
-        category_item : []
+        category_item : [],
+        damage_item: [],
+        sumPrice: 0
     }
   },
   props: {
@@ -115,23 +111,62 @@ export default Vue.extend({
         this.tableData = data
       }
     },
+    tableData: {
+        deep: true,
+        handler(tableData) {
+            this.calPrice()
+        }
+    }
   },
   mounted() {
       this.getCategoryItem()
+      this.getItemDamage()
   },
   computed: {
-      sumPrice() {
+
+  },
+  methods: {
+    calCatetory(id) {
+        if (this.category_item) {
+            let cat = this.category_item
+            let output = ""
+            for (let i = 0; i < cat.length; i++) {
+                if (cat[i].id === id) {
+                    output = cat[i].item_category
+                    break;
+                }
+            }
+            return output
+        }
+    },
+    calDamage(id) {
+        console.log('in',id,this.damage_item);
+        
+        if (this.damage_item) {
+            let dam = this.damage_item
+            let output = ""
+            for (let i = 0; i < dam.length; i++) {
+                if (dam[i].id === id) {
+                    output = dam[i].item_damage
+                    break;
+                }
+            }
+            return output
+        }
+    },
+    calPrice() {
         let output = 0;
         if(this.tableData && this.tableData.length) {
             this.tableData.forEach( item => {
                 output +=  parseInt(item.item_value)
             });
         }
-        return output
-      },
-
-  },
-  methods: {
+        this.sumPrice = output
+    },
+    async getItemDamage() {
+        let res = await window.api.get(`item_damages`)
+        this.damage_item = res.data.item_damages
+    },
     async getCategoryItem() {
         let res = await window.api.get(`item_categories`)
         this.category_item = res.data.item_categories
@@ -156,6 +191,7 @@ export default Vue.extend({
                 });
             }
             this.clearForm()
+            this.calPrice()
         }
     },
     clearForm() {
