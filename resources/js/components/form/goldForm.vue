@@ -7,8 +7,7 @@
                 <div class="head-form">ประเภทของทอง</div>
                 
                 <select class="form-control" v-model="activeGlodData.item_category_id">
-                    <option value="1" key="asd">asd</option>
-                    <option value="2" key="a151sd">151</option>
+                    <option v-for="item in category_item" :key="item.id" :value="item.id" v-text="item.item_category"></option>
                 </select>
             </div>
 
