@@ -3,6 +3,7 @@
 namespace App\Http\Api\Requests\PawnRequests;
 
 use App\IOCs\DBCol;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePawnRequest extends FormRequest
