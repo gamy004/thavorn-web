@@ -2,30 +2,30 @@
   <div>
     <div class="sec-form">
       <div class="head-form">เลขบัตรประชาชน</div>
-      <input type="text" class="form-control" v-model="userData.cardNumber" required>
+      <input type="text" class="form-control" v-model="userData.identity_card_id" required>
       <div class="form-control hint" v-for="item in suggest_id" :key="item" @click="updateForm(item)">{{item}}</div>
     </div>
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
         <div class="head-form">ชื่อ</div>
-        <input type="text" class="form-control" v-model="userData.name" required>
+        <input type="text" class="form-control" v-model="userData.first_name" required>
       </div>
       <div class="sec-form grow-1">
         <div class="head-form">นามสกุล</div>
-        <input type="text" class="form-control" v-model="userData.surname" required>
+        <input type="text" class="form-control" v-model="userData.last_name" required>
       </div>
     </div>
     <div class="sec-form">
       <div class="head-form">เพศ</div>
       <div class="flex-row">
         <div class="form-check mr-3" @click="updateSex('M')">
-          <input class="form-check-input" type="radio" value="M" v-model="userData.sex" checked>
+          <input class="form-check-input" type="radio" value="M" v-model="userData.gender" checked>
           <label class="form-check-label">
           ชาย
           </label>
         </div>
         <div class="form-check" @click="updateSex('F')">
-          <input class="form-check-input" type="radio" value="F"  v-model="userData.sex">
+          <input class="form-check-input" type="radio" value="F"  v-model="userData.gender">
           <label class="form-check-label">
           หญิง
           </label>
@@ -34,10 +34,14 @@
       </div>
     <div class="sec-form">
       <div class="head-form">เบอร์โทรศัพท์</div>
-      <input type="text" class="form-control" v-model="userData.phone" required>
+      <input type="text" class="form-control" v-model="userData.phone_number" required>
     </div>
     <div class="sec-form">
-      <div class="head-form">Fackbook</div>
+      <div class="head-form">Email</div>
+      <input type="text" class="form-control" v-model="userData.email" required>
+    </div>
+    <div class="sec-form">
+      <div class="head-form">Facebook</div>
       <input type="text" v-model="userData.facebook" class="form-control">
     </div>
     <div class="sec-form">
@@ -55,13 +59,14 @@ export default Vue.extend({
     return {
       userData : {
         id : null,
-        name : "",
-        surname : "",
-        cardNumber : "",
-        sex : "M",
-        phone: "",
+        first_name : "",
+        last_name : "",
+        identity_card_id : "",
+        gender : "M",
+        phone_number: "",
         line: "",
         facebook: "",
+        email: ""
       },
       suggest_id: [],
       tmpUser: [],
@@ -78,13 +83,14 @@ export default Vue.extend({
           this.suggestStatus = true
           let res = this.tmpUser[i]
           this.userData.id = res.id
-          this.userData.cardNumber = res.identity_card_id
-          this.userData.surname = res.last_name
-          this.userData.name = res.first_name
-          this.userData.sex = res.gender
+          this.userData.identity_card_id = res.identity_card_id
+          this.userData.last_name = res.last_name
+          this.userData.first_name = res.first_name
+          this.userData.gender = res.gender
           this.userData.facebook = res.facebook
           this.userData.line = res.line
-          this.userData.phone = res.phone_number
+          this.userData.phone_number = res.phone_number
+          this.userData.email = res.email
           break;
         }
       }
@@ -99,7 +105,7 @@ export default Vue.extend({
           filters: [
             {
               key: "identity_card_id",
-              value: userData.cardNumber,
+              value: userData.identity_card_id,
               operator: "ct"
             }
           ]
@@ -111,13 +117,13 @@ export default Vue.extend({
           this.suggest_id = []
           this.tmpUser = []
         }
-        else if(res1.data.users.length > 0 && this.userData.cardNumber.length > 0) {
+        else if(res1.data.users.length > 0 && this.userData.identity_card_id.length > 0) {
           let res = res1.data.users
           this.suggest_id = []
           this.tmpUser = res
           res.forEach( item => {
             this.suggest_id.push(item.identity_card_id)
-            if (this.suggest_id !== userData.cardNumber) {
+            if (this.suggest_id !== userData.identity_card_id) {
               userData.id = null
             }
           });

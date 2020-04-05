@@ -2235,9 +2235,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (this.activeGlodData.id) {
                     //Update DB pawn
                     window.api.patch("pawn_items/".concat(this.activeGlodData.id), {
+                      item_category_id: this.activeGlodData.item_category_id,
                       item_weight: this.activeGlodData.item_weight,
                       item_value: this.activeGlodData.item_value,
-                      item_category_id: this.activeGlodData.item_category_id,
                       item_damage_id: this.activeGlodData.item_damage_id
                     });
                   }
@@ -2363,19 +2363,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   data: function data() {
     return {
       userData: {
         id: null,
-        name: "",
-        surname: "",
-        cardNumber: "",
-        sex: "M",
-        phone: "",
+        first_name: "",
+        last_name: "",
+        identity_card_id: "",
+        gender: "M",
+        phone_number: "",
         line: "",
-        facebook: ""
+        facebook: "",
+        email: ""
       },
       suggest_id: [],
       tmpUser: [],
@@ -2392,13 +2397,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.suggestStatus = true;
           var res = this.tmpUser[i];
           this.userData.id = res.id;
-          this.userData.cardNumber = res.identity_card_id;
-          this.userData.surname = res.last_name;
-          this.userData.name = res.first_name;
-          this.userData.sex = res.gender;
+          this.userData.identity_card_id = res.identity_card_id;
+          this.userData.last_name = res.last_name;
+          this.userData.first_name = res.first_name;
+          this.userData.gender = res.gender;
           this.userData.facebook = res.facebook;
           this.userData.line = res.line;
-          this.userData.phone = res.phone_number;
+          this.userData.phone_number = res.phone_number;
+          this.userData.email = res.email;
           break;
         }
       }
@@ -2423,7 +2429,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     params: {
                       filters: [{
                         key: "identity_card_id",
-                        value: userData.cardNumber,
+                        value: userData.identity_card_id,
                         operator: "ct"
                       }]
                     }
@@ -2437,14 +2443,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     this.suggestStatus = false;
                     this.suggest_id = [];
                     this.tmpUser = [];
-                  } else if (res1.data.users.length > 0 && this.userData.cardNumber.length > 0) {
+                  } else if (res1.data.users.length > 0 && this.userData.identity_card_id.length > 0) {
                     res = res1.data.users;
                     this.suggest_id = [];
                     this.tmpUser = res;
                     res.forEach(function (item) {
                       _this.suggest_id.push(item.identity_card_id);
 
-                      if (_this.suggest_id !== userData.cardNumber) {
+                      if (_this.suggest_id !== userData.identity_card_id) {
                         userData.id = null;
                       }
                     });
@@ -10145,7 +10151,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
+exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
 
 // exports
 
@@ -10164,7 +10170,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
 
 // exports
 
@@ -10183,7 +10189,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\r\n", ""]);
 
 // exports
 
@@ -46689,19 +46695,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.userData.cardNumber,
-              expression: "userData.cardNumber"
+              value: _vm.userData.identity_card_id,
+              expression: "userData.identity_card_id"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.userData.cardNumber },
+          domProps: { value: _vm.userData.identity_card_id },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.userData, "cardNumber", $event.target.value)
+              _vm.$set(_vm.userData, "identity_card_id", $event.target.value)
             }
           }
         }),
@@ -46734,19 +46740,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.userData.name,
-              expression: "userData.name"
+              value: _vm.userData.first_name,
+              expression: "userData.first_name"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.userData.name },
+          domProps: { value: _vm.userData.first_name },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.userData, "name", $event.target.value)
+              _vm.$set(_vm.userData, "first_name", $event.target.value)
             }
           }
         })
@@ -46760,19 +46766,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.userData.surname,
-              expression: "userData.surname"
+              value: _vm.userData.last_name,
+              expression: "userData.last_name"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.userData.surname },
+          domProps: { value: _vm.userData.last_name },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.userData, "surname", $event.target.value)
+              _vm.$set(_vm.userData, "last_name", $event.target.value)
             }
           }
         })
@@ -46799,16 +46805,16 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.userData.sex,
-                  expression: "userData.sex"
+                  value: _vm.userData.gender,
+                  expression: "userData.gender"
                 }
               ],
               staticClass: "form-check-input",
               attrs: { type: "radio", value: "M", checked: "" },
-              domProps: { checked: _vm._q(_vm.userData.sex, "M") },
+              domProps: { checked: _vm._q(_vm.userData.gender, "M") },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.userData, "sex", "M")
+                  return _vm.$set(_vm.userData, "gender", "M")
                 }
               }
             }),
@@ -46835,16 +46841,16 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.userData.sex,
-                  expression: "userData.sex"
+                  value: _vm.userData.gender,
+                  expression: "userData.gender"
                 }
               ],
               staticClass: "form-check-input",
               attrs: { type: "radio", value: "F" },
-              domProps: { checked: _vm._q(_vm.userData.sex, "F") },
+              domProps: { checked: _vm._q(_vm.userData.gender, "F") },
               on: {
                 change: function($event) {
-                  return _vm.$set(_vm.userData, "sex", "F")
+                  return _vm.$set(_vm.userData, "gender", "F")
                 }
               }
             }),
@@ -46865,26 +46871,52 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.userData.phone,
-            expression: "userData.phone"
+            value: _vm.userData.phone_number,
+            expression: "userData.phone_number"
           }
         ],
         staticClass: "form-control",
         attrs: { type: "text", required: "" },
-        domProps: { value: _vm.userData.phone },
+        domProps: { value: _vm.userData.phone_number },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.$set(_vm.userData, "phone", $event.target.value)
+            _vm.$set(_vm.userData, "phone_number", $event.target.value)
           }
         }
       })
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "sec-form" }, [
-      _c("div", { staticClass: "head-form" }, [_vm._v("Fackbook")]),
+      _c("div", { staticClass: "head-form" }, [_vm._v("Email")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.userData.email,
+            expression: "userData.email"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", required: "" },
+        domProps: { value: _vm.userData.email },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.userData, "email", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "sec-form" }, [
+      _c("div", { staticClass: "head-form" }, [_vm._v("Facebook")]),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -62869,7 +62901,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
+module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
 
 /***/ }),
 
@@ -64139,8 +64171,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
