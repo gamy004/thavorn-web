@@ -184,9 +184,9 @@ export default Vue.extend({
             if (this.activeGlodData.id) {
                 //Update DB pawn
                 window.api.patch(`pawn_items/${this.activeGlodData.id}`, {
+                    item_category_id : this.activeGlodData.item_category_id,
                     item_weight : this.activeGlodData.item_weight,
                     item_value : this.activeGlodData.item_value,
-                    item_category_id : this.activeGlodData.item_category_id,
                     item_damage_id : this.activeGlodData.item_damage_id,
                 });
             }
