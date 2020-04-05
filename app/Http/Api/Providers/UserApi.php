@@ -73,7 +73,7 @@ class UserApi extends BaseApi implements ApiInterface
     public function createOrUpdateCustomer(array $raw = [])
     {
         try {
-            $user = User::idCard($raw[DBCol::IDENTITY_CARD_ID]);
+            $user = User::idcard($raw[DBCol::IDENTITY_CARD_ID]);
 
             $user = $this->update($user, $raw)->first();
         } catch (ModelNotFoundException $exception) {

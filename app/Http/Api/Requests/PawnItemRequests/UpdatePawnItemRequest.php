@@ -25,7 +25,10 @@ class UpdatePawnItemRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'item_weight' => 'required|numeric',
+            'item_value' => 'required|numeric',
+            'item_category_id' => 'sometimes|required|exists:item_categories,id',
+            'item_damage_id' => 'sometimes|required|exists:item_damages,id'
         ];
     }
 }

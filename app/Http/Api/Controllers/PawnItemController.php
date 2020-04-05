@@ -13,8 +13,8 @@ class PawnItemController extends BaseApiController
         return $this->api->store($request->all());
     }
 
-    public function update(UpdatePawnItemRequest $request, PawnItem $model)
+    public function update(UpdatePawnItemRequest $request, PawnItem $pawn_item)
     {
-        return $this->api->update($model, $request->all());
+        return $this->api->update($pawn_item, $request->all());
     }
 }

@@ -16,6 +16,9 @@ class User extends Authenticatable
 
     const FK = 'user_id';
 
+    const MALE = 'M';
+    const FEMALE = 'F';
+
     protected static function boot() {
         parent::boot();
     
@@ -117,7 +120,7 @@ class User extends Authenticatable
         return $this;
     }
 
-    public function scopeIdCard($query, $id_card)
+    public function scopeIdcard($query, $id_card)
     {
         return $query->where(
             DBCol::IDENTITY_CARD_ID,

@@ -21,7 +21,7 @@ class PawnItemApi extends BaseApi implements ApiInterface
         parent::__construct($q);
     }
 
-    protected function stored(Model $model, array $raw = [], array $record = [])
+    protected function stored(PawnItem $model, array $raw = [], array $record = [])
     {
         $model = $this->updateItemCategory($model, $raw);
         $model = $this->updateItemDamage($model, $raw);
@@ -29,7 +29,7 @@ class PawnItemApi extends BaseApi implements ApiInterface
         return $model;
     }
 
-    protected function updated(Model $model, array $raw = [], array $record = [])
+    protected function updated(PawnItem $model, array $raw = [], array $record = [])
     {
         $model = $this->updateItemCategory($model, $raw);
         $model = $this->updateItemDamage($model, $raw);

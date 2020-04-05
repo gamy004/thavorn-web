@@ -2067,13 +2067,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'goldForm',
@@ -2087,7 +2080,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         item_value: null,
         item_damage_id: 2
       },
-      editIndex: null
+      editIndex: null,
+      category_item: [],
+      damage_item: [],
+      sumPrice: 0
     };
   },
   props: {
@@ -2101,10 +2097,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       handler: function handler(data) {
         this.tableData = data;
       }
+    },
+    tableData: {
+      deep: true,
+      handler: function handler(tableData) {
+        this.calPrice();
+      }
     }
   },
-  computed: {
-    sumPrice: function sumPrice() {
+  mounted: function mounted() {
+    this.getCategoryItem();
+    this.getItemDamage();
+  },
+  computed: {},
+  methods: {
+    calCatetory: function calCatetory(id) {
+      if (this.category_item) {
+        var cat = this.category_item;
+        var output = "";
+
+        for (var i = 0; i < cat.length; i++) {
+          if (cat[i].id === id) {
+            output = cat[i].item_category;
+            break;
+          }
+        }
+
+        return output;
+      }
+    },
+    calDamage: function calDamage(id) {
+      console.log('in', id, this.damage_item);
+
+      if (this.damage_item) {
+        var dam = this.damage_item;
+        var output = "";
+
+        for (var i = 0; i < dam.length; i++) {
+          if (dam[i].id === id) {
+            output = dam[i].item_damage;
+            break;
+          }
+        }
+
+        return output;
+      }
+    },
+    calPrice: function calPrice() {
       var output = 0;
 
       if (this.tableData && this.tableData.length) {
@@ -2113,24 +2152,83 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       }
 
-      return output;
-    }
-  },
-  methods: {
+      this.sumPrice = output;
+    },
+    getItemDamage: function () {
+      var _getItemDamage = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return window.api.get("item_damages");
+
+              case 2:
+                res = _context.sent;
+                this.damage_item = res.data.item_damages;
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getItemDamage() {
+        return _getItemDamage.apply(this, arguments);
+      }
+
+      return getItemDamage;
+    }(),
+    getCategoryItem: function () {
+      var _getCategoryItem = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return window.api.get("item_categories");
+
+              case 2:
+                res = _context2.sent;
+                this.category_item = res.data.item_categories;
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getCategoryItem() {
+        return _getCategoryItem.apply(this, arguments);
+      }
+
+      return getCategoryItem;
+    }(),
     updateDamage: function updateDamage(val) {
       this.activeGlodData.item_damage_id = val;
     },
     addGold: function () {
       var _addGold = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (this.editIndex === null) {
                   this.tableData.push(this.activeGlodData);
                   this.clearForm();
+                  this.$emit('emit:gold', this.tableData);
                 } else {
                   this.tableData[this.editIndex] = this.activeGlodData;
 
@@ -2145,14 +2243,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
 
                   this.clearForm();
+                  this.calPrice();
                 }
 
               case 1:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function addGold() {
@@ -2292,6 +2391,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (this.tmpUser[i].identity_card_id === id) {
           this.suggestStatus = true;
           var res = this.tmpUser[i];
+          this.userData.id = res.id;
           this.userData.cardNumber = res.identity_card_id;
           this.userData.surname = res.last_name;
           this.userData.name = res.first_name;
@@ -2343,6 +2443,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     this.tmpUser = res;
                     res.forEach(function (item) {
                       _this.suggest_id.push(item.identity_card_id);
+
+                      if (_this.suggest_id !== userData.cardNumber) {
+                        userData.id = null;
+                      }
                     });
                   } else {
                     this.suggest_id = [];
@@ -2380,8 +2484,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2395,14 +2507,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'interest',
   data: function data() {
     return {
-      interest_rate: '3'
+      interest_rate: 3
     };
   },
-  methods: {}
+  watch: {
+    immediate: true,
+    interest_rate: {
+      handler: function () {
+        var _handler = _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(interest_rate) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  this.$emit('emit:interest', interest_rate);
+
+                case 1:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+
+        function handler(_x) {
+          return _handler.apply(this, arguments);
+        }
+
+        return handler;
+      }()
+    }
+  }
 }));
 
 /***/ }),
@@ -2784,12 +2924,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      userData: {}
+      userData: {},
+      goldData: [],
+      interest: 3
     };
   },
   methods: {
     updateInformation: function updateInformation(data) {
       this.userData = data;
+    },
+    updateGold: function updateGold(data) {
+      this.goldData = data;
+    },
+    updateInterest: function updateInterest(data) {
+      this.interest = parseInt(data);
+    },
+    saveData: function saveData() {
+      var pawn = {
+        pawn_no: null,
+        user: this.userData,
+        pawn_items: this.goldData,
+        interest_rate: this.interest
+      };
+      window.api.post("pawns", {
+        pawn: pawn
+      });
+      console.log('Sent data', pawn);
     }
   }
 }));
@@ -3071,19 +3231,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 if (!(i < this.tmpPawnItem.length)) {
-                  _context2.next = 22;
+                  _context2.next = 24;
                   break;
                 }
 
                 if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id)) {
-                  _context2.next = 19;
+                  _context2.next = 21;
                   break;
                 }
 
                 res = this.tmpPawnItem[i];
 
                 if (!status) {
-                  _context2.next = 18;
+                  _context2.next = 20;
                   break;
                 }
 
@@ -3108,21 +3268,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.name = userData.last_name;
                 pawnItem.push(res);
                 status = false;
+                _context2.next = 21;
+                break;
 
-              case 18:
+              case 20:
                 pawnItem.push(res);
 
-              case 19:
+              case 21:
                 i++;
                 _context2.next = 3;
                 break;
 
-              case 22:
+              case 24:
                 if (pawnItem) {
                   this.$emit('sentDataPawnItem', pawnItem);
                 }
 
-              case 23:
+              case 25:
               case "end":
                 return _context2.stop();
             }
@@ -9983,7 +10145,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
+exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
 
 // exports
 
@@ -10002,7 +10164,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
 
 // exports
 
@@ -10021,7 +10183,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\r\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n", ""]);
 
 // exports
 
@@ -46247,15 +46409,16 @@ var render = function() {
                 }
               }
             },
-            [
-              _c("option", { key: "asd", attrs: { value: "1" } }, [
-                _vm._v("asd")
-              ]),
-              _vm._v(" "),
-              _c("option", { key: "a151sd", attrs: { value: "2" } }, [
-                _vm._v("151")
-              ])
-            ]
+            _vm._l(_vm.category_item, function(item) {
+              return _c("option", {
+                key: item.id,
+                domProps: {
+                  value: item.id,
+                  textContent: _vm._s(item.item_category)
+                }
+              })
+            }),
+            0
           )
         ]),
         _vm._v(" "),
@@ -46334,112 +46497,76 @@ var render = function() {
         _c("div", { staticClass: "sec-form" }, [
           _c("div", { staticClass: "head-form" }, [_vm._v("ความเสียหาย")]),
           _vm._v(" "),
-          _c("div", { staticClass: "flex-column" }, [
-            _c(
-              "div",
-              {
-                staticClass: "form-check mr-3",
-                on: {
-                  click: function($event) {
-                    return _vm.updateDamage("1")
-                  }
-                }
-              },
-              [
-                _c("input", {
-                  directives: [
+          _c(
+            "div",
+            { staticClass: "flex-column" },
+            _vm._l(_vm.damage_item, function(item) {
+              return _vm.damage_item
+                ? _c(
+                    "div",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.activeGlodData.item_damage_id,
-                      expression: "activeGlodData.item_damage_id"
-                    }
-                  ],
-                  staticClass: "form-check-input ",
-                  attrs: {
-                    type: "radio",
-                    name: "exampleRadios",
-                    id: "DamageRadios1",
-                    value: "1"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.activeGlodData.item_damage_id, "1")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.activeGlodData, "item_damage_id", "1")
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "form-check-label",
-                    attrs: { for: "exampleRadios1" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                      ไม่เสียหาย\n                      "
-                    )
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "form-check",
-                on: {
-                  click: function($event) {
-                    return _vm.updateDamage("2")
-                  }
-                }
-              },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.activeGlodData.item_damage_id,
-                      expression: "activeGlodData.item_damage_id"
-                    }
-                  ],
-                  staticClass: "form-check-input",
-                  attrs: {
-                    type: "radio",
-                    name: "exampleRadios",
-                    id: "DamageRadios2",
-                    value: "2",
-                    checked: ""
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.activeGlodData.item_damage_id, "2")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.activeGlodData, "item_damage_id", "2")
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "form-check-label",
-                    attrs: { for: "exampleRadios2" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                      เสียหาย\n                      "
-                    )
-                  ]
-                )
-              ]
-            )
-          ])
+                      key: item.id,
+                      staticClass: "form-check mr-3",
+                      on: {
+                        click: function($event) {
+                          return _vm.updateDamage(item.id)
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.activeGlodData.item_damage_id,
+                            expression: "activeGlodData.item_damage_id"
+                          }
+                        ],
+                        staticClass: "form-check-input ",
+                        attrs: {
+                          type: "radio",
+                          name: item.item_damage,
+                          id: item.id
+                        },
+                        domProps: {
+                          value: item.id,
+                          checked: _vm._q(
+                            _vm.activeGlodData.item_damage_id,
+                            item.id
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.activeGlodData,
+                              "item_damage_id",
+                              item.id
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-check-label",
+                          attrs: { for: item.item_damage }
+                        },
+                        [
+                          _vm._v(
+                            "\n                      " +
+                              _vm._s(item.item_damage) +
+                              "\n                      "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            }),
+            0
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "sec-form" }, [
@@ -46473,13 +46600,17 @@ var render = function() {
                     }
                   },
                   [
-                    _c("td", [_vm._v(_vm._s(item.item_category_id))]),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.calCatetory(item.item_category_id)))
+                    ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.item_weight))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.item_value))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.item_damage_id))]),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.calDamage(item.item_damage_id)))
+                    ]),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -46844,7 +46975,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { type: "text" },
+          attrs: { type: "number", min: "0", max: "100" },
           domProps: { value: _vm.interest_rate },
           on: {
             input: function($event) {
@@ -47262,7 +47393,11 @@ var render = function() {
     _c(
       "section",
       { staticClass: "card" },
-      [_c("h2", [_vm._v("ข้อมูลทอง")]), _vm._v(" "), _c("goldForm")],
+      [
+        _c("h2", [_vm._v("ข้อมูลทอง")]),
+        _vm._v(" "),
+        _c("goldForm", { on: { "emit:gold": _vm.updateGold } })
+      ],
       1
     ),
     _vm._v(" "),
@@ -47272,9 +47407,9 @@ var render = function() {
       [
         _c("h2", [_vm._v("ส่วนดอกเบี้ย")]),
         _vm._v(" "),
-        _c("interest"),
+        _c("interest", { on: { "emit:interest": _vm.updateInterest } }),
         _vm._v(" "),
-        _c("saveSection")
+        _c("saveSection", { on: { "click:save": _vm.saveData } })
       ],
       1
     )
@@ -47376,24 +47511,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "section-btn" }, [
-      _c("button", { staticClass: "btn btn-success btn-lg mr-3" }, [
-        _vm._v("บันทึก")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-outline-danger btn-lg" }, [
-        _vm._v("ยกเลิก")
-      ])
+  return _c("div", { staticClass: "section-btn" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-success btn-lg mr-3",
+        on: {
+          click: function($event) {
+            return _vm.$emit("click:save")
+          }
+        }
+      },
+      [_vm._v("บันทึก")]
+    ),
+    _vm._v(" "),
+    _c("button", { staticClass: "btn btn-outline-danger btn-lg" }, [
+      _vm._v("ยกเลิก")
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -62732,7 +62869,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
+module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
 
 /***/ }),
 
@@ -64002,8 +64139,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

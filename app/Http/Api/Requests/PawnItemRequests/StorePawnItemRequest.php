@@ -3,7 +3,6 @@
 namespace App\Http\Api\Requests\PawnItemRequests;
 
 use App\IOCs\DBCol;
-use App\Models\ItemCategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePawnItemRequest extends FormRequest
