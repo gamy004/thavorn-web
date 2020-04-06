@@ -3,6 +3,9 @@
 namespace App\Http\Api\Requests\PawnRequests;
 
 use App\IOCs\DBCol;
+use App\Models\User;
+use App\Models\ItemDamage;
+use App\Models\ItemCategory;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
