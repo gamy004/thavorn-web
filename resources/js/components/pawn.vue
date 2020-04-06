@@ -49,7 +49,6 @@ export default Vue.extend({
     },
     saveData() {
       let pawn = {
-        pawn_no : null,
         user : this.userData,
         pawn_items : this.goldData,
         interest_rate : this.interest

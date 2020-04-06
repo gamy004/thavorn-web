@@ -2,7 +2,7 @@
   <div>
     <div class="sec-form">
       <div class="head-form">เลขที่บัตรจำนำ หรือ เลขบัตรประชาชน</div>
-      <input type="text" class="form-control" v-model="cardNumber" required>
+      <input type="text" class="form-control" v-model="pawnId" required>
       <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="updateForm(item)" :key="item" >{{item}}</div>
     </div>
     <!-- <div class="sec-form">
@@ -12,11 +12,11 @@
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
         <div class="head-form">ชื่อ</div>
-        <div type="text" class="form-control showData" required>{{name}}</div>
+        <div type="text" class="form-control showData" v-text="userData.first_name"></div>
       </div>
       <div class="sec-form grow-1">
         <div class="head-form">นามสกุล</div>
-        <div type="text" class="form-control showData" required>{{surname}}</div>
+        <div type="text" class="form-control showData" v-text="userData.last_name"></div>
       </div>
     </div>
   </div>
@@ -29,23 +29,25 @@ export default Vue.extend({
   name: 'searchInformation',
   data() {
     return {
-      name : "",
-      surname : "",
-      cardNumber : "",
-      sex : "M",
-      phone: "",
-      line: "",
-      facebook: "",
       pawnId: "",
       pawn_item_suggest_id: [],
       tmpPawnItem: [],
-      pawnItemStatus: false
+      pawnItemStatus: false,
+
+      userData : {
+        id : null,
+        first_name : "",
+        last_name : "",
+        identity_card_id : "",
+        gender : "M",
+        phone_number: "",
+        line: "",
+        facebook: "",
+        email: ""
+      },
     }
   },
   methods: {
-    updateSex(val) {
-      this.sex = val;
-    },
     async search(item) {
       if (item) {
         let res1 = await window.api.get("pawn_user_items", {
@@ -53,7 +55,7 @@ export default Vue.extend({
           search: 
             {
               keyword: item,
-              fields:['identity_card_id', 'pawn_no']
+              fields:['pawn_no','identity_card_id']
             }
           }
         });
@@ -89,7 +91,7 @@ export default Vue.extend({
           let res = this.tmpPawnItem[i]
           if (status) {
             this.pawnItemStatus = true
-            this.cardNumber = id
+            this.pawnId = id
   
             let userId = this.tmpPawnItem[i].identity_card_id
             let resUser = await window.api.get("users", {
@@ -104,8 +106,16 @@ export default Vue.extend({
             }
             });
             let userData = resUser.data.users[0]
-            this.surname = userData.first_name
-            this.name = userData.last_name
+            this.userData.id = userData.id
+            this.userData.first_name = userData.first_name
+            this.userData.last_name = userData.last_name
+            this.userData.identity_card_id = userData.identity_card_id
+            this.userData.gender = userData.gender
+            this.userData.facebook = userData.facebook
+            this.userData.line = userData.line
+            this.userData.email = userData.email
+            this.userData.phone_number = userData.phone_number
+
             pawnItem.push(res)
             status = false
           }else {
@@ -115,13 +125,14 @@ export default Vue.extend({
       }
       if (pawnItem) {
         this.$emit('sentDataPawnItem',pawnItem)
+        this.$emit('emit:information',this.userData,this.pawnId)
       }
     }
   },
   watch: {
-    cardNumber: {
-      async handler(cardNumber) {
-        this.search(cardNumber)
+    pawnId: {
+      async handler(pawnId) {
+        this.search(pawnId)
       }
     },
   },
