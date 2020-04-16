@@ -13,7 +13,7 @@
                 <option v-for="id in idList" :key="id" v-text="id"></option>
               </select>
             </div>
-            <show-data-renew :pawnItem="pawnData" />
+            <show-data-renew :pawnItem="pawnData" @emitmouthCount="updatemouthCount"/>
             
 
           </div>
@@ -45,7 +45,8 @@ export default Vue.extend({
     return {
       idList:[],
       pawn_no: "",
-      pawnData: []
+      pawnData: [],
+      mouthCount:1
     }
   },
   methods: {
@@ -66,6 +67,9 @@ export default Vue.extend({
         }
       });
       this.pawnData = res.data.pawn_items
+    },
+    updatemouthCount(val) {
+        this.mouthCount = val
     }
   },
   watch: {

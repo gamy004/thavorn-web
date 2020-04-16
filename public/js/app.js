@@ -3126,6 +3126,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3137,7 +3140,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       lastUpdate: "",
       sumPriceStart: 0,
       interest_rate: 0,
-      mouthCount: 1
+      mouthCount: 1,
+      pawn_id: ""
     };
   },
   props: {
@@ -3160,7 +3164,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(pawnItem && pawnItem.length)) {
-                    _context.next = 11;
+                    _context.next = 12;
                     break;
                   }
 
@@ -3169,6 +3173,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 case 3:
                   res = _context.sent;
+                  this.pawn_id = res.data.pawns.id;
                   this.interest_rate = res.data.pawns.interest_rate; //Date
 
                   createDate = new Date(res.data.pawns.created_at);
@@ -3181,7 +3186,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.sumPriceStart += parseInt(item.item_value);
                   });
 
-                case 11:
+                case 12:
                 case "end":
                   return _context.stop();
               }
@@ -3203,7 +3208,68 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * parseInt(this.mouthCount);
     }
   },
-  methods: {}
+  methods: {
+    reload: function () {
+      var _reload = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var count, output;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                count = parseInt(this.mouthCount);
+                output = this.calDate(count);
+                console.log(output);
+                _context2.next = 5;
+                return window.api.patch("pawns/".concat(this.pawn_id), {
+                  updated_at: output
+                });
+
+              case 5:
+                location.reload();
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function reload() {
+        return _reload.apply(this, arguments);
+      }
+
+      return reload;
+    }(),
+    calDate: function calDate(count) {
+      var set = moment__WEBPACK_IMPORTED_MODULE_2___default()(this.lastUpdate, 'DD/MM/YYYY').format('YYYY-MM-DD h:mm:ss');
+      var d = parseInt(set.substring(8, 10));
+      var m = parseInt(set.substring(5, 7));
+      var y = parseInt(set.substring(0, 4));
+      var time = set.substring(11, 19);
+      m = m + count;
+
+      if (m > 12) {
+        var upyear = Math.floor(m / 12);
+        y = y + upyear;
+        m = m % 12;
+      }
+
+      if (m === 2 && d > 28) {
+        d = 28;
+      } else if (d > 31 && (m === 1 || m === 3 || m === 5 || m === 7 || m === 8 || m === 10 || m === 12)) {
+        d = 31;
+      } else if (d > 30 && (m === 4 || m === 6 || m === 9 || m === 11)) {
+        d = 30;
+      }
+
+      var output = "".concat(y, "-").concat(m, "-").concat(d, " ").concat(time);
+      console.log(set, m, d, y, ' ', time, output);
+      return output;
+    }
+  }
 }));
 
 /***/ }),
@@ -3852,7 +3918,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       idList: [],
       pawn_no: "",
-      pawnData: []
+      pawnData: [],
+      mouthCount: 1
     };
   },
   methods: {
@@ -3899,7 +3966,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return getPawnData;
-    }()
+    }(),
+    updatemouthCount: function updatemouthCount(val) {
+      this.mouthCount = val;
+    }
   },
   watch: {
     pawn_no: {
@@ -11030,7 +11100,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}", ""]);
+exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}\n.cus[data-v-45f0a886] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}", ""]);
 
 // exports
 
@@ -67006,6 +67076,18 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "cus" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary btn-lg mt-3",
+          attrs: { type: "button" },
+          on: { click: _vm.reload }
+        },
+        [_vm._v("ชำระเงิน")]
+      )
     ])
   ])
 }
@@ -67392,7 +67474,10 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("show-data-renew", { attrs: { pawnItem: _vm.pawnData } })
+              _c("show-data-renew", {
+                attrs: { pawnItem: _vm.pawnData },
+                on: { emitmouthCount: _vm.updatemouthCount }
+              })
             ],
             1
           ),

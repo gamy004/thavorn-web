@@ -53,6 +53,9 @@
             </div>
         </div>
     </div>
+    <div class="cus">
+        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload">ชำระเงิน</button>
+    </div>
   </div>
 </template>
 
@@ -70,6 +73,7 @@ export default Vue.extend({
         sumPriceStart: 0,
         interest_rate: 0,
         mouthCount: 1,
+        pawn_id: ""
     }
   },
   props: {
@@ -84,6 +88,7 @@ export default Vue.extend({
               if (pawnItem && pawnItem.length) {
                     //interset_rate
                     let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
+                    this.pawn_id = res.data.pawns.id
                     this.interest_rate = res.data.pawns.interest_rate 
                     //Date
                     let createDate =new Date(res.data.pawns.created_at)
@@ -95,11 +100,10 @@ export default Vue.extend({
                     pawnItem.forEach( item => {
                         this.sumPriceStart += parseInt(item.item_value)
                     });
-                    
-                    
               }
           }
-      }
+      },
+
   },
   mounted() {
 
@@ -110,7 +114,42 @@ export default Vue.extend({
       }
   },
   methods: {
+    async reload() {
+        let count = parseInt(this.mouthCount)
+        let output = this.calDate(count)
+        console.log(output);
+        
+        await window.api.patch(`pawns/${this.pawn_id}`,{
+            updated_at: output
+        });
+        location.reload();
+    },
+    calDate(count) {
+        let set = moment(this.lastUpdate, 'DD/MM/YYYY').format('YYYY-MM-DD h:mm:ss')
+        let d = parseInt(set.substring(8,10))
+        let m =  parseInt(set.substring(5,7))
+        let y =  parseInt(set.substring(0,4))
+        let time =  set.substring(11,19)
 
+
+        m = m+count
+        if (m > 12) {
+            let upyear = Math.floor(m/12)
+            y = y+upyear
+            m = m%12
+        }
+        if ( m === 2 && d > 28) {
+            d = 28
+        }else if( d > 31 && ( m === 1 || m === 3 || m === 5 || m === 7 || m === 8 || m === 10 || m === 12 ) ) {
+            d = 31
+        }else if( d > 30 && ( m === 4 || m === 6 || m === 9 || m === 11 )) {
+            d = 30
+        }
+
+        let output = `${y}-${m}-${d} ${time}`
+        console.log(set,m,d,y,' ',time,output);
+        return output
+    }
   }
 });
 </script>
@@ -127,5 +166,9 @@ export default Vue.extend({
 }
 .gray {
     background-color: rgb(221, 221, 221);
+}
+.cus{
+    display: flex;
+    justify-content: center;
 }
 </style>
