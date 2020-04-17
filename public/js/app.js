@@ -3139,10 +3139,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return parseInt(this.sumPriceStart) + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
             }
           } else if (dd <= 0) {
-            return 0;
+            return parseInt(this.sumPriceStart);
           }
         } else if (dm < 0) {
-          return 0;
+          return parseInt(this.sumPriceStart);
         }
       } else if (dy > 0) {
         dm += dy * 12;
@@ -3168,7 +3168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return 'error';
         }
       } else if (dy < 0) {
-        return 0;
+        return parseInt(this.sumPriceStart);
       }
 
       return 'error';

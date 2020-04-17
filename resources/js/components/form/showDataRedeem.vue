@@ -149,10 +149,10 @@ export default Vue.extend({
                         return parseInt(this.sumPriceStart)+(parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100
                     }
                 }else if ( dd <= 0) {
-                    return 0
+                    return parseInt(this.sumPriceStart)
                 }
             }else if ( dm < 0 ) {
-                return 0
+                return parseInt(this.sumPriceStart)
             }
           }else if ( dy > 0 ) {
             dm += dy*12
@@ -175,7 +175,7 @@ export default Vue.extend({
                 return 'error'
             }
           }else if ( dy < 0 ) {
-              return 0
+              return parseInt(this.sumPriceStart)
           }
           return  'error'
       },
