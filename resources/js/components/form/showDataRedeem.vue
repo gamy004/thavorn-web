@@ -28,10 +28,10 @@
             </div>
 
             <div class="sec-form">
-                <div class="head-form">จำนวนทเดือนที่จะต่อดอก</div>
+                <div class="head-form">วันที่ไถ่ถอน</div>
 
                 <div class="flex-row">
-                    <input class="form-control mr-28-px" type="number" min="" v-model="mouthCount">
+                    <div type="text" class="form-control mr-28-px gray" v-text="today"></div>
                 </div>
             </div>
 
@@ -65,14 +65,13 @@ import moment from 'moment'
 import { log } from 'util';
 
 export default Vue.extend({
-  name: 'CommitRenew',
+  name: 'CommitRedeem',
   data() {
     return {
         createDate: "",
         lastUpdate: "",
         sumPriceStart: 0,
         interest_rate: 0,
-        mouthCount: 1,
         pawn_id: ""
     }
   },
@@ -110,46 +109,87 @@ export default Vue.extend({
   },
   computed: {
       total() {
-          return  ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*parseInt(this.mouthCount)
+          let ld = parseInt(this.lastUpdate.substring(0,2))
+          let lm = parseInt(this.lastUpdate.substring(3,5))
+          let ly = parseInt(this.lastUpdate.substring(6,11))
+
+          let td = parseInt(this.today.substring(0,2))
+          let tm = parseInt(this.today.substring(3,5))
+          let ty = parseInt(this.today.substring(6,11))
+
+          let dd = td - ld
+          let dm = tm - lm
+          let dy = ty - ly
+
+          if (dy === 0) {
+            if ( dm > 0 ) {
+                let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
+                if ( dd > 0) {
+                    if ( dd <= 15 ) {
+                        return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    }else {
+                        return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    }
+                }else if ( dd <= 0) {
+                    dd += 30
+                    base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
+                    if ( dd <= 15 ) {
+                        return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    }else {
+                        return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    }
+                }else {
+                    return 'error'
+                }
+            }else if ( dm === 0 ) {
+                if ( dd > 0) {
+                    if ( dd <= 15 ) {
+                        return parseInt(this.sumPriceStart)+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2
+                    }else {
+                        return parseInt(this.sumPriceStart)+(parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100
+                    }
+                }else if ( dd <= 0) {
+                    return 0
+                }
+            }else if ( dm < 0 ) {
+                return 0
+            }
+          }else if ( dy > 0 ) {
+            dm += dy*12
+            let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
+            if ( dd > 0) {
+                if ( dd <= 15 ) {
+                    return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                }else {
+                    return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                }
+            }else if ( dd <= 0) {
+                dd += 30
+                base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
+                if ( dd <= 15 ) {
+                    return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                }else {
+                    return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                }
+            }else {
+                return 'error'
+            }
+          }else if ( dy < 0 ) {
+              return 0
+          }
+          return  'error'
+      },
+      today() {
+          const today = moment();
+          let output = moment(today, 'DD/MM/YYYY').format('DD/MM/YYYY')
+          return output
       }
   },
   methods: {
     async reload() {
-        let count = parseInt(this.mouthCount)
-        let output = this.calDate(count)
-        console.log(output);
-        
-        await window.api.patch(`pawns/${this.pawn_id}`,{
-            updated_at: output
-        });
+        await window.api.delete(`pawns/${this.pawn_id}`);
         location.reload();
     },
-    calDate(count) {
-        let set = moment(this.lastUpdate, 'DD/MM/YYYY').format('YYYY-MM-DD h:mm:ss')
-        let d = parseInt(set.substring(8,10))
-        let m =  parseInt(set.substring(5,7))
-        let y =  parseInt(set.substring(0,4))
-        let time =  set.substring(11,19)
-
-
-        m = m+count
-        if (m > 12) {
-            let upyear = Math.floor(m/12)
-            y = y+upyear
-            m = m%12
-        }
-        if ( m === 2 && d > 28) {
-            d = 28
-        }else if( d > 31 && ( m === 1 || m === 3 || m === 5 || m === 7 || m === 8 || m === 10 || m === 12 ) ) {
-            d = 31
-        }else if( d > 30 && ( m === 4 || m === 6 || m === 9 || m === 11 )) {
-            d = 30
-        }
-
-        let output = `${y}-${m}-${d} ${time}`
-        console.log(set,m,d,y,' ',time,output);
-        return output
-    }
   }
 });
 </script>
