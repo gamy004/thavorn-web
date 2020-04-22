@@ -49,13 +49,14 @@ export default Vue.extend({
           img: "images/switch.svg",
           val: "redeem"
         }
-      ]
+      ],
+      goldPrice:0
     };
   },
   computed: {
     route() {
       return this.$route.path.substr(1, this.$route.path.length);
-    }
+    },
   },
   methods: {
     clickRoute(val) {
@@ -63,21 +64,22 @@ export default Vue.extend({
       this.$router.replace(val);
     },
     async getGoldPrice() {
+      let onzToBath = 0.47295
       // UserApiTest path tests/Unit/UserApiTest.php
       let res1 = await window.api.get("users", {
         params: {
           filters: [
             {
               key: "identity_card_id",
-              value: "nPIZ",
+              value: 'nPIZ',
               operator: "ct"
             }
           ]
         }
       });
-
-      let res2 = await window.goldPriceApi.get();
-      console.log(1234, res1.data.users[0], res2);
+ 
+      // let res2 = await window.goldPriceApi.get();
+      // console.log(1234,res2.data.items[0].xauPrice*onzToBath);
     }
   },
   mounted() {

@@ -1,6 +1,7 @@
 <template>
   <div class="navbar navbar-expand-lg navbar-light cusnev shadow-sm">
     <img v-if="logo" src="../assets/logo.svg">
+    <div>Gold price today {{goldPrice}} บาท (FROM GOBLE PRICE)</div>
   </div>
 </template>
 
@@ -14,6 +15,39 @@ export default Vue.extend({
     logo: {
       type : [Boolean, Number],
       default : false
+    }
+  },
+  data() {
+    return {
+      goldPrice:0
+    }
+  },
+  mounted() {
+    this.getGoldPrice();
+  },
+  methods: {
+    async getGoldPrice() {
+      let onzToBath = 0.47295
+      let res = await window.goldPriceApi.get();
+      let price = res.data.items[0].xauPrice*onzToBath
+      console.log("GoldPrice : ",price);
+      price = this.checkCommas(price)
+      console.log("GoldPrice : ",price);
+      this.goldPrice = price
+    },
+
+    checkCommas(nStr) {
+      nStr += '';
+      let x = nStr.split('.');
+      let x1 = x[0];
+      let x2 = x.length > 1 ? '.' + x[1][0]+x[1][1] : '';
+      let rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      console.log(x1 + x2);
+      
+      return x1 + x2;
     }
   },
 });
@@ -51,5 +85,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.navbar{
+  justify-content: space-between;
 }
 </style>
