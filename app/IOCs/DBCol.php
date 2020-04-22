@@ -95,4 +95,15 @@ class DBCol
     const PATH = 'path';
     const URL = 'url';
     const _PUBLIC = 'public';
+
+    /**
+     * THAWON
+     */
+    const AMOUNT = 'amount';
+    const MONTH_AMOUNT = 'month_amount';
+    const COMPLETE = 'complete';
+    const LATEST_PAID_AT = 'latest_paid_at';
+    const NEXT_PAID_AT = 'next_paid_at';
+    const TIME_START_AT = 'time_start_at';
+    const TIME_END_AT = 'time_end_at';
 }

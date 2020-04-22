@@ -69,12 +69,13 @@ export default Vue.extend({
           filters: [
             {
               key: "identity_card_id",
-              value: 'nPIZ',
+              value: "nPIZ",
               operator: "ct"
             }
           ]
         }
       });
+
       let res2 = await window.goldPriceApi.get();
       console.log(1234, res1.data.users[0], res2);
     }

@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemDamageSeeder::class);
         $this->call(PawnSeeder::class);
         $this->call(PawnItemSeeder::class);
+        $this->call(PaymentSeeder::class);
     }
 }

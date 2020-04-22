@@ -33,36 +33,36 @@ class PawnApi extends BaseApi implements ApiInterface
         return $raw;
     }
 
-    protected function stored(Model $model, array $raw = [], array $record = [])
+    protected function stored(Pawn $pawn, array $raw = [], array $record = [])
     {
-        $model = $this->updateUser($model, $raw);
-        $model = $this->updateItems($model, $raw);
+        $pawn = $this->updateUser($pawn, $raw);
+        $pawn = $this->updateItems($pawn, $raw);
 
-        return $model;
+        return $pawn;
     }
 
-    protected function updated(Model $model, array $raw = [], array $record = [])
+    protected function updated(Pawn $pawn, array $raw = [], array $record = [])
     {
-        $model = $this->updateUser($model, $raw);
-        $model = $this->updateItems($model, $raw);
+        $pawn = $this->updateUser($pawn, $raw);
+        $pawn = $this->updateItems($pawn, $raw);
 
-        return $model;
+        return $pawn;
     }
 
-    public function updateUser(Model $model, array $raw = [])
+    public function updateUser(Pawn $pawn, array $raw = [])
     {
         if (isset($raw["user"])) {
             $customer_data = $raw["user"];
             
             $customer = $this->userApi->createOrUpdateCustomer($customer_data);
             
-            $model = $model->updateCustomer($customer);
+            $pawn = $pawn->updateCustomer($customer);
         }
 
-        return $model;
+        return $pawn;
     }
 
-    public function updateItems(Model $model, array $raw = [])
+    public function updateItems(Pawn $pawn, array $raw = [])
     {
         if (isset($raw["pawn_items"])) {
             $pawn_items_data = $raw["pawn_items"];
@@ -76,10 +76,18 @@ class PawnApi extends BaseApi implements ApiInterface
             }
 
             if (!empty($pawn_items)) {
-                $model->pawn_items()->saveMany($pawn_items);
+                $pawn->pawn_items()->saveMany($pawn_items);
             }
         }
 
-        return $model;
+        return $pawn;
+    }
+
+    public function pay(Pawn $pawn, array $raw = []) {
+        if (isset($raw["amount"]) && isset($raw["month_amount"])) {
+            $pawn->pay($raw["amount"], $raw["month_amount"]);
+        }
+
+        return $pawn;
     }
 }

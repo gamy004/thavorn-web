@@ -25,6 +25,13 @@ Route::group([
     'namespace' => '\App\Http\Api\Controllers',
     'middleware' => ['api.parse'],
 ], function () {
+    Route::group([
+        'as' => 'pawns.',
+        'prefix' => 'pawns',
+    ], function () {
+        Route::post('{pawn}/pay', 'PawnController@pay')->name('pay');
+    });
+
     Route::resources([
         'users' => 'UserController',
         'pawns' => 'PawnController',

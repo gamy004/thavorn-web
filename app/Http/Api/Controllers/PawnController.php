@@ -3,6 +3,7 @@
 namespace App\Http\Api\Controllers;
 
 use App\Models\Pawn;
+use App\Http\Api\Requests\PawnRequests\PaidPawnRequest;
 use App\Http\Api\Requests\PawnRequests\StorePawnRequest;
 use App\Http\Api\Requests\PawnRequests\UpdatePawnRequest;
 
@@ -15,5 +16,10 @@ class PawnController extends BaseApiController {
     public function update(UpdatePawnRequest $request, Pawn $pawn)
     {
         return $this->api->update($pawn, $request->pawn);
+    }
+
+    public function pay(PaidPawnRequest $request, Pawn $pawn)
+    {
+        return $this->api->pay($pawn, $request->all());
     }
 }

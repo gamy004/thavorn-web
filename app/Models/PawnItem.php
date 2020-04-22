@@ -108,4 +108,14 @@ class PawnItem extends Model
 
         return $this;
     }
+
+    public function scopeComplete($query)
+    {
+        $query->where(DBCol::COMPLETE, 1);
+    }
+
+    public function scopeIncomplete($query)
+    {
+        $query->where(DBCol::COMPLETE, 0);
+    }
 }

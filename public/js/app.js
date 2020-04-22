@@ -2752,7 +2752,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   params: {
                     filters: [{
                       key: "identity_card_id",
-                      value: 'nPIZ',
+                      value: "nPIZ",
                       operator: "ct"
                     }]
                   }
@@ -2947,7 +2947,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveData: function saveData() {
       var pawn = {
-        pawn_no: null,
         user: this.userData,
         pawn_items: this.goldData,
         interest_rate: this.interest
@@ -3140,23 +3139,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: 'searchInformation',
   data: function data() {
     return {
-      name: "",
-      surname: "",
-      cardNumber: "",
-      sex: "M",
-      phone: "",
-      line: "",
-      facebook: "",
       pawnId: "",
       pawn_item_suggest_id: [],
       tmpPawnItem: [],
-      pawnItemStatus: false
+      pawnItemStatus: false,
+      userData: {
+        id: null,
+        first_name: "",
+        last_name: "",
+        identity_card_id: "",
+        gender: "M",
+        phone_number: "",
+        line: "",
+        facebook: "",
+        email: ""
+      }
     };
   },
   methods: {
-    updateSex: function updateSex(val) {
-      this.sex = val;
-    },
     search: function () {
       var _search = _asyncToGenerator(
       /*#__PURE__*/
@@ -3178,7 +3178,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   params: {
                     search: {
                       keyword: item,
-                      fields: ['identity_card_id', 'pawn_no']
+                      fields: ['pawn_no', 'identity_card_id']
                     }
                   }
                 });
@@ -3237,24 +3237,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 if (!(i < this.tmpPawnItem.length)) {
-                  _context2.next = 24;
+                  _context2.next = 31;
                   break;
                 }
 
                 if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id)) {
-                  _context2.next = 21;
+                  _context2.next = 28;
                   break;
                 }
 
                 res = this.tmpPawnItem[i];
 
                 if (!status) {
-                  _context2.next = 20;
+                  _context2.next = 27;
                   break;
                 }
 
                 this.pawnItemStatus = true;
-                this.cardNumber = id;
+                this.pawnId = id;
                 userId = this.tmpPawnItem[i].identity_card_id;
                 _context2.next = 12;
                 return window.api.get("users", {
@@ -3270,27 +3270,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 resUser = _context2.sent;
                 userData = resUser.data.users[0];
-                this.surname = userData.first_name;
-                this.name = userData.last_name;
+                this.userData.id = userData.id;
+                this.userData.first_name = userData.first_name;
+                this.userData.last_name = userData.last_name;
+                this.userData.identity_card_id = userData.identity_card_id;
+                this.userData.gender = userData.gender;
+                this.userData.facebook = userData.facebook;
+                this.userData.line = userData.line;
+                this.userData.email = userData.email;
+                this.userData.phone_number = userData.phone_number;
                 pawnItem.push(res);
                 status = false;
-                _context2.next = 21;
+                _context2.next = 28;
                 break;
 
-              case 20:
+              case 27:
                 pawnItem.push(res);
 
-              case 21:
+              case 28:
                 i++;
                 _context2.next = 3;
                 break;
 
-              case 24:
+              case 31:
                 if (pawnItem) {
                   this.$emit('sentDataPawnItem', pawnItem);
+                  this.$emit('emit:information', this.userData, this.pawnId);
                 }
 
-              case 25:
+              case 32:
               case "end":
                 return _context2.stop();
             }
@@ -3306,16 +3314,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }()
   },
   watch: {
-    cardNumber: {
+    pawnId: {
       handler: function () {
         var _handler = _asyncToGenerator(
         /*#__PURE__*/
-        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(cardNumber) {
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(pawnId) {
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
             while (1) {
               switch (_context3.prev = _context3.next) {
                 case 0:
-                  this.search(cardNumber);
+                  this.search(pawnId);
 
                 case 1:
                 case "end":
@@ -3347,12 +3355,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form/goldForm.vue */ "./resources/js/components/form/goldForm.vue");
-/* harmony import */ var _form_interest_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/interest.vue */ "./resources/js/components/form/interest.vue");
-/* harmony import */ var _saveSection_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./saveSection.vue */ "./resources/js/components/saveSection.vue");
-/* harmony import */ var _searchInformation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./searchInformation */ "./resources/js/components/searchInformation.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/goldForm.vue */ "./resources/js/components/form/goldForm.vue");
+/* harmony import */ var _form_interest_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/interest.vue */ "./resources/js/components/form/interest.vue");
+/* harmony import */ var _saveSection_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./saveSection.vue */ "./resources/js/components/saveSection.vue");
+/* harmony import */ var _searchInformation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./searchInformation */ "./resources/js/components/searchInformation.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
 //
 //
 //
@@ -3368,23 +3385,79 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'updatepawn',
   components: {
-    goldForm: _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    SearchInformation: _searchInformation__WEBPACK_IMPORTED_MODULE_4__["default"]
+    goldForm: _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    SearchInformation: _searchInformation__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
-      pawnItem: []
+      pawnItem: [],
+      userData: {},
+      pawnId: ""
     };
   },
   methods: {
     updateData: function updateData(data) {
       this.pawnItem = data;
-    }
+    },
+    updateInformation: function updateInformation(data, pawnId) {
+      this.userData = data;
+      this.pawnId = pawnId;
+    },
+    saveData: function () {
+      var _saveData = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res, pawn;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return window.api.get("/pawns", {
+                  params: {
+                    filters: [{
+                      key: "pawn_no",
+                      value: this.pawnId,
+                      operator: "eq"
+                    }]
+                  }
+                });
+
+              case 2:
+                res = _context.sent;
+                res = res.data.pawns[0];
+                console.log(res);
+
+                if (res.id) {
+                  pawn = {
+                    user: this.userData,
+                    pawn_items: this.pawnItem
+                  };
+                  window.api.patch("pawns/".concat(res.id), {
+                    pawn: pawn
+                  });
+                  console.log('Sent data', pawn);
+                } else {}
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function saveData() {
+        return _saveData.apply(this, arguments);
+      }
+
+      return saveData;
+    }()
   }
 }));
 
@@ -10151,7 +10224,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
+exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
 
 // exports
 
@@ -10170,7 +10243,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
 
 // exports
 
@@ -10189,7 +10262,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\r\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n", ""]);
 
 // exports
 
@@ -47598,19 +47671,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.cardNumber,
-              expression: "cardNumber"
+              value: _vm.pawnId,
+              expression: "pawnId"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", required: "" },
-          domProps: { value: _vm.cardNumber },
+          domProps: { value: _vm.pawnId },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.cardNumber = $event.target.value
+              _vm.pawnId = $event.target.value
             }
           }
         }),
@@ -47638,27 +47711,21 @@ var render = function() {
       _c("div", { staticClass: "sec-form grow-1 mr-lg-2" }, [
         _c("div", { staticClass: "head-form" }, [_vm._v("ชื่อ")]),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "form-control showData",
-            attrs: { type: "text", required: "" }
-          },
-          [_vm._v(_vm._s(_vm.name))]
-        )
+        _c("div", {
+          staticClass: "form-control showData",
+          attrs: { type: "text" },
+          domProps: { textContent: _vm._s(_vm.userData.first_name) }
+        })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "sec-form grow-1" }, [
         _c("div", { staticClass: "head-form" }, [_vm._v("นามสกุล")]),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "form-control showData",
-            attrs: { type: "text", required: "" }
-          },
-          [_vm._v(_vm._s(_vm.surname))]
-        )
+        _c("div", {
+          staticClass: "form-control showData",
+          attrs: { type: "text" },
+          domProps: { textContent: _vm._s(_vm.userData.last_name) }
+        })
       ])
     ])
   ])
@@ -47692,9 +47759,19 @@ var render = function() {
       [
         _c("h2", [_vm._v("ข้อมูลการจำนำ")]),
         _vm._v(" "),
-        _c("SearchInformation", { on: { sentDataPawnItem: _vm.updateData } }),
+        _c("SearchInformation", {
+          on: {
+            sentDataPawnItem: _vm.updateData,
+            "emit:information": _vm.updateInformation
+          }
+        }),
         _vm._v(" "),
-        _c("goldForm", { staticClass: "mt-20", attrs: { data: _vm.pawnItem } })
+        _c("goldForm", { staticClass: "mt-20", attrs: { data: _vm.pawnItem } }),
+        _vm._v(" "),
+        _c("saveSection", {
+          staticClass: "mt-5",
+          on: { "click:save": _vm.saveData }
+        })
       ],
       1
     )
@@ -62901,7 +62978,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
+module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
 
 /***/ }),
 
@@ -64171,8 +64248,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
