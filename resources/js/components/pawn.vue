@@ -55,6 +55,7 @@ export default Vue.extend({
       }
       window.api.post(`pawns`, {pawn});
       console.log('Sent data',pawn);
+      location.reload();
     }
   },
 });

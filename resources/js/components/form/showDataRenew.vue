@@ -92,7 +92,10 @@ export default Vue.extend({
                     this.interest_rate = res.data.pawns.interest_rate 
                     //Date
                     let createDate =new Date(res.data.pawns.created_at)
-                    let lastDate =new Date(res.data.pawns.updated_at)
+                    let lastDate = new Date()
+                    res.data.pawns.next_paid_at 
+                        ? lastDate = new Date(res.data.pawns.next_paid_at)
+                        : lastDate = new Date(res.data.pawns.created_at)
                     this.createDate = moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
                     this.lastUpdate = moment(lastDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
                     //start price
@@ -115,41 +118,12 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        let count = parseInt(this.mouthCount)
-        let output = this.calDate(count)
-        console.log(output);
-        
-        await window.api.patch(`pawns/${this.pawn_id}`,{
-            updated_at: output
+        await window.api.post(`pawns/${this.pawn_id}/pay`,{
+            amount : this.total.toFixed(2),
+            month_amount : this.mouthCount
         });
         location.reload();
     },
-    calDate(count) {
-        let set = moment(this.lastUpdate, 'DD/MM/YYYY').format('YYYY-MM-DD h:mm:ss')
-        let d = parseInt(set.substring(8,10))
-        let m =  parseInt(set.substring(5,7))
-        let y =  parseInt(set.substring(0,4))
-        let time =  set.substring(11,19)
-
-
-        m = m+count
-        if (m > 12) {
-            let upyear = Math.floor(m/12)
-            y = y+upyear
-            m = m%12
-        }
-        if ( m === 2 && d > 28) {
-            d = 28
-        }else if( d > 31 && ( m === 1 || m === 3 || m === 5 || m === 7 || m === 8 || m === 10 || m === 12 ) ) {
-            d = 31
-        }else if( d > 30 && ( m === 4 || m === 6 || m === 9 || m === 11 )) {
-            d = 30
-        }
-
-        let output = `${y}-${m}-${d} ${time}`
-        console.log(set,m,d,y,' ',time,output);
-        return output
-    }
   }
 });
 </script>
