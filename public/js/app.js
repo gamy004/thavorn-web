@@ -3058,7 +3058,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(pawnItem && pawnItem.length)) {
-                    _context.next = 12;
+                    _context.next = 13;
                     break;
                   }
 
@@ -3071,7 +3071,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.interest_rate = res.data.pawns.interest_rate; //Date
 
                   createDate = new Date(res.data.pawns.created_at);
-                  lastDate = new Date(res.data.pawns.updated_at);
+                  lastDate = new Date();
+                  res.data.pawns.next_paid_at ? lastDate = new Date(res.data.pawns.next_paid_at) : lastDate = new Date(res.data.pawns.created_at);
                   this.createDate = moment__WEBPACK_IMPORTED_MODULE_2___default()(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
                   this.lastUpdate = moment__WEBPACK_IMPORTED_MODULE_2___default()(lastDate, 'DD/MM/YYYY').format('DD/MM/YYYY'); //start price
 
@@ -3080,7 +3081,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.sumPriceStart += parseInt(item.item_value);
                   });
 
-                case 12:
+                case 13:
                 case "end":
                   return _context.stop();
               }
@@ -3115,18 +3116,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
           if (dd > 0) {
             if (dd <= 15) {
-              return parseInt(this.sumPriceStart) + base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
             } else {
-              return parseInt(this.sumPriceStart) + base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
             }
           } else if (dd <= 0) {
             dd += 30;
             base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * (dm - 1);
 
             if (dd <= 15) {
-              return parseInt(this.sumPriceStart) + base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
             } else {
-              return parseInt(this.sumPriceStart) + base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
             }
           } else {
             return 'error';
@@ -3134,15 +3135,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         } else if (dm === 0) {
           if (dd > 0) {
             if (dd <= 15) {
-              return parseInt(this.sumPriceStart) + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              return parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
             } else {
-              return parseInt(this.sumPriceStart) + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              return parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
             }
           } else if (dd <= 0) {
-            return parseInt(this.sumPriceStart);
+            return 0;
           }
         } else if (dm < 0) {
-          return parseInt(this.sumPriceStart);
+          return 0;
         }
       } else if (dy > 0) {
         dm += dy * 12;
@@ -3151,24 +3152,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (dd > 0) {
           if (dd <= 15) {
-            return parseInt(this.sumPriceStart) + _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
           } else {
-            return parseInt(this.sumPriceStart) + _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
           }
         } else if (dd <= 0) {
           dd += 30;
           _base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * (dm - 1);
 
           if (dd <= 15) {
-            return parseInt(this.sumPriceStart) + _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
           } else {
-            return parseInt(this.sumPriceStart) + _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
           }
         } else {
           return 'error';
         }
       } else if (dy < 0) {
-        return parseInt(this.sumPriceStart);
+        return 0;
       }
 
       return 'error';
