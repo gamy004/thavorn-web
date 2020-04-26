@@ -91,7 +91,10 @@ export default Vue.extend({
                     this.interest_rate = res.data.pawns.interest_rate 
                     //Date
                     let createDate =new Date(res.data.pawns.created_at)
-                    let lastDate =new Date(res.data.pawns.updated_at)
+                    let lastDate = new Date()
+                    res.data.pawns.next_paid_at 
+                        ? lastDate = new Date(res.data.pawns.next_paid_at)
+                        : lastDate = new Date(res.data.pawns.created_at)
                     this.createDate = moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
                     this.lastUpdate = moment(lastDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
                     //start price
@@ -126,17 +129,17 @@ export default Vue.extend({
                 let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
                 if ( dd > 0) {
                     if ( dd <= 15 ) {
-                        return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                        return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
                     }else {
-                        return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                        return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
                     }
                 }else if ( dd <= 0) {
                     dd += 30
                     base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
                     if ( dd <= 15 ) {
-                        return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                        return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
                     }else {
-                        return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                        return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
                     }
                 }else {
                     return 'error'
@@ -144,38 +147,38 @@ export default Vue.extend({
             }else if ( dm === 0 ) {
                 if ( dd > 0) {
                     if ( dd <= 15 ) {
-                        return parseInt(this.sumPriceStart)+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2
+                        return ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2
                     }else {
-                        return parseInt(this.sumPriceStart)+(parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100
+                        return (parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100
                     }
                 }else if ( dd <= 0) {
-                    return parseInt(this.sumPriceStart)
+                    return 0
                 }
             }else if ( dm < 0 ) {
-                return parseInt(this.sumPriceStart)
+                return 0
             }
           }else if ( dy > 0 ) {
             dm += dy*12
             let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
             if ( dd > 0) {
                 if ( dd <= 15 ) {
-                    return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
                 }else {
-                    return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
                 }
             }else if ( dd <= 0) {
                 dd += 30
                 base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
                 if ( dd <= 15 ) {
-                    return parseInt(this.sumPriceStart)+base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
                 }else {
-                    return parseInt(this.sumPriceStart)+base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
                 }
             }else {
                 return 'error'
             }
           }else if ( dy < 0 ) {
-              return parseInt(this.sumPriceStart)
+              return 0
           }
           return  'error'
       },
