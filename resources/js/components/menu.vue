@@ -78,9 +78,9 @@ export default Vue.extend({
         }
       });
 
-      let res2 = await window.api.post("pawns/1/close", {
-        amount: 91612.88
-      });
+      //   let res2 = await window.api.post("pawns/1/close", {
+      //     amount: 91612.88
+      //   });
       // let res2 = await window.goldPriceApi.get();
       // console.log(1234,res2.data.items[0].xauPrice*onzToBath);
     }

@@ -3663,7 +3663,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _getGoldPrice = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var onzToBath, res1, res2;
+        var onzToBath, res1;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -3683,15 +3683,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 res1 = _context.sent;
-                _context.next = 6;
-                return window.api.post("pawns/1/close", {
-                  amount: 91612.88
-                });
 
-              case 6:
-                res2 = _context.sent;
-
-              case 7:
+              case 4:
               case "end":
                 return _context.stop();
             }
