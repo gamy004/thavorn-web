@@ -90,4 +90,12 @@ class PawnApi extends BaseApi implements ApiInterface
 
         return $pawn;
     }
+
+    public function close(Pawn $pawn, array $raw = []) {
+        if (isset($raw["amount"])) {
+            $pawn->close($raw["amount"]);
+        }
+
+        return $pawn;
+    }
 }

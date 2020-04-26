@@ -30,6 +30,7 @@ Route::group([
         'prefix' => 'pawns',
     ], function () {
         Route::post('{pawn}/pay', 'PawnController@pay')->name('pay');
+        Route::post('{pawn}/close', 'PawnController@close')->name('close');
     });
 
     Route::resources([

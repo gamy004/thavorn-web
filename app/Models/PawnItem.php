@@ -17,7 +17,8 @@ class PawnItem extends Model
         DBCol::ITEM_WEIGHT,
         DBCol::ITEM_WEIGHT_UNIT,
         DBCol::ITEM_VALUE,
-        DBCol::ITEM_VALUE_UNIT
+        DBCol::ITEM_VALUE_UNIT,
+        DBCol::COMPLETE
     ];
 
     public function pawn()

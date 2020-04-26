@@ -3663,7 +3663,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _getGoldPrice = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var onzToBath, res1;
+        var onzToBath, res1, res2;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -3675,7 +3675,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   params: {
                     filters: [{
                       key: "identity_card_id",
-                      value: 'nPIZ',
+                      value: "nPIZ",
                       operator: "ct"
                     }]
                   }
@@ -3683,8 +3683,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 res1 = _context.sent;
+                _context.next = 6;
+                return window.api.post("pawns/1/close", {
+                  amount: 91612.88
+                });
 
-              case 4:
+              case 6:
+                res2 = _context.sent;
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -11443,7 +11450,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
+exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
 
 // exports
 
@@ -11462,7 +11469,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
 
 // exports
 
@@ -11481,7 +11488,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\n.navbar[data-v-481e221f]{\r\n  -webkit-box-pack: justify;\r\n          justify-content: space-between;\n}\r\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n.navbar[data-v-481e221f]{\n  -webkit-box-pack: justify;\n          justify-content: space-between;\n}\n", ""]);
 
 // exports
 
@@ -11500,7 +11507,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-70ae5da7]{\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: row;\n@media(max-width: 991px){\r\n    -webkit-box-orient:  vertical;\r\n    -webkit-box-direction:  normal;\r\n            flex-flow:  column;\n}\n}\n.width-max[data-v-70ae5da7]{\r\n  width: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-70ae5da7]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n@media(max-width: 991px){\n    -webkit-box-orient:  vertical;\n    -webkit-box-direction:  normal;\n            flex-flow:  column;\n}\n}\n.width-max[data-v-70ae5da7]{\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -11519,7 +11526,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-699f565c]{\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: row;\n@media(max-width: 991px){\r\n    -webkit-box-orient:  vertical;\r\n    -webkit-box-direction:  normal;\r\n            flex-flow:  column;\n}\n}\n.width-max[data-v-699f565c]{\r\n  width: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-699f565c]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n@media(max-width: 991px){\n    -webkit-box-orient:  vertical;\n    -webkit-box-direction:  normal;\n            flex-flow:  column;\n}\n}\n.width-max[data-v-699f565c]{\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -83118,7 +83125,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
+module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
 
 /***/ }),
 
@@ -84685,8 +84692,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
