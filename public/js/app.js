@@ -3110,6 +3110,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var td = parseInt(this.today.substring(0, 2));
       var tm = parseInt(this.today.substring(3, 5));
       var ty = parseInt(this.today.substring(6, 11));
+      var a = moment__WEBPACK_IMPORTED_MODULE_2___default()([ty, tm, td]);
+      var b = moment__WEBPACK_IMPORTED_MODULE_2___default()([ly, lm, ld]);
+      console.log(a.diff(b, 'month', true));
       var dd = td - ld;
       var dm = tm - lm;
       var dy = ty - ly;
@@ -3196,12 +3199,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                res = window.api.post("pawns/".concat(this.pawn_id, "/close"), {
+                _context2.next = 2;
+                return window.api.post("pawns/".concat(this.pawn_id, "/close"), {
                   amount: this.total
                 });
-                console.log(res); // location.reload();
 
               case 2:
+                res = _context2.sent;
+                console.log(res);
+                location.reload();
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
