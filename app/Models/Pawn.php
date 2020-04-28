@@ -114,14 +114,14 @@ class Pawn extends Model
         
         $latest = Carbon::make($time);
         $diff_day = Carbon::now()->diffInDays($time);
-
+        
         // set initial counter
         $next_month_latest = Carbon::make($time)->addMonth();
         $next_month_diff_day = $next_month_latest->diffInDays($latest);
         $due_month = 0;
-
+        
         // Count month by adding one month until $next_month_diff_day greater than $diff_day
-        while ($next_month_diff_day < $diff_day) {
+        while ($next_month_diff_day <= $diff_day) {
             $due_month += 1;
             $next_month_latest->addMonth();
             $next_month_diff_day = $next_month_latest->diffInDays($latest);
@@ -137,7 +137,6 @@ class Pawn extends Model
     public function getClosePayment()
     {
         $due_month_day = $this->getDueMonthDay();
-
         $interest_value = $this->computePaidAmount(
             $due_month_day['due_month']
         );
@@ -147,7 +146,8 @@ class Pawn extends Model
         $close_payment_amount = $pawn_items_value + $interest_value;
         
         if ($due_month_day['due_day'] > 0) {
-            $over_due_month_interest = $this->computePaidAmount(1) / 2;
+            $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
+            $over_due_month_interest = $this->computePaidAmount(1) / $divider;
             $close_payment_amount += $over_due_month_interest;
         }
         

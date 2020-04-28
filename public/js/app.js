@@ -2599,7 +2599,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
-  name: 'redeemform',
+  name: 'SearchForm',
   props: {
     type: '' //redeem , renew
 
@@ -2671,7 +2671,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
                     this.pawn_item_suggest_id = [];
                     this.nameSearch = "";
-                    this.emitList(item);
+                    this.emitList([item]);
                   }
                 } else {
                   this.pawn_item_suggest_id = [];
@@ -3024,6 +3024,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3035,7 +3036,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       lastUpdate: "",
       sumPriceStart: 0,
       interest_rate: 0,
-      pawn_id: ""
+      pawn_id: "",
+      status_complete: 0
     };
   },
   props: {
@@ -3058,14 +3060,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(pawnItem && pawnItem.length)) {
-                    _context.next = 13;
+                    _context.next = 14;
                     break;
                   }
 
-                  _context.next = 3;
+                  //interset_rate
+                  this.status_complete = pawnItem[0].complete;
+                  _context.next = 4;
                   return window.api.get("pawns/".concat(pawnItem[0].pawn_id));
 
-                case 3:
+                case 4:
                   res = _context.sent;
                   this.pawn_id = res.data.pawns.id;
                   this.interest_rate = res.data.pawns.interest_rate; //Date
@@ -3078,10 +3082,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   this.sumPriceStart = 0;
                   pawnItem.forEach(function (item) {
-                    _this.sumPriceStart += parseInt(item.item_value);
+                    _this.sumPriceStart += parseFloat(item.item_value);
                   });
 
-                case 13:
+                case 14:
                 case "end":
                   return _context.stop();
               }
@@ -3109,25 +3113,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var dd = td - ld;
       var dm = tm - lm;
       var dy = ty - ly;
+      var out = 0;
 
       if (dy === 0) {
         if (dm > 0) {
-          var base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * dm;
+          var base = parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 * dm;
+          console.log(base);
 
           if (dd > 0) {
             if (dd <= 15) {
-              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              out = parseFloat(this.sumPriceStart) + base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 / 2;
             } else {
-              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              out = parseFloat(this.sumPriceStart) + base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100;
             }
           } else if (dd <= 0) {
             dd += 30;
-            base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * (dm - 1);
+            base = parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 * (dm - 1);
 
             if (dd <= 15) {
-              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              out = parseFloat(this.sumPriceStart) + base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 / 2;
             } else {
-              return base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              out = parseFloat(this.sumPriceStart) + base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100;
             }
           } else {
             return 'error';
@@ -3135,44 +3141,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         } else if (dm === 0) {
           if (dd > 0) {
             if (dd <= 15) {
-              return parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+              out = parseFloat(this.sumPriceStart) + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 / 2;
             } else {
-              return parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+              out = parseFloat(this.sumPriceStart) + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100;
             }
           } else if (dd <= 0) {
-            return 0;
+            out = parseFloat(this.sumPriceStart);
           }
         } else if (dm < 0) {
-          return 0;
+          out = parseFloat(this.sumPriceStart);
         }
       } else if (dy > 0) {
         dm += dy * 12;
 
-        var _base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * dm;
+        var _base = parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 * dm;
 
         if (dd > 0) {
           if (dd <= 15) {
-            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+            out = parseFloat(this.sumPriceStart) + _base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 / 2;
           } else {
-            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+            out = parseFloat(this.sumPriceStart) + _base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100;
           }
         } else if (dd <= 0) {
           dd += 30;
-          _base = parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 * (dm - 1);
+          _base = parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 * (dm - 1);
 
           if (dd <= 15) {
-            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100 / 2;
+            out = parseFloat(this.sumPriceStart) + _base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100 / 2;
           } else {
-            return _base + parseInt(this.sumPriceStart) * parseInt(this.interest_rate) / 100;
+            out = parseFloat(this.sumPriceStart) + _base + parseFloat(this.sumPriceStart) * parseFloat(this.interest_rate) / 100;
           }
         } else {
           return 'error';
         }
       } else if (dy < 0) {
-        return 0;
+        out = parseFloat(this.sumPriceStart);
       }
 
-      return 'error';
+      return out.toFixed(2);
     },
     today: function today() {
       var today = moment__WEBPACK_IMPORTED_MODULE_2___default()();
@@ -3185,17 +3191,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _reload = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return window.api["delete"]("pawns/".concat(this.pawn_id));
+                res = window.api.post("pawns/".concat(this.pawn_id, "/close"), {
+                  amount: this.total
+                });
+                console.log(res); // location.reload();
 
               case 2:
-                location.reload();
-
-              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -11311,7 +11317,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mr-28-px[data-v-4df88073] {\n  margin-right: 28px;\n}\n.show-total[data-v-4df88073] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-4df88073] {\n  background-color: #dddddd;\n}\n.cus[data-v-4df88073] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}", ""]);
+exports.push([module.i, ".mr-28-px[data-v-4df88073] {\n  margin-right: 28px;\n}\n.show-total[data-v-4df88073] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-4df88073] {\n  background-color: #dddddd;\n}\n.cus[data-v-4df88073] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}\n.btn-gray[data-v-4df88073] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
 
 // exports
 
@@ -11444,7 +11450,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody{\n  margin: 0;\n}\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n}\n.w-cus{\n  min-width: 180px;\n}\n.able-overflow{\n  height: calc(100vh - 50px);\n  overflow-y: scroll;\n}\n.max-width{\n  max-width: 240px;\n}\n", ""]);
+exports.push([module.i, "\nbody{\r\n  margin: 0;\n}\n#app {\r\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: column;\n}\n.w-cus{\r\n  min-width: 180px;\n}\n.able-overflow{\r\n  height: calc(100vh - 50px);\r\n  overflow-y: scroll;\n}\n.max-width{\r\n  max-width: 240px;\n}\r\n", ""]);
 
 // exports
 
@@ -11463,7 +11469,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\n  height: 30px;\n  width: auto;\n}\n.active[data-v-7bc860aa] {\n  background-color: #3e4449;\n}\n", ""]);
+exports.push([module.i, "\n.color-cus[data-v-7bc860aa] {\r\n  background-color: #2f353a;\n}\nimg[data-v-7bc860aa] {\r\n  height: 30px;\r\n  width: auto;\n}\n.active[data-v-7bc860aa] {\r\n  background-color: #3e4449;\n}\r\n", ""]);
 
 // exports
 
@@ -11482,7 +11488,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\n    background-color: white;\n}\nimg[data-v-481e221f]{\n  height: 25px;\n  width: auto;\n}\n.navbar[data-v-481e221f]{\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\n  width: 100%;\n\n  height: 50px;\n}\nh3[data-v-481e221f] {\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-481e221f] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-481e221f] {\n  color: #42b983;\n}\n.navbar[data-v-481e221f]{\n  -webkit-box-pack: justify;\n          justify-content: space-between;\n}\n", ""]);
+exports.push([module.i, "\n.shadow-sm[data-v-481e221f] {\r\n    box-shadow: 0 0.125rem 0rem rgba(0, 0, 0, 0.075) !important;\r\n    background-color: white;\n}\nimg[data-v-481e221f]{\r\n  height: 25px;\r\n  width: auto;\n}\n.navbar[data-v-481e221f]{\r\n  align-content: center;\n}\n.cusnev[data-v-481e221f]{\r\n  width: 100%;\r\n\r\n  height: 50px;\n}\nh3[data-v-481e221f] {\r\n  margin: 40px 0 0;\n}\nul[data-v-481e221f] {\r\n  list-style-type: none;\r\n  padding: 0;\n}\nli[data-v-481e221f] {\r\n  display: inline-block;\r\n  margin: 0 10px;\n}\na[data-v-481e221f] {\r\n  color: #42b983;\n}\n.navbar[data-v-481e221f]{\r\n  -webkit-box-pack: justify;\r\n          justify-content: space-between;\n}\r\n", ""]);
 
 // exports
 
@@ -11501,7 +11507,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-70ae5da7]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n@media(max-width: 991px){\n    -webkit-box-orient:  vertical;\n    -webkit-box-direction:  normal;\n            flex-flow:  column;\n}\n}\n.width-max[data-v-70ae5da7]{\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-70ae5da7]{\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: row;\n@media(max-width: 991px){\r\n    -webkit-box-orient:  vertical;\r\n    -webkit-box-direction:  normal;\r\n            flex-flow:  column;\n}\n}\n.width-max[data-v-70ae5da7]{\r\n  width: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -11520,7 +11526,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-699f565c]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n@media(max-width: 991px){\n    -webkit-box-orient:  vertical;\n    -webkit-box-direction:  normal;\n            flex-flow:  column;\n}\n}\n.width-max[data-v-699f565c]{\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.h-flex-row-s-flex-col[data-v-699f565c]{\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n          flex-flow: row;\n@media(max-width: 991px){\r\n    -webkit-box-orient:  vertical;\r\n    -webkit-box-direction:  normal;\r\n            flex-flow:  column;\n}\n}\n.width-max[data-v-699f565c]{\r\n  width: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -67111,15 +67117,26 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "cus" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-lg mt-3",
-          attrs: { type: "button" },
-          on: { click: _vm.reload }
-        },
-        [_vm._v("ชำระเงิน")]
-      )
+      _vm.status_complete === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg mt-3",
+              attrs: { type: "button" },
+              on: { click: _vm.reload }
+            },
+            [_vm._v("ชำระเงิน")]
+          )
+        : _vm.status_complete === 1
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg mt-3 btn-gray",
+              attrs: { type: "button" }
+            },
+            [_vm._v("ไถ่ถอนเรียบร้อย")]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -83119,7 +83136,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.svg?22c7a911e3fd585c1de21db32d28f6a9";
+module.exports = "/images/logo.svg?b09f40e442a3abaa314823e51ced88f8";
 
 /***/ }),
 
@@ -84686,8 +84703,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/gold-pawnshop/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/gold-pawnshop/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\gold-pawnshop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
