@@ -54,7 +54,8 @@
         </div>
     </div>
     <div class="cus">
-        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload">ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
   </div>
 </template>
@@ -73,7 +74,8 @@ export default Vue.extend({
         sumPriceStart: 0,
         interest_rate: 0,
         mouthCount: 1,
-        pawn_id: ""
+        pawn_id: "",
+        status_complete: 0
     }
   },
   props: {
@@ -87,6 +89,7 @@ export default Vue.extend({
           async handler(pawnItem) {
               if (pawnItem && pawnItem.length) {
                     //interset_rate
+                    this.status_complete = pawnItem[0].complete
                     let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
                     this.pawn_id = res.data.pawns.id
                     this.interest_rate = res.data.pawns.interest_rate 
@@ -118,11 +121,11 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        await window.api.post(`pawns/${this.pawn_id}/pay`,{
+        let res = await window.api.post(`pawns/${this.pawn_id}/pay`,{
             amount : this.total.toFixed(2),
             month_amount : this.mouthCount
         });
-        location.reload();
+        res.status === 200 ? location.reload() : console.log("ERROR");
     },
   }
 });
@@ -144,5 +147,10 @@ export default Vue.extend({
 .cus{
     display: flex;
     justify-content: center;
+}
+.btn-gray {
+    background-color: rgb(221, 221, 221);
+    border: 0;
+    color: black;
 }
 </style>

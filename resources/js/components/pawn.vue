@@ -47,15 +47,20 @@ export default Vue.extend({
     updateInterest(data) {
       this.interest = parseInt(data)
     },
-    saveData() {
+    async saveData() {
       let pawn = {
         user : this.userData,
         pawn_items : this.goldData,
         interest_rate : this.interest
       }
-      window.api.post(`pawns`, {pawn});
-      console.log('Sent data',pawn);
-      location.reload();
+       let res = await window.api.post(`pawns`, {pawn});
+      console.log('Sent data',res);
+      if (res.status === 200) {
+        location.reload();
+      }else {
+        console.log('ERROR');
+        
+      }
     }
   },
 });

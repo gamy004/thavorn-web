@@ -203,9 +203,7 @@ export default Vue.extend({
         let res = await window.api.post(`pawns/${this.pawn_id}/close`, {
           amount: this.total
         });
-        console.log(res);
-        
-        location.reload();
+        res.status === 200 ? location.reload() : console.log("ERROR");
     },
   }
 });

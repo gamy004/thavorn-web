@@ -3206,10 +3206,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 res = _context2.sent;
-                console.log(res);
-                location.reload();
+                res.status === 200 ? location.reload() : console.log("ERROR");
 
-              case 5:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -3312,6 +3311,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3324,7 +3324,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       sumPriceStart: 0,
       interest_rate: 0,
       mouthCount: 1,
-      pawn_id: ""
+      pawn_id: "",
+      status_complete: 0
     };
   },
   props: {
@@ -3347,14 +3348,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(pawnItem && pawnItem.length)) {
-                    _context.next = 13;
+                    _context.next = 14;
                     break;
                   }
 
-                  _context.next = 3;
+                  //interset_rate
+                  this.status_complete = pawnItem[0].complete;
+                  _context.next = 4;
                   return window.api.get("pawns/".concat(pawnItem[0].pawn_id));
 
-                case 3:
+                case 4:
                   res = _context.sent;
                   this.pawn_id = res.data.pawns.id;
                   this.interest_rate = res.data.pawns.interest_rate; //Date
@@ -3370,7 +3373,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.sumPriceStart += parseInt(item.item_value);
                   });
 
-                case 13:
+                case 14:
                 case "end":
                   return _context.stop();
               }
@@ -3397,6 +3400,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _reload = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -3408,9 +3412,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                location.reload();
+                res = _context2.sent;
+                res.status === 200 ? location.reload() : console.log("ERROR");
 
-              case 3:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -3892,12 +3897,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _form_information_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form/information.vue */ "./resources/js/components/form/information.vue");
-/* harmony import */ var _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/goldForm.vue */ "./resources/js/components/form/goldForm.vue");
-/* harmony import */ var _form_interest_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/interest.vue */ "./resources/js/components/form/interest.vue");
-/* harmony import */ var _saveSection_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./saveSection.vue */ "./resources/js/components/saveSection.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _form_information_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/information.vue */ "./resources/js/components/form/information.vue");
+/* harmony import */ var _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/goldForm.vue */ "./resources/js/components/form/goldForm.vue");
+/* harmony import */ var _form_interest_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/interest.vue */ "./resources/js/components/form/interest.vue");
+/* harmony import */ var _saveSection_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./saveSection.vue */ "./resources/js/components/saveSection.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3921,12 +3934,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   components: {
-    information: _form_information_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    goldForm: _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    information: _form_information_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    goldForm: _form_goldForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    interest: _form_interest_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    saveSection: _saveSection_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
@@ -3945,18 +3958,49 @@ __webpack_require__.r(__webpack_exports__);
     updateInterest: function updateInterest(data) {
       this.interest = parseInt(data);
     },
-    saveData: function saveData() {
-      var pawn = {
-        user: this.userData,
-        pawn_items: this.goldData,
-        interest_rate: this.interest
-      };
-      window.api.post("pawns", {
-        pawn: pawn
-      });
-      console.log('Sent data', pawn);
-      location.reload();
-    }
+    saveData: function () {
+      var _saveData = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var pawn, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                pawn = {
+                  user: this.userData,
+                  pawn_items: this.goldData,
+                  interest_rate: this.interest
+                };
+                _context.next = 3;
+                return window.api.post("pawns", {
+                  pawn: pawn
+                });
+
+              case 3:
+                res = _context.sent;
+                console.log('Sent data', res);
+
+                if (res.status === 200) {
+                  location.reload();
+                } else {
+                  console.log('ERROR');
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function saveData() {
+        return _saveData.apply(this, arguments);
+      }
+
+      return saveData;
+    }()
   }
 }));
 
@@ -11344,7 +11388,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}\n.cus[data-v-45f0a886] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}", ""]);
+exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}\n.cus[data-v-45f0a886] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}\n.btn-gray[data-v-45f0a886] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
 
 // exports
 
@@ -67278,15 +67322,26 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "cus" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-lg mt-3",
-          attrs: { type: "button" },
-          on: { click: _vm.reload }
-        },
-        [_vm._v("ชำระเงิน")]
-      )
+      _vm.status_complete === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg mt-3",
+              attrs: { type: "button" },
+              on: { click: _vm.reload }
+            },
+            [_vm._v("ชำระเงิน")]
+          )
+        : _vm.status_complete === 1
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg mt-3 btn-gray",
+              attrs: { type: "button" }
+            },
+            [_vm._v("ไถ่ถอนเรียบร้อย")]
+          )
+        : _vm._e()
     ])
   ])
 }
