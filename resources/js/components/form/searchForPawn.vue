@@ -19,7 +19,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'redeemform',
+  name: 'SearchForm',
   props: {
     type: ''
     //redeem , renew
@@ -74,7 +74,7 @@ export default Vue.extend({
           if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
               this.pawn_item_suggest_id = []
               this.nameSearch = ""
-              this.emitList(item)
+              this.emitList([item])
           }
         }else {
             this.pawn_item_suggest_id = []
