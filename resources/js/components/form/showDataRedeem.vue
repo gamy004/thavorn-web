@@ -122,11 +122,15 @@ export default Vue.extend({
           let td = parseInt(this.today.substring(0,2))
           let tm = parseInt(this.today.substring(3,5))
           let ty = parseInt(this.today.substring(6,11))
-
+          let a = moment([ty,tm,td])
+          let b = moment([ly,lm,ld])
+          console.log(a.diff(b, 'month', true));
+          
+        
           let dd = td - ld
           let dm = tm - lm
-          let dy = ty - ly
-        
+          let dy = ty - ly  
+          
           let out = 0
           if (dy === 0) {
             if ( dm > 0 ) {
@@ -196,12 +200,12 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        let res = window.api.post(`pawns/${this.pawn_id}/close`, {
+        let res = await window.api.post(`pawns/${this.pawn_id}/close`, {
           amount: this.total
         });
         console.log(res);
         
-        // location.reload();
+        location.reload();
     },
   }
 });
