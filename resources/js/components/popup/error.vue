@@ -1,7 +1,12 @@
 <template>
     <div v-if="show" class="full-screen">
-        <div class="flex-popup" v-text="message"></div>
-        <button @click="closePop">Done</button>
+        <div class="flex-popup" >
+            <div class="x-button mb-1" @click="closePop">x</div>
+            <div class="flex-center" v-text="message"></div>
+            <button class="flex-center btn btn-primary m-2 mt-4" @click="closePop">Done</button>
+        </div>
+        
+        
     </div>
 </template>
 
@@ -60,12 +65,22 @@ export default Vue.extend({
     width: 35%;
     min-width: 300px;
     max-width: 500px;
-    padding: 30px 15px;
-    border: 1px solid #ffbac0;
+    padding: 5px 15px 30px 15px;
+    border: 1px solid #e9e9e9;
     border-radius: 8px;
     justify-content: center;
-    background-color: #ffb1b8;
-    color: #721c24;
+    background-color: #ffffff;
+    color: #000;
     font-size: 26px;
+    flex-flow: column;
+}
+.x-button{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 20px;
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
 }
 </style>

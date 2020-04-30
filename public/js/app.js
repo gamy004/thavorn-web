@@ -4056,6 +4056,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
   name: 'popup',
@@ -11637,7 +11642,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.full-screen[data-v-53e31f6a]{\r\n    position: fixed;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    left: 0;\r\n    right: 0;\r\n    top: 0;\r\n    bottom: 0;\r\n    background-color: rgba(0, 0, 0,0.3);\r\n    z-index: 3;\n}\n.flex-popup[data-v-53e31f6a]{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    width: 35%;\r\n    min-width: 300px;\r\n    max-width: 500px;\r\n    padding: 30px 15px;\r\n    border: 1px solid #ffbac0;\r\n    border-radius: 8px;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    background-color: #ffb1b8;\r\n    color: #721c24;\r\n    font-size: 26px;\n}\r\n", ""]);
+exports.push([module.i, "\n.full-screen[data-v-53e31f6a]{\r\n    position: fixed;\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    -webkit-box-align: center;\r\n            align-items: center;\r\n    left: 0;\r\n    right: 0;\r\n    top: 0;\r\n    bottom: 0;\r\n    background-color: rgba(0, 0, 0,0.3);\r\n    z-index: 3;\n}\n.flex-popup[data-v-53e31f6a]{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    width: 35%;\r\n    min-width: 300px;\r\n    max-width: 500px;\r\n    padding: 5px 15px 30px 15px;\r\n    border: 1px solid #e9e9e9;\r\n    border-radius: 8px;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\r\n    background-color: #ffffff;\r\n    color: #000;\r\n    font-size: 26px;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n            flex-flow: column;\n}\n.x-button[data-v-53e31f6a]{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: end;\r\n            justify-content: flex-end;\r\n    font-size: 20px;\n}\n.flex-center[data-v-53e31f6a]{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n            justify-content: center;\n}\r\n", ""]);
 
 // exports
 
@@ -67787,12 +67792,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.show
     ? _c("div", { staticClass: "full-screen" }, [
-        _c("div", {
-          staticClass: "flex-popup",
-          domProps: { textContent: _vm._s(_vm.message) }
-        }),
-        _vm._v(" "),
-        _c("button", { on: { click: _vm.closePop } }, [_vm._v("Done")])
+        _c("div", { staticClass: "flex-popup" }, [
+          _c(
+            "div",
+            { staticClass: "x-button mb-1", on: { click: _vm.closePop } },
+            [_vm._v("x")]
+          ),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "flex-center",
+            domProps: { textContent: _vm._s(_vm.message) }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "flex-center btn btn-primary m-2 mt-4",
+              on: { click: _vm.closePop }
+            },
+            [_vm._v("Done")]
+          )
+        ])
       ])
     : _vm._e()
 }
