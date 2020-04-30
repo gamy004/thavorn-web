@@ -3,8 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
+        <title>Gold</title>
         <link rel="stylesheet" type="text/css" href="css/app.css">
+        <link rel="icon" href="images/eye.svg">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">

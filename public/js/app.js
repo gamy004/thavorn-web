@@ -11509,7 +11509,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".color-cus[data-v-1a21255d] {\n  background-color: #2f353a;\n}\nimg[data-v-1a21255d] {\n  height: 1.8rem;\n  width: auto;\n}\n.flex-center[data-v-1a21255d] {\n  -webkit-box-align: center;\n          align-items: center;\n  display: -webkit-box;\n  display: flex;\n}\n.fill-white[data-v-1a21255d] {\n  -webkit-filter: invert(0.8);\n          filter: invert(0.8);\n}\n.hover-change-color[data-v-1a21255d]:hover {\n  background-color: #20a8d8;\n  -webkit-transition: background-color linear 100ms;\n  transition: background-color linear 100ms;\n}\n.hover-change-color:hover .fill-white[data-v-1a21255d] {\n  -webkit-filter: invert(1);\n          filter: invert(1);\n}\n.max-w[data-v-1a21255d] {\n  max-width: 240px;\n}", ""]);
+exports.push([module.i, ".color-cus[data-v-1a21255d] {\n  background-color: #2f353a;\n}\nimg[data-v-1a21255d] {\n  height: 1.8rem;\n  width: auto;\n}\n.flex-center[data-v-1a21255d] {\n  -webkit-box-align: center;\n          align-items: center;\n  display: -webkit-box;\n  display: flex;\n}\n.fill-white[data-v-1a21255d] {\n  -webkit-filter: invert(0.8);\n          filter: invert(0.8);\n}\n.hover-change-color[data-v-1a21255d]:hover {\n  background-color: #20a8d8;\n  -webkit-transition: background-color linear 100ms;\n  transition: background-color linear 100ms;\n}\n.hover-change-color:hover .fill-white[data-v-1a21255d] {\n  -webkit-filter: invert(1);\n          filter: invert(1);\n}\n.max-w[data-v-1a21255d] {\n  max-width: 240px;\n  min-width: 129px;\n}", ""]);
 
 // exports
 
