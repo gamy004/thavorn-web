@@ -57,6 +57,7 @@
         <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
         <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
+    <error ref="error" />
   </div>
 </template>
 
@@ -64,9 +65,13 @@
 import Vue from 'vue';
 import moment from 'moment'
 import { log } from 'util';
+import error from '../popup/error.vue'
 
 export default Vue.extend({
   name: 'CommitRedeem',
+  components:{
+      error
+  },
   data() {
     return {
         createDate: "",
@@ -200,10 +205,15 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        let res = await window.api.post(`pawns/${this.pawn_id}/close`, {
+
+        await window.api.post(`pawns/${this.pawn_id}/close`, {
           amount: this.total
-        });
-        res.status === 200 ? location.reload() : console.log("ERROR");
+        }).catch(
+            this.$refs.error.setShowPop(1,'ERROR')
+        ).then(() => {
+            this.$refs.error.setShowPop(1,'Data has been updated.')
+        })
+        
     },
   }
 });
