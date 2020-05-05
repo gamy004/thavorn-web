@@ -39,15 +39,20 @@ export default Vue.extend({
           img: "images/clock.svg",
           val: "renew"
         },
-        {
-          msg: "ขอเพิ่มข้อมูล",
-          img: "images/income.svg",
-          val: "updatepawn"
-        },
+        // {
+        //   msg: "ขอเพิ่มข้อมูล",
+        //   img: "images/income.svg",
+        //   val: "updatepawn"
+        // },
         {
           msg: "ไถ่ถอน",
           img: "images/switch.svg",
           val: "redeem"
+        },
+        {
+          msg: "ดูข้อมูล",
+          img: "images/database.svg",
+          val: "db"
         }
       ],
       goldPrice: 0
