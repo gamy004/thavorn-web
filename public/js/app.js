@@ -4884,7 +4884,6 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         this.tableData.push(tmp);
-        console.log(this.tableData);
       }
     },
     calCreated_at: function calCreated_at(created_at) {
@@ -4893,12 +4892,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     calNext_paid_at: function calNext_paid_at(next_paid_at, created_at) {
       if (next_paid_at) {
-        var _next_paid_at = new Date(_next_paid_at);
-
-        return moment__WEBPACK_IMPORTED_MODULE_2___default()(_next_paid_at, 'DD/MM/YYYY').format('DD/MM/YYYY');
+        var paid_at = new Date(next_paid_at);
+        return moment__WEBPACK_IMPORTED_MODULE_2___default()(paid_at, 'DD/MM/YYYY').format('DD/MM/YYYY');
       } else {
         var createDate = new Date(created_at);
         return moment__WEBPACK_IMPORTED_MODULE_2___default()(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
+      }
+    },
+    calStatusCard: function calStatusCard(val) {
+      if (val) {
+        return "Completed";
+      } else {
+        return "Active";
       }
     }
   },
@@ -68956,7 +68961,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", {
                         staticClass: "w-10 item-flex-center ptb-5",
-                        domProps: { textContent: _vm._s(pawn.complete) }
+                        domProps: {
+                          textContent: _vm._s(_vm.calStatusCard(pawn.complete))
+                        }
                       })
                     ]
                   )

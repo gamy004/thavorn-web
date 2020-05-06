@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="w-10 item-flex-center ptb-5" 
-                v-text="pawn.complete">
+                v-text="calStatusCard(pawn.complete)">
                 </div>
 
             </section>
@@ -147,20 +147,16 @@ export default Vue.extend({
                 let tmp = {
                     pawn_no: pawn[i].pawn_no,
                     complete: pawn[i].complete,
-                    created_at: this.calCreated_at(pawn[i].created_at),
-                    next_paid_at: this.calNext_paid_at(pawn[i].next_paid_at, pawn[i].created_at),
+                    created_at : this.calCreated_at(pawn[i].created_at),
+                    next_paid_at : this.calNext_paid_at(pawn[i].next_paid_at, pawn[i].created_at),
                     pawn_item: []
                 }
                 for (let j = 0; j < pawn_item.length; j++) {
                     if (tmp.pawn_no === pawn_item[j].pawn_no) {     
                         tmp.pawn_item.push(pawn_item[j])
                     }
-                    
                 }
                 this.tableData.push(tmp)
-                console.log(this.tableData);
-                
-                
             }
         },
         calCreated_at(created_at) {
@@ -169,13 +165,20 @@ export default Vue.extend({
         },
         calNext_paid_at(next_paid_at, created_at) {
             if (next_paid_at) {
-                const next_paid_at =new Date(next_paid_at)
-                return moment(next_paid_at, 'DD/MM/YYYY').format('DD/MM/YYYY')
+                const paid_at =new Date(next_paid_at)
+                return moment(paid_at, 'DD/MM/YYYY').format('DD/MM/YYYY')
             }else {
                 const createDate =new Date(created_at)
                 return moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
             }
-        }
+        },
+        calStatusCard(val) {
+            if (val) {
+                return "Completed"
+            }else {
+                return "Active"
+            }
+        } 
     },
     computed: {
 
