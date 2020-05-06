@@ -69308,24 +69308,28 @@ var render = function() {
     _vm.showOverPawnData
       ? _c("div", { staticClass: "flex-column mt-3 mb-3" }, [
           _c("div", { staticClass: "flex-row" }, [
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("บัตรจำนำทั้งหมด :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [_vm._v("บัตรจำนำทั้งหมด :")]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.count_pawn_card))
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("จำนวนของจำนำทั้งหมด :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("จำนวนของจำนำทั้งหมด :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.count_pawn_item))
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("มูลค่าการจำนำทั้งหมด :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("มูลค่าการจำนำทั้งหมด :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.sumAll.toLocaleString()))
@@ -69334,14 +69338,18 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "flex-row" }, [
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("บัตรจำนำที่ไถ่ถอนแล้ว :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("บัตรจำนำที่ไถ่ถอนแล้ว :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [_vm._v(_vm._s(_vm.countCom))])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("มูลค่าการจำนำทัที่ไถ่ถอนแล้ว :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("มูลค่าการจำนำที่ไถ่ถอนแล้ว :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.sumCom.toLocaleString()))
@@ -69350,16 +69358,20 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "flex-row" }, [
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("บัตรจำนำที่ยังไม่ไถ่ถอน :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("บัตรจำนำที่ยังไม่ไถ่ถอน :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.countActive))
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "flex-row col-4 item-flex-start" }, [
-              _c("div", [_vm._v("มูลค่าการจำนำทัที่ไถ่ถอนแล้ว :")]),
+            _c("div", { staticClass: "flex-row col-3 item-flex-start" }, [
+              _c("div", { staticClass: "bold" }, [
+                _vm._v("มูลค่าการจำนำที่ยังไม่ไถ่ถอน :")
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ml-2" }, [
                 _vm._v(_vm._s(_vm.sumActive.toLocaleString()))

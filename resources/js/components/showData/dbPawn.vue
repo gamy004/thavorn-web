@@ -4,40 +4,40 @@
       <div v-if="showOverPawnData" class="flex-column mt-3 mb-3">
 
           <div class="flex-row">
-            <div class="flex-row col-4 item-flex-start">
-                <div>บัตรจำนำทั้งหมด :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">บัตรจำนำทั้งหมด :</div>
                 <div class="ml-2">{{count_pawn_card}}</div>
             </div>
-            <div class="flex-row col-4 item-flex-start">
-                <div>จำนวนของจำนำทั้งหมด :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">จำนวนของจำนำทั้งหมด :</div>
                 <div class="ml-2">{{count_pawn_item}}</div>
             </div>
-            <div class="flex-row col-4 item-flex-start">
-                <div>มูลค่าการจำนำทั้งหมด :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">มูลค่าการจำนำทั้งหมด :</div>
                 <div class="ml-2">{{sumAll.toLocaleString()}}</div>
             </div>
           </div>
 
           <div class="flex-row">
 
-            <div class="flex-row col-4 item-flex-start">
-                <div>บัตรจำนำที่ไถ่ถอนแล้ว :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">บัตรจำนำที่ไถ่ถอนแล้ว :</div>
                 <div class="ml-2">{{countCom}}</div>
             </div>
-            <div class="flex-row col-4 item-flex-start">
-                <div>มูลค่าการจำนำทัที่ไถ่ถอนแล้ว :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">มูลค่าการจำนำที่ไถ่ถอนแล้ว :</div>
                 <div class="ml-2">{{sumCom.toLocaleString()}}</div>
             </div>
 
           </div>
           <div class="flex-row">
 
-            <div class="flex-row col-4 item-flex-start">
-                <div>บัตรจำนำที่ยังไม่ไถ่ถอน :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">บัตรจำนำที่ยังไม่ไถ่ถอน :</div>
                 <div class="ml-2">{{countActive}}</div>
             </div>
-            <div class="flex-row col-4 item-flex-start">
-                <div>มูลค่าการจำนำทัที่ไถ่ถอนแล้ว :</div>
+            <div class="flex-row col-3 item-flex-start">
+                <div class="bold">มูลค่าการจำนำที่ยังไม่ไถ่ถอน :</div>
                 <div class="ml-2">{{sumActive.toLocaleString()}}</div>
             </div>
 
