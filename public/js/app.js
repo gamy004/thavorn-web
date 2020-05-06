@@ -4874,6 +4874,7 @@ __webpack_require__.r(__webpack_exports__);
           complete: pawn[i].complete,
           created_at: this.calCreated_at(pawn[i].created_at),
           next_paid_at: this.calNext_paid_at(pawn[i].next_paid_at, pawn[i].created_at),
+          latest_paid_at: this.calLatest_paid_at(pawn[i].latest_paid_at, pawn[i].created_at),
           pawn_item: []
         };
 
@@ -4894,6 +4895,15 @@ __webpack_require__.r(__webpack_exports__);
       if (next_paid_at) {
         var paid_at = new Date(next_paid_at);
         return moment__WEBPACK_IMPORTED_MODULE_2___default()(paid_at, 'DD/MM/YYYY').format('DD/MM/YYYY');
+      } else {
+        var createDate = new Date(created_at);
+        return moment__WEBPACK_IMPORTED_MODULE_2___default()(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
+      }
+    },
+    calLatest_paid_at: function calLatest_paid_at(latest_paid_at, created_at) {
+      if (latest_paid_at) {
+        var latest_at = new Date(latest_paid_at);
+        return moment__WEBPACK_IMPORTED_MODULE_2___default()(latest_at, 'DD/MM/YYYY').format('DD/MM/YYYY');
       } else {
         var createDate = new Date(created_at);
         return moment__WEBPACK_IMPORTED_MODULE_2___default()(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
@@ -68951,12 +68961,12 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", {
                         staticClass: "w-10 item-flex-center ptb-5 border-right",
-                        domProps: { textContent: _vm._s(pawn.created_at) }
+                        domProps: { textContent: _vm._s(pawn.next_paid_at) }
                       }),
                       _vm._v(" "),
                       _c("div", {
                         staticClass: "w-10 item-flex-center ptb-5 border-right",
-                        domProps: { textContent: _vm._s(pawn.next_paid_at) }
+                        domProps: { textContent: _vm._s(pawn.latest_paid_at) }
                       }),
                       _vm._v(" "),
                       _c("div", {
@@ -69025,11 +69035,11 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "w-10 item-flex-center ptb-5 border-right" }, [
-          _vm._v("วันที่จำนำ")
+          _vm._v("ต่อดอกล่าสุด")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "w-10 item-flex-center ptb-5 border-right" }, [
-          _vm._v("วันที่ต่อดอก")
+          _vm._v("วันที่มาล่าสุด")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "w-10 item-flex-center ptb-5" }, [

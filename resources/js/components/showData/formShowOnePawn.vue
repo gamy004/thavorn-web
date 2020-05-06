@@ -38,8 +38,8 @@
                     <div class="w-25 item-flex-center ptb-5">ความเสียหาย</div>
                 </div>
             </div>
-            <div class="w-10 item-flex-center ptb-5 border-right">วันที่จำนำ</div>
-            <div class="w-10 item-flex-center ptb-5 border-right">วันที่ต่อดอก</div>
+            <div class="w-10 item-flex-center ptb-5 border-right">ต่อดอกล่าสุด</div>
+            <div class="w-10 item-flex-center ptb-5 border-right">วันที่มาล่าสุด</div>
             <div class="w-10 item-flex-center ptb-5">สถาณะบัตร</div>
         </section>
         <div class="pawn-list">
@@ -73,11 +73,11 @@
                 </div>
 
                 <div class="w-10 item-flex-center ptb-5 border-right" 
-                v-text="pawn.created_at">
+                v-text="pawn.next_paid_at">
                 </div>
 
                 <div class="w-10 item-flex-center ptb-5 border-right" 
-                v-text="pawn.next_paid_at">
+                v-text="pawn.latest_paid_at">
                 </div>
 
                 <div class="w-10 item-flex-center ptb-5" 
@@ -149,6 +149,7 @@ export default Vue.extend({
                     complete: pawn[i].complete,
                     created_at : this.calCreated_at(pawn[i].created_at),
                     next_paid_at : this.calNext_paid_at(pawn[i].next_paid_at, pawn[i].created_at),
+                    latest_paid_at: this.calLatest_paid_at(pawn[i].latest_paid_at, pawn[i].created_at),
                     pawn_item: []
                 }
                 for (let j = 0; j < pawn_item.length; j++) {
@@ -172,13 +173,22 @@ export default Vue.extend({
                 return moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
             }
         },
+        calLatest_paid_at(latest_paid_at, created_at) {
+            if (latest_paid_at) {
+                const latest_at =new Date(latest_paid_at)
+                return moment(latest_at, 'DD/MM/YYYY').format('DD/MM/YYYY')
+            }else {
+                const createDate =new Date(created_at)
+                return moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
+            }
+        },
         calStatusCard(val) {
             if (val) {
                 return "Completed"
             }else {
                 return "Active"
             }
-        } 
+        } ,
     },
     computed: {
 
