@@ -8,7 +8,6 @@
                     <th>first_name</th>
                     <th>last_name</th>
                     <th>phone_number</th>
-                    <th>email</th>
                     <th>created_at</th>
                 </tr>
                 <tr v-for="(item, index) in data" :key="index" >
@@ -16,7 +15,6 @@
                     <td>{{item.first_name}}</td>
                     <td>{{item.last_name}}</td>
                     <td>{{item.phone_number}}</td>
-                    <td>{{item.email}}</td>
                     <td>{{item.created_at}}</td>
                 </tr>
             </tbody>

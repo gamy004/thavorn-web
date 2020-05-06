@@ -11462,6 +11462,8 @@ input[type=number] {
           align-items: center;
   display: -webkit-box;
   display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
 }
 
 .hover-table:hover {
@@ -11524,5 +11526,57 @@ input[type=number] {
   -webkit-transition: background-color linear 100ms;
   transition: background-color linear 100ms;
   color: white;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.ft-20 {
+  font-size: 20px;
+}
+
+.ft-16 {
+  font-size: 16px;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-12 {
+  width: 12%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-25 {
+  width: 25%;
+}
+
+.w-28 {
+  width: 28%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.ptb-5 {
+  padding: 5px 0;
 }
 

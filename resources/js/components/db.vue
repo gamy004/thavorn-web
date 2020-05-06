@@ -1,10 +1,10 @@
 <template>
   <div>
-      <div class="tap-bar" @click="updateshow('showUserData')">User Data</div>
+      <div class="tap-bar" @click="updateshow('showUserData')">ข้อมูลลูกค้า</div>
       <div v-if="showUserData">
           <show-user-data />
       </div>
-      <div class="tap-bar" @click="updateshow('showPawnData')">Pawn Data</div>
+      <div class="tap-bar" @click="updateshow('showPawnData')">ข้อมูลการจำนำ</div>
       <div v-if="showPawnData">
           <show-pawn-data />
       </div>
