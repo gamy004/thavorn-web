@@ -1,46 +1,23 @@
 <template>
-  <div v-if="pawn && pawn_item">
-    <!-- <section class="ml-2 mb-3 ft-20">
-        <div class="flex-row">
-            <div class="bold mr-3">เลขที่บัตรจำนำ :</div>
-            <div>{{pawn.pawn_no}}</div>
-        </div>
-        <div class="flex-row">
-            <div class="bold mr-3">ชื่อ :</div>
-            <div>{{first_name}}</div>
-        </div>
-        <div class="flex-row">
-            <div class="bold mr-3">นามสกุล :</div>
-            <div>{{last_name}}</div>
-        </div>
-        <div class="flex-row">
-            <div class="bold mr-3">วันที่จำนำ :</div>
-            <div>{{created_at}}</div>
-        </div>
-        <div class="flex-row">
-            <div class="bold mr-3">วันที่ต่อดอกล่าสุด :</div>
-            <div>{{next_paid_at}}</div>
-        </div>
-    </section>
-
-    <show-pwan-item :pawnItem="pawn_item" /> -->
+  <div v-if="pawn && pawn_item" class="min-width-1440">
     <div>
         <section class="flex-row bg-primary text-white border-top border-button">
-            <div class="w-10 item-flex-center ptb-5 border-right">เลขที่บัตรจำนำ</div>
-            <div class="w-10 item-flex-center ptb-5 border-right">ชื่อ</div>
-            <div class="w-10 item-flex-center ptb-5 border-right">นามสกุล</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">เลขที่บัตรจำนำ</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">ชื่อ</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">นามสกุล</div>
             <div class="flex-column w-40 border-right">
-                <div class="w-100 item-flex-center ptb-5 border-bottom">ข้อมูลทอง</div>
+                <div class="w-100 ptb-5 border-bottom item-flex-all-center">ข้อมูลทอง</div>
                 <div class="flex-row">
-                    <div class="w-25 item-flex-center ptb-5">ประเภททอง</div>
-                    <div class="w-25 item-flex-center ptb-5">น้ำหนัก(กรัม)</div>
-                    <div class="w-25 item-flex-center ptb-5">มูลค่า(บาท)</div>
-                    <div class="w-25 item-flex-center ptb-5">ความเสียหาย</div>
+                    <div class="w-25 ptb-5 item-flex-all-center border-right">ประเภททอง</div>
+                    <div class="w-25 ptb-5 item-flex-all-center border-right">น้ำหนัก(กรัม)</div>
+                    <div class="w-25 ptb-5 item-flex-all-center border-right">มูลค่า(บาท)</div>
+                    <div class="w-25 ptb-5 item-flex-all-center">ความเสียหาย</div>
                 </div>
             </div>
-            <div class="w-10 item-flex-center ptb-5 border-right">ต่อดอกล่าสุด</div>
-            <div class="w-10 item-flex-center ptb-5 border-right">วันที่มาล่าสุด</div>
-            <div class="w-10 item-flex-center ptb-5">สถาณะบัตร</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">ยอดรวม</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">ต่อดอกล่าสุด</div>
+            <div class="w-10 ptb-5 border-right item-flex-all-center">วันที่มาล่าสุด</div>
+            <div class="w-10 ptb-5 item-flex-all-center">สถานะบัตร</div>
         </section>
         <div class="pawn-list">
             <section 
@@ -49,28 +26,30 @@
             :key="pawn.pawn_no" 
             class="flex-row border-button-cus">
 
-                <div class="w-10 item-flex-center ptb-5 border-right" v-text="pawn.pawn_no"></div>
+                <div class="w-10 ptb-5 border-right item-flex" v-text="pawn.pawn_no"></div>
 
-                <div class="w-10 item-flex-center ptb-5 border-right" 
+                <div class="w-10 ptb-5 border-right item-flex" 
                 v-if="pawn.pawn_item && pawn.pawn_item.length" v-text="pawn.pawn_item[0].first_name">
                 </div>
 
-                <div class="w-10 item-flex-center ptb-5 border-right" v-else></div>
+                <div class="w-10 ptb-5 border-right" v-else></div>
 
-                <div class="w-10 item-flex-center ptb-5 border-right" 
+                <div class="w-10 ptb-5 border-right item-flex" 
                 v-if="pawn.pawn_item && pawn.pawn_item.length" v-text="pawn.pawn_item[0].last_name">
                 </div>
 
-                <div class="w-10 item-flex-center ptb-5 border-right" v-else></div>
+                <div class="w-10 ptb-5 border-right" v-else></div>
 
                 <div class="flex-column w-40 border-right">
-                    <div class="flex-row" v-for="pawn_item in pawn.pawn_item">
-                        <div class="w-25 item-flex-center ptb-5" v-text="pawn_item.item_category"></div>
-                        <div class="w-25 item-flex-center ptb-5" v-text="pawn_item.item_weight"></div>
-                        <div class="w-25 item-flex-center ptb-5" v-text="pawn_item.item_value"></div>
-                        <div class="w-25 item-flex-center ptb-5" v-text="pawn_item.item_damage"></div>
+                    <div class="flex-row h-100" v-for="pawn_item in pawn.pawn_item">
+                        <div class="w-25 item-flex-start ptb-5 border-right plr" v-text="pawn_item.item_category"></div>
+                        <div class="w-25 item-flex-end ptb-5 border-right plr" v-text="parseFloat(pawn_item.item_weight).toLocaleString()"></div>
+                        <div class="w-25 item-flex-end ptb-5 border-right plr" v-text="parseFloat(pawn_item.item_value).toLocaleString()"></div>
+                        <div class="w-25 item-flex-start ptb-5 plr" v-text="pawn_item.item_damage"></div>
                     </div>
                 </div>
+
+                <div class="w-10 ptb-5 border-right item-flex-end plr" v-text="calValue(pawn.pawn_item)"></div>
 
                 <div class="w-10 item-flex-center ptb-5 border-right" 
                 v-text="pawn.next_paid_at">
@@ -80,7 +59,7 @@
                 v-text="pawn.latest_paid_at">
                 </div>
 
-                <div class="w-10 item-flex-center ptb-5" 
+                <div class="w-10 ptb-5 item-flex-center" 
                 v-text="calStatusCard(pawn.complete)">
                 </div>
 
@@ -188,7 +167,16 @@ export default Vue.extend({
             }else {
                 return "Active"
             }
-        } ,
+        },
+        calValue(pawn_item) {
+            let out = 0
+            pawn_item.forEach(ele => {
+                out += parseFloat(ele.item_value)
+            });
+            out = out.toFixed(2)
+            out = parseFloat(out).toLocaleString()
+            return out
+        }
     },
     computed: {
 
@@ -239,4 +227,8 @@ section {
 .border-button-cus{
     border-bottom: 1px solid #dee2e6;
 }
+.plr {
+    padding: 5px 1.5vw;
+}
+
 </style>

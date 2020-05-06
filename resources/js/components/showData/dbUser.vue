@@ -4,36 +4,28 @@
       <div v-if="showUserData">
           <show-user-data class="min-width-1440" />
       </div>
-      <div class="tap-bar min-width-1440" @click="updateshow('showPawnData')">ข้อมูลการจำนำ</div>
-      <div v-if="showPawnData">
-          <show-pawn-data />
-      </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import showUserData from './showData/showUserData'
-import showPawnData from './showData/showPawnData'
+import showUserData from './showUserData'
+import showPawnData from './showPawnData'
 
 export default Vue.extend({
   name: 'db',
   components:{
     showUserData,
-    showPawnData
   },
   data() {
     return {
-        showUserData: 0,
-        showPawnData: 0
+        showUserData: 1,
     }
   },
   methods: {
       updateshow(type) {
           if (type === 'showUserData') {
             this.showUserData = !this.showUserData
-          }else if (type === 'showPawnData') {
-            this.showPawnData = !this.showPawnData
           }
       }
   },

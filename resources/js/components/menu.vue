@@ -8,6 +8,21 @@
       v-bind:class="[item.val === route ? 'active' : null]"
       @click.native="clickRoute(item.val)"
     />
+    <menu-item
+    :imgURL="db.img"
+    :msg="db.msg"
+    :key="db.msg"
+    v-bind:class="[db.val === route ? 'active' : null]"
+    @click.native="clickRoute(db.val)"
+    />
+    <menu-item
+    class="db-chile"
+    v-for="item in dbObj"
+    :msg="item.msg"
+    :key="item.msg"
+    v-bind:class="[item.val === route ? 'active' : null]"
+    @click.native="clickRoute(item.val)"
+    />
   </div>
 </template>
 
@@ -49,11 +64,23 @@ export default Vue.extend({
           img: "images/switch.svg",
           val: "redeem"
         },
-        {
-          msg: "ดูข้อมูล",
+      ],
+      db: {
+          msg: "ข้อมูล",
           img: "images/database.svg",
           val: "db"
-        }
+        },
+      dbObj:[
+        {
+          msg: "ข้อมูลลูกค้า",
+          img: "images/database.svg",
+          val: "dbUser"
+        },
+        {
+          msg: "ข้อมูลการจำนำ",
+          img: "images/database.svg",
+          val: "dbPawn"
+        },
       ],
       goldPrice: 0
     };
