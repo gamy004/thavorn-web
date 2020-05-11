@@ -54,8 +54,10 @@
         </div>
     </div>
     <div class="cus">
-        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload">ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
+    <error ref="error" />
   </div>
 </template>
 
@@ -63,16 +65,21 @@
 import Vue from 'vue';
 import moment from 'moment'
 import { log } from 'util';
+import error from '../popup/error.vue'
 
 export default Vue.extend({
   name: 'CommitRedeem',
+  components:{
+      error
+  },
   data() {
     return {
         createDate: "",
         lastUpdate: "",
         sumPriceStart: 0,
         interest_rate: 0,
-        pawn_id: ""
+        pawn_id: "",
+        status_complete: 0
     }
   },
   props: {
@@ -86,6 +93,7 @@ export default Vue.extend({
           async handler(pawnItem) {
               if (pawnItem && pawnItem.length) {
                     //interset_rate
+                    this.status_complete = pawnItem[0].complete
                     let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
                     this.pawn_id = res.data.pawns.id
                     this.interest_rate = res.data.pawns.interest_rate 
@@ -100,7 +108,7 @@ export default Vue.extend({
                     //start price
                     this.sumPriceStart = 0
                     pawnItem.forEach( item => {
-                        this.sumPriceStart += parseInt(item.item_value)
+                        this.sumPriceStart += parseFloat(item.item_value)
                     });
               }
           }
@@ -119,27 +127,34 @@ export default Vue.extend({
           let td = parseInt(this.today.substring(0,2))
           let tm = parseInt(this.today.substring(3,5))
           let ty = parseInt(this.today.substring(6,11))
-
+          let a = moment([ty,tm,td])
+          let b = moment([ly,lm,ld])
+          console.log(a.diff(b, 'month', true));
+          
+        
           let dd = td - ld
           let dm = tm - lm
-          let dy = ty - ly
-
+          let dy = ty - ly  
+          
+          let out = 0
           if (dy === 0) {
             if ( dm > 0 ) {
-                let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
+                let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
+                console.log(base);
+                
                 if ( dd > 0) {
                     if ( dd <= 15 ) {
-                        return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                        out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
                     }else {
-                        return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                        out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
                     }
                 }else if ( dd <= 0) {
                     dd += 30
-                    base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
+                    base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
                     if ( dd <= 15 ) {
-                        return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                        out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
                     }else {
-                        return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                        out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
                     }
                 }else {
                     return 'error'
@@ -147,40 +162,40 @@ export default Vue.extend({
             }else if ( dm === 0 ) {
                 if ( dd > 0) {
                     if ( dd <= 15 ) {
-                        return ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2
+                        out = parseFloat(this.sumPriceStart)+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2
                     }else {
-                        return (parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100
+                        out = parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100
                     }
                 }else if ( dd <= 0) {
-                    return 0
+                    out = parseFloat(this.sumPriceStart)
                 }
             }else if ( dm < 0 ) {
-                return 0
+                out = parseFloat(this.sumPriceStart)
             }
           }else if ( dy > 0 ) {
             dm += dy*12
-            let base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*dm
+            let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
             if ( dd > 0) {
                 if ( dd <= 15 ) {
-                    return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
                 }else {
-                    return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
                 }
             }else if ( dd <= 0) {
                 dd += 30
-                base = ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*(dm-1)
+                base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
                 if ( dd <= 15 ) {
-                    return base+(((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)/2)
+                    out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
                 }else {
-                    return base+((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)
+                    out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
                 }
             }else {
                 return 'error'
             }
           }else if ( dy < 0 ) {
-              return 0
+              out = parseFloat(this.sumPriceStart)
           }
-          return  'error'
+          return  out.toFixed(2)
       },
       today() {
           const today = moment();
@@ -190,8 +205,15 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        await window.api.delete(`pawns/${this.pawn_id}`);
-        location.reload();
+
+        await window.api.post(`pawns/${this.pawn_id}/close`, {
+          amount: this.total
+        }).catch(
+            this.$refs.error.setShowPop(1,'ERROR')
+        ).then(() => {
+            this.$refs.error.setShowPop(1,'Data has been updated.')
+        })
+        
     },
   }
 });
@@ -213,5 +235,10 @@ export default Vue.extend({
 .cus{
     display: flex;
     justify-content: center;
+}
+.btn-gray {
+    background-color: rgb(221, 221, 221);
+    border: 0;
+    color: black;
 }
 </style>

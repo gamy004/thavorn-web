@@ -54,8 +54,10 @@
         </div>
     </div>
     <div class="cus">
-        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload">ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
+    <error ref="error" />
   </div>
 </template>
 
@@ -63,9 +65,13 @@
 import Vue from 'vue';
 import moment from 'moment'
 import { log } from 'util';
+import error from '../popup/error.vue'
 
 export default Vue.extend({
   name: 'CommitRenew',
+  components:{
+      error
+  },
   data() {
     return {
         createDate: "",
@@ -73,7 +79,8 @@ export default Vue.extend({
         sumPriceStart: 0,
         interest_rate: 0,
         mouthCount: 1,
-        pawn_id: ""
+        pawn_id: "",
+        status_complete: 0
     }
   },
   props: {
@@ -87,6 +94,7 @@ export default Vue.extend({
           async handler(pawnItem) {
               if (pawnItem && pawnItem.length) {
                     //interset_rate
+                    this.status_complete = pawnItem[0].complete
                     let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
                     this.pawn_id = res.data.pawns.id
                     this.interest_rate = res.data.pawns.interest_rate 
@@ -101,7 +109,7 @@ export default Vue.extend({
                     //start price
                     this.sumPriceStart = 0
                     pawnItem.forEach( item => {
-                        this.sumPriceStart += parseInt(item.item_value)
+                        this.sumPriceStart += parseFloat(item.item_value)
                     });
               }
           }
@@ -113,16 +121,29 @@ export default Vue.extend({
   },
   computed: {
       total() {
-          return  ((parseInt(this.sumPriceStart)*parseInt(this.interest_rate))/100)*parseInt(this.mouthCount)
+          let out = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*parseFloat(this.mouthCount)
+          return out.toFixed(2)
       }
   },
   methods: {
     async reload() {
+        // let res = await window.api.post(`pawns/${this.pawn_id}/pay`,{
+        //     amount : this.total.toFixed(2),
+        //     month_amount : this.mouthCount
+        // });
+
         await window.api.post(`pawns/${this.pawn_id}/pay`,{
-            amount : this.total.toFixed(2),
+            amount : this.total,
             month_amount : this.mouthCount
-        });
-        location.reload();
+        }).catch(
+            this.$refs.error.setShowPop(1,'ERROR')
+        ).then(() => {
+            this.$refs.error.setShowPop(1,'Data has been updated.')
+        })
+
+
+        // this.$refs.error.setShowPop(1,'Data has been updated.');
+        // res.status === 200 ? location.reload() : console.log("ERROR");
     },
   }
 });
@@ -144,5 +165,10 @@ export default Vue.extend({
 .cus{
     display: flex;
     justify-content: center;
+}
+.btn-gray {
+    background-color: rgb(221, 221, 221);
+    border: 0;
+    color: black;
 }
 </style>

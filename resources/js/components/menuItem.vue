@@ -49,5 +49,6 @@ img{
 }
 .max-w{
   max-width: 240px;
+  min-width: 129px;
 }
 </style>

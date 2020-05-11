@@ -5,6 +5,9 @@ import redeem from '../components/redeem'
 import renew from '../components/renew'
 import UpdatePawn from '../components/updatePawn'
 import PageNotFound from '../components/pageNotFound'
+import db from '../components/db'
+import dbUser from '../components/showData/dbUser'
+import dbPawn from '../components/showData/dbPawn'
 
 Vue.use(VueRouter)
 const routes = [
@@ -38,6 +41,30 @@ const routes = [
       component: UpdatePawn,
       meta: {
         activeMenu: 'UpdatePawn'
+      }
+    },
+    {
+      path: '/db',
+      name: 'db',
+      component: db,
+      meta: {
+        activeMenu: 'db'
+      }
+    },
+    {
+      path: '/dbUser',
+      name: 'dbUser',
+      component: dbUser,
+      meta: {
+        activeMenu: 'dbUser'
+      }
+    },
+    {
+      path: '/dbPawn',
+      name: 'dbPawn',
+      component: dbPawn,
+      meta: {
+        activeMenu: 'dbPawn'
       }
     },
     {
