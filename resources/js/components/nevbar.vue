@@ -1,7 +1,7 @@
 <template>
   <div class="navbar navbar-expand-lg navbar-light cusnev shadow-sm">
     <img v-if="logo" src="../assets/logo.svg">
-    <div>Gold price today {{goldPrice}} บาท (FROM GOBLE PRICE)</div>
+    <!-- <div>Gold price today {{goldPrice}} บาท (FROM GOBLE PRICE)</div> -->
   </div>
 </template>
 

@@ -3494,7 +3494,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return reload;
-    }()
+    }(),
+    checklimitword: function checklimitword() {
+      if (this.mouthCount.length === 0 || this.mouthCount.length === undefined) {
+        this.mouthCount = "";
+      } else if (this.mouthCount < 1) {
+        this.mouthCount = 1;
+      }
+    }
   }
 }));
 
@@ -12240,7 +12247,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mr-28-px[data-v-4df88073] {\n  margin-right: 28px;\n}\n.show-total[data-v-4df88073] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-4df88073] {\n  background-color: #dddddd;\n}\n.cus[data-v-4df88073] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}\n.btn-gray[data-v-4df88073] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
+exports.push([module.i, ".mr-28-px[data-v-4df88073] {\n  margin-right: 28px;\n}\n.show-total[data-v-4df88073] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-4df88073] {\n  background-color: #dddddd;\n}\n.btn-gray[data-v-4df88073] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
 
 // exports
 
@@ -12259,7 +12266,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}\n.cus[data-v-45f0a886] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n}\n.btn-gray[data-v-45f0a886] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
+exports.push([module.i, ".mr-28-px[data-v-45f0a886] {\n  margin-right: 28px;\n}\n.show-total[data-v-45f0a886] {\n  height: 60px;\n  text-align: center;\n  padding: 15px !important;\n}\n.gray[data-v-45f0a886] {\n  background-color: #dddddd;\n}\n.btn-gray[data-v-45f0a886] {\n  background-color: #dddddd;\n  border: 0;\n  color: black;\n}", ""]);
 
 // exports
 
@@ -68391,7 +68398,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "cus" }, [
+      _c("div", { staticClass: "item-flex-start ml-1" }, [
         _vm.status_complete === 0
           ? _c(
               "button",
@@ -68507,6 +68514,7 @@ var render = function() {
                 attrs: { type: "number", min: "" },
                 domProps: { value: _vm.mouthCount },
                 on: {
+                  keyup: _vm.checklimitword,
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -68550,7 +68558,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "cus" }, [
+      _c("div", { staticClass: "item-flex-start ml-1" }, [
         _vm.status_complete === 0
           ? _c(
               "button",
@@ -68779,15 +68787,7 @@ var render = function() {
     [
       _vm.logo
         ? _c("img", { attrs: { src: __webpack_require__(/*! ../assets/logo.svg */ "./resources/js/assets/logo.svg") } })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", [
-        _vm._v(
-          "Gold price today " +
-            _vm._s(_vm.goldPrice) +
-            " บาท (FROM GOBLE PRICE)"
-        )
-      ])
+        : _vm._e()
     ]
   )
 }

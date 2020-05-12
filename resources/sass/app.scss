@@ -28,16 +28,16 @@ background-color: #909090;
 }
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+// input::-webkit-outer-spin-button,
+// input::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0;
+// }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance:textfield;
-}
+// input[type=number] {
+//   -moz-appearance:textfield;
+// }
 
 .h-flex-row-s-flex-col{
   display: flex;

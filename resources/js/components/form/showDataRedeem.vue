@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="cus">
+    <div class="item-flex-start ml-1">
         <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
         <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
@@ -231,10 +231,6 @@ export default Vue.extend({
 }
 .gray {
     background-color: rgb(221, 221, 221);
-}
-.cus{
-    display: flex;
-    justify-content: center;
 }
 .btn-gray {
     background-color: rgb(221, 221, 221);

@@ -31,7 +31,7 @@
                 <div class="head-form">จำนวนทเดือนที่จะต่อดอก</div>
 
                 <div class="flex-row">
-                    <input class="form-control mr-28-px" type="number" min="" v-model="mouthCount">
+                    <input class="form-control mr-28-px" type="number" min="" @keyup="checklimitword" v-model="mouthCount">
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="cus">
+    <div class="item-flex-start ml-1">
         <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
         <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
@@ -140,10 +140,16 @@ export default Vue.extend({
         ).then(() => {
             this.$refs.error.setShowPop(1,'Data has been updated.')
         })
-
-
         // this.$refs.error.setShowPop(1,'Data has been updated.');
         // res.status === 200 ? location.reload() : console.log("ERROR");
+    },
+    checklimitword() {
+      if (this.mouthCount.length === 0 || this.mouthCount.length === undefined) {
+        this.mouthCount = ""
+      }
+      else if (this.mouthCount < 1) {
+        this.mouthCount = 1
+      }
     },
   }
 });
@@ -161,10 +167,6 @@ export default Vue.extend({
 }
 .gray {
     background-color: rgb(221, 221, 221);
-}
-.cus{
-    display: flex;
-    justify-content: center;
 }
 .btn-gray {
     background-color: rgb(221, 221, 221);
