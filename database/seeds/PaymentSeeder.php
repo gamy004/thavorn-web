@@ -17,10 +17,10 @@ class PaymentSeeder extends Seeder
         $faker = Faker::create();
 
         Pawn::with('pawn_items')->each(function ($pawn) use ($faker) {
-            $rand_num_payment = $faker->numberBetween(1, 5);
+            $rand_num_payment = $faker->numberBetween(1, 3);
             
             for ($i=1; $i <= $rand_num_payment; $i++) { 
-                $rand_num_month = $faker->numberBetween(1, 12);
+                $rand_num_month = $faker->numberBetween(1, 2);
                 $paid_amount = $pawn->computePaidAmount($rand_num_month);
 
                 $pawn->pay($paid_amount, $rand_num_month);
