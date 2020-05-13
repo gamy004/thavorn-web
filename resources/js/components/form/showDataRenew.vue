@@ -28,7 +28,7 @@
             </div>
 
             <div class="sec-form">
-                <div class="head-form">จำนวนทเดือนที่จะต่อดอก</div>
+                <div class="head-form">จำนวนเดือนที่จะต่อดอก</div>
 
                 <div class="flex-row">
                     <input class="form-control mr-28-px" type="number" min="" @keyup="checklimitword" v-model="mouthCount">
