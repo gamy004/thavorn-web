@@ -2759,7 +2759,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(item) {
         var _this2 = this;
 
-        var res1, res;
+        var res1, res, pawn_no_list;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2791,17 +2791,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.tmpPawnItem = [];
                 } else if (res1.data.pawn_items.length > 0) {
                   res = res1.data.pawn_items;
+                  pawn_no_list = [];
                   this.name_suggest = [];
                   this.tmpPawnItem = res;
                   res.forEach(function (ele) {
                     _this2.name_suggest.push(ele.first_name);
+
+                    pawn_no_list.push(ele.pawn_no);
                   });
                   this.name_suggest = _toConsumableArray(new Set(this.name_suggest));
+                  pawn_no_list = _toConsumableArray(new Set(pawn_no_list));
 
                   if (this.name_suggest.length === 1 && this.name_suggest[0].length === item.length) {
                     this.name_suggest = [];
                     this.numberSearch = "";
-                    this.emitList(item);
+                    this.emitList(pawn_no_list);
                   }
                 } else {
                   this.name_suggest = [];

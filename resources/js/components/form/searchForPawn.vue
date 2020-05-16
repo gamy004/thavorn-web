@@ -105,16 +105,19 @@ export default Vue.extend({
         }
         else if(res1.data.pawn_items.length > 0) {
           let res = res1.data.pawn_items
+          let pawn_no_list = []
           this.name_suggest = []
           this.tmpPawnItem = res
           res.forEach( ele => {
               this.name_suggest.push(ele.first_name)
+              pawn_no_list.push(ele.pawn_no)
           });
           this.name_suggest = [...new Set(this.name_suggest)]
+          pawn_no_list = [...new Set(pawn_no_list)]
           if (this.name_suggest.length === 1 && this.name_suggest[0].length === item.length) {
               this.name_suggest = []
               this.numberSearch = ""
-              this.emitList(item)
+              this.emitList(pawn_no_list)
           }
         }else {
             this.name_suggest = []
