@@ -68497,7 +68497,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "sec-form" }, [
             _c("div", { staticClass: "head-form" }, [
-              _vm._v("จำนวนทเดือนที่จะต่อดอก")
+              _vm._v("จำนวนเดือนที่จะต่อดอก")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex-row" }, [
@@ -68511,7 +68511,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control mr-28-px",
-                attrs: { type: "number", min: "" },
+                attrs: { type: "number", min: "1" },
                 domProps: { value: _vm.mouthCount },
                 on: {
                   keyup: _vm.checklimitword,
