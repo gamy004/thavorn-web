@@ -2680,7 +2680,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(item) {
         var _this = this;
 
-        var res1, res;
+        var res1, res, pawn_no_list;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2712,21 +2712,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.tmpPawnItem = [];
                 } else if (res1.data.pawn_items.length > 0) {
                   res = res1.data.pawn_items;
+                  pawn_no_list = [];
                   this.pawn_item_suggest_id = [];
                   this.tmpPawnItem = res;
                   res.forEach(function (ele) {
+                    pawn_no_list.push(ele.pawn_no);
+
                     if (ele.pawn_no.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.pawn_no);
                     } else if (ele.identity_card_id.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.identity_card_id);
                     }
                   });
+                  pawn_no_list = _toConsumableArray(new Set(pawn_no_list));
                   this.pawn_item_suggest_id = _toConsumableArray(new Set(this.pawn_item_suggest_id));
 
                   if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
                     this.pawn_item_suggest_id = [];
                     this.nameSearch = "";
-                    this.emitList([item]);
+                    this.emitList(pawn_no_list);
                   }
                 } else {
                   this.pawn_item_suggest_id = [];
