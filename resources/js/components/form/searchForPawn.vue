@@ -8,8 +8,9 @@
 
     <div class="sec-form">
       <div class="head-form">ชื่อ</div>
-      <input type="text" class="form-control" v-model="nameSearch" @keyup="searchName(nameSearch)" required>
-      <div class="form-control hint" v-for="item in name_suggest" @click="updateFormName(item)"  :key="item" >{{item}}</div>
+      <div type="text" class="form-control" v-text="active_user.first_name"></div>
+      <div class="head-form">นามสกุล</div>
+      <div type="text" class="form-control" v-text="active_user.last_name"></div>
     </div>
 
   </div>
@@ -29,7 +30,8 @@ export default Vue.extend({
         numberSearch:"",
         nameSearch:"",
         pawn_item_suggest_id: [],
-        name_suggest:[]
+        name_suggest:[],
+        active_user:{}
     }
   },
   watch: {
@@ -49,12 +51,12 @@ export default Vue.extend({
           search: 
             {
               keyword: item,
-              fields:['pawn_no','identity_card_id']
+              fields:['pawn_no','identity_card_id','first_name']
             }
           }
         });
         // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
-        if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item) ) {
+        if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item || res1.data.pawn_items[0].first_name === item) ) {
           this.pawnItemStatus = false
           this.pawn_item_suggest_id = []
           this.tmpPawnItem = []
@@ -70,6 +72,8 @@ export default Vue.extend({
               this.pawn_item_suggest_id.push(ele.pawn_no)
             }else if (ele.identity_card_id.match(item)) {
               this.pawn_item_suggest_id.push(ele.identity_card_id)
+            }else if (ele.first_name.match(item)) {
+              this.pawn_item_suggest_id.push(ele.first_name)
             }
           });
           pawn_no_list = [...new Set(pawn_no_list)]
@@ -77,6 +81,10 @@ export default Vue.extend({
           if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
               this.pawn_item_suggest_id = []
               this.nameSearch = ""
+              this.active_user = {
+                first_name : res1.data.pawn_items[0].first_name,
+                last_name : res1.data.pawn_items[0].last_name
+              }
               this.emitList(pawn_no_list)
           }
         }else {
@@ -88,54 +96,11 @@ export default Vue.extend({
       }
     },
 
-    async searchName(item) {
-      this.emitList([])
-      if (item) {
-        let res1 = await window.api.get("pawn_user_items", {
-        params: {
-          search: 
-            {
-              keyword: item,
-              fields:['first_name']
-            }
-          }
-        });
-        // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
-        if (this.pawnItemStatus && res1.data && res1.data.pawn_items[0].first_name === item ) {
-          this.pawnItemStatus = false
-          this.name_suggest = []
-          this.tmpPawnItem = []
-        }
-        else if(res1.data.pawn_items.length > 0) {
-          let res = res1.data.pawn_items
-          let pawn_no_list = []
-          this.name_suggest = []
-          this.tmpPawnItem = res
-          res.forEach( ele => {
-              this.name_suggest.push(ele.first_name)
-              pawn_no_list.push(ele.pawn_no)
-          });
-          this.name_suggest = [...new Set(this.name_suggest)]
-          pawn_no_list = [...new Set(pawn_no_list)]
-          if (this.name_suggest.length === 1 && this.name_suggest[0].length === item.length) {
-              this.name_suggest = []
-              this.numberSearch = ""
-              this.emitList(pawn_no_list)
-          }
-        }else {
-            this.name_suggest = []
-            this.tmpPawnItem = []
-        }
-      }else {
-          this.name_suggest = []
-      }
-    },
-
     async updateFormNumber(id) {
       let status = true
       let pawnItem = []
       for (let i = 0; i < this.tmpPawnItem.length; i++) {
-        if (this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id) {
+        if (this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id || this.tmpPawnItem[i].first_name === id) {
           let res = this.tmpPawnItem[i]
           if (status) {
             this.pawnItemStatus = true
@@ -144,25 +109,6 @@ export default Vue.extend({
             this.nameSearch = ""
             this.pushPawnList(id)
             this.pawn_item_suggest_id = []
-            break
-          }
-        }
-      }
-    },
-
-    async updateFormName(id) {
-      let status = true
-      let pawnItem = []
-      for (let i = 0; i < this.tmpPawnItem.length; i++) {
-        if (this.tmpPawnItem[i].first_name === id) {
-          let res = this.tmpPawnItem[i]
-          if (status) {
-            this.pawnItemStatus = true
-            this.nameSearch = id
-            status = false
-            this.numberSearch = ""
-            this.pushPawnList(id)
-            this.name_suggest = []
             break
           }
         }
@@ -185,6 +131,10 @@ export default Vue.extend({
             listNumber.push(item.pawn_no)
         });
         listNumber = [...new Set(listNumber)]
+        this.active_user = {
+          first_name : res1.data.pawn_items[0].first_name,
+          last_name : res1.data.pawn_items[0].last_name
+        }
         this.emitList(listNumber)
     },
     emitList(list) {

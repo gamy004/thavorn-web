@@ -2652,6 +2652,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
   name: 'SearchForm',
@@ -2664,7 +2665,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       numberSearch: "",
       nameSearch: "",
       pawn_item_suggest_id: [],
-      name_suggest: []
+      name_suggest: [],
+      active_user: {}
     };
   },
   watch: {// numberSearch: {
@@ -2697,7 +2699,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   params: {
                     search: {
                       keyword: item,
-                      fields: ['pawn_no', 'identity_card_id']
+                      fields: ['pawn_no', 'identity_card_id', 'first_name']
                     }
                   }
                 });
@@ -2706,7 +2708,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res1 = _context.sent;
 
                 // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
-                if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item)) {
+                if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item || res1.data.pawn_items[0].first_name === item)) {
                   this.pawnItemStatus = false;
                   this.pawn_item_suggest_id = [];
                   this.tmpPawnItem = [];
@@ -2722,6 +2724,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _this.pawn_item_suggest_id.push(ele.pawn_no);
                     } else if (ele.identity_card_id.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.identity_card_id);
+                    } else if (ele.first_name.match(item)) {
+                      _this.pawn_item_suggest_id.push(ele.first_name);
                     }
                   });
                   pawn_no_list = _toConsumableArray(new Set(pawn_no_list));
@@ -2730,6 +2734,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
                     this.pawn_item_suggest_id = [];
                     this.nameSearch = "";
+                    this.active_user = {
+                      first_name: res1.data.pawn_items[0].first_name,
+                      last_name: res1.data.pawn_items[0].last_name
+                    };
                     this.emitList(pawn_no_list);
                   }
                 } else {
@@ -2757,93 +2765,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return search;
     }(),
-    searchName: function () {
-      var _searchName = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(item) {
-        var _this2 = this;
-
-        var res1, res, pawn_no_list;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.emitList([]);
-
-                if (!item) {
-                  _context2.next = 8;
-                  break;
-                }
-
-                _context2.next = 4;
-                return window.api.get("pawn_user_items", {
-                  params: {
-                    search: {
-                      keyword: item,
-                      fields: ['first_name']
-                    }
-                  }
-                });
-
-              case 4:
-                res1 = _context2.sent;
-
-                // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
-                if (this.pawnItemStatus && res1.data && res1.data.pawn_items[0].first_name === item) {
-                  this.pawnItemStatus = false;
-                  this.name_suggest = [];
-                  this.tmpPawnItem = [];
-                } else if (res1.data.pawn_items.length > 0) {
-                  res = res1.data.pawn_items;
-                  pawn_no_list = [];
-                  this.name_suggest = [];
-                  this.tmpPawnItem = res;
-                  res.forEach(function (ele) {
-                    _this2.name_suggest.push(ele.first_name);
-
-                    pawn_no_list.push(ele.pawn_no);
-                  });
-                  this.name_suggest = _toConsumableArray(new Set(this.name_suggest));
-                  pawn_no_list = _toConsumableArray(new Set(pawn_no_list));
-
-                  if (this.name_suggest.length === 1 && this.name_suggest[0].length === item.length) {
-                    this.name_suggest = [];
-                    this.numberSearch = "";
-                    this.emitList(pawn_no_list);
-                  }
-                } else {
-                  this.name_suggest = [];
-                  this.tmpPawnItem = [];
-                }
-
-                _context2.next = 9;
-                break;
-
-              case 8:
-                this.name_suggest = [];
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function searchName(_x2) {
-        return _searchName.apply(this, arguments);
-      }
-
-      return searchName;
-    }(),
     updateFormNumber: function () {
       var _updateFormNumber = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
         var status, pawnItem, i, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 status = true;
                 pawnItem = [];
@@ -2851,19 +2780,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 if (!(i < this.tmpPawnItem.length)) {
-                  _context3.next = 17;
+                  _context2.next = 17;
                   break;
                 }
 
-                if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id)) {
-                  _context3.next = 14;
+                if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id || this.tmpPawnItem[i].first_name === id)) {
+                  _context2.next = 14;
                   break;
                 }
 
                 res = this.tmpPawnItem[i];
 
                 if (!status) {
-                  _context3.next = 14;
+                  _context2.next = 14;
                   break;
                 }
 
@@ -2873,95 +2802,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.nameSearch = "";
                 this.pushPawnList(id);
                 this.pawn_item_suggest_id = [];
-                return _context3.abrupt("break", 17);
+                return _context2.abrupt("break", 17);
 
               case 14:
                 i++;
-                _context3.next = 3;
+                _context2.next = 3;
                 break;
 
               case 17:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee2, this);
       }));
 
-      function updateFormNumber(_x3) {
+      function updateFormNumber(_x2) {
         return _updateFormNumber.apply(this, arguments);
       }
 
       return updateFormNumber;
     }(),
-    updateFormName: function () {
-      var _updateFormName = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(id) {
-        var status, pawnItem, i, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                status = true;
-                pawnItem = [];
-                i = 0;
-
-              case 3:
-                if (!(i < this.tmpPawnItem.length)) {
-                  _context4.next = 17;
-                  break;
-                }
-
-                if (!(this.tmpPawnItem[i].first_name === id)) {
-                  _context4.next = 14;
-                  break;
-                }
-
-                res = this.tmpPawnItem[i];
-
-                if (!status) {
-                  _context4.next = 14;
-                  break;
-                }
-
-                this.pawnItemStatus = true;
-                this.nameSearch = id;
-                status = false;
-                this.numberSearch = "";
-                this.pushPawnList(id);
-                this.name_suggest = [];
-                return _context4.abrupt("break", 17);
-
-              case 14:
-                i++;
-                _context4.next = 3;
-                break;
-
-              case 17:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function updateFormName(_x4) {
-        return _updateFormName.apply(this, arguments);
-      }
-
-      return updateFormName;
-    }(),
     pushPawnList: function () {
       var _pushPawnList = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(key) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(key) {
         var res1, listNumber;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context5.next = 2;
+                _context3.next = 2;
                 return window.api.get("pawn_user_items", {
                   params: {
                     search: {
@@ -2972,24 +2843,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                res1 = _context5.sent;
+                res1 = _context3.sent;
                 listNumber = [];
                 res1 = res1.data.pawn_items;
                 res1.forEach(function (item) {
                   listNumber.push(item.pawn_no);
                 });
                 listNumber = _toConsumableArray(new Set(listNumber));
+                this.active_user = {
+                  first_name: res1.data.pawn_items[0].first_name,
+                  last_name: res1.data.pawn_items[0].last_name
+                };
                 this.emitList(listNumber);
 
-              case 8:
+              case 9:
               case "end":
-                return _context5.stop();
+                return _context3.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee3, this);
       }));
 
-      function pushPawnList(_x5) {
+      function pushPawnList(_x3) {
         return _pushPawnList.apply(this, arguments);
       }
 
@@ -68242,55 +68117,23 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "sec-form" },
-      [
-        _c("div", { staticClass: "head-form" }, [_vm._v("ชื่อ")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.nameSearch,
-              expression: "nameSearch"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", required: "" },
-          domProps: { value: _vm.nameSearch },
-          on: {
-            keyup: function($event) {
-              return _vm.searchName(_vm.nameSearch)
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.nameSearch = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.name_suggest, function(item) {
-          return _c(
-            "div",
-            {
-              key: item,
-              staticClass: "form-control hint",
-              on: {
-                click: function($event) {
-                  return _vm.updateFormName(item)
-                }
-              }
-            },
-            [_vm._v(_vm._s(item))]
-          )
-        })
-      ],
-      2
-    )
+    _c("div", { staticClass: "sec-form" }, [
+      _c("div", { staticClass: "head-form" }, [_vm._v("ชื่อ")]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "form-control",
+        attrs: { type: "text" },
+        domProps: { textContent: _vm._s(_vm.active_user.first_name) }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "head-form" }, [_vm._v("นามสกุล")]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "form-control",
+        attrs: { type: "text" },
+        domProps: { textContent: _vm._s(_vm.active_user.last_name) }
+      })
+    ])
   ])
 }
 var staticRenderFns = []
