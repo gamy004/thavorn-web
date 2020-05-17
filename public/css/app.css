@@ -11396,6 +11396,10 @@ body {
   }
 }
 
+.ft-cus {
+  font-size: calc(9px + 0.5vw);
+}
+
 .h-flex-col-s-flex-row {
   display: -webkit-box;
   display: flex;

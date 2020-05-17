@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ft-cus">
       <div class="tap-bar min-width-1440" @click="updateshow('showOverPawnData')">ภาพรวมการจำนำ</div>
       <div v-if="showOverPawnData" class="flex-column mt-3 mb-3">
 

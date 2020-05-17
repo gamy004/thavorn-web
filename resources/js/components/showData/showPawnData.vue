@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ft-cus">
       <!-- <form-show-one-pawn :pawn="pawnData[0]" :allPawnItem="allPawnItem" /> -->
       <form-show-one-pawn 
       :pawn="pawnData" 
