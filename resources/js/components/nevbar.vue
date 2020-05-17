@@ -22,7 +22,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.getGoldPrice();
+    
   },
   methods: {
     checkCommas(nStr) {

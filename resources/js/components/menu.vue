@@ -95,30 +95,9 @@ export default Vue.extend({
       console.log(val);
       this.$router.replace(val);
     },
-    async getGoldPrice() {
-      let onzToBath = 0.47295;
-      // UserApiTest path tests/Unit/UserApiTest.php
-      let res1 = await window.api.get("users", {
-        params: {
-          filters: [
-            {
-              key: "identity_card_id",
-              value: "nPIZ",
-              operator: "ct"
-            }
-          ]
-        }
-      });
-
-      //   let res2 = await window.api.post("pawns/1/close", {
-      //     amount: 91612.88
-      //   });
-      // let res2 = await window.goldPriceApi.get();
-      // console.log(1234,res2.data.items[0].xauPrice*onzToBath);
-    }
   },
   mounted() {
-    this.getGoldPrice();
+    
   }
 });
 </script>
