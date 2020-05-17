@@ -1,7 +1,6 @@
 <template>
   <div class="navbar navbar-expand-lg navbar-light cusnev shadow-sm">
     <img v-if="logo" src="../assets/logo.svg">
-    <!-- <div>Gold price today {{goldPrice}} บาท (FROM GOBLE PRICE)</div> -->
   </div>
 </template>
 
@@ -26,16 +25,6 @@ export default Vue.extend({
     this.getGoldPrice();
   },
   methods: {
-    async getGoldPrice() {
-      let onzToBath = 0.47295
-      let res = await window.goldPriceApi.get();
-      let price = res.data.items[0].xauPrice*onzToBath
-      console.log("GoldPrice : ",price);
-      price = this.checkCommas(price)
-      console.log("GoldPrice : ",price);
-      this.goldPrice = price
-    },
-
     checkCommas(nStr) {
       nStr += '';
       let x = nStr.split('.');
