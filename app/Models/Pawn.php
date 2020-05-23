@@ -16,7 +16,11 @@ class Pawn extends Model
     
     protected static function boot() {
         parent::boot();
-    
+        
+        static::creating(function($pawn) {
+            $pawn->{DBCol::PAWN_NO} = static::generate_no();
+        });
+
         static::deleting(function($pawn) {
             // soft delete each item
             $pawn->pawn_items()->each(
@@ -45,6 +49,37 @@ class Pawn extends Model
         DBCol::NEXT_PAID_AT,
         DBCol::COMPLETE
     ];
+
+    static function generate_no()
+    {
+        $delimeter = '/';
+        $limit_prefix = 99;
+        $limit_suffix = 9999;
+        $latest_pawn = self::select([DBCol::PAWN_NO])->orderBy(DBCol::ID, 'desc')->first();
+
+        if (is_null($latest_pawn)) {
+            $prefix = 1;
+            $suffix = 1;
+        } else {
+            $prefix_suffix = explode($delimeter, $latest_pawn->{DBCol::PAWN_NO});
+
+            $prefix = intval($prefix_suffix[0]);
+            $suffix = intval($prefix_suffix[1]);
+
+            $reach_limit_prefix = $prefix == $limit_prefix;
+            $reach_limit_suffix = $suffix == $limit_suffix;
+
+            if ($reach_limit_prefix && $reach_limit_suffix) {
+                $prefix = 1;
+                $suffix = 1;
+            } else {
+                $prefix = $reach_limit_suffix ? $prefix + 1 : $prefix;
+                $suffix = $reach_limit_suffix ? 1 : $suffix + 1;
+            }
+        }
+        
+        return str_pad($prefix, 2, '0', STR_PAD_LEFT).$delimeter.str_pad($suffix, 4, '0', STR_PAD_LEFT);
+    }
 
     public function user()
     {

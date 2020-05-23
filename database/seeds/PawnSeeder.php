@@ -19,8 +19,10 @@ class PawnSeeder extends Seeder
 
         Schema::enableForeignKeyConstraints();
 
-        for($i = 0; $i < 10; $i++) {
-            factory(Pawn::class)->create();
+        $customer = factory(User::class)->create();
+
+        for($i = 0; $i < 100; $i++) {
+            factory(Pawn::class)->create(['customer_id' => $customer->id]);
         }
     }
 }

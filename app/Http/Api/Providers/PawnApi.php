@@ -24,15 +24,6 @@ class PawnApi extends BaseApi implements ApiInterface
         $this->pawnItemApi = $pawnItemApi;
     }
 
-    protected function beforeStore(array $raw = [])
-    {
-        if (!isset($raw[DBCol::PAWN_NO])) {
-            $raw[DBCol::PAWN_NO] = Str::uuid()->toString();
-        }
-
-        return $raw;
-    }
-
     protected function stored(Pawn $pawn, array $raw = [], array $record = [])
     {
         $pawn = $this->updateUser($pawn, $raw);
