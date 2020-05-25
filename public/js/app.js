@@ -2829,7 +2829,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _pushPawnList = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(key) {
-        var res1, listNumber;
+        var _this2 = this;
+
+        var res1, listNumber, output;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2848,18 +2850,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 res1 = _context3.sent;
                 listNumber = [];
+                output = {};
                 console.log('res1 :', res1.data.pawn_items);
                 res1 = res1.data.pawn_items;
                 res1.forEach(function (item) {
-                  listNumber.push(item.pawn_no);
-                });
-                listNumber = _toConsumableArray(new Set(listNumber));
+                  _this2.$set(output, item.pawn_id, item.pawn_no); // listNumber.push(item.pawn_no)
+
+                }); // listNumber = [...new Set(listNumber)]
+
                 this.active_user = {
                   first_name: res1[0].first_name,
                   last_name: res1[0].last_name
                 };
                 console.log('listNumber :', listNumber);
-                this.emitList(listNumber);
+                this.emitList(output);
 
               case 12:
               case "end":
@@ -4040,24 +4044,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      idList: [],
-      pawn_no: "",
+      idList: {},
+      pawn_id: "",
       pawnData: [],
       mouthCount: 1
     };
   },
   methods: {
     updateData: function updateData(list) {
-      if (list && list.length) {
+      if (list) {
         this.idList = list;
-        this.pawn_no = list[0];
-        this.getPawnData(this.pawn_no);
+        this.pawn_id = list[0];
+        this.getPawnData(this.pawn_id);
       }
     },
     getPawnData: function () {
       var _getPawnData = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(pawn_no) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(pawn_id) {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -4067,8 +4071,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return window.api.get("pawn_user_items", {
                   params: {
                     search: {
-                      keyword: pawn_no,
-                      fields: ['pawn_no']
+                      keyword: pawn_id,
+                      fields: ['pawn_id']
                     }
                   }
                 });
@@ -4096,10 +4100,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
-    pawn_no: {
-      handler: function handler(pawn_no) {
-        if (pawn_no) {
-          this.getPawnData(pawn_no);
+    pawn_id: {
+      handler: function handler(pawn_id) {
+        if (pawn_id) {
+          this.getPawnData(pawn_id);
         }
       }
     }
@@ -68740,8 +68744,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.pawn_no,
-                        expression: "pawn_no"
+                        value: _vm.pawn_id,
+                        expression: "pawn_id"
                       }
                     ],
                     staticClass: "width-max",
@@ -68755,16 +68759,19 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.pawn_no = $event.target.multiple
+                        _vm.pawn_id = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       }
                     }
                   },
-                  _vm._l(_vm.idList, function(id) {
+                  _vm._l(Object.keys(_vm.idList), function(id) {
                     return _c("option", {
                       key: id,
-                      domProps: { textContent: _vm._s(id) }
+                      domProps: {
+                        value: id,
+                        textContent: _vm._s(_vm.idList[id])
+                      }
                     })
                   }),
                   0
