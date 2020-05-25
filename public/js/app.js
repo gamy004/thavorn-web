@@ -2687,14 +2687,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                console.log('search');
                 this.emitList([]);
 
                 if (!item) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
-                _context.next = 4;
+                _context.next = 5;
                 return window.api.get("pawn_user_items", {
                   params: {
                     search: {
@@ -2704,7 +2705,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 4:
+              case 5:
                 res1 = _context.sent;
 
                 // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
@@ -2745,13 +2746,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.tmpPawnItem = [];
                 }
 
-                _context.next = 9;
+                _context.next = 10;
                 break;
 
-              case 8:
+              case 9:
                 this.pawn_item_suggest_id = [];
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -2774,25 +2775,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                console.log('updateFormNumber');
                 status = true;
                 pawnItem = [];
                 i = 0;
 
-              case 3:
+              case 4:
                 if (!(i < this.tmpPawnItem.length)) {
-                  _context2.next = 17;
+                  _context2.next = 18;
                   break;
                 }
 
                 if (!(this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id || this.tmpPawnItem[i].first_name === id)) {
-                  _context2.next = 14;
+                  _context2.next = 15;
                   break;
                 }
 
                 res = this.tmpPawnItem[i];
 
                 if (!status) {
-                  _context2.next = 14;
+                  _context2.next = 15;
                   break;
                 }
 
@@ -2802,14 +2804,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.nameSearch = "";
                 this.pushPawnList(id);
                 this.pawn_item_suggest_id = [];
-                return _context2.abrupt("break", 17);
+                return _context2.abrupt("break", 18);
 
-              case 14:
+              case 15:
                 i++;
-                _context2.next = 3;
+                _context2.next = 4;
                 break;
 
-              case 17:
+              case 18:
               case "end":
                 return _context2.stop();
             }
@@ -2832,7 +2834,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                console.log('pushPawnList');
+                _context3.next = 3;
                 return window.api.get("pawn_user_items", {
                   params: {
                     search: {
@@ -2842,21 +2845,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
                 res1 = _context3.sent;
                 listNumber = [];
+                console.log('res1 :', res1.data.pawn_items);
                 res1 = res1.data.pawn_items;
                 res1.forEach(function (item) {
                   listNumber.push(item.pawn_no);
                 });
                 listNumber = _toConsumableArray(new Set(listNumber));
                 this.active_user = {
-                  first_name: res1.data.pawn_items[0].first_name,
-                  last_name: res1.data.pawn_items[0].last_name
+                  first_name: res1[0].first_name,
+                  last_name: res1[0].last_name
                 };
+                console.log('listNumber :', listNumber);
                 this.emitList(listNumber);
 
-              case 9:
+              case 12:
               case "end":
                 return _context3.stop();
             }
@@ -2871,6 +2876,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return pushPawnList;
     }(),
     emitList: function emitList(list) {
+      console.log('emit');
       this.$emit('listPawn', list);
     }
   }

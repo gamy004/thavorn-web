@@ -44,6 +44,7 @@ export default Vue.extend({
   },
   methods: {
     async search(item) {
+      console.log('search');
       this.emitList([])
       if (item) {
         let res1 = await window.api.get("pawn_user_items", {
@@ -97,6 +98,7 @@ export default Vue.extend({
     },
 
     async updateFormNumber(id) {
+      console.log('updateFormNumber');
       let status = true
       let pawnItem = []
       for (let i = 0; i < this.tmpPawnItem.length; i++) {
@@ -116,6 +118,7 @@ export default Vue.extend({
     },
 
     async pushPawnList(key) {
+        console.log('pushPawnList');
         let res1 = await window.api.get("pawn_user_items", {
         params: {
         search: 
@@ -126,18 +129,23 @@ export default Vue.extend({
         }
         });
         let listNumber = []
+        console.log('res1 :',res1.data.pawn_items);
         res1 = res1.data.pawn_items
         res1.forEach( item => {
             listNumber.push(item.pawn_no)
         });
         listNumber = [...new Set(listNumber)]
         this.active_user = {
-          first_name : res1.data.pawn_items[0].first_name,
-          last_name : res1.data.pawn_items[0].last_name
+          first_name : res1[0].first_name,
+          last_name : res1[0].last_name
         }
+        console.log('listNumber :',listNumber);
+        
         this.emitList(listNumber)
     },
     emitList(list) {
+        console.log('emit');
+      
         this.$emit('listPawn',list)
     }
 
