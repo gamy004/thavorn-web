@@ -129,19 +129,22 @@ export default Vue.extend({
         }
         });
         let listNumber = []
+        let output = {}
         console.log('res1 :',res1.data.pawn_items);
         res1 = res1.data.pawn_items
         res1.forEach( item => {
-            listNumber.push(item.pawn_no)
+            this.$set(output, item.pawn_id, item.pawn_no)
+            // listNumber.push(item.pawn_no)
         });
-        listNumber = [...new Set(listNumber)]
+        // listNumber = [...new Set(listNumber)]
+
         this.active_user = {
           first_name : res1[0].first_name,
           last_name : res1[0].last_name
         }
         console.log('listNumber :',listNumber);
         
-        this.emitList(listNumber)
+        this.emitList(output)
     },
     emitList(list) {
         console.log('emit');
