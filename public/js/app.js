@@ -4060,9 +4060,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     updateData: function updateData(list) {
-      if (list) {
+      if (list && Object.keys(list).length) {
         this.idList = list;
-        this.pawn_id = list[0];
+        this.pawn_id = Object.keys(list)[0];
         this.getPawnData(this.pawn_id);
       }
     },
@@ -4193,9 +4193,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     updateData: function updateData(list) {
-      if (list) {
+      if (list && Object.keys(list).length) {
         this.idList = list;
-        this.pawn_id = list[0];
+        this.pawn_id = Object.keys(list)[0];
         this.getPawnData(this.pawn_id);
       }
     },
