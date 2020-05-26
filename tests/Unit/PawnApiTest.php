@@ -35,6 +35,7 @@ class PawnApiTest extends TestCase
         $user_data = factory(User::class)->raw();
 
         $pawn_data = factory(Pawn::class)->raw([
+            DBCol::PAWN_NO => "99/9999",
             "customer_id" => null
         ]);
 

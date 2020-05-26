@@ -13,7 +13,8 @@ class Pawn extends Model
     
     const FK = 'pawn_id';
     const USER_FK = 'customer_id';
-    
+    const INTEREST_ONE_DAY = 1; #percent
+
     protected static function boot() {
         parent::boot();
         
@@ -105,6 +106,11 @@ class Pawn extends Model
         return $this;
     }
 
+    public function interest_one_day()
+    {
+        return static::INTEREST_ONE_DAY/100;
+    }
+
     public function interest_factor()
     {
         return $this->{DBCol::INTEREST_RATE}/100;
@@ -119,7 +125,7 @@ class Pawn extends Model
         );
     }
 
-    public function computePaidAmount($num_month = 1)
+    public function computePaidAmount($num_month = 0)
     {
         $total_item_values = $this->computePawnItemsValue();
 
@@ -171,18 +177,24 @@ class Pawn extends Model
 
     public function getClosePayment()
     {
+        $over_due_month_interest = null;
         $due_month_day = $this->getDueMonthDay();
-        $interest_value = $this->computePaidAmount(
-            $due_month_day['due_month']
-        );
-
         $pawn_items_value = $this->computePawnItemsValue();
 
+        if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
+            $interest_value = $pawn_items_value * $this->interest_one_day();
+        } else {
+            $interest_value = $this->computePaidAmount($due_month_day['due_month']);
+        }
+
         $close_payment_amount = $pawn_items_value + $interest_value;
-        
+
         if ($due_month_day['due_day'] > 0) {
             $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
             $over_due_month_interest = $this->computePaidAmount(1) / $divider;
+        }
+
+        if (!is_null($over_due_month_interest)) {
             $close_payment_amount += $over_due_month_interest;
         }
         
