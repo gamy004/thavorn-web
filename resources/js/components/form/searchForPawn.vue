@@ -63,6 +63,7 @@ export default Vue.extend({
           this.tmpPawnItem = []
         }
         else if(res1.data.pawn_items.length > 0) {
+          let output = {}
           let res = res1.data.pawn_items
           let pawn_no_list = []
           this.pawn_item_suggest_id = []
@@ -71,10 +72,13 @@ export default Vue.extend({
             pawn_no_list.push(ele.pawn_no)
             if (ele.pawn_no.match(item)) {
               this.pawn_item_suggest_id.push(ele.pawn_no)
+              this.$set(output, ele.pawn_id, ele.pawn_no)
             }else if (ele.identity_card_id.match(item)) {
               this.pawn_item_suggest_id.push(ele.identity_card_id)
+              this.$set(output, ele.pawn_id, ele.pawn_no)
             }else if (ele.first_name.match(item)) {
               this.pawn_item_suggest_id.push(ele.first_name)
+              this.$set(output, ele.pawn_id, ele.pawn_no)
             }
           });
           pawn_no_list = [...new Set(pawn_no_list)]
@@ -86,7 +90,9 @@ export default Vue.extend({
                 first_name : res1.data.pawn_items[0].first_name,
                 last_name : res1.data.pawn_items[0].last_name
               }
-              this.emitList(pawn_no_list)
+              console.log('zxc',output);
+              
+              this.emitList(output)
           }
         }else {
             this.pawn_item_suggest_id = []

@@ -9,8 +9,8 @@
           <div class="col-12 col-lg-6 m-0 m-lg-2 p-0">
             <div class="form-group">
               <label>เลที่บัตรจำนำ</label>
-              <select class="width-max" v-model="pawn_no">
-                <option v-for="id in idList" :key="id" v-text="id"></option>
+              <select class="width-max" v-model="pawn_id">
+                <option v-for="id in Object.keys(idList) " :key="id" v-text="idList[id]" :value="id"></option>
               </select>
             </div>
             <show-data-renew :pawnItem="pawnData" @emitmouthCount="updatemouthCount"/>
@@ -43,26 +43,26 @@ export default Vue.extend({
   },
   data() {
     return {
-      idList:[],
-      pawn_no: "",
+      idList:{},
+      pawn_id: "",
       pawnData: [],
       mouthCount:1
     }
   },
   methods: {
     updateData(list) {
-      if (list && list.length) {
+      if (list && Object.keys(list).length) {
         this.idList = list
-        this.pawn_no =list[0]
-        this.getPawnData(this.pawn_no)
+        this.pawn_id = Object.keys(list)[0]
+        this.getPawnData(this.pawn_id)
       }
     },
-    async getPawnData(pawn_no) {
+    async getPawnData(pawn_id) {
       let res = await window.api.get("pawn_user_items", {
         params: {
           search: {
-            keyword: pawn_no,
-            fields:['pawn_no']
+            keyword: pawn_id,
+            fields:['pawn_id']
           }
         }
       });
@@ -73,10 +73,10 @@ export default Vue.extend({
     }
   },
   watch: {
-    pawn_no: {
-      handler(pawn_no) {
-        if (pawn_no) {
-          this.getPawnData(pawn_no)
+    pawn_id: {
+      handler(pawn_id) {
+        if (pawn_id) {
+          this.getPawnData(pawn_id)
         }
       }
     }
