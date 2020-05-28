@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="sec-form">
-      <div class="head-form">เลขบัตรประชาชน</div>
-      <input type="text" class="form-control" v-model="userData.identity_card_id" required>
-      <div class="form-control hint" v-for="item in suggest_id" :key="item" @click="updateForm(item)">{{item}}</div>
-    </div>
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
         <div class="head-form">ชื่อ</div>
@@ -35,6 +30,11 @@
     <div class="sec-form">
       <div class="head-form">เบอร์โทรศัพท์</div>
       <input type="text" class="form-control" v-model="userData.phone_number" required>
+    </div>
+    <div class="sec-form">
+      <div class="head-form">เลขบัตรประชาชน</div>
+      <input type="text" class="form-control" v-model="userData.identity_card_id" required>
+      <div class="form-control hint" v-for="item in suggest_id" :key="item" @click="updateForm(item)">{{item}}</div>
     </div>
     <div class="sec-form">
       <div class="head-form">Email</div>
