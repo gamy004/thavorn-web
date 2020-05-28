@@ -78,7 +78,6 @@ class StorePawnRequest extends FormRequest
             ],
 
             'pawn.user.'. DBCol::IDENTITY_CARD_ID => [
-                'required',
                 'string',
                 'min:13',
                 'max:13',
