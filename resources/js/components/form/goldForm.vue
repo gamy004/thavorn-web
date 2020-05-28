@@ -91,7 +91,7 @@ export default Vue.extend({
             item_category_id: null,
             item_weight: null,
             item_value: null,
-            item_damage_id: 2,
+            item_damage_id: 1,
         },
         editIndex : null,
         category_item : [],
