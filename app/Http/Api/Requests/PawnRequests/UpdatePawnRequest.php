@@ -79,7 +79,7 @@ class UpdatePawnRequest extends FormRequest
 
             'pawn.user.'. DBCol::IDENTITY_CARD_ID => [
                 'string',
-                'min:13',
+                'min:0',
                 'max:13',
                 $rule_unique_id_card,
             ],
