@@ -30,10 +30,10 @@ class StorePawnRequest extends FormRequest
     {
         $user_id = null;
 
-        $rule_unique_id_card = Rule::unique('users', DBCol::IDENTITY_CARD_ID)
-        ->where(function ($query) {
-            $query->where('deleted_at', null);
-        });
+        // $rule_unique_id_card = Rule::unique('users', DBCol::IDENTITY_CARD_ID)
+        // ->where(function ($query) {
+        //     $query->where('deleted_at', null);
+        // });
 
         $rule_unique_email = Rule::unique('users', DBCol::EMAIL)
         ->where(function ($query) {
@@ -79,8 +79,7 @@ class StorePawnRequest extends FormRequest
 
             'pawn.user.'. DBCol::IDENTITY_CARD_ID => [
                 'min:0',
-                'max:13',
-                $rule_unique_id_card,
+                'max:13'
             ],
 
             'pawn.user.' . DBCol::GENDER => [
