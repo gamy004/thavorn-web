@@ -127,4 +127,15 @@ class User extends Authenticatable
             $id_card
         )->firstOrFail();
     }
+
+    public function scopeFullname($query, $first_name, $last_name)
+    {
+        return $query->where(
+            DBCol::FIRST_NAME,
+            $first_name
+        )->where(
+            DBCol::LAST_NAME,
+            $last_name
+        )->firstOrFail();
+    }
 }

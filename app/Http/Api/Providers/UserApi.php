@@ -73,12 +73,12 @@ class UserApi extends BaseApi implements ApiInterface
     public function createOrUpdateCustomer(array $raw = [])
     {
         try {
-            $user = User::idcard($raw[DBCol::IDENTITY_CARD_ID]);
+            $user = User::fullname($raw[DBCol::FIRST_NAME], $raw[DBCol::LAST_NAME]);
 
             $user = $this->update($user, $raw)->first();
         } catch (ModelNotFoundException $exception) {
             // Set identity card as a password
-            $raw[DBCol::PASSWORD] = $raw[DBCol::IDENTITY_CARD_ID];
+            $raw[DBCol::PASSWORD] = '1234';
             
             // Create user
             $user = $this->store($raw)->first();
