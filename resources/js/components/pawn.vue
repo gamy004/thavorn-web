@@ -58,8 +58,7 @@ export default Vue.extend({
   },
   methods: {
     checkreq() {
-      if (this.userData.identity_card_id.length === 13
-          && this.userData.first_name.length
+      if (   this.userData.first_name.length
           && this.userData.last_name.length
           && this.goldData.length) {
         this.showbutton = 1
