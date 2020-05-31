@@ -3,7 +3,7 @@
     <navbar :logo="1" />
     <div class="col-12 p-0 flex-row">
       <menul class="col-2 max-width m-0 p-0"></menul>
-      <router-view class="p-0 w-100 able-overflow"></router-view>
+      <router-view class="p-0 w-100 able-overflow main"></router-view>
     </div>
   </div>
 </template>
