@@ -6,11 +6,13 @@
                 <tr class="bg-primary text-white">
                     <th>มูลค่า</th>
                     <th>จำนวนเดือน</th>
+                    <th>เดือน</th>
                     <th>วันที่ชำระ</th>
                 </tr>
                 <tr v-for="(item, index) in data" :key="index" >
                     <td>{{item.amount}}</td>
                     <td>{{item.month_amount}}</td>
+                    <td>{{showMM(item.time_start_at, item.time_end_at, item.month_amount)}}</td>
                     <td>{{setDate(item.created_at)}}</td>
                 </tr>
             </tbody>
@@ -42,6 +44,23 @@ export default Vue.extend({
       let tmp =new Date(data)
       tmp = moment(tmp, 'DD/MM/YYYY').format('DD/MM/YYYY h:mm:ss a')
       return tmp
+    },
+    showMM(start, end, month_amount) {
+      if (month_amount === 0) {
+        return '-'
+      }else{
+        let data = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']
+        let dateStart =  parseInt(start.substring(5,8))
+        let dateEnd =  parseInt(end.substring(5,8))
+        let count = dateEnd-dateStart
+        let output = ""
+        for (let i = 0; i < count; i++) {
+          output += data[dateEnd-1]+" "
+          dateEnd--
+        }
+        return output
+      }
+      
     }
   },
   computed: {
