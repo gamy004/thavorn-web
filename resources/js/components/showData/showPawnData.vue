@@ -24,9 +24,17 @@ export default Vue.extend({
   },
   methods: {
     async getUserData(sort) {
-        let res = await window.api.get(`pawns`)
+        let res = await window.api.get(`pawns`,{
+          params: {
+            sort: ["-created_at"]
+          }
+        })
         this.pawnData = res.data.pawns
-        let res2 = await window.api.get(`pawn_user_items`)
+        let res2 = await window.api.get(`pawn_user_items`,{
+          params: {
+            sort: ["-created_at"]
+          }
+        })
         this.PawnItem = res2.data.pawn_items
         this.$emit('pushData',this.pawnData,this.PawnItem)
     }
