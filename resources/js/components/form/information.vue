@@ -3,7 +3,7 @@
     <div class="h-flex-row-s-flex-col">
       <div class="sec-form grow-1 mr-lg-2">
         <div class="head-form">ชื่อ</div>
-        <input type="text" class="form-control" v-model="userData.first_name" required>
+        <input type="text"  ref="first_name" class="form-control" v-model="userData.first_name" autofocus  required>
       </div>
       <div class="sec-form grow-1">
         <div class="head-form">นามสกุล</div>
@@ -134,6 +134,10 @@ export default Vue.extend({
         this.$emit("emit:information",this.userData)
       }
     },
+  },
+  mounted() {
+    this.$refs.first_name.focus();
+    console.log(this.$refs)
   },
 });
 </script>
