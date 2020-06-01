@@ -19,6 +19,7 @@
           </div>
           
           <div class="col-lg-6 col-12 mt-5 p-0 m-lg-2">
+            <show-payments :pawn_id="pawn_id" />
             <show-item class="mt-4" :pawnItem="pawnData" />
           </div>
 
@@ -33,13 +34,15 @@ import Vue from 'vue';
 import search from './form/searchForPawn.vue'
 import showItem from './form/showPwanItem.vue'
 import showDataRenew from './form/showDataRenew.vue'
+import ShowPayments from './showData/showPayments.vue'
 
 export default Vue.extend({
   name: 'redeem',
   components:{
     search,
     showItem,
-    showDataRenew
+    showDataRenew,
+    ShowPayments
   },
   data() {
     return {
