@@ -135,10 +135,6 @@ export default Vue.extend({
           let dd = td - ld
           let dm = tm - lm
           let dy = ty - ly  
-          console.log('dd :',dd);
-          console.log('dd :',dm);
-          console.log('dd :',dy);
-          
           if (dd + dm + dy === 0) {
               return parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)/100)
           }

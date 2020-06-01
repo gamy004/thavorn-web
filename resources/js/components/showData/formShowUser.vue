@@ -4,11 +4,11 @@
         <table>
             <tbody>
                 <tr class="bg-primary text-white">
-                    <th>identity_card_id</th>
-                    <th>first_name</th>
-                    <th>last_name</th>
-                    <th>phone_number</th>
-                    <th>created_at</th>
+                    <th>เลขบัตรประชาชน</th>
+                    <th>ชื่อ</th>
+                    <th>นามสุกล</th>
+                    <th>เลขโทรศัพท์</th>
+                    <th>วันที่สร้าง</th>
                 </tr>
                 <tr v-for="(item, index) in data" :key="index" >
                     <td>{{item.identity_card_id}}</td>
