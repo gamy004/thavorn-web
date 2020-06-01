@@ -2109,7 +2109,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         item_category_id: null,
         item_weight: null,
         item_value: null,
-        item_damage_id: 2
+        item_damage_id: 1
       },
       editIndex: null,
       category_item: [],
@@ -2658,7 +2658,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(item) {
         var _this = this;
 
-        var res1, res, pawn_no_list;
+        var res1, output, res, pawn_no_list;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2690,6 +2690,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.pawn_item_suggest_id = [];
                   this.tmpPawnItem = [];
                 } else if (res1.data.pawn_items.length > 0) {
+                  output = {};
                   res = res1.data.pawn_items;
                   pawn_no_list = [];
                   this.pawn_item_suggest_id = [];
@@ -2699,10 +2700,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     if (ele.pawn_no.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.pawn_no);
+
+                      _this.$set(output, ele.pawn_id, ele.pawn_no);
                     } else if (ele.identity_card_id.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.identity_card_id);
+
+                      _this.$set(output, ele.pawn_id, ele.pawn_no);
                     } else if (ele.first_name.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.first_name);
+
+                      _this.$set(output, ele.pawn_id, ele.pawn_no);
                     }
                   });
                   pawn_no_list = _toConsumableArray(new Set(pawn_no_list));
@@ -2715,7 +2722,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       first_name: res1.data.pawn_items[0].first_name,
                       last_name: res1.data.pawn_items[0].last_name
                     };
-                    this.emitList(pawn_no_list);
+                    console.log('zxc', output);
+                    this.emitList(output);
                   }
                 } else {
                   this.pawn_item_suggest_id = [];
@@ -3046,6 +3054,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var dd = td - ld;
       var dm = tm - lm;
       var dy = ty - ly;
+
+      if (dd + dm + dy === 0) {
+        return parseFloat(this.sumPriceStart) + parseFloat(this.sumPriceStart) * parseFloat(1) / 100;
+      }
+
       var out = 0;
 
       if (dy === 0) {
@@ -3847,7 +3860,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     checkreq: function checkreq() {
-      if (this.userData.identity_card_id.length === 13 && this.userData.first_name.length && this.userData.last_name.length && this.goldData.length) {
+      if (this.userData.first_name.length && this.userData.last_name.length && this.goldData.length) {
         this.showbutton = 1;
       } else {
         this.showbutton = 0;
@@ -4028,9 +4041,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     updateData: function updateData(list) {
-      if (list) {
+      if (list && Object.keys(list).length) {
         this.idList = list;
-        this.pawn_id = list[0];
+        this.pawn_id = Object.keys(list)[0];
         this.getPawnData(this.pawn_id);
       }
     },
@@ -4153,24 +4166,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      idList: [],
-      pawn_no: "",
+      idList: {},
+      pawn_id: "",
       pawnData: [],
       mouthCount: 1
     };
   },
   methods: {
     updateData: function updateData(list) {
-      if (list && list.length) {
+      if (list && Object.keys(list).length) {
         this.idList = list;
-        this.pawn_no = list[0];
-        this.getPawnData(this.pawn_no);
+        this.pawn_id = Object.keys(list)[0];
+        this.getPawnData(this.pawn_id);
       }
     },
     getPawnData: function () {
       var _getPawnData = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(pawn_no) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(pawn_id) {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -4180,8 +4193,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return window.api.get("pawn_user_items", {
                   params: {
                     search: {
-                      keyword: pawn_no,
-                      fields: ['pawn_no']
+                      keyword: pawn_id,
+                      fields: ['pawn_id']
                     }
                   }
                 });
@@ -4209,10 +4222,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
-    pawn_no: {
-      handler: function handler(pawn_no) {
-        if (pawn_no) {
-          this.getPawnData(pawn_no);
+    pawn_id: {
+      handler: function handler(pawn_id) {
+        if (pawn_id) {
+          this.getPawnData(pawn_id);
         }
       }
     }
@@ -5169,7 +5182,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
-  name: 'showUserData',
+  name: "showUserData",
   components: {
     Table: _formShowUser__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
@@ -5193,9 +5206,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 res = _context.sent;
+                // Sample api
+                // window.api.get(`users`, {
+                //   params: {
+                //     search: {
+                //       keyword: "keyword",
+                //       fields: ["first_name", "last_name", "full_name"]
+                //     }
+                //   }
+                // });
+                // window.api.get(`pawns/generate-number`);
+                window.api.get("pawns/1/close-amount"); // window.api.get(`pawns/1/paid-amount`, {
+                //   params: {
+                //     month_amount: 1
+                //   }
+                // });
+
                 this.userData = res.data.users;
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -5213,7 +5242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {},
   watch: {},
   mounted: function mounted() {
-    this.getUserData('first_name');
+    this.getUserData("first_name");
   }
 }));
 
@@ -24072,53 +24101,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticClass: "sec-form" },
-      [
-        _c("div", { staticClass: "head-form" }, [_vm._v("เลขบัตรประชาชน")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.userData.identity_card_id,
-              expression: "userData.identity_card_id"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", required: "" },
-          domProps: { value: _vm.userData.identity_card_id },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.userData, "identity_card_id", $event.target.value)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.suggest_id, function(item) {
-          return _c(
-            "div",
-            {
-              key: item,
-              staticClass: "form-control hint",
-              on: {
-                click: function($event) {
-                  return _vm.updateForm(item)
-                }
-              }
-            },
-            [_vm._v(_vm._s(item))]
-          )
-        })
-      ],
-      2
-    ),
-    _vm._v(" "),
     _c("div", { staticClass: "h-flex-row-s-flex-col" }, [
       _c("div", { staticClass: "sec-form grow-1 mr-lg-2" }, [
         _c("div", { staticClass: "head-form" }, [_vm._v("ชื่อ")]),
@@ -24276,6 +24258,53 @@ var render = function() {
         }
       })
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "sec-form" },
+      [
+        _c("div", { staticClass: "head-form" }, [_vm._v("เลขบัตรประชาชน")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.userData.identity_card_id,
+              expression: "userData.identity_card_id"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", required: "" },
+          domProps: { value: _vm.userData.identity_card_id },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.userData, "identity_card_id", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.suggest_id, function(item) {
+          return _c(
+            "div",
+            {
+              key: item,
+              staticClass: "form-control hint",
+              on: {
+                click: function($event) {
+                  return _vm.updateForm(item)
+                }
+              }
+            },
+            [_vm._v(_vm._s(item))]
+          )
+        })
+      ],
+      2
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "sec-form" }, [
       _c("div", { staticClass: "head-form" }, [_vm._v("Email")]),
@@ -25299,8 +25328,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.pawn_no,
-                        expression: "pawn_no"
+                        value: _vm.pawn_id,
+                        expression: "pawn_id"
                       }
                     ],
                     staticClass: "width-max",
@@ -25314,16 +25343,19 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.pawn_no = $event.target.multiple
+                        _vm.pawn_id = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       }
                     }
                   },
-                  _vm._l(_vm.idList, function(id) {
+                  _vm._l(Object.keys(_vm.idList), function(id) {
                     return _c("option", {
                       key: id,
-                      domProps: { textContent: _vm._s(id) }
+                      domProps: {
+                        value: id,
+                        textContent: _vm._s(_vm.idList[id])
+                      }
                     })
                   }),
                   0

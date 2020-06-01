@@ -11,6 +11,7 @@ class DBCol
     
     const FIRST_NAME = 'first_name';
     const LAST_NAME = 'last_name';
+    const FULL_NAME = 'full_name';
     const IDENTITY_CARD_ID = 'identity_card_id';
     const GENDER = 'gender';
     const FACEBOOK = 'facebook';

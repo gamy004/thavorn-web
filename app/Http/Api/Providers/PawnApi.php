@@ -3,6 +3,7 @@
 namespace App\Http\Api\Providers;
 
 use Exception;
+use App\IOCs\Data;
 use App\IOCs\DBCol;
 use App\Models\Pawn;
 use App\Models\Role;
@@ -88,5 +89,27 @@ class PawnApi extends BaseApi implements ApiInterface
         }
 
         return $pawn;
+    }
+
+    public function getPaidAmount(Pawn $pawn, array $raw = []) {
+        if (isset($raw["month_amount"])) {
+            return [
+                Data::PAID_AMOUNT => $pawn->computePaidAmount(
+                    $raw["month_amount"]
+                )
+            ];
+        }
+    }
+
+    public function getCloseAmount(Pawn $pawn, array $raw = []) {
+        return [
+            Data::CLOSE_AMOUNT => $pawn->getClosePayment()
+        ];
+    }
+
+    public function generateNumber() {
+        return [
+            DBCol::PAWN_NO => $this->getOriginalModel()->generate_no()
+        ];
     }
 }

@@ -13,7 +13,8 @@ class Pawn extends Model
     
     const FK = 'pawn_id';
     const USER_FK = 'customer_id';
-    const INTEREST_ONE_DAY = 1; #percent
+    const INTEREST_RATE_ONE_DAY = 1; #percent
+    const MINIMUM_INTEREST = 30; #baht
 
     protected static function boot() {
         parent::boot();
@@ -106,9 +107,9 @@ class Pawn extends Model
         return $this;
     }
 
-    public function interest_one_day()
+    public function interest_rate_one_day_factor()
     {
-        return static::INTEREST_ONE_DAY/100;
+        return static::INTEREST_RATE_ONE_DAY/100;
     }
 
     public function interest_factor()
@@ -182,9 +183,13 @@ class Pawn extends Model
         $pawn_items_value = $this->computePawnItemsValue();
 
         if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
-            $interest_value = $pawn_items_value * $this->interest_one_day();
+            $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
         } else {
             $interest_value = $this->computePaidAmount($due_month_day['due_month']);
+        }
+
+        if ($interest_value <= self::MINIMUM_INTEREST) {
+            $interest_value = self::MINIMUM_INTEREST;
         }
 
         $close_payment_amount = $pawn_items_value + $interest_value;

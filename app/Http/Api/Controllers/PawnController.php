@@ -3,6 +3,7 @@
 namespace App\Http\Api\Controllers;
 
 use App\Models\Pawn;
+use Illuminate\Http\Request;
 use App\Http\Api\Requests\PawnRequests\PaidPawnRequest;
 use App\Http\Api\Requests\PawnRequests\ClosePawnRequest;
 use App\Http\Api\Requests\PawnRequests\StorePawnRequest;
@@ -27,5 +28,20 @@ class PawnController extends BaseApiController {
     public function close(ClosePawnRequest $request, Pawn $pawn)
     {
         return $this->api->close($pawn, $request->all());
+    }
+
+    public function getPaidAmount(Request $request, Pawn $pawn)
+    {
+        return $this->api->getPaidAmount($pawn, $request->all());
+    }
+
+    public function getCloseAmount(Pawn $pawn)
+    {
+        return $this->api->getCloseAmount($pawn);
+    }
+
+    public function generateNumber()
+    {
+        return $this->api->generateNumber();
     }
 }
