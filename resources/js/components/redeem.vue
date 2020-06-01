@@ -19,7 +19,7 @@
           </div>
           
           <div class="col-lg-6 col-12 mt-5 p-0 m-lg-2">
-            <show-payments :pawn_id="6" />
+            <show-payments :pawn_id="pawn_id" />
             <show-item class="mt-4" :pawnItem="pawnData" />
           </div>
 
