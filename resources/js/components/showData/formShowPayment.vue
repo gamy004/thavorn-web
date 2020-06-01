@@ -4,18 +4,16 @@
         <table>
             <tbody>
                 <tr class="bg-primary text-white">
-                    <th>เลขบัตรประชาชน</th>
-                    <th>ชื่อ</th>
-                    <th>นามสุกล</th>
-                    <th>เลขโทรศัพท์</th>
-                    <th>วันที่สร้าง</th>
+                    <th>มูลค่า</th>
+                    <th>จำนวนเดือน</th>
+                    <th>เดือน</th>
+                    <th>วันที่ชำระ</th>
                 </tr>
                 <tr v-for="(item, index) in data" :key="index" >
-                    <td>{{item.identity_card_id}}</td>
-                    <td>{{item.first_name}}</td>
-                    <td>{{item.last_name}}</td>
-                    <td>{{item.phone_number}}</td>
-                    <td>{{item.created_at}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.month_amount}}</td>
+                    <td>{{showMM(item.time_start_at, item.time_end_at, item.month_amount)}}</td>
+                    <td>{{setDate(item.created_at)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -25,12 +23,11 @@
 
 <script>
 import Vue from 'vue';
+import moment from 'moment'
 
 export default Vue.extend({
-  name: 'usertable',
-  components:{
-    
-  },
+  name: 'paymenttable',
+
   data() {
     return {
 
@@ -43,7 +40,31 @@ export default Vue.extend({
     },
   },
   methods: {
-
+    setDate(data) {
+      let tmp =new Date(data)
+      tmp = moment(tmp, 'DD/MM/YYYY').format('DD/MM/YYYY h:mm:ss a')
+      return tmp
+    },
+    showMM(start, end, month_amount) {
+      if (month_amount === 0) {
+        return '-'
+      }else{
+        let data = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.']
+        let dateStart =  parseInt(start.substring(5,8))
+        let dateEnd =  parseInt(end.substring(5,8))
+        let count = dateEnd-dateStart
+        let output = ""
+        for (let i = 0; i < count; i++) {
+          if (i) {
+            output += " | "
+          }
+          output += data[dateStart]
+          dateStart++
+        }
+        return output
+      }
+      
+    }
   },
   computed: {
 

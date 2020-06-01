@@ -70,13 +70,13 @@ export default Vue.extend({
           this.tmpPawnItem = res
           res.forEach( ele => {
             pawn_no_list.push(ele.pawn_no)
-            if (ele.pawn_no.match(item)) {
+            if (ele.pawn_no && ele.pawn_no.match(item)) {
               this.pawn_item_suggest_id.push(ele.pawn_no)
               this.$set(output, ele.pawn_id, ele.pawn_no)
-            }else if (ele.identity_card_id.match(item)) {
+            }else if (ele.identity_card_id && ele.identity_card_id.match(item)) {
               this.pawn_item_suggest_id.push(ele.identity_card_id)
               this.$set(output, ele.pawn_id, ele.pawn_no)
-            }else if (ele.first_name.match(item)) {
+            }else if (ele.first_name && ele.first_name.match(item)) {
               this.pawn_item_suggest_id.push(ele.first_name)
               this.$set(output, ele.pawn_id, ele.pawn_no)
             }

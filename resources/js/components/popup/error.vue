@@ -28,6 +28,9 @@ export default Vue.extend({
       setShowPop(val, message) {
           this.message = message
           this.show = val
+          if (this.message !== 'ERROR') {
+              setTimeout(() => {  location.reload() }, 1000);
+          }
       },
       closePop() {
           if (this.message === 'ERROR') {
