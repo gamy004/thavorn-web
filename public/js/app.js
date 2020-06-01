@@ -2297,7 +2297,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         item_category_id: null,
         item_weight: null,
         item_value: null,
-        item_damage_id: 2
+        item_damage_id: 1
       };
       this.editIndex = null;
     },
@@ -2507,6 +2507,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return handler;
       }()
     }
+  },
+  mounted: function mounted() {
+    this.$refs.first_name.focus();
+    console.log(this.$refs);
   }
 }));
 
@@ -2698,15 +2702,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   res.forEach(function (ele) {
                     pawn_no_list.push(ele.pawn_no);
 
-                    if (ele.pawn_no.match(item)) {
+                    if (ele.pawn_no && ele.pawn_no.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.pawn_no);
 
                       _this.$set(output, ele.pawn_id, ele.pawn_no);
-                    } else if (ele.identity_card_id.match(item)) {
+                    } else if (ele.identity_card_id && ele.identity_card_id.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.identity_card_id);
 
                       _this.$set(output, ele.pawn_id, ele.pawn_no);
-                    } else if (ele.first_name.match(item)) {
+                    } else if (ele.first_name && ele.first_name.match(item)) {
                       _this.pawn_item_suggest_id.push(ele.first_name);
 
                       _this.$set(output, ele.pawn_id, ele.pawn_no);
@@ -3056,7 +3060,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var dy = ty - ly;
 
       if (dd + dm + dy === 0) {
-        return parseFloat(this.sumPriceStart) + parseFloat(this.sumPriceStart) * parseFloat(1) / 100;
+        return parseFloat(this.sumPriceStart) + parseFloat(this.sumPriceStart) / 100;
       }
 
       var out = 0;
@@ -3954,6 +3958,12 @@ __webpack_require__.r(__webpack_exports__);
     setShowPop: function setShowPop(val, message) {
       this.message = message;
       this.show = val;
+
+      if (this.message !== 'ERROR') {
+        setTimeout(function () {
+          location.reload();
+        }, 1000);
+      }
     },
     closePop: function closePop() {
       if (this.message === 'ERROR') {
@@ -3984,6 +3994,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_searchForPawn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/searchForPawn.vue */ "./resources/js/components/form/searchForPawn.vue");
 /* harmony import */ var _form_showPwanItem_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/showPwanItem.vue */ "./resources/js/components/form/showPwanItem.vue");
 /* harmony import */ var _form_showDataRedeem_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/showDataRedeem.vue */ "./resources/js/components/form/showDataRedeem.vue");
+/* harmony import */ var _showData_showPayments_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./showData/showPayments.vue */ "./resources/js/components/showData/showPayments.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4020,6 +4031,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 
@@ -4029,7 +4042,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     search: _form_searchForPawn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     showItem: _form_showPwanItem_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    showDataRedeem: _form_showDataRedeem_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    showDataRedeem: _form_showDataRedeem_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    ShowPayments: _showData_showPayments_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
@@ -4117,6 +4131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_searchForPawn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/searchForPawn.vue */ "./resources/js/components/form/searchForPawn.vue");
 /* harmony import */ var _form_showPwanItem_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/showPwanItem.vue */ "./resources/js/components/form/showPwanItem.vue");
 /* harmony import */ var _form_showDataRenew_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/showDataRenew.vue */ "./resources/js/components/form/showDataRenew.vue");
+/* harmony import */ var _showData_showPayments_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./showData/showPayments.vue */ "./resources/js/components/showData/showPayments.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4153,6 +4168,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 
@@ -4162,7 +4179,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     search: _form_searchForPawn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     showItem: _form_showPwanItem_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    showDataRenew: _form_showDataRenew_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    showDataRenew: _form_showDataRenew_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    ShowPayments: _showData_showPayments_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
@@ -5006,6 +5024,91 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+  name: 'paymenttable',
+  data: function data() {
+    return {};
+  },
+  props: {
+    data: {
+      type: Array,
+      defult: []
+    }
+  },
+  methods: {
+    setDate: function setDate(data) {
+      var tmp = new Date(data);
+      tmp = moment__WEBPACK_IMPORTED_MODULE_1___default()(tmp, 'DD/MM/YYYY').format('DD/MM/YYYY h:mm:ss a');
+      return tmp;
+    },
+    showMM: function showMM(start, end, month_amount) {
+      if (month_amount === 0) {
+        return '-';
+      } else {
+        var data = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+        var dateStart = parseInt(start.substring(5, 8));
+        var dateEnd = parseInt(end.substring(5, 8));
+        var count = dateEnd - dateStart;
+        var output = "";
+
+        for (var i = 0; i < count; i++) {
+          if (i) {
+            output += " | ";
+          }
+
+          output += data[dateStart];
+          dateStart++;
+        }
+
+        return output;
+      }
+    }
+  },
+  computed: {},
+  watch: {},
+  mounted: function mounted() {}
+}));
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowUser.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowUser.vue?vue&type=script&lang=js& ***!
@@ -5117,13 +5220,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return window.api.get("pawns");
+                return window.api.get("pawns", {
+                  params: {
+                    sort: ["-created_at"]
+                  }
+                });
 
               case 2:
                 res = _context.sent;
                 this.pawnData = res.data.pawns;
                 _context.next = 6;
-                return window.api.get("pawn_user_items");
+                return window.api.get("pawn_user_items", {
+                  params: {
+                    sort: ["-created_at"]
+                  }
+                });
 
               case 6:
                 res2 = _context.sent;
@@ -5149,6 +5260,106 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.getUserData('first_name');
   }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _formShowPayment_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./formShowPayment.vue */ "./resources/js/components/showData/formShowPayment.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = (vue__WEBPACK_IMPORTED_MODULE_1___default.a.extend({
+  name: 'showPayments',
+  components: {
+    FormShowPayment: _formShowPayment_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      paymentData: []
+    };
+  },
+  props: {
+    pawn_id: {
+      defult: ""
+    }
+  },
+  methods: {
+    getData: function () {
+      var _getData = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this.pawn_id) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 3;
+                return window.api.get("pawns/".concat(this.pawn_id), {
+                  params: {
+                    includes: ["payments:sideload"]
+                  }
+                });
+
+              case 3:
+                res = _context.sent;
+                console.log('aaa', res.data);
+                this.paymentData = res.data.payments;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _getData.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  },
+  watch: {
+    pawn_id: {
+      immediate: true,
+      handler: function handler(pawn_id) {
+        if (pawn_id) {
+          this.getData();
+        }
+      }
+    }
+  },
+  mounted: function mounted() {}
 }));
 
 /***/ }),
@@ -12355,6 +12566,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.tap-bar[data-v-61db9c36] {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: center;\n            justify-content: center;\n    padding: 20px 0;\n    background-color: #3490dc;\n    color: white;\n    border-bottom: 0.5px solid #237cc5;\n    border-top: 0.5px solid #237cc5;\n    font-size: 20px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.margin-cus[data-v-4a69abe8]{\n    margin-top: 18px;\n}\n.flex-cus[data-v-4a69abe8]{\n    justify-content: space-around;\n}\n.h-flex-row-s-flex-col[data-v-4a69abe8]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-flow: row;\n@media(max-width: 991px){\n    -webkit-box-orient:  vertical;\n    -webkit-box-direction:  normal;\n            flex-flow:  column;\n}\n}\n.grow-1[data-v-4a69abe8]{\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-flex: 1;\n          flex-grow: 1;\n}\n.border-cus[data-v-4a69abe8]{\n    border: rgba(0,0,0,0.2) solid 1px;\n}\n.border-radius-cus[data-v-4a69abe8]{\n    border-radius: 5px;\n}\ntable[data-v-4a69abe8] {\n    border-collapse: collapse;\n    width: 100%;\n    text-align: center;\n    border-radius: calc(1px + 0.2vw);\n    font-size: calc(9px + 0.5vw);\n}\ntable td[data-v-4a69abe8], table th[data-v-4a69abe8] {\n    padding: 1vw;\n}\ntable tr[data-v-4a69abe8]:nth-child(even){background-color: #f2f2f2;}\ntable tr[data-v-4a69abe8]:hover {background-color: #ddd;}\ntable th[data-v-4a69abe8] {\n    font-weight: 400;\n}\n.activeClass[data-v-4a69abe8]{\n    background-color: rgb(255, 156, 156) !important;\n&:hover{\n        background-color: rgb(255, 125, 125) !important;\n}\n}\n", ""]);
 
 // exports
 
@@ -23710,7 +23940,7 @@ var render = function() {
         [
           _c("menul", { staticClass: "col-2 max-width m-0 p-0" }),
           _vm._v(" "),
-          _c("router-view", { staticClass: "p-0 w-100 able-overflow" })
+          _c("router-view", { staticClass: "p-0 w-100 able-overflow main" })
         ],
         1
       )
@@ -24114,8 +24344,9 @@ var render = function() {
               expression: "userData.first_name"
             }
           ],
+          ref: "first_name",
           staticClass: "form-control",
-          attrs: { type: "text", required: "" },
+          attrs: { type: "text", autofocus: "", required: "" },
           domProps: { value: _vm.userData.first_name },
           on: {
             input: function($event) {
@@ -25269,6 +25500,8 @@ var render = function() {
             "div",
             { staticClass: "col-lg-6 col-12 mt-5 p-0 m-lg-2" },
             [
+              _c("show-payments", { attrs: { pawn_id: _vm.pawn_id } }),
+              _vm._v(" "),
               _c("show-item", {
                 staticClass: "mt-4",
                 attrs: { pawnItem: _vm.pawnData }
@@ -25374,6 +25607,8 @@ var render = function() {
             "div",
             { staticClass: "col-lg-6 col-12 mt-5 p-0 m-lg-2" },
             [
+              _c("show-payments", { attrs: { pawn_id: _vm.pawn_id } }),
+              _vm._v(" "),
               _c("show-item", {
                 staticClass: "mt-4",
                 attrs: { pawnItem: _vm.pawnData }
@@ -25934,6 +26169,79 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "h-flex-col-s-flex-row" }, [
+      _c("table", [
+        _c(
+          "tbody",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.data, function(item, index) {
+              return _c("tr", { key: index }, [
+                _c("td", [_vm._v(_vm._s(item.amount))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.month_amount))]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    _vm._s(
+                      _vm.showMM(
+                        item.time_start_at,
+                        item.time_end_at,
+                        item.month_amount
+                      )
+                    )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.setDate(item.created_at)))])
+              ])
+            })
+          ],
+          2
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", { staticClass: "bg-primary text-white" }, [
+      _c("th", [_vm._v("มูลค่า")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("จำนวนเดือน")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("เดือน")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("วันที่ชำระ")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowUser.vue?vue&type=template&id=197a8a4e&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowUser.vue?vue&type=template&id=197a8a4e&scoped=true& ***!
@@ -25983,15 +26291,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", { staticClass: "bg-primary text-white" }, [
-      _c("th", [_vm._v("identity_card_id")]),
+      _c("th", [_vm._v("เลขบัตรประชาชน")]),
       _vm._v(" "),
-      _c("th", [_vm._v("first_name")]),
+      _c("th", [_vm._v("ชื่อ")]),
       _vm._v(" "),
-      _c("th", [_vm._v("last_name")]),
+      _c("th", [_vm._v("นามสุกล")]),
       _vm._v(" "),
-      _c("th", [_vm._v("phone_number")]),
+      _c("th", [_vm._v("เลขโทรศัพท์")]),
       _vm._v(" "),
-      _c("th", [_vm._v("created_at")])
+      _c("th", [_vm._v("วันที่สร้าง")])
     ])
   }
 ]
@@ -26024,6 +26332,35 @@ var render = function() {
         attrs: { pawn: _vm.pawnData, allPawnItem: _vm.PawnItem }
       })
     ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "ft-cus" },
+    [_c("form-show-payment", { attrs: { data: _vm.paymentData } })],
     1
   )
 }
@@ -72452,6 +72789,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowUser.vue?vue&type=style&index=0&id=197a8a4e&scoped=true&lang=css&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/showData/formShowUser.vue?vue&type=style&index=0&id=197a8a4e&scoped=true&lang=css& ***!
@@ -90242,6 +90609,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/showData/formShowPayment.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/showData/formShowPayment.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true& */ "./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true&");
+/* harmony import */ var _formShowPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formShowPayment.vue?vue&type=script&lang=js& */ "./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& */ "./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _formShowPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "4a69abe8",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/showData/formShowPayment.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./formShowPayment.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=style&index=0&id=4a69abe8&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_style_index_0_id_4a69abe8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true& */ "./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/formShowPayment.vue?vue&type=template&id=4a69abe8&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_formShowPayment_vue_vue_type_template_id_4a69abe8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/showData/formShowUser.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/showData/formShowUser.vue ***!
@@ -90393,6 +90847,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showPawnData_vue_vue_type_template_id_5b42c67c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showPawnData_vue_vue_type_template_id_5b42c67c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/showPayments.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/showData/showPayments.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./showPayments.vue?vue&type=template&id=7772a852&scoped=true& */ "./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true&");
+/* harmony import */ var _showPayments_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./showPayments.vue?vue&type=script&lang=js& */ "./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _showPayments_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "7772a852",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/showData/showPayments.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_showPayments_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./showPayments.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/showPayments.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_showPayments_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true& ***!
+  \******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./showPayments.vue?vue&type=template&id=7772a852&scoped=true& */ "./node_modules/laravel-mix/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/showData/showPayments.vue?vue&type=template&id=7772a852&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_laravel_mix_node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showPayments_vue_vue_type_template_id_7772a852_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

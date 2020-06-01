@@ -11376,6 +11376,14 @@ body {
   background-color: #909090;
 }
 
+.card {
+  border: 0 !important;
+}
+
+.main {
+  background-color: #e7f3f2;
+}
+
 /* Chrome, Safari, Edge, Opera */
 
 /* Firefox */
