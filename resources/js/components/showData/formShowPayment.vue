@@ -11,7 +11,7 @@
                 <tr v-for="(item, index) in data" :key="index" >
                     <td>{{item.amount}}</td>
                     <td>{{item.month_amount}}</td>
-                    <td>{{item.created_at}}</td>
+                    <td>{{setDate(item.created_at)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -21,6 +21,7 @@
 
 <script>
 import Vue from 'vue';
+import moment from 'moment'
 
 export default Vue.extend({
   name: 'paymenttable',
@@ -37,7 +38,11 @@ export default Vue.extend({
     },
   },
   methods: {
-
+    setDate(data) {
+      let tmp =new Date(data)
+      tmp = moment(tmp, 'DD/MM/YYYY').format('DD/MM/YYYY h:mm:ss a')
+      return tmp
+    }
   },
   computed: {
 
