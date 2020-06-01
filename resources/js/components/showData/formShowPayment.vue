@@ -55,7 +55,10 @@ export default Vue.extend({
         let count = dateEnd-dateStart
         let output = ""
         for (let i = 0; i < count; i++) {
-          output += data[dateStart]+" "
+          if (i) {
+            output += " | "
+          }
+          output += data[dateStart]
           dateStart++
         }
         return output
