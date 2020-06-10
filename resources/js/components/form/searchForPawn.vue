@@ -52,12 +52,12 @@ export default Vue.extend({
           search: 
             {
               keyword: item,
-              fields:['pawn_no','identity_card_id','first_name']
+              fields:['pawn_no','identity_card_id','first_name','last_name']
             }
           }
         });
         // console.log(1515, res1.data.pawn_items[0].pawn_no, res1.data.pawn_items[0].identity_card_id ,item);
-        if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item || res1.data.pawn_items[0].first_name === item) ) {
+        if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item || res1.data.pawn_items[0].first_name === item || res1.data.pawn_items[0].last_name === item) ) {
           this.pawnItemStatus = false
           this.pawn_item_suggest_id = []
           this.tmpPawnItem = []
@@ -78,6 +78,9 @@ export default Vue.extend({
               this.$set(output, ele.pawn_id, ele.pawn_no)
             }else if (ele.first_name && ele.first_name.match(item)) {
               this.pawn_item_suggest_id.push(ele.first_name)
+              this.$set(output, ele.pawn_id, ele.pawn_no)
+            }else if (ele.last_name && ele.last_name.match(item)) {
+              this.pawn_item_suggest_id.push(ele.last_name)
               this.$set(output, ele.pawn_id, ele.pawn_no)
             }
           });
@@ -108,7 +111,7 @@ export default Vue.extend({
       let status = true
       let pawnItem = []
       for (let i = 0; i < this.tmpPawnItem.length; i++) {
-        if (this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id || this.tmpPawnItem[i].first_name === id) {
+        if (this.tmpPawnItem[i].identity_card_id === id || this.tmpPawnItem[i].pawn_no === id || this.tmpPawnItem[i].first_name === id ||this.tmpPawnItem[i].last_name === id) {
           let res = this.tmpPawnItem[i]
           if (status) {
             this.pawnItemStatus = true
@@ -130,7 +133,7 @@ export default Vue.extend({
         search: 
             {
             keyword: key,
-            fields:['pawn_no','identity_card_id','first_name']
+            fields:['pawn_no','identity_card_id','first_name','last_name']
             }
         }
         });
