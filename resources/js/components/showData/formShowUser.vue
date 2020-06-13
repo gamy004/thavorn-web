@@ -10,7 +10,7 @@
                     <th>เลขโทรศัพท์</th>
                     <th>วันที่สร้าง</th>
                 </tr>
-                <tr v-for="(item, index) in data" :key="index" >
+                <tr v-for="(item, index) in data" :key="index" @click="openNote(item.id)">
                     <td>{{item.identity_card_id}}</td>
                     <td>{{item.first_name}}</td>
                     <td>{{item.last_name}}</td>
@@ -19,6 +19,20 @@
                 </tr>
             </tbody>
         </table>
+
+        <b-modal v-show="noteId" id="notemodal" hide-header>
+          <h4 class="mt-3 mb-4  d-flex justify-content-center">Add note</h4>
+          <textarea name="note" id="textarea-note" ref="textarea_note" class="form-control" cols="30" rows="10" v-model="note" v-on:keyup.enter="clicksave"></textarea>
+
+          <template slot="modal-footer" class="modal-footer ml-3 mr-3">
+            <button type="button" class="btn btn-success" @click="clicksave">
+              <a class="ft-s-16">Save</a>
+            </button>
+            <button type="button" class="btn btn-secondary" @click="cancel">
+              <a class="ft-s-16">Cancel</a>
+            </button>
+          </template>
+        </b-modal>
     </div>
   </div>
 </template>
@@ -33,7 +47,8 @@ export default Vue.extend({
   },
   data() {
     return {
-
+      noteId: null,
+      note: ""
     }
   },
   props:{
@@ -43,7 +58,36 @@ export default Vue.extend({
     },
   },
   methods: {
-
+    openNote(id) {
+      this.noteId = id
+      this.$bvModal.show('notemodal')
+      console.log(this.$refs);
+      setTimeout(() => { this.$refs.textarea_note.focus(); }, 100);
+      
+    },
+    async clicksave() {
+      let id = this.noteId
+      let text = this.note
+      console.log('clicksave : ',id,text);
+      try {
+        let data = {
+          note : text
+        }
+        await window.api.patch(`users/${id}`, data);
+        console.log('Update : ',data);
+        this.clearData()
+        this.$bvModal.hide('notemodal')
+      }catch(error) {
+        console.log(error);
+      }
+    },
+    cancel() {
+      this.$bvModal.hide('notemodal')
+    },
+    clearData() {
+      this.noteId = null
+      this.note = ""
+    }
   },
   computed: {
 
