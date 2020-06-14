@@ -2,6 +2,11 @@
 
 namespace App\Http\Api\Controllers;
 
-class UserController extends BaseApiController {
+use App\Models\User;
 
+class UserController extends BaseApiController {
+    public function update(Request $request, User $user)
+    {
+        return $this->api->update($user, $request->all());
+    }
 }
