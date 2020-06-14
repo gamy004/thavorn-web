@@ -56,7 +56,7 @@
       <input type="text" v-model="userData.line" class="form-control">
     </div>
     <div class="sec-form">
-      <div class="head-form">Line</div>
+      <div class="head-form">Note</div>
       <textarea id="textarea-note" class="form-control" v-model="userData.note" ></textarea>
     </div>
     
