@@ -81,12 +81,12 @@ export default Vue.extend({
         pawn_items : this.goldData,
         interest_rate : this.interest
       }
-      await window.api.post(`pawns`, {pawn}
-      ).catch(
-          this.$refs.error.setShowPop(1,'ERROR')
-      ).then(() => {
-          this.$refs.error.setShowPop(1,'Data has been updated.')
-      })
+      try {
+        await window.api.post(`pawns`, {pawn})
+        this.$refs.error.setShowPop(1,'Data has been updated.')
+      } catch (error) {
+        this.$refs.error.setShowPop(1,'ERROR')
+      }
     }
   },
 });

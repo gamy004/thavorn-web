@@ -180,7 +180,13 @@ export default Vue.extend({
     }
   },
   watch: {
-
+    userData:{
+      deep: true,
+      immediate: true,
+      handler(userData) {
+        this.$emit("emit:information",this.userData)
+      }
+    }
   },
   mounted() {
     this.$refs.first_name.focus();

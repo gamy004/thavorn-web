@@ -127,21 +127,25 @@ export default Vue.extend({
   },
   methods: {
     async reload() {
-        // let res = await window.api.post(`pawns/${this.pawn_id}/pay`,{
-        //     amount : this.total.toFixed(2),
-        //     month_amount : this.mouthCount
-        // });
-
-        await window.api.post(`pawns/${this.pawn_id}/pay`,{
-            amount : this.total,
-            month_amount : this.mouthCount
-        }).catch(
-            this.$refs.error.setShowPop(1,'ERROR')
-        ).then(() => {
+        try {
+            await window.api.post(`pawns/${this.pawn_id}/pay`,{
+                amount : this.total,
+                month_amount : this.mouthCount
+            })
             this.$refs.error.setShowPop(1,'Data has been updated.')
-        })
-        // this.$refs.error.setShowPop(1,'Data has been updated.');
-        // res.status === 200 ? location.reload() : console.log("ERROR");
+        } catch (error) {
+            this.$refs.error.setShowPop(1,'ERROR')
+        }
+
+        // await window.api.post(`pawns/${this.pawn_id}/pay`,{
+        //     amount : this.total,
+        //     month_amount : this.mouthCount
+        // }).catch(
+        //     this.$refs.error.setShowPop(1,'ERROR')
+        // ).then(() => {
+        //     this.$refs.error.setShowPop(1,'Data has been updated.')
+        // })
+
     },
     checklimitword() {
       if (this.mouthCount.length === 0 || this.mouthCount.length === undefined) {

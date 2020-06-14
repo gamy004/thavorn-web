@@ -208,13 +208,22 @@ export default Vue.extend({
   methods: {
     async reload() {
 
-        await window.api.post(`pawns/${this.pawn_id}/close`, {
-          amount: this.total
-        }).catch(
-            this.$refs.error.setShowPop(1,'ERROR')
-        ).then(() => {
+        try {
+            await window.api.post(`pawns/${this.pawn_id}/close`, {
+                amount: this.total
+            })
             this.$refs.error.setShowPop(1,'Data has been updated.')
-        })
+        } catch (error) {
+            this.$refs.error.setShowPop(1,'ERROR')
+        }
+
+        // await window.api.post(`pawns/${this.pawn_id}/close`, {
+        //   amount: this.total
+        // }).catch(
+        //     this.$refs.error.setShowPop(1,'ERROR')
+        // ).then(() => {
+        //     this.$refs.error.setShowPop(1,'Data has been updated.')
+        // })
         
     },
   }

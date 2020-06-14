@@ -33,17 +33,20 @@
             </button>
           </template>
         </b-modal>
+
+        <error ref="error" />
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import error from '../popup/error.vue'
 
 export default Vue.extend({
   name: 'usertable',
   components:{
-    
+    error
   },
   data() {
     return {
@@ -77,8 +80,11 @@ export default Vue.extend({
         console.log('Update : ',data);
         this.clearData()
         this.$bvModal.hide('notemodal')
+        this.$refs.error.setShowPop(1,'Data has been updated.')
       }catch(error) {
         console.log(error);
+        this.$bvModal.hide('notemodal')
+        this.$refs.error.setShowPop(1,'ERROR')
       }
     },
     cancel() {
