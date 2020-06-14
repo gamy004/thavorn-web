@@ -1,7 +1,10 @@
 <template>
   <div>
     <section class="card">
-      <h2>ข้อมูลส่วนตัวลูกค้า</h2>
+      <div class="d-flex justify-content-between">
+        <h2>ข้อมูลส่วนตัวลูกค้า</h2>
+        <div v-if="generateNumber">Pawn_no : {{generateNumber}}</div>
+      </div>
       <information @emit:information="updateInformation" />
     </section>
     <section class="card">
@@ -39,7 +42,8 @@ export default Vue.extend({
         userData : {},
         goldData : [],
         interest : 3,
-        showbutton : 0
+        showbutton : 0,
+        generateNumber: null
     }
   },
   watch: {
@@ -87,7 +91,15 @@ export default Vue.extend({
       } catch (error) {
         this.$refs.error.setShowPop(1,'ERROR')
       }
+    },
+    async getGenerateNumber() {
+      let res = await window.api.get(`pawns/generate-number`)
+      console.log('res', res);
+      this.generateNumber = res.data.pawn_no
     }
+  },
+  mounted() {
+    this.getGenerateNumber()
   },
 });
 </script>
