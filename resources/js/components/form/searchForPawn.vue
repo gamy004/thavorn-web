@@ -11,6 +11,8 @@
       <div type="text" class="form-control" v-text="active_user.first_name"></div>
       <div class="head-form">นามสกุล</div>
       <div type="text" class="form-control" v-text="active_user.last_name"></div>
+      <div class="head-form">Note</div>
+      <div type="text" class="form-control cus-text" v-text="active_user.note"></div>
     </div>
 
   </div>
@@ -131,7 +133,8 @@ export default Vue.extend({
           console.log('= full name');
           this.active_user = {
             first_name : user[i].first_name,
-            last_name : user[i].last_name
+            last_name : user[i].last_name,
+            note : user[i].note,
           }
           this.pushPawnList(item)
           break
@@ -239,5 +242,9 @@ export default Vue.extend({
 }
 .head-form{
   margin-bottom: 6px;
+}
+.cus-text{
+  min-height: 40px;
+  height: auto;
 }
 </style>
