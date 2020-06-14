@@ -22,7 +22,7 @@
 
         <b-modal v-show="noteId" id="notemodal" hide-header>
           <h4 class="mt-3 mb-4  d-flex justify-content-center">Add note</h4>
-          <textarea name="note" id="textarea-note" ref="textarea_note" class="form-control" cols="30" rows="10" v-model="note" v-on:keyup.enter="clicksave"></textarea>
+          <textarea v-show="activeAddNote" name="note" id="textarea-note" ref="textarea_note" class="form-control" cols="30" rows="10" v-model="note" v-on:keyup.enter="clicksave"></textarea>
 
           <template slot="modal-footer" class="modal-footer ml-3 mr-3">
             <button type="button" class="btn btn-success" @click="clicksave">
@@ -51,7 +51,8 @@ export default Vue.extend({
   data() {
     return {
       noteId: null,
-      note: ""
+      note: "",
+      activeAddNote: 0
     }
   },
   props:{
@@ -61,10 +62,13 @@ export default Vue.extend({
     },
   },
   methods: {
-    openNote(id) {
+    async openNote(id) {
       this.noteId = id
       this.$bvModal.show('notemodal')
       console.log(this.$refs);
+      let res = await window.api.get(`users/${id}`)
+      this.note = res.data.users.note
+      this.activeAddNote = 1
       setTimeout(() => { this.$refs.textarea_note.focus(); }, 100);
       
     },
@@ -73,21 +77,24 @@ export default Vue.extend({
       let text = this.note
       console.log('clicksave : ',id,text);
       try {
-        let data = {
+        let user = {
           note : text
         }
-        await window.api.patch(`users/${id}`, data);
-        console.log('Update : ',data);
+        await window.api.patch(`users/${id}`, user);
+        console.log('Update : ',user);
         this.clearData()
         this.$bvModal.hide('notemodal')
+        this.activeAddNote = 0
         this.$refs.error.setShowPop(1,'Data has been updated.')
       }catch(error) {
+        this.activeAddNote = 0
         console.log(error);
         this.$bvModal.hide('notemodal')
         this.$refs.error.setShowPop(1,'ERROR')
       }
     },
     cancel() {
+      this.activeAddNote = 0
       this.$bvModal.hide('notemodal')
     },
     clearData() {
