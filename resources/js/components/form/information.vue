@@ -3,7 +3,7 @@
     <div class="sec-form">
       <div class="sec-form grow-1 mr-lg-2 mb-3">
         <div class="head-form">ค้นหาลูกค้า</div>
-        <input type="text"  ref="search-imformation" class="form-control" @keyup="search(searchKeyWord)" v-model="searchKeyWord" required>
+        <input type="text"  ref="search_imformation" class="form-control" @keyup="search(searchKeyWord)" v-model="searchKeyWord" required>
         <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="clickSuggest(item)" :key="item" >{{item}}</div>
       </div>
     </div>
@@ -55,6 +55,11 @@
       <div class="head-form">Line</div>
       <input type="text" v-model="userData.line" class="form-control">
     </div>
+    <div class="sec-form">
+      <div class="head-form">Line</div>
+      <textarea id="textarea-note" class="form-control" v-model="userData.note" ></textarea>
+    </div>
+    
   </div>
 </template>
 
@@ -73,7 +78,8 @@ export default Vue.extend({
         phone_number: "",
         line: "",
         facebook: "",
-        email: ""
+        email: "",
+        note:""
       },
       suggest_id: [],
       tmpUser: [],
@@ -152,7 +158,8 @@ export default Vue.extend({
         phone_number: val.phone_number,
         line: val.line,
         facebook: val.facebook,
-        email: val.email
+        email: val.email,
+        note: val.note
       }
     },
     async getUser (item) {
@@ -178,7 +185,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.$refs.first_name.focus();
+    this.$refs.search_imformation.focus();
   },
 });
 </script>
