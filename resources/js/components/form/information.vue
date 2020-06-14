@@ -4,7 +4,7 @@
       <div class="sec-form grow-1 mr-lg-2 mb-3">
         <div class="head-form">ค้นหาลูกค้า</div>
         <input type="text"  ref="search-imformation" class="form-control" @keyup="search(searchKeyWord)" v-model="searchKeyWord" required>
-        <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="updateFormNumber(item)" :key="item" >{{item}}</div>
+        <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="clickSuggest(item)" :key="item" >{{item}}</div>
       </div>
     </div>
     <div class="h-flex-row-s-flex-col">
@@ -81,7 +81,7 @@ export default Vue.extend({
       searchKeyWord: "",
       pawn_item_suggest_id: [],
       pawnItemStatus: true,
-      tmpPawnItem: []
+      tmpUser: []
     }
   },
   methods: {
@@ -91,76 +91,53 @@ export default Vue.extend({
 
     async search(item) {
       console.log('search');
-      if (item) {
-        let res1 = await window.api.get("pawn_user_items", {
-        params: {
-          search: 
-            {
-              keyword: item,
-              fields:['pawn_no','identity_card_id','first_name','last_name']
-            }
-          }
-        });
-        if (this.pawnItemStatus && res1.data && (res1.data.pawn_items[0].pawn_no === item || res1.data.pawn_items[0].identity_card_id === item || res1.data.pawn_items[0].first_name === item || res1.data.pawn_items[0].last_name === item) ) {
-          this.updateFormNumber(item)
+      if (item && item.length) {
+        let user =  await this.getUser(item)
+        if(user && user.length && user[0].full_name === item) {
+          // click hint
+          console.log('search 2 if');
+          this.clickSuggest(item)
           this.pawnItemStatus = false
           this.pawn_item_suggest_id = []
-          this.tmpPawnItem = []
         }
-        else if(res1.data.pawn_items.length > 0) {
-          let output = {}
-          let res = res1.data.pawn_items
-          let pawn_no_list = []
+        else if(user && user.length >0 ) {
           this.pawn_item_suggest_id = []
-          this.tmpPawnItem = res
-          res.forEach( ele => {
-            pawn_no_list.push(ele.pawn_no)
-            if (ele.pawn_no && ele.pawn_no.match(item)) {
-              this.pawn_item_suggest_id.push(ele.pawn_no)
-              this.$set(output, ele.pawn_id, ele.pawn_no)
-            }else if (ele.identity_card_id && ele.identity_card_id.match(item)) {
-              this.pawn_item_suggest_id.push(ele.identity_card_id)
-              this.$set(output, ele.pawn_id, ele.pawn_no)
-            }else if (ele.first_name && ele.first_name.match(item)) {
-              this.pawn_item_suggest_id.push(ele.first_name)
-              this.$set(output, ele.pawn_id, ele.pawn_no)
-            }else if (ele.last_name && ele.last_name.match(item)) {
-              this.pawn_item_suggest_id.push(ele.last_name)
-              this.$set(output, ele.pawn_id, ele.pawn_no)
+          this.tmpUser = user
+          for (let i = 0; i < this.tmpUser.length; i++) {
+            if (this.tmpUser[i].full_name === item) {
+              this.clickSuggest(item)
+              this.pawnItemStatus = false
+              this.pawn_item_suggest_id = []
+            }
+          }
+          user.forEach( ele => {
+            if (ele.full_name && ele.full_name.match(item)) {
+              this.pawn_item_suggest_id.push(ele.full_name)
             }
           });
-          pawn_no_list = [...new Set(pawn_no_list)]
-          this.pawn_item_suggest_id = [...new Set(this.pawn_item_suggest_id)]
-          if (this.pawn_item_suggest_id.length === 1 && this.pawn_item_suggest_id[0].length === item.length) {
-              this.pawn_item_suggest_id = []
-              this.searchKeyWord = ""
-              this.updateUserData(res1.data.pawn_items[0])
-              console.log('zxc',output);
-          }
         }else {
             this.pawn_item_suggest_id = []
-            this.tmpPawnItem = []
         }
       }else {
           this.pawn_item_suggest_id = []
       }
     },
-    async updateFormNumber(id) {
-      console.log('updateFormNumber');
+    async clickSuggest(id) {
+      console.log('clickSuggest');
       let status = true
-      let pawnItem = []
-      let res = await window.api.get("pawn_user_items", {
+      let user = await window.api.get("users", {
         params: {
           search: 
             {
               keyword: id,
-              fields:['pawn_no','identity_card_id','first_name','last_name']
+              fields:['first_name','last_name']
             }
           }
         });
-      res = res.data.pawn_items[0]
-      let res2 = await window.api.get(`users/${res.customer_id}`);
-      this.updateUserData(res2.data.users)
+      user = user.data.users[0]
+      console.log('asd',user);
+      
+      this.updateUserData(user)
       this.searchKeyWord = ""
       this.pawn_item_suggest_id = []
       this.pawnItemStatus = true
@@ -177,7 +154,19 @@ export default Vue.extend({
         facebook: val.facebook,
         email: val.email
       }
-    }
+    },
+    async getUser (item) {
+      let user = await window.api.get("users", {
+        params: {
+          search: 
+            {
+              keyword: item,
+              fields:['first_name','last_name']
+            }
+          }
+        });
+      return user.data.users
+    },
   },
   watch: {
     userData:{
