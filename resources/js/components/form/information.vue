@@ -1,9 +1,17 @@
 <template>
   <div>
+    <div class="sec-form">
+      <div class="sec-form grow-1 mr-lg-2 mb-3">
+        <div class="head-form">ค้นหาลูกค้า</div>
+        <input type="text"  ref="search_imformation" class="form-control" @keyup="search(searchKeyWord)" v-model="searchKeyWord" required>
+        <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="clickSuggest(item)" :key="item" >{{item}}</div>
+      </div>
+    </div>
     <div class="h-flex-row-s-flex-col">
+
       <div class="sec-form grow-1 mr-lg-2">
         <div class="head-form">ชื่อ</div>
-        <input type="text"  ref="first_name" class="form-control" v-model="userData.first_name" autofocus  required>
+        <input type="text"  ref="first_name" class="form-control" v-model="userData.first_name" required>
       </div>
       <div class="sec-form grow-1">
         <div class="head-form">นามสกุล</div>
@@ -34,7 +42,6 @@
     <div class="sec-form">
       <div class="head-form">เลขบัตรประชาชน</div>
       <input type="text" class="form-control" v-model="userData.identity_card_id" required>
-      <div class="form-control hint" v-for="item in suggest_id" :key="item" @click="updateForm(item)">{{item}}</div>
     </div>
     <div class="sec-form">
       <div class="head-form">Email</div>
@@ -48,6 +55,11 @@
       <div class="head-form">Line</div>
       <input type="text" v-model="userData.line" class="form-control">
     </div>
+    <div class="sec-form">
+      <div class="head-form">Note</div>
+      <textarea id="textarea-note" class="form-control" v-model="userData.note" ></textarea>
+    </div>
+    
   </div>
 </template>
 
@@ -66,78 +78,114 @@ export default Vue.extend({
         phone_number: "",
         line: "",
         facebook: "",
-        email: ""
+        email: "",
+        note:""
       },
       suggest_id: [],
       tmpUser: [],
       suggestStatus: false,
+      searchKeyWord: "",
+      pawn_item_suggest_id: [],
+      pawnItemStatus: true,
+      tmpUser: []
     }
   },
   methods: {
     updateSex(val) {
       this.sex = val;
     },
-    updateForm(id) {
-      for (let i = 0; i < this.tmpUser.length; i++) {
-        if (this.tmpUser[i].identity_card_id === id) {
-          this.suggestStatus = true
-          let res = this.tmpUser[i]
-          this.userData.id = res.id
-          this.userData.identity_card_id = res.identity_card_id
-          this.userData.last_name = res.last_name
-          this.userData.first_name = res.first_name
-          this.userData.gender = res.gender
-          this.userData.facebook = res.facebook
-          this.userData.line = res.line
-          this.userData.phone_number = res.phone_number
-          this.userData.email = res.email
-          break;
+
+    async search(item) {
+      console.log('search');
+      if (item && item.length) {
+        let user =  await this.getUser(item)
+        if(user && user.length && user[0].full_name === item) {
+          // click hint
+          console.log('search 2 if');
+          this.clickSuggest(item)
+          this.pawnItemStatus = false
+          this.pawn_item_suggest_id = []
         }
-      }
-    }
-  },
-  watch: {
-    userData: {
-      deep: true,
-      async handler(userData) {
-        let res1 = await window.api.get("users", {
-        params: {
-          filters: [
-            {
-              key: "identity_card_id",
-              value: userData.identity_card_id,
-              operator: "ct"
+        else if(user && user.length >0 ) {
+          this.pawn_item_suggest_id = []
+          this.tmpUser = user
+          for (let i = 0; i < this.tmpUser.length; i++) {
+            if (this.tmpUser[i].full_name === item) {
+              this.clickSuggest(item)
+              this.pawnItemStatus = false
+              this.pawn_item_suggest_id = []
             }
-          ]
-        }
-        });
-        console.log(res1.data.users);
-        if (this.suggestStatus) {
-          this.suggestStatus = false
-          this.suggest_id = []
-          this.tmpUser = []
-        }
-        else if(res1.data.users.length > 0 && this.userData.identity_card_id.length > 0) {
-          let res = res1.data.users
-          this.suggest_id = []
-          this.tmpUser = res
-          res.forEach( item => {
-            this.suggest_id.push(item.identity_card_id)
-            if (this.suggest_id !== userData.identity_card_id) {
-              userData.id = null
+          }
+          user.forEach( ele => {
+            if (ele.full_name && ele.full_name.match(item)) {
+              this.pawn_item_suggest_id.push(ele.full_name)
             }
           });
         }else {
-          this.suggest_id = []
-          this.tmpUser = []
+            this.pawn_item_suggest_id = []
         }
-        this.$emit("emit:information",this.userData)
+      }else {
+          this.pawn_item_suggest_id = []
       }
     },
+    async clickSuggest(id) {
+      console.log('clickSuggest');
+      let status = true
+      let user = await window.api.get("users", {
+        params: {
+          search: 
+            {
+              keyword: id,
+              fields:['first_name','last_name']
+            }
+          }
+        });
+      user = user.data.users[0]
+      console.log('asd',user);
+      
+      this.updateUserData(user)
+      this.searchKeyWord = ""
+      this.pawn_item_suggest_id = []
+      this.pawnItemStatus = true
+    },
+    updateUserData(val) {
+      this.userData = {
+        id : val.id,
+        first_name : val.first_name,
+        last_name : val.last_name,
+        identity_card_id : val.identity_card_id,
+        gender : val.gender,
+        phone_number: val.phone_number,
+        line: val.line,
+        facebook: val.facebook,
+        email: val.email,
+        note: val.note
+      }
+    },
+    async getUser (item) {
+      let user = await window.api.get("users", {
+        params: {
+          search: 
+            {
+              keyword: item,
+              fields:['first_name','last_name']
+            }
+          }
+        });
+      return user.data.users
+    },
+  },
+  watch: {
+    userData:{
+      deep: true,
+      immediate: true,
+      handler(userData) {
+        this.$emit("emit:information",this.userData)
+      }
+    }
   },
   mounted() {
-    this.$refs.first_name.focus();
-    console.log(this.$refs)
+    this.$refs.search_imformation.focus();
   },
 });
 </script>

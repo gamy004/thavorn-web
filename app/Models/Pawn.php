@@ -13,7 +13,8 @@ class Pawn extends Model
     
     const FK = 'pawn_id';
     const USER_FK = 'customer_id';
-    const INTEREST_ONE_DAY = 1; #percent
+    const INTEREST_RATE_ONE_DAY = 1; #percent
+    const MINIMUM_INTEREST = 30; #baht
 
     protected static function boot() {
         parent::boot();
@@ -106,9 +107,9 @@ class Pawn extends Model
         return $this;
     }
 
-    public function interest_one_day()
+    public function interest_rate_one_day_factor()
     {
-        return static::INTEREST_ONE_DAY/100;
+        return static::INTEREST_RATE_ONE_DAY/100;
     }
 
     public function interest_factor()
@@ -154,7 +155,9 @@ class Pawn extends Model
         }
         
         $latest = Carbon::make($time);
-        $diff_day = Carbon::now()->diffInDays($time);
+        // $current = Carbon::now();
+        $current = Carbon::make('2020-06-30');
+        $diff_day = $current->diffInDays($time);
         
         // set initial counter
         $next_month_latest = Carbon::make($time)->addMonth();
@@ -181,22 +184,28 @@ class Pawn extends Model
         $due_month_day = $this->getDueMonthDay();
         $pawn_items_value = $this->computePawnItemsValue();
 
+        // Case: one day
         if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
-            $interest_value = $pawn_items_value * $this->interest_one_day();
+            $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
         } else {
             $interest_value = $this->computePaidAmount($due_month_day['due_month']);
         }
 
-        $close_payment_amount = $pawn_items_value + $interest_value;
-
+        // Case: least than one month
         if ($due_month_day['due_day'] > 0) {
             $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
             $over_due_month_interest = $this->computePaidAmount(1) / $divider;
+
+            if (!is_null($over_due_month_interest)) {
+                $interest_value += $over_due_month_interest;
+            }
         }
 
-        if (!is_null($over_due_month_interest)) {
-            $close_payment_amount += $over_due_month_interest;
+        if ($interest_value < self::MINIMUM_INTEREST) {
+            $interest_value = self::MINIMUM_INTEREST;
         }
+        
+        $close_payment_amount = $pawn_items_value + $interest_value;
         
         return round($close_payment_amount, 2);
     }

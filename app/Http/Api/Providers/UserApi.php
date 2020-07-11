@@ -22,6 +22,37 @@ class UserApi extends BaseApi implements ApiInterface
         parent::__construct($q);
     }
 
+    public function index() {
+
+        $this->setCustomQuery(
+            $this->queryIndex()
+        );
+
+        return parent::index();
+    }
+
+    private function queryIndex()
+    {
+        $base_table = $this->getBaseBuilderTable();
+
+        return $this->getOriginalModel()
+            ->select([
+                DB::raw(
+                    sprintf("`%s`.*", $base_table)
+                ),
+                DB::raw(
+                    sprintf(
+                        "CONCAT(`%s`.%s, ' ',`%s`.%s) as %s",
+                        $base_table,
+                        DBCol::FIRST_NAME,
+                        $base_table,
+                        DBCol::LAST_NAME,
+                        DBCol::FULL_NAME
+                    )
+                )
+            ]);
+    }
+
     protected function beforeStore(array $raw = [])
     {
         $raw = $this->parsePassword($raw);

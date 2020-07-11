@@ -7,10 +7,12 @@
 // import VueRouter from 'vue-router';
 import router from './router'
 import app from './app.vue'
+import BootstrapVue from 'bootstrap-vue'
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(BootstrapVue)
 
 /**
  * The following block of code may be used to automatically register your

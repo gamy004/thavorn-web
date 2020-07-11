@@ -57,7 +57,8 @@ class User extends Authenticatable
         DBCol::LINE,
         DBCol::EMAIL,
         DBCol::PHONE_NUMBER,
-        DBCol::PASSWORD
+        DBCol::PASSWORD,
+        DBCol::NOTE
     ];
 
     /**

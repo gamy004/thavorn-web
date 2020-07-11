@@ -39,7 +39,7 @@
                 <div class="head-form">Total</div>
 
                 <div class="flex-row">
-                    <div type="text" class="form-control show-total gray" v-text="total"></div>
+                    <div type="text" class="form-control show-total gray" v-text="status_complete ? '0' : total"></div>
                     <span class="item-flex-center ml-1">บาท</span>
                 </div>
             </div>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="item-flex-start ml-1">
-        <button type="button" class="btn btn-primary btn-lg mt-3" @click="reload" v-if="status_complete === 0" >ชำระเงิน</button>
+        <button type="button" class="btn btn-primary btn-lg mt-3" @click="closePawn" v-if="status_complete === 0" >ชำระเงิน</button>
         <button type="button" class="btn btn-primary btn-lg mt-3 btn-gray"  v-else-if="status_complete === 1" >ไถ่ถอนเรียบร้อย</button>
     </div>
     <error ref="error" />
@@ -78,11 +78,15 @@ export default Vue.extend({
         lastUpdate: "",
         sumPriceStart: 0,
         interest_rate: 0,
-        pawn_id: "",
-        status_complete: 0
+        // pawn_id: "",
+        status_complete: 0,
+        total: 0
     }
   },
   props: {
+    pawn_id: {
+          type: [String, Number]
+    },
     pawnItem: {
         type: Array,
         defult: []
@@ -90,115 +94,124 @@ export default Vue.extend({
   },
   watch: {
       pawnItem: {
-          async handler(pawnItem) {
-              if (pawnItem && pawnItem.length) {
-                    //interset_rate
-                    this.status_complete = pawnItem[0].complete
-                    let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
-                    this.pawn_id = res.data.pawns.id
-                    this.interest_rate = res.data.pawns.interest_rate 
-                    //Date
-                    let createDate =new Date(res.data.pawns.created_at)
-                    let lastDate = new Date()
-                    res.data.pawns.next_paid_at 
-                        ? lastDate = new Date(res.data.pawns.next_paid_at)
-                        : lastDate = new Date(res.data.pawns.created_at)
-                    this.createDate = moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
-                    this.lastUpdate = moment(lastDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
-                    //start price
-                    this.sumPriceStart = 0
-                    pawnItem.forEach( item => {
-                        this.sumPriceStart += parseFloat(item.item_value)
-                    });
-              }
-          }
-      },
-
+        async handler(pawnItem) {
+            if (pawnItem && pawnItem.length) {                
+            //interset_rate
+            this.status_complete = pawnItem[0].complete
+            let res = await window.api.get(`pawns/${pawnItem[0].pawn_id}`);
+            // this.pawn_id = res.data.pawns.id
+            this.interest_rate = res.data.pawns.interest_rate 
+            //Date
+            let createDate =new Date(res.data.pawns.created_at)
+            let lastDate = new Date()
+            res.data.pawns.next_paid_at 
+                ? lastDate = new Date(res.data.pawns.next_paid_at)
+                : lastDate = new Date(res.data.pawns.created_at)
+            this.createDate = moment(createDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
+            this.lastUpdate = moment(lastDate, 'DD/MM/YYYY').format('DD/MM/YYYY')
+            //start price
+            this.sumPriceStart = 0
+            pawnItem.forEach( item => {
+                this.sumPriceStart += parseFloat(item.item_value)
+            });
+            }
+        }
+    },
+    pawn_id: {
+        immediate: true,
+        async handler (pawn_id) {
+            if (pawn_id) {
+                let res_close_amount = await window.api.get(`pawns/${pawn_id}/close-amount`);
+                
+                if (res_close_amount && res_close_amount.data && res_close_amount.data.close_amount) {
+                    this.total = res_close_amount.data.close_amount;
+                }
+            }
+        }
+    }
   },
-  mounted() {
 
-  },
   computed: {
-      total() {
-          let ld = parseInt(this.lastUpdate.substring(0,2))
-          let lm = parseInt(this.lastUpdate.substring(3,5))
-          let ly = parseInt(this.lastUpdate.substring(6,11))
+    //   total() {
+    //       let ld = parseInt(this.lastUpdate.substring(0,2))
+    //       let lm = parseInt(this.lastUpdate.substring(3,5))
+    //       let ly = parseInt(this.lastUpdate.substring(6,11))
 
-          let td = parseInt(this.today.substring(0,2))
-          let tm = parseInt(this.today.substring(3,5))
-          let ty = parseInt(this.today.substring(6,11))
-          let a = moment([ty,tm,td])
-          let b = moment([ly,lm,ld])
-          console.log(a.diff(b, 'month', true));
+    //       let td = parseInt(this.today.substring(0,2))
+    //       let tm = parseInt(this.today.substring(3,5))
+    //       let ty = parseInt(this.today.substring(6,11))
+    //       let a = moment([ty,tm,td])
+    //       let b = moment([ly,lm,ld])
+    //       console.log(a.diff(b, 'month', true));
           
         
-          let dd = td - ld
-          let dm = tm - lm
-          let dy = ty - ly  
-          if (dd + dm + dy === 0) {
-              return parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)/100)
-          }
-          let out = 0
-          if (dy === 0) {
-            if ( dm > 0 ) {
-                let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
-                console.log(base);
+    //       let dd = td - ld
+    //       let dm = tm - lm
+    //       let dy = ty - ly  
+    //       if (dd + dm + dy === 0) {
+    //           return parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)/100)
+    //       }
+    //       let out = 0
+    //       if (dy === 0) {
+    //         if ( dm > 0 ) {
+    //             let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
+    //             console.log(base);
                 
-                if ( dd > 0) {
-                    if ( dd <= 15 ) {
-                        out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
-                    }else {
-                        out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
-                    }
-                }else if ( dd <= 0) {
-                    dd += 30
-                    base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
-                    if ( dd <= 15 ) {
-                        out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
-                    }else {
-                        out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
-                    }
-                }else {
-                    return 'error'
-                }
-            }else if ( dm === 0 ) {
-                if ( dd > 0) {
-                    if ( dd <= 15 ) {
-                        out = parseFloat(this.sumPriceStart)+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2
-                    }else {
-                        out = parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100
-                    }
-                }else if ( dd <= 0) {
-                    out = parseFloat(this.sumPriceStart)
-                }
-            }else if ( dm < 0 ) {
-                out = parseFloat(this.sumPriceStart)
-            }
-          }else if ( dy > 0 ) {
-            dm += dy*12
-            let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
-            if ( dd > 0) {
-                if ( dd <= 15 ) {
-                    out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
-                }else {
-                    out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
-                }
-            }else if ( dd <= 0) {
-                dd += 30
-                base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
-                if ( dd <= 15 ) {
-                    out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
-                }else {
-                    out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
-                }
-            }else {
-                return 'error'
-            }
-          }else if ( dy < 0 ) {
-              out = parseFloat(this.sumPriceStart)
-          }
-          return  out.toFixed(2)
-      },
+    //             if ( dd > 0) {
+    //                 if ( dd <= 15 ) {
+    //                     out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
+    //                 }else {
+    //                     out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
+    //                 }
+    //             }else if ( dd <= 0) {
+    //                 dd += 30
+    //                 base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
+    //                 if ( dd <= 15 ) {
+    //                     out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
+    //                 }else {
+    //                     out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
+    //                 }
+    //             }else {
+    //                 return 'error'
+    //             }
+    //         }else if ( dm === 0 ) {
+    //             if ( dd > 0) {
+    //                 if ( dd <= 15 ) {
+    //                     out = parseFloat(this.sumPriceStart)+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2
+    //                 }else {
+    //                     out = parseFloat(this.sumPriceStart)+(parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100
+    //                 }
+    //             }else if ( dd <= 0) {
+    //                 out = parseFloat(this.sumPriceStart)
+    //             }
+    //         }else if ( dm < 0 ) {
+    //             out = parseFloat(this.sumPriceStart)
+    //         }
+    //       }else if ( dy > 0 ) {
+    //         dm += dy*12
+    //         let base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*dm
+    //         if ( dd > 0) {
+    //             if ( dd <= 15 ) {
+    //                 out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
+    //             }else {
+    //                 out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
+    //             }
+    //         }else if ( dd <= 0) {
+    //             dd += 30
+    //             base = ((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)*(dm-1)
+    //             if ( dd <= 15 ) {
+    //                 out = parseFloat(this.sumPriceStart)+base+(((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)/2)
+    //             }else {
+    //                 out = parseFloat(this.sumPriceStart)+base+((parseFloat(this.sumPriceStart)*parseFloat(this.interest_rate))/100)
+    //             }
+    //         }else {
+    //             return 'error'
+    //         }
+    //       }else if ( dy < 0 ) {
+    //           out = parseFloat(this.sumPriceStart)
+    //       }
+    //       return  out.toFixed(2)
+    //   },
       today() {
           const today = moment();
           let output = moment(today, 'DD/MM/YYYY').format('DD/MM/YYYY')
@@ -206,15 +219,24 @@ export default Vue.extend({
       }
   },
   methods: {
-    async reload() {
+    async closePawn() {
 
-        await window.api.post(`pawns/${this.pawn_id}/close`, {
-          amount: this.total
-        }).catch(
-            this.$refs.error.setShowPop(1,'ERROR')
-        ).then(() => {
+        try {
+            await window.api.post(`pawns/${this.pawn_id}/close`, {
+                amount: this.total
+            })
             this.$refs.error.setShowPop(1,'Data has been updated.')
-        })
+        } catch (error) {
+            this.$refs.error.setShowPop(1,'ERROR')
+        }
+
+        // await window.api.post(`pawns/${this.pawn_id}/close`, {
+        //   amount: this.total
+        // }).catch(
+        //     this.$refs.error.setShowPop(1,'ERROR')
+        // ).then(() => {
+        //     this.$refs.error.setShowPop(1,'Data has been updated.')
+        // })
         
     },
   }

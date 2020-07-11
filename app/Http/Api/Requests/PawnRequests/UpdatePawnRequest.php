@@ -49,7 +49,7 @@ class UpdatePawnRequest extends FormRequest
         }
 
         if (!is_null($user_id)) {
-            $rule_unique_id_card->ignore($user_id);
+            // $rule_unique_id_card->ignore($user_id);
             $rule_unique_email->ignore($user_id);
         }
 

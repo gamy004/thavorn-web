@@ -8,14 +8,12 @@
 
           <div class="col-12 col-lg-6 m-0 m-lg-2 p-0">
             <div class="form-group">
-              <label>เลที่บัตรจำนำ</label>
+              <label>เลขที่บัตรจำนำ</label>
               <select class="width-max" v-model="pawn_id">
                 <option v-for="id in Object.keys(idList) " :key="id" v-text="idList[id]" :value="id"></option>
               </select>
             </div>
-            <show-data-redeem :pawnItem="pawnData" />
-            
-
+            <show-data-redeem :pawn_id="pawn_id" :pawnItem="pawnData" />
           </div>
           
           <div class="col-lg-6 col-12 mt-5 p-0 m-lg-2">

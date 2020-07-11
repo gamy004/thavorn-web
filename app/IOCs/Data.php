@@ -60,4 +60,10 @@ class Data
     const GROUP_NAME = 'group_name';
     const SUB_GROUP_NAME = 'sub_group_name';
     const AVATAR = 'avatar';
+
+    /**
+     * Pawn API
+     */
+    const CLOSE_AMOUNT = 'close_amount';
+    const PAID_AMOUNT = 'paid_amount';
 }
