@@ -155,8 +155,7 @@ class Pawn extends Model
         }
         
         $latest = Carbon::make($time);
-        // $current = Carbon::now();
-        $current = Carbon::make('2020-06-30');
+        $current = Carbon::now();
         $diff_day = $current->diffInDays($time);
         
         // set initial counter
@@ -173,7 +172,7 @@ class Pawn extends Model
         
         // Use $due_month to find the previous month to calculate $due_day
         $latest_month = Carbon::make($time)->addMonths($due_month);
-        $due_day = Carbon::now()->diffInDays($latest_month);
+        $due_day = $current->diffInDays($latest_month);
 
         return compact('due_month', 'due_day');
     }
@@ -195,12 +194,12 @@ class Pawn extends Model
         if ($due_month_day['due_day'] > 0) {
             $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
             $over_due_month_interest = $this->computePaidAmount(1) / $divider;
-
+            
             if (!is_null($over_due_month_interest)) {
                 $interest_value += $over_due_month_interest;
             }
         }
-
+        
         if ($interest_value < self::MINIMUM_INTEREST) {
             $interest_value = self::MINIMUM_INTEREST;
         }
