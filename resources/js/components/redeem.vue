@@ -61,10 +61,12 @@ export default Vue.extend({
     async getPawnData(pawn_id) {
       let res = await window.api.get(`pawn_user_items`, {
         params: {
-          search: {
-            keyword: pawn_id,
-            fields:['pawn_id']
-          }
+          filters: [
+            {
+              key: 'pawn_id',
+              value: pawn_id
+            }
+          ]
         }
       });
       this.pawnData = res.data.pawn_items
