@@ -20,6 +20,7 @@
 
 <script>
 import Vue from 'vue';
+import { debounce } from 'lodash';
 
 export default Vue.extend({
   name: 'SearchForm',
@@ -46,6 +47,11 @@ export default Vue.extend({
     // },
 
   },
+
+  mounted() {
+    this.search = debounce(this.search, 300)
+  },
+
   methods: {
     async search(item) {
       console.log('search');
