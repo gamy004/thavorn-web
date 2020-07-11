@@ -111,6 +111,8 @@ export default Vue.extend({
       }else {
         this.pawn_item_suggest_id = []
       }
+
+      this.pawn_item_suggest_id = [ ...new Set(this.pawn_item_suggest_id) ]
     },
     async updateFormNumber(text) {
       console.log('updateFormNumber');
