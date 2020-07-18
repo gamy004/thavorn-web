@@ -144,10 +144,6 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.sec-form{
-  margin: 12px 0 12px 0;
-}
-
 .grow-1{
   flex-grow: 1;
 }

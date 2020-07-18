@@ -9,7 +9,7 @@
           <div class="col-12 col-lg-6 m-0 m-lg-2 p-0">
             <div class="form-group">
               <label>เลขที่บัตรจำนำ</label>
-              <select class="width-max" v-model="pawn_id">
+              <select class="width-max mdb-select md-form" v-model="pawn_id">
                 <option v-for="id in Object.keys(idList) " :key="id" v-text="idList[id]" :value="id"></option>
               </select>
             </div>
