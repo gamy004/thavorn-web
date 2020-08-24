@@ -207,6 +207,10 @@ export default Vue.extend({
                 {
                   key: 'customer_id',
                   value: this.tmpUser[i].id
+                },
+                {
+                  key: 'complete',
+                  value: 0
                 }
               ]
               }
