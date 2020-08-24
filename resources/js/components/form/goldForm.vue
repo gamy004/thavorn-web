@@ -6,7 +6,7 @@
             <div class="sec-form">
                 <div class="head-form">ประเภทของทอง</div>
                 
-                <select class="form-control" v-model="activeGlodData.item_category_id">
+                <select class="form-control" ref="type_select" v-model="activeGlodData.item_category_id ">
                     <option v-for="item in category_item" :key="item.id" :value="item.id" v-text="item.item_category"></option>
                 </select>
             </div>
@@ -178,6 +178,8 @@ export default Vue.extend({
         if (this.editIndex === null) {
             this.tableData.push(this.activeGlodData)
             this.clearForm()
+            // console.log('refs',this.$refs.);
+            this.$refs.type_select.focus()
             this.$emit('emit:gold', this.tableData)
         }else{
             this.tableData[this.editIndex] = this.activeGlodData
@@ -192,6 +194,8 @@ export default Vue.extend({
             }
             this.clearForm()
             this.calPrice()
+            // console.log('refs',this.$refs);
+            this.$refs.type_select.focus()
         }
     },
     clearForm() {
