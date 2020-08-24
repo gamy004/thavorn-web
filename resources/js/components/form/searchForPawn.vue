@@ -80,6 +80,7 @@ export default Vue.extend({
       if (e && (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13)) {
         return
       }
+      this.select = 0
       let item = this.numberSearch
       console.log('search');
       this.emitList([])
@@ -140,7 +141,6 @@ export default Vue.extend({
               this.$set(output, ele.pawn_id, ele.pawn_no)
             }
           });
-          this.select = 0
 
         }
       }else {
