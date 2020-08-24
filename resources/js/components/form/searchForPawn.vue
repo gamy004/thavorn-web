@@ -212,7 +212,6 @@ export default Vue.extend({
               }
             });
             pawnItem = user.data.pawn_items
-            console.log('user',pawnItem);
           }
           
         }

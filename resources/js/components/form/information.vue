@@ -124,12 +124,10 @@ export default Vue.extend({
       }
       this.select = 0
       let item = this.searchKeyWord
-      console.log('search');
       if (item && item.length) {
         let user =  await this.getUser(item)
         if(user && user.length && user[0].full_name === item) {
           // click hint
-          console.log('search 2 if');
           this.clickSuggest(item)
           this.pawnItemStatus = false
           this.pawn_item_suggest_id = []
@@ -156,22 +154,27 @@ export default Vue.extend({
           this.pawn_item_suggest_id = []
       }
     },
-    async clickSuggest(id) {
+    async clickSuggest(keyword) {
       console.log('clickSuggest');
       let status = true
       let user = await window.api.get("users", {
         params: {
           search: 
             {
-              keyword: id,
+              keyword: keyword,
               fields:['first_name','last_name']
             }
           }
         });
-      user = user.data.users[0]
-      console.log('asd',user);
+      let users = user.data.users
+      let output = {}
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].full_name === keyword) {
+          output = users[i]
+        }
+      }
       
-      this.updateUserData(user)
+      this.updateUserData(output)
       this.searchKeyWord = ""
       this.pawn_item_suggest_id = []
       this.pawnItemStatus = true
