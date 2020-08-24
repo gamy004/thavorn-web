@@ -203,11 +203,12 @@ export default Vue.extend({
           if (this.tmpUser[i].full_name === item) {
             let user = await window.api.get("pawn_user_items", {
             params: {
-              search: 
+              filters: [
                 {
-                  keyword: this.tmpUser[i].id,
-                  fields:['customer_id']
+                  key: 'customer_id',
+                  value: this.tmpUser[i].id
                 }
+              ]
               }
             });
             pawnItem = user.data.pawn_items
