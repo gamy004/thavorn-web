@@ -2,8 +2,14 @@
   <div>
     <div class="sec-form">
       <div class="head-form">เลขที่บัตรจำนำ หรือ เลขบัตรประชาชน</div>
-      <input type="text" class="form-control" v-model="numberSearch" @keyup="search(numberSearch)" required>
-      <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="updateFormNumber(item)" :key="item" >{{item}}</div>
+      <input type="text" class="form-control" v-model="numberSearch" @keyup="search" @keydown.down = 'selectUp' @keydown.up = 'selectDown' @keyup.enter='selectEnter' required>
+      <div class="form-control hint" 
+        v-for="(item, index) in pawn_item_suggest_id" 
+        @click="updateFormNumber(item)" 
+        :class="{ 'active': index === select }" 
+        :key="item" >
+          {{item}}
+      </div>
     </div>
 
     <div class="sec-form">
@@ -36,7 +42,8 @@ export default Vue.extend({
         name_suggest:[],
         active_user:{},
         tmpPawnItem: [],
-        tmpUser: []
+        tmpUser: [],
+        select: 0
     }
   },
   watch: {
@@ -53,7 +60,27 @@ export default Vue.extend({
   },
 
   methods: {
-    async search(item) {
+    selectUp() {
+      this.select++
+      if (this.select === this.pawn_item_suggest_id.length) {
+        this.select--
+      }
+    },
+    selectDown() {
+      this.select--
+      if (this.select < 0) {
+        this.select++
+      }
+    },
+    selectEnter() {
+      this.numberSearch = this.pawn_item_suggest_id[this.select]
+      this.search()
+    },
+    async search(e) {
+      if (e && (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13)) {
+        return
+      }
+      let item = this.numberSearch
       console.log('search');
       this.emitList([])
       if (item && item.length) {
@@ -81,6 +108,7 @@ export default Vue.extend({
           this.pawn_item_suggest_id = []
           this.tmpPawnItem = pawn_user_items
           this.tmpUser = user
+
           console.log('search 3 if');
           for (let i = 0; i < this.tmpPawnItem.length; i++) {
             if (this.tmpPawnItem[i].pawn_no === item ||  this.tmpPawnItem[i].identity_card_id === item) {
@@ -112,6 +140,7 @@ export default Vue.extend({
               this.$set(output, ele.pawn_id, ele.pawn_no)
             }
           });
+          this.select = 0
 
         }
       }else {
@@ -250,5 +279,8 @@ export default Vue.extend({
 .cus-text{
   min-height: 40px;
   height: auto;
+}
+.active{
+  background-color: rgb(148, 148, 148);
 }
 </style>
