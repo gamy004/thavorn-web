@@ -85,6 +85,7 @@ border: #909090 solid 0.3px;
 
 .sec-form{
   margin: 12px 0 12px 0;
+  font-size: 20px;
 }
 
 .head-form{
@@ -224,4 +225,45 @@ border: #909090 solid 0.3px;
 
 .modal-backdrop {
   background-color: rgba(0,0,0,0.5);
+}
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  border-radius: calc(1px + 0.2vw);
+  font-size: calc(14px + 0.5vw);
+}
+
+table td, table th {
+  padding: 1vw;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:hover {background-color: #ddd;}
+table th {
+  font-weight: 400;
+}
+.activeClass{
+  background-color: rgb(255, 156, 156) !important;
+  &:hover{
+      background-color: rgb(255, 125, 125) !important;
+  }
+}
+label {
+  font-size: 20px;
+}
+select {
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 3px 10px;
+  &:focus{
+    outline-color: transparent;
+    outline: -webkit-focus-ring-color auto 0px;
+    outline-offset: 0;
+  }
+}
+.form-control {
+  font-size: 16px;
 }

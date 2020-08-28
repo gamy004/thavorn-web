@@ -6,7 +6,7 @@
             <div class="sec-form">
                 <div class="head-form">ประเภทของทอง</div>
                 
-                <select class="form-control" v-model="activeGlodData.item_category_id">
+                <select class="form-control" ref="type_select" v-model="activeGlodData.item_category_id ">
                     <option v-for="item in category_item" :key="item.id" :value="item.id" v-text="item.item_category"></option>
                 </select>
             </div>
@@ -178,6 +178,8 @@ export default Vue.extend({
         if (this.editIndex === null) {
             this.tableData.push(this.activeGlodData)
             this.clearForm()
+            // console.log('refs',this.$refs.);
+            this.$refs.type_select.focus()
             this.$emit('emit:gold', this.tableData)
         }else{
             this.tableData[this.editIndex] = this.activeGlodData
@@ -192,6 +194,8 @@ export default Vue.extend({
             }
             this.clearForm()
             this.calPrice()
+            // console.log('refs',this.$refs);
+            this.$refs.type_select.focus()
         }
     },
     clearForm() {
@@ -251,29 +255,5 @@ export default Vue.extend({
 }
 .border-radius-cus{
     border-radius: 5px;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-    border-radius: calc(1px + 0.2vw);
-    font-size: calc(9px + 0.5vw);
-}
-
-table td, table th {
-    padding: 1vw;
-}
-
-table tr:nth-child(even){background-color: #f2f2f2;}
-table tr:hover {background-color: #ddd;}
-table th {
-    font-weight: 400;
-}
-.activeClass{
-    background-color: rgb(255, 156, 156) !important;
-    &:hover{
-        background-color: rgb(255, 125, 125) !important;
-    }
 }
 </style>

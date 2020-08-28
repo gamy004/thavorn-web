@@ -3,8 +3,14 @@
     <div class="sec-form">
       <div class="sec-form grow-1 mr-lg-2 mb-3">
         <div class="head-form">ค้นหาลูกค้า</div>
-        <input type="text"  ref="search_imformation" class="form-control" @keyup="search(searchKeyWord)" v-model="searchKeyWord" required>
-        <div class="form-control hint" v-for="item in pawn_item_suggest_id" @click="clickSuggest(item)" :key="item" >{{item}}</div>
+        <input type="text"  ref="search_imformation" class="form-control" @keyup="search" v-model="searchKeyWord" @keydown.down = 'selectUp' @keydown.up = 'selectDown' @keyup.enter='selectEnter' required>
+        <div class="form-control hint" 
+        v-for="(item, index) in pawn_item_suggest_id" 
+        @click="clickSuggest(item)" 
+        :key="item"
+        :class="{ 'active': index === select }"  >
+          {{item}}
+        </div>
       </div>
     </div>
     <div class="h-flex-row-s-flex-col">
@@ -87,21 +93,41 @@ export default Vue.extend({
       searchKeyWord: "",
       pawn_item_suggest_id: [],
       pawnItemStatus: true,
-      tmpUser: []
+      tmpUser: [],
+      select: 0
     }
   },
   methods: {
     updateSex(val) {
       this.sex = val;
     },
+    selectUp() {
+      this.select++
+      if (this.select === this.pawn_item_suggest_id.length) {
+        this.select--
+      }
+    },
+    selectDown() {
+      this.select--
+      if (this.select < 0) {
+        this.select++
+      }
+    },
+    selectEnter() {
+      this.searchKeyWord = this.pawn_item_suggest_id[this.select]
+      this.search()
+    },
 
-    async search(item) {
-      console.log('search');
+    async search(e) {
+      if (e && (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13)) {
+        return
+      }
+      this.select = 0
+      let item = this.searchKeyWord
       if (item && item.length) {
         let user =  await this.getUser(item)
         if(user && user.length && user[0].full_name === item) {
           // click hint
-          console.log('search 2 if');
           this.clickSuggest(item)
           this.pawnItemStatus = false
           this.pawn_item_suggest_id = []
@@ -128,22 +154,27 @@ export default Vue.extend({
           this.pawn_item_suggest_id = []
       }
     },
-    async clickSuggest(id) {
+    async clickSuggest(keyword) {
       console.log('clickSuggest');
       let status = true
       let user = await window.api.get("users", {
         params: {
           search: 
             {
-              keyword: id,
+              keyword: keyword,
               fields:['first_name','last_name']
             }
           }
         });
-      user = user.data.users[0]
-      console.log('asd',user);
+      let users = user.data.users
+      let output = {}
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].full_name === keyword) {
+          output = users[i]
+        }
+      }
       
-      this.updateUserData(user)
+      this.updateUserData(output)
       this.searchKeyWord = ""
       this.pawn_item_suggest_id = []
       this.pawnItemStatus = true
@@ -192,14 +223,13 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.sec-form{
-  margin: 12px 0 12px 0;
-}
-
 .grow-1{
   flex-grow: 1;
 }
 .head-form{
   margin-bottom: 6px;
+}
+.active{
+  background-color: rgb(148, 148, 148);
 }
 </style>

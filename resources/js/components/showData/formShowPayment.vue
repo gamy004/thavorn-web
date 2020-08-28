@@ -105,28 +105,4 @@ export default Vue.extend({
 .border-radius-cus{
     border-radius: 5px;
 }
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-    border-radius: calc(1px + 0.2vw);
-    font-size: calc(9px + 0.5vw);
-}
-
-table td, table th {
-    padding: 1vw;
-}
-
-table tr:nth-child(even){background-color: #f2f2f2;}
-table tr:hover {background-color: #ddd;}
-table th {
-    font-weight: 400;
-}
-.activeClass{
-    background-color: rgb(255, 156, 156) !important;
-    &:hover{
-        background-color: rgb(255, 125, 125) !important;
-    }
-}
 </style>
