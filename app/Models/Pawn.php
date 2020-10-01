@@ -183,7 +183,7 @@ class Pawn extends Model
         $over_due_month_interest = null;
         $due_month_day = $this->getDueMonthDay();
         $pawn_items_value = $this->computePawnItemsValue();
-        
+
         if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
             // Case: one day
             $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
