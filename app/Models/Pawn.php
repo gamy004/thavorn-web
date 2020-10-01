@@ -147,13 +147,14 @@ class Pawn extends Model
     
     public function getDueMonthDay()
     {
-        $time = $this->{DBCol::LATEST_PAID_AT};
+        // $time = $this->{DBCol::LATEST_PAID_AT};
 
-        // If latest paid at is null, use created_at as the latest time
-        if (is_null($time)) {
-            $time = $this->{DBCol::CREATED_AT};
-        }
+        // // If latest paid at is null, use created_at as the latest time
+        // if (is_null($time)) {
+        //     $time = $this->{DBCol::CREATED_AT};
+        // }
         
+        $time = $this->getPaidTime();
         $latest = Carbon::make($time);
         $current = Carbon::now();
         $diff_day = $current->diffInDays($time);
@@ -182,9 +183,9 @@ class Pawn extends Model
         $over_due_month_interest = null;
         $due_month_day = $this->getDueMonthDay();
         $pawn_items_value = $this->computePawnItemsValue();
-
-        // Case: one day
+        dd($due_month_day);
         if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
+            // Case: one day
             $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
         } else {
             $interest_value = $this->computePaidAmount($due_month_day['due_month']);
