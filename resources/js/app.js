@@ -5,15 +5,16 @@
  */
 
 // import VueRouter from 'vue-router';
-import router from './router'
-import app from './app.vue'
-import BootstrapVue from 'bootstrap-vue'
+import router from "./router";
+import app from "./views/app";
+import BootstrapVue from "bootstrap-vue";
+import { store } from "./store";
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 
 /**
  * The following block of code may be used to automatically register your
@@ -26,14 +27,26 @@ Vue.use(BootstrapVue)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Default from "./Layout/Wrappers/baseLayout";
+import Pages from "./Layout/Wrappers/pagesLayout";
+import Apps from "./Layout/Wrappers/appLayout";
+import Layouts from "./Layout/Wrappers/layoutsExamples";
+
+Vue.component("default-layout", Default);
+Vue.component("pages-layout", Pages);
+Vue.component("apps-layout", Apps);
+Vue.component("examples-layout", Layouts);
+
+import "./assets/bamburgh.scss";
+
 new Vue({
     router,
+    store,
     render: h => h(app)
 }).$mount("#app");

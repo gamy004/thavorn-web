@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.webpackConfig({
+    resolve: {
+        modules: [
+            path.resolve("./resources/assets/js"),
+            path.resolve("./node_modules")
+        ]
+    }
+    // output: {
+    //    publicPath: '/',
+    //    filename: mix.config.inProduction ? '[name].[chunkhash].js' : '[name].js',
+    //    chunkFilename: mix.config.inProduction ? 'js/chunks/[name].[chunkhash].js' : 'js/chunks/[name].js',
+    // },
+    // module: {
+    //    rules: [{
+    //       test: /\.styl$/,
+    //       loader: ['style-loader', 'css-loader', 'stylus-loader']
+    //    }]
+    // }
+})
+    .js("resources/js/app.js", "public/js")
+    .sass("resources/sass/app.scss", "public/css");
