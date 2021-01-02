@@ -10970,3 +10970,7 @@ a.text-dark:focus {
   }
 }
 
+.vsm-link.no-hilighted {
+  background: rgba(255, 255, 255, 0);
+}
+

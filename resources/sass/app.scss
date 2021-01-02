@@ -8,6 +8,11 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~nprogress/nprogress.css';
 
+.vsm-link {
+    &.no-hilighted {
+        background: rgba(255, 255, 255, 0);
+    }
+}
 // body{
 // font-family: 'Kanit', sans-serif;
 // }

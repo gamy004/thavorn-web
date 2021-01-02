@@ -52,3 +52,15 @@
 body{
     font-family: 'Kanit', 'Nunito', sans-serif;
 }
+
+.vsm-item {
+    &.open-item {
+        &:not(.parent-active-item) {
+            .vsm-link {
+                &.no-hilighted {
+                    background: rgba(255, 255, 255, 0) !important;
+                }
+            }
+        }
+    }
+}

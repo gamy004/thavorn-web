@@ -37,11 +37,13 @@ import Default from "./Layout/Wrappers/baseLayout";
 import Pages from "./Layout/Wrappers/pagesLayout";
 import Apps from "./Layout/Wrappers/appLayout";
 import Layouts from "./Layout/Wrappers/layoutsExamples";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 Vue.component("default-layout", Default);
 Vue.component("pages-layout", Pages);
 Vue.component("apps-layout", Apps);
 Vue.component("examples-layout", Layouts);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 import "./assets/bamburgh.scss";
 
