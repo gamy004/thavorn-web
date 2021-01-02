@@ -9,10 +9,10 @@ export const HOME = () =>
 
 // export const COMPANY = () => import( /* webpackChunkName: "thavorn-proj" */ 'company/views/index');
 
-// export const MACHINE = {
-//     INDEX: () => import( /* webpackChunkName: "thavorn-machine-index" */ 'machine/views/index'),
-//     SHOW: () => import( /* webpackChunkName: "thavorn-machine-show" */ 'machine/views/show')
-// };
+export const PAWN = {
+    CREATE: () =>
+        import(/* webpackChunkName: "thavorn-pawn-create" */ "./pawn/create")
+};
 
 // export const SERVICE = {
 //     INDEX: () => import( /* webpackChunkName: "thavorn-service-index" */ 'service/views/index')

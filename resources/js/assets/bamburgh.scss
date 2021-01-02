@@ -59,6 +59,14 @@ body{
             .vsm-link {
                 &.no-hilighted {
                     background: rgba(255, 255, 255, 0) !important;
+                    
+                    > svg {
+                        opacity: 0.2 !important;
+                    }
+
+                    > .vsm-title {
+                        color: #3b3e66 !important;
+                    }
                 }
             }
         }

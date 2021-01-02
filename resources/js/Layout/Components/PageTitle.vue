@@ -4,12 +4,12 @@
       <div class="col-xl-7">
         <div>
           <ol class="breadcrumb text-uppercase font-size-xs p-0">
-            <li class="breadcrumb-item">
+            <!-- <li class="breadcrumb-item">
               <a href="javascript:void(0);">Dashboard</a>
             </li>
             <li class="breadcrumb-item">
               <a href="javascript:void(0);">Examples</a>
-            </li>
+            </li> -->
             <li class="breadcrumb-item active" aria-current="page">
               {{ heading }}
             </li>

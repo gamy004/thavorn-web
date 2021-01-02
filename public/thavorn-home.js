@@ -9,49 +9,56 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_slick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-slick */ "./node_modules/vue-slick/dist/slickCarousel.esm.js");
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-brands-svg-icons */ "./node_modules/@fortawesome/free-brands-svg-icons/index.es.js");
-/* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
 //
 //
 //
 //
-//
-//
-
-
-
-
-
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faQuestionCircle"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faExternalLinkAlt"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faStar"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faQuoteRight"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faArrowRight"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faFacebookSquare"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faTwitterSquare"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faDribbble"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faGithubSquare"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faAngular"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faVuejs"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faReact"], _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faHtml5"]); // import Icons from "../examples/ui-elements/icons";
-
+// import Slick from "vue-slick";
+// import { library } from "@fortawesome/fontawesome-svg-core";
+// import {
+//   faQuestionCircle,
+//   faExternalLinkAlt,
+//   faStar,
+//   faQuoteRight,
+//   faArrowRight,
+// } from "@fortawesome/free-solid-svg-icons";
+// import {
+//   faFacebookSquare,
+//   faTwitterSquare,
+//   faDribbble,
+//   faGithubSquare,
+//   faAngular,
+//   faVuejs,
+//   faReact,
+//   faHtml5,
+// } from "@fortawesome/free-brands-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// library.add(
+//   faQuestionCircle,
+//   faExternalLinkAlt,
+//   faStar,
+//   faQuoteRight,
+//   faArrowRight,
+//   faFacebookSquare,
+//   faTwitterSquare,
+//   faDribbble,
+//   faGithubSquare,
+//   faAngular,
+//   faVuejs,
+//   faReact,
+//   faHtml5
+// );
+// import Icons from "../examples/ui-elements/icons";
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "home",
-  components: {
-    // Icons,
-    Slick: vue_slick__WEBPACK_IMPORTED_MODULE_0__["default"],
-    "font-awesome-icon": _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_4__["FontAwesomeIcon"]
+  components: {// Icons,
+    // Slick,
+    // "font-awesome-icon": FontAwesomeIcon,
   },
   data: function data() {
-    return {
-      slickOptions: {
-        slidesToShow: 2 // Any other options that can be got from plugin documentation
-
-      }
-    };
+    return {};
   },
-  methods: {
-    onTooltipShow: function onTooltipShow() {
-      this.$refs.FacebookTooltip._toolpop.getTipElement().classList.add("tooltip-secondary");
-
-      this.$refs.TwitterTooltip._toolpop.getTipElement().classList.add("tooltip-secondary");
-
-      this.$refs.DribbbleTooltip._toolpop.getTipElement().classList.add("tooltip-secondary");
-
-      this.$refs.GithubTooltip._toolpop.getTipElement().classList.add("tooltip-secondary");
-    }
+  methods: {//
   }
 });
 
@@ -72,20 +79,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", {})
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", {
-        staticClass: "hero-wrapper bg-composed-wrapper bg-neutral-success"
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
