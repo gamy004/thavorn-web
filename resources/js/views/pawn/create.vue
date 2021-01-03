@@ -30,50 +30,44 @@
             <div class="card-body">
               <form>
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="inputEmail4"
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputPassword46">Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="inputPassword46"
-                      placeholder="Password"
-                    />
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputPassword4">Location</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      disabled
-                      id="inputPassword4"
-                      placeholder="Disabled"
-                    />
+                  <div class="form-group col-md-12">
+                    <b-form-group>
+                      <b-input-group
+                        class="input-group-seamless"
+                        label="ค้นหาลูกค้า"
+                        label-for="inputCustomer"
+                      >
+                        <b-form-input
+                          name="customer"
+                          type="text"
+                          id="inputCustomer"
+                          placeholder="ค้นโดยชื่อ เลขบัตรประชาชน หรือ เลขบัตรจำนำ"
+                        ></b-form-input>
+                        <b-input-group-text slot="append">
+                          <font-awesome-icon class="mx-auto" icon="search" />
+                        </b-input-group-text>
+                      </b-input-group>
+                    </b-form-group>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity" />
+                    <label for="inputFirstName">ชื่อ</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputFirstName"
+                      name="firstname"
+                    />
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>Choose...</option>
-                      <option>...</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" />
+                  <div class="form-group col-md-6">
+                    <label for="inputLastName">สกุล</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputLastName"
+                      name="lastname"
+                    />
                   </div>
                 </div>
               </form>
@@ -89,9 +83,9 @@
 import PageTitle from "../../Layout/Components/PageTitle";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
+import { faHandHoldingUsd, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faHandHoldingUsd);
+library.add(faHandHoldingUsd, faSearch);
 
 export default {
   components: {
