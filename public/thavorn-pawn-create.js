@@ -242,8 +242,117 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__["library"].add(_f
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layout/Components/PageTitle */ "./resources/js/Layout/Components/PageTitle.vue");
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_4__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -328,10 +437,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faHandHoldingUsd"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faSearch"]);
+
+
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faHandHoldingUsd"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faSearch"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_0__["default"]
+    PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_0__["default"],
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_4___default.a
+  },
+  data: function data() {
+    return {
+      selectedGender: "M",
+      selectedCustomer: null,
+      customerOptions: [],
+      genderOptions: [{
+        text: "ชาย",
+        value: "M"
+      }, {
+        text: "หญิง",
+        value: "F"
+      }]
+    };
+  },
+  methods: {
+    fetchCustomerOptions: function fetchCustomerOptions(search, loading) {
+      loading();
+      setTimeout(function () {
+        loading();
+      }, 500);
+    }
+  },
+  created: function created() {
+    this.fetchCustomerOptions = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"])(this.fetchCustomerOptions, 500);
   }
 });
 
@@ -825,67 +962,256 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "container-fluid" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-12" }, [
-          _c("div", { staticClass: "card card-box mb-5" }, [
+        _c("div", { staticClass: "col-lg-6" }, [
+          _c("div", { staticClass: "card card-box" }, [
             _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _c("form", [
-                _c("div", { staticClass: "form-row" }, [
+              _c(
+                "form",
+                [
                   _c(
                     "div",
-                    { staticClass: "form-group col-md-12" },
+                    { staticClass: "form-row" },
                     [
                       _c(
                         "b-form-group",
+                        { staticClass: "col-md-12" },
                         [
-                          _c(
-                            "b-input-group",
-                            {
-                              staticClass: "input-group-seamless",
-                              attrs: {
-                                label: "ค้นหาลูกค้า",
-                                "label-for": "inputCustomer"
-                              }
+                          _c("label", { attrs: { for: "inputCustomer" } }, [
+                            _vm._v("ค้นหาลูกค้า")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-select", {
+                            staticClass: "w-100",
+                            attrs: {
+                              name: "customer",
+                              id: "inputCustomer",
+                              options: _vm.customerOptions
                             },
-                            [
-                              _c("b-form-input", {
-                                attrs: {
-                                  name: "customer",
-                                  type: "text",
-                                  id: "inputCustomer",
-                                  placeholder:
-                                    "ค้นโดยชื่อ เลขบัตรประชาชน หรือ เลขบัตรจำนำ"
+                            on: { search: _vm.fetchCustomerOptions },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "open-indicator",
+                                fn: function(ref) {
+                                  var attributes = ref.attributes
+                                  return [
+                                    _c(
+                                      "span",
+                                      _vm._b({}, "span", attributes, false)
+                                    )
+                                  ]
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "b-input-group-text",
-                                { attrs: { slot: "append" }, slot: "append" },
-                                [
-                                  _c("font-awesome-icon", {
-                                    staticClass: "mx-auto",
-                                    attrs: { icon: "search" }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
+                              }
+                            ])
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-row" },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("b-form-group", {
+                        staticClass: "col-sm-6",
+                        attrs: { label: "เพศ" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var ariaDescribedby = ref.ariaDescribedby
+                              return [
+                                _c("b-form-radio-group", {
+                                  attrs: {
+                                    id: "inputGender",
+                                    options: _vm.genderOptions,
+                                    "aria-describedby": ariaDescribedby,
+                                    name: "gender"
+                                  },
+                                  model: {
+                                    value: _vm.selectedGender,
+                                    callback: function($$v) {
+                                      _vm.selectedGender = $$v
+                                    },
+                                    expression: "selectedGender"
+                                  }
+                                })
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: {
+                            "label-for": "inputPhone",
+                            label: "เบอร์โทรศัพท์"
+                          }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "phone",
+                              type: "text",
+                              id: "inputPhone"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c(
+                    "b-row",
+                    [
+                      _c("b-col", [
+                        _c("h6", { staticClass: "text-black-50" }, [
+                          _vm._v("ข้อมูลเพิ่มเติมลูกค้า")
+                        ])
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-form-row",
+                    [
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: {
+                            "label-for": "inputIdentityCardNo",
+                            label: "เลขบัตรประชาชน"
+                          }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "identityCardNo",
+                              type: "text",
+                              id: "inputIdentityCardNo"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: { "label-for": "inputEmail", label: "Email" }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "email",
+                              type: "email",
+                              id: "inputEmail"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-form-row",
+                    [
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: {
+                            "label-for": "inputFacebook",
+                            label: "Facebook"
+                          }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "facebook",
+                              type: "text",
+                              id: "inputFacebook"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: { "label-for": "inputLine", label: "Line" }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "Line",
+                              type: "text",
+                              id: "inputLine"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-form-row",
+                    [
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-12",
+                          attrs: { "label-for": "textareaNote", label: "โน้ต" }
+                        },
+                        [
+                          _c("b-form-textarea", {
+                            attrs: {
+                              name: "note",
+                              type: "text",
+                              id: "textareaNote",
+                              rows: "3",
+                              "max-rows": "8",
+                              "no-auto-shrink": ""
+                            }
+                          })
                         ],
                         1
                       )
                     ],
                     1
                   )
-                ]),
-                _vm._v(" "),
-                _vm._m(2)
-              ])
+                ],
+                1
+              )
             ])
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm._m(4)
       ])
     ])
   ])
@@ -913,23 +1239,39 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "form-group col-md-6" }, [
-        _c("label", { attrs: { for: "inputFirstName" } }, [_vm._v("ชื่อ")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", id: "inputFirstName", name: "firstname" }
-        })
-      ]),
+    return _c("div", { staticClass: "form-group col-sm-6" }, [
+      _c("label", { attrs: { for: "inputFirstName" } }, [_vm._v("ชื่อ")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-6" }, [
-        _c("label", { attrs: { for: "inputLastName" } }, [_vm._v("สกุล")]),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", id: "inputFirstName", name: "firstname" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-sm-6" }, [
+      _c("label", { attrs: { for: "inputLastName" } }, [_vm._v("สกุล")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", id: "inputLastName", name: "lastname" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-6" }, [
+      _c("div", { staticClass: "card card-box" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลทอง")])
+        ]),
         _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", id: "inputLastName", name: "lastname" }
-        })
+        _c("div", { staticClass: "card-body" })
       ])
     ])
   }
