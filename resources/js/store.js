@@ -1,7 +1,18 @@
+import axios from "axios";
+import { param as paramsSerializer } from "jquery";
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
+import VuexORMAxios from "@vuex-orm/plugin-axios";
 import User from "models/User";
+
+VuexORM.use(VuexORMAxios, {
+    axios,
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+    baseURL: "/api",
+    paramsSerializer
+});
+
 Vue.use(Vuex);
 
 const database = new VuexORM.Database();

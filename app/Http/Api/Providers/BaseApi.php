@@ -2,27 +2,27 @@
 
 namespace App\Http\Api\Providers;
 
-use Exception;
-use InvalidArgumentException;
+use App\Helpers\DateTimeHelper;
+use App\Http\Api\Architect;
+use App\Http\Api\Parser;
+use App\Http\Api\Parsers\BaseParser;
+use App\Http\Api\Parsers\PaginateParser;
+use App\Http\Api\Parsers\SelectParser;
+use App\Http\Api\Utility;
 use App\IOCs\Data;
 use App\IOCs\DBCol;
-use App\Http\Api\Parser;
-use App\Http\Api\Utility;
-use App\Http\Api\Architect;
-use App\Http\Api\Parsers\BaseParser;
-use App\Http\Api\Parsers\SelectParser;
-use App\Http\Api\Parsers\PaginateParser;
-use App\Helpers\DateTimeHelper;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 abstract class BaseApi
 {
@@ -167,12 +167,12 @@ abstract class BaseApi
         try {
             DB::beginTransaction();
 
-            if(method_exists($this, 'beforeStore')) {
+            if (method_exists($this, 'beforeStore')) {
                 $raw = $this->beforeStore($raw);
             }
 
             $record = $this->parseFields($raw);
-            
+
             $model = $this->originalModel->create($record);
 
             DB::commit();
@@ -182,7 +182,7 @@ abstract class BaseApi
             throw $exception;
         }
 
-        if(method_exists($this, 'stored')) {
+        if (method_exists($this, 'stored')) {
             $model = $this->stored($model, $raw, $record);
         }
 
@@ -194,12 +194,12 @@ abstract class BaseApi
         try {
             DB::beginTransaction();
 
-            if(method_exists($this, 'beforeUpdate')) {
+            if (method_exists($this, 'beforeUpdate')) {
                 list($model, $raw) = $this->beforeUpdate($model, $raw);
             }
 
             $record = $this->parseFields($raw);
-            
+
             $model->update($record);
 
             DB::commit();
@@ -209,7 +209,7 @@ abstract class BaseApi
             throw $exception;
         }
 
-        if(method_exists($this, 'updated')) {
+        if (method_exists($this, 'updated')) {
             $model = $this->updated($model, $raw, $record);
         }
 
@@ -221,7 +221,7 @@ abstract class BaseApi
         $model = $this->getOriginalModel();
 
         $fields = isset($model) ? $model->getFillable() : [];
-        
+
         return !empty($fields) ? Arr::only($raw, $fields) : $raw;
     }
 
@@ -230,7 +230,7 @@ abstract class BaseApi
         try {
             DB::beginTransaction();
 
-            if(method_exists($this, 'beforeDestroy')) {
+            if (method_exists($this, 'beforeDestroy')) {
                 $model = $this->beforeDestroy($model);
             }
 
@@ -243,14 +243,14 @@ abstract class BaseApi
             throw $exception;
         }
 
-        if(method_exists($this, 'destroyed')) {
+        if (method_exists($this, 'destroyed')) {
             $model = $this->destroyed($model);
         }
 
         return [
             "message" => "Destroy success",
             "id" => $model->{DBCol::ID},
-            "deleted_at" => $model->{DBCol::DELETED_AT}
+            "deleted_at" => $model->{DBCol::DELETED_AT},
         ];
     }
 
@@ -272,7 +272,7 @@ abstract class BaseApi
 
         return [
             "message" => "Force destroy success",
-            "id" => $id
+            "id" => $id,
         ];
     }
 
@@ -321,7 +321,7 @@ abstract class BaseApi
     protected function processData($fn, ...$args)
     {
         $builder = $this->getBaseBuilder();
-        
+
         $this->data = call_user_func_array(
             [$builder, $fn],
             $args
@@ -367,7 +367,7 @@ abstract class BaseApi
 
         return $this;
     }
-    
+
     /**
      * @deprecated
      *
@@ -520,7 +520,7 @@ abstract class BaseApi
                 SelectParser::$messages['missing_keyword_argument']
             );
         }
-        
+
         $keywords = getWords($search_data[Data::KEYWORD]);
 
         $fields = $search_data[Data::FIELDS];
@@ -624,7 +624,7 @@ abstract class BaseApi
     protected function applyFilterGroups(array $filter_groups, array $previouslyJoined = [])
     {
         $joins = [];
-        
+
         foreach ($filter_groups as $key => $group) {
             $this->applyFilterGroup($group, $joins);
         }
@@ -844,7 +844,7 @@ abstract class BaseApi
         if ($page <= 0) {
             $page = 1;
         }
-        
+
         $limit = $this->getParserOption(BaseParser::PARAMS['LIMIT']);
         $offset = $this->getParserOption(BaseParser::PARAMS['OFFSET']);
 
@@ -986,7 +986,7 @@ abstract class BaseApi
                 ); // you need to get underlying Query Builder
             // $this->customQuery = $custom_query;
         }
-        
+
         return $this;
     }
 

@@ -38,6 +38,7 @@
                       class="w-100"
                       :options="customerOptions"
                       @search="fetchCustomerOptions"
+                      @option:selected="updateSelectedCustomer"
                     >
                       <template #open-indicator="{ attributes }">
                         <span v-bind="attributes"> </span>
@@ -46,24 +47,32 @@
                   </b-form-group>
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-sm-6">
-                    <label for="inputFirstName">ชื่อ</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputFirstName"
+                  <b-form-group
+                    class="col-sm-6"
+                    label-for="inputFirstname"
+                    label="ชื่อ"
+                  >
+                    <b-form-input
                       name="firstname"
-                    />
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="inputLastName">สกุล</label>
-                    <input
                       type="text"
-                      class="form-control"
-                      id="inputLastName"
+                      id="inputFirstname"
+                      v-model="selectedCustomer.first_name"
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    class="col-sm-6"
+                    label-for="inputLastname"
+                    label="สกุล"
+                  >
+                    <b-form-input
                       name="lastname"
-                    />
-                  </div>
+                      type="text"
+                      id="inputLastname"
+                      v-model="selectedCustomer.last_name"
+                    ></b-form-input>
+                  </b-form-group>
+
                   <b-form-group
                     label="เพศ"
                     v-slot="{ ariaDescribedby }"
@@ -71,10 +80,10 @@
                   >
                     <b-form-radio-group
                       id="inputGender"
-                      v-model="selectedGender"
                       :options="genderOptions"
                       :aria-describedby="ariaDescribedby"
                       name="gender"
+                      v-model="selectedCustomer.gender"
                     ></b-form-radio-group>
                   </b-form-group>
 
@@ -87,6 +96,7 @@
                       name="phone"
                       type="text"
                       id="inputPhone"
+                      v-model="selectedCustomer.phone_number"
                     ></b-form-input>
                   </b-form-group>
                 </div>
@@ -108,6 +118,7 @@
                       name="identityCardNo"
                       type="text"
                       id="inputIdentityCardNo"
+                      v-model="selectedCustomer.identity_card_id"
                     ></b-form-input>
                   </b-form-group>
 
@@ -120,6 +131,7 @@
                       name="email"
                       type="email"
                       id="inputEmail"
+                      v-model="selectedCustomer.email"
                     ></b-form-input>
                   </b-form-group>
                 </b-form-row>
@@ -134,6 +146,7 @@
                       name="facebook"
                       type="text"
                       id="inputFacebook"
+                      v-model="selectedCustomer.facebook"
                     ></b-form-input>
                   </b-form-group>
 
@@ -146,6 +159,7 @@
                       name="Line"
                       type="text"
                       id="inputLine"
+                      v-model="selectedCustomer.line"
                     ></b-form-input>
                   </b-form-group>
                 </b-form-row>
@@ -163,6 +177,7 @@
                       rows="3"
                       max-rows="8"
                       no-auto-shrink
+                      v-model="selectedCustomer.note"
                     ></b-form-textarea>
                   </b-form-group>
                 </b-form-row>
@@ -186,10 +201,11 @@
 
 <script>
 import PageTitle from "../../Layout/Components/PageTitle";
-import { debounce } from "lodash";
+import { debounce, keyBy } from "lodash";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faHandHoldingUsd, faSearch } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
+import User from "models/User";
 
 library.add(faHandHoldingUsd, faSearch);
 
@@ -201,8 +217,8 @@ export default {
 
   data() {
     return {
-      selectedGender: "M",
-      selectedCustomer: null,
+      selectedCustomer: new User(),
+      customers: [],
       customerOptions: [],
       genderOptions: [
         { text: "ชาย", value: "M" },
@@ -212,12 +228,46 @@ export default {
   },
 
   methods: {
-    fetchCustomerOptions(search, loading) {
+    async fetchCustomerOptions(keyword, loading) {
+      if (!keyword.length) return;
+
       loading();
 
-      setTimeout(() => {
+      try {
+        let { response } = await User.api().get("users", {
+          params: {
+            search: {
+              keyword,
+              fields: ["first_name", "last_name"],
+            },
+          },
+          save: false,
+        });
+
+        if (response && response.data) {
+          let { users = [] } = response.data;
+          this.customers = keyBy(users, "id");
+          this.customerOptions = this.makeCustomerOptions(users);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
         loading();
-      }, 500);
+      }
+    },
+
+    makeCustomerOptions(data) {
+      return data.reduce((carry, record, key) => {
+        carry.push({ label: record.full_name, customerId: record.id });
+
+        return carry;
+      }, []);
+    },
+
+    updateSelectedCustomer(selectedCustomerOption) {
+      const { customerId } = selectedCustomerOption;
+
+      this.selectedCustomer = new User(this.customers[customerId]);
     },
   },
 

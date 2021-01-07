@@ -14,7 +14,7 @@ export default class User extends Model {
             first_name: this.attr(""),
             last_name: this.attr(""),
             full_name: this.attr(""),
-            gender: this.attr(""),
+            gender: this.attr("M"),
             phone_number: this.attr(""),
             identity_card_id: this.attr(null),
             email: this.attr(null),
@@ -22,6 +22,12 @@ export default class User extends Model {
             line: this.attr(null),
             note: this.attr(null),
             role_id: this.attr(null)
+        };
+    }
+
+    static get apiConfig() {
+        return {
+            dataKey: "users"
         };
     }
 }

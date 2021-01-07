@@ -241,13 +241,37 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_1__["library"].add(_f
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layout/Components/PageTitle */ "./resources/js/Layout/Components/PageTitle.vue");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layout/Components/PageTitle */ "./resources/js/Layout/Components/PageTitle.vue");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -439,16 +463,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faHandHoldingUsd"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faSearch"]);
+
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__["faHandHoldingUsd"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__["faSearch"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_0__["default"],
-    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_4___default.a
+    PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_1__["default"],
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_5___default.a
   },
   data: function data() {
     return {
-      selectedGender: "M",
-      selectedCustomer: null,
+      selectedCustomer: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"](),
+      customers: [],
       customerOptions: [],
       genderOptions: [{
         text: "ชาย",
@@ -460,15 +485,84 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_f
     };
   },
   methods: {
-    fetchCustomerOptions: function fetchCustomerOptions(search, loading) {
-      loading();
-      setTimeout(function () {
-        loading();
-      }, 500);
+    fetchCustomerOptions: function fetchCustomerOptions(keyword, loading) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _yield$User$api$get, response, _response$data$users, users;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (keyword.length) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                loading();
+                _context.prev = 3;
+                _context.next = 6;
+                return models_User__WEBPACK_IMPORTED_MODULE_6__["default"].api().get("users", {
+                  params: {
+                    search: {
+                      keyword: keyword,
+                      fields: ["first_name", "last_name"]
+                    }
+                  },
+                  save: false
+                });
+
+              case 6:
+                _yield$User$api$get = _context.sent;
+                response = _yield$User$api$get.response;
+
+                if (response && response.data) {
+                  _response$data$users = response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
+                  _this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
+                  _this.customerOptions = _this.makeCustomerOptions(users);
+                }
+
+                _context.next = 14;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](3);
+                console.error(_context.t0);
+
+              case 14:
+                _context.prev = 14;
+                loading();
+                return _context.finish(14);
+
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 11, 14, 17]]);
+      }))();
+    },
+    makeCustomerOptions: function makeCustomerOptions(data) {
+      return data.reduce(function (carry, record, key) {
+        carry.push({
+          label: record.full_name,
+          customerId: record.id
+        });
+        return carry;
+      }, []);
+    },
+    updateSelectedCustomer: function updateSelectedCustomer(selectedCustomerOption) {
+      var customerId = selectedCustomerOption.customerId;
+      this.selectedCustomer = new models_User__WEBPACK_IMPORTED_MODULE_6__["default"](this.customers[customerId]);
     }
   },
   created: function created() {
-    this.fetchCustomerOptions = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"])(this.fetchCustomerOptions, 500);
+    this.fetchCustomerOptions = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(this.fetchCustomerOptions, 500);
   }
 });
 
@@ -989,7 +1083,10 @@ var render = function() {
                               id: "inputCustomer",
                               options: _vm.customerOptions
                             },
-                            on: { search: _vm.fetchCustomerOptions },
+                            on: {
+                              search: _vm.fetchCustomerOptions,
+                              "option:selected": _vm.updateSelectedCustomer
+                            },
                             scopedSlots: _vm._u([
                               {
                                 key: "open-indicator",
@@ -1016,9 +1113,62 @@ var render = function() {
                     "div",
                     { staticClass: "form-row" },
                     [
-                      _vm._m(2),
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: {
+                            "label-for": "inputFirstname",
+                            label: "ชื่อ"
+                          }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "firstname",
+                              type: "text",
+                              id: "inputFirstname"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.first_name,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.selectedCustomer,
+                                  "first_name",
+                                  $$v
+                                )
+                              },
+                              expression: "selectedCustomer.first_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _vm._m(3),
+                      _c(
+                        "b-form-group",
+                        {
+                          staticClass: "col-sm-6",
+                          attrs: { "label-for": "inputLastname", label: "สกุล" }
+                        },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              name: "lastname",
+                              type: "text",
+                              id: "inputLastname"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.last_name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.selectedCustomer, "last_name", $$v)
+                              },
+                              expression: "selectedCustomer.last_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c("b-form-group", {
                         staticClass: "col-sm-6",
@@ -1037,11 +1187,15 @@ var render = function() {
                                     name: "gender"
                                   },
                                   model: {
-                                    value: _vm.selectedGender,
+                                    value: _vm.selectedCustomer.gender,
                                     callback: function($$v) {
-                                      _vm.selectedGender = $$v
+                                      _vm.$set(
+                                        _vm.selectedCustomer,
+                                        "gender",
+                                        $$v
+                                      )
                                     },
-                                    expression: "selectedGender"
+                                    expression: "selectedCustomer.gender"
                                   }
                                 })
                               ]
@@ -1065,6 +1219,17 @@ var render = function() {
                               name: "phone",
                               type: "text",
                               id: "inputPhone"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.phone_number,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.selectedCustomer,
+                                  "phone_number",
+                                  $$v
+                                )
+                              },
+                              expression: "selectedCustomer.phone_number"
                             }
                           })
                         ],
@@ -1106,6 +1271,17 @@ var render = function() {
                               name: "identityCardNo",
                               type: "text",
                               id: "inputIdentityCardNo"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.identity_card_id,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.selectedCustomer,
+                                  "identity_card_id",
+                                  $$v
+                                )
+                              },
+                              expression: "selectedCustomer.identity_card_id"
                             }
                           })
                         ],
@@ -1124,6 +1300,13 @@ var render = function() {
                               name: "email",
                               type: "email",
                               id: "inputEmail"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.selectedCustomer, "email", $$v)
+                              },
+                              expression: "selectedCustomer.email"
                             }
                           })
                         ],
@@ -1151,6 +1334,13 @@ var render = function() {
                               name: "facebook",
                               type: "text",
                               id: "inputFacebook"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.facebook,
+                              callback: function($$v) {
+                                _vm.$set(_vm.selectedCustomer, "facebook", $$v)
+                              },
+                              expression: "selectedCustomer.facebook"
                             }
                           })
                         ],
@@ -1169,6 +1359,13 @@ var render = function() {
                               name: "Line",
                               type: "text",
                               id: "inputLine"
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.line,
+                              callback: function($$v) {
+                                _vm.$set(_vm.selectedCustomer, "line", $$v)
+                              },
+                              expression: "selectedCustomer.line"
                             }
                           })
                         ],
@@ -1196,6 +1393,13 @@ var render = function() {
                               rows: "3",
                               "max-rows": "8",
                               "no-auto-shrink": ""
+                            },
+                            model: {
+                              value: _vm.selectedCustomer.note,
+                              callback: function($$v) {
+                                _vm.$set(_vm.selectedCustomer, "note", $$v)
+                              },
+                              expression: "selectedCustomer.note"
                             }
                           })
                         ],
@@ -1211,7 +1415,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(4)
+        _vm._m(2)
       ])
     ])
   ])
@@ -1233,32 +1437,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลส่วนตัวลูกค้า")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-sm-6" }, [
-      _c("label", { attrs: { for: "inputFirstName" } }, [_vm._v("ชื่อ")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", id: "inputFirstName", name: "firstname" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-sm-6" }, [
-      _c("label", { attrs: { for: "inputLastName" } }, [_vm._v("สกุล")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", id: "inputLastName", name: "lastname" }
-      })
     ])
   },
   function() {
