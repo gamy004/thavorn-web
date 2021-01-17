@@ -23,6 +23,11 @@ const routes = [
         path: "/pawns/create",
         name: "pawn-create",
         component: VIEWS.PAWN.CREATE
+    },
+    {
+        path: "/pawns/extend",
+        name: "pawn-extend",
+        component: VIEWS.PAWN.EXTEND
     }
     // {
     //   path: '/pawn',

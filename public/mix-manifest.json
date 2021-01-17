@@ -3,5 +3,6 @@
     "/css/app.css": "/css/app.css",
     "/thavorn-home.js": "/thavorn-home.js",
     "/thavorn-pawn-create.js": "/thavorn-pawn-create.js",
+    "/thavorn-pawn-extend.js": "/thavorn-pawn-extend.js",
     "/vendors~thavorn-pawn-create.js": "/vendors~thavorn-pawn-create.js"
 }
