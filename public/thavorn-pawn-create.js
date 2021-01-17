@@ -1452,7 +1452,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-lg-6" }, [
       _c("div", { staticClass: "card card-box" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลทอง5")])
+          _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลทอง")])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" })
