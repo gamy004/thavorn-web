@@ -485,11 +485,11 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
     };
   },
   methods: {
-    fetchCustomerOptions: function fetchCustomerOptions(keyword, loading) {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$User$api$get, response, _response$data$users, users;
+    fetchCustomerOptions: function () {
+      var _fetchCustomerOptions = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(keyword, loading) {
+        var _ref, response, _response$data$users, users;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -517,13 +517,13 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 });
 
               case 6:
-                _yield$User$api$get = _context.sent;
-                response = _yield$User$api$get.response;
+                _ref = _context.sent;
+                response = _ref.response;
 
                 if (response && response.data) {
                   _response$data$users = response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
-                  _this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
-                  _this.customerOptions = _this.makeCustomerOptions(users);
+                  this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
+                  this.customerOptions = this.makeCustomerOptions(users);
                 }
 
                 _context.next = 14;
@@ -544,9 +544,15 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 11, 14, 17]]);
-      }))();
-    },
+        }, _callee, this, [[3, 11, 14, 17]]);
+      }));
+
+      function fetchCustomerOptions(_x, _x2) {
+        return _fetchCustomerOptions.apply(this, arguments);
+      }
+
+      return fetchCustomerOptions;
+    }(),
     makeCustomerOptions: function makeCustomerOptions(data) {
       return data.reduce(function (carry, record, key) {
         carry.push({
@@ -1446,7 +1452,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-lg-6" }, [
       _c("div", { staticClass: "card card-box" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลทอง")])
+          _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลทอง5")])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" })
