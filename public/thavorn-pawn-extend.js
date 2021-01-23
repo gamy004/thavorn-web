@@ -71,7 +71,168 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  data: function data() {
+    return {
+      extendTemps: [{
+        pawn_on: "01/00001",
+        pawn_day: "3 พ.ย 2020",
+        pawn_dok: "3 มี.ค 2021",
+        pawn_update: "15 ม.ค 2021"
+      }, {
+        pawn_on: "01/00002",
+        pawn_day: "3 พ.ย 2020",
+        pawn_dok: "3 มี.ค 2021",
+        pawn_update: "15 ม.ค 2021"
+      }]
+    };
+  },
+  methods: {
+    searchExtend: function searchExtend() {},
+    pawnDetail: function pawnDetail(id) {
+      this.$bvModal.show("pawn-detail-modal-".concat(id));
+    },
+    pawnRenew: function pawnRenew(id) {
+      this.$bvModal.hide("pawn-detail-modal-".concat(id));
+      this.$bvModal.show("pawn-renew-modal-".concat(id));
+    },
+    closePawnDetail: function closePawnDetail(id) {
+      this.$bvModal.hide("pawn-detail-modal-".concat(id));
+    },
+    closePawnRenew: function closePawnRenew(id) {
+      this.$bvModal.hide("pawn-renew-modal-".concat(id));
+    }
+  }
+});
 
 /***/ }),
 
@@ -151,16 +312,21 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c(
-                      "b-form-group",
-                      { staticClass: "col-sm-2" },
-                      [
-                        _c("b-button", { attrs: { variant: "primary" } }, [
-                          _vm._v("ค้นหา")
-                        ])
-                      ],
-                      1
-                    )
+                    _c("b-form-group", { staticClass: "col-sm-2" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-md",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.searchExtend($event)
+                            }
+                          }
+                        },
+                        [_vm._v("ค้นหา")]
+                      )
+                    ])
                   ],
                   1
                 ),
@@ -191,8 +357,8 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: false,
-                            expression: "false"
+                            value: true,
+                            expression: "true"
                           }
                         ],
                         staticClass: "text-black-50",
@@ -201,6 +367,603 @@ var render = function() {
                       [
                         _vm._v(
                           "ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: true,
+                            expression: "true"
+                          }
+                        ]
+                      },
+                      [
+                        _c("span", [_vm._v("ผลการค้นหา")]),
+                        _vm._v(" "),
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered mt-3 mb-5"
+                          },
+                          [
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.extendTemps, function(extend, index) {
+                                return _c("tr", { key: "extend-" + index }, [
+                                  _c("th", { attrs: { scope: "row" } }, [
+                                    _vm._v(_vm._s(extend.pawn_on))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(extend.pawn_day))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(extend.pawn_dok))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(extend.pawn_update))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          attrs: { href: "#" },
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              return _vm.pawnDetail(
+                                                extend.pawn_on
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("ดูรายละเอียด")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-primary btn-sm ml-3",
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              return _vm.pawnRenew(
+                                                extend.pawn_on
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("ต่ออายุ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-modal",
+                                        {
+                                          attrs: {
+                                            id:
+                                              "pawn-detail-modal-" +
+                                              extend.pawn_on
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            {
+                                              staticClass:
+                                                "modal-header ml-3 mr-3",
+                                              slot: "modal-header"
+                                            },
+                                            [
+                                              _c("h4", [
+                                                _vm._v("ข้อมูลการจำนำ")
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "modal-body" },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "เลขที่บัตรจำนำ"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [_vm._v("ผู้จำนำ")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [_vm._v("จำนำสินค้า")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "ประวัติการจำนำ"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "อัตราดอกเบี้ย"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [_vm._v("วันที่มาจำนำ")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            extend.pawn_dok
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "วันที่ต่อดอกล่าสุด"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            extend.pawn_update
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "ft-s-16",
+                                                          attrs: { href: "#" }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "แสดงรายการภายในบัตร"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            {
+                                              staticClass:
+                                                "modal-footer ml-3 mr-3",
+                                              slot: "modal-footer"
+                                            },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-secondary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.closePawnDetail(
+                                                        extend.pawn_on
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    { staticClass: "ft-s-16" },
+                                                    [_vm._v("ปิดหน้าต่าง")]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.pawnRenew(
+                                                        extend.pawn_on
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    { staticClass: "ft-s-16" },
+                                                    [_vm._v("ต่ออายุดอกเบี้ย")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        2
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-modal",
+                                        {
+                                          attrs: {
+                                            id:
+                                              "pawn-renew-modal-" +
+                                              extend.pawn_on
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            {
+                                              staticClass:
+                                                "modal-header ml-3 mr-3",
+                                              slot: "modal-header"
+                                            },
+                                            [
+                                              _c("h4", [
+                                                _vm._v("รายการต่ออายุดอกเบี้ย")
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "modal-body" },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "เลือกเดือนที่ต่ออายุ"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "card card-box mt-2 mb-5"
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "card-header bg-light"
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "card-header--title"
+                                                                },
+                                                                [
+                                                                  _c("b", [
+                                                                    _vm._v(
+                                                                      "Datepicker"
+                                                                    )
+                                                                  ])
+                                                                ]
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "card-body"
+                                                            },
+                                                            [
+                                                              _c("div", {
+                                                                staticClass:
+                                                                  "datepicker-wrapper-flush",
+                                                                attrs: {
+                                                                  "data-toggle":
+                                                                    "datepicker"
+                                                                }
+                                                              })
+                                                            ]
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "สรุปเดือนที่ต่ออายุดอกเบี้ย"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c("h2", [
+                                                        _vm._v(
+                                                          "รวมยอดชำระ(บาท)"
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            {
+                                              staticClass:
+                                                "modal-footer ml-3 mr-3",
+                                              slot: "modal-footer"
+                                            },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-secondary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.closePawnRenew(
+                                                        extend.pawn_on
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    { staticClass: "ft-s-16" },
+                                                    [_vm._v("ปิดหน้าต่าง")]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-success",
+                                                  attrs: { type: "button" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    { staticClass: "ft-s-16" },
+                                                    [_vm._v("ต่ออายุ")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ])
+                              }),
+                              0
+                            )
+                          ]
                         )
                       ]
                     )
@@ -243,6 +1006,26 @@ var staticRenderFns = [
         { staticClass: "col-md-12", attrs: { for: "inputCustomerInfo" } },
         [_vm._v("ค้นหาจากฐานข้อมูลลูกค้า")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("เลขที่บัตรจำนำ")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("วันที่มาจำนำ")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("วันที่ครบกำหนดดอกเบี้ย")
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("วันที่อัพเดทล่าสุด")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("การกระทำ")])
+      ])
     ])
   }
 ]
