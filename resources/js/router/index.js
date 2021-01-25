@@ -28,6 +28,11 @@ const routes = [
         path: "/pawns/extend",
         name: "pawn-extend",
         component: VIEWS.PAWN.EXTEND
+    },
+    {
+        path: "/pawns/close",
+        name: "pawn-close",
+        component: VIEWS.PAWN.CLOSE
     }
     // {
     //   path: '/pawn',

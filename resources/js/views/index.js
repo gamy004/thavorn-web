@@ -13,7 +13,9 @@ export const PAWN = {
     CREATE: () =>
         import(/* webpackChunkName: "thavorn-pawn-create" */ "./pawn/create"),
     EXTEND: () =>
-        import(/* webpackChunkName: "thavorn-pawn-extend" */ "./pawn/extend")    
+        import(/* webpackChunkName: "thavorn-pawn-extend" */ "./pawn/extend"),
+    CLOSE: () =>
+        import(/* webpackChunkName: "thavorn-pawn-close" */ "./pawn/close")        
 };
 
 // export const SERVICE = {

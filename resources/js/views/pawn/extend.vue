@@ -71,7 +71,8 @@
                                                         <a href="#" @click.prevent="pawnDetail(extend.pawn_on)">ดูรายละเอียด</a>
                                                         <button @click.prevent="pawnRenew(extend.pawn_on)" class="btn btn-primary btn-sm ml-3">ต่ออายุ</button>
                                                         
-                                                        <b-modal :id="`pawn-detail-modal-${extend.pawn_on}`">
+                                                        <!-- Modal ดูรายละเอียดข้อมูลการจำนำ -->
+                                                        <b-modal :id="`pawn-detail-modal-${extend.pawn_on}`" no-close-on-backdrop>
                                                             <template slot="modal-header" class="modal-header ml-3 mr-3">
                                                                 <h4>ข้อมูลการจำนำ</h4>
                                                             </template>
@@ -118,7 +119,7 @@
                                                                 </div>
                                                                 <div class="row" >
                                                                     <div class="col-12">
-                                                                        <a href="#" class="ft-s-16">แสดงรายการภายในบัตร</a>
+                                                                        <a href="#" class="ft-s-16" @click="pawnItems(extend.pawn_on)">แสดงรายการภายในบัตร</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -131,8 +132,45 @@
                                                                 </button>
                                                             </template>
                                                         </b-modal>
+                                                        
+                                                        <!-- Modal แสดงรายการสินค้าภายในบัตร -->
+                                                        <b-modal :id="`pawn-list-item-modal-${extend.pawn_on}`" no-close-on-backdrop>
+                                                            <template slot="modal-header" class="modal-header ml-3 mr-3">
+                                                                <h4>รายการสินค้าในบัตร</h4>
+                                                            </template>
+                                                            <div class="modal-body">
+                                                                <div class="row mb" >
+                                                                    <div class="col-12">
+                                                                        <table class="table table-hover table-striped table-bordered mt-3">
+                                                                            <thead class="thead-light">
+                                                                            <tr>
+                                                                                <th scope="col">ประเภทของทอง</th>
+                                                                                <th scope="col">น้ำหนักทอง (กรัม)</th>
+                                                                                <th scope="col">มูลค่า (บาท)</th>
+                                                                                <th scope="col">ความเสียหาย</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr v-for="(extend, index) in extendTemps" :key="`extend-${index}`">
+                                                                                <th scope="row">{{extend.pawn_on}}</th>
+                                                                                <td>{{extend.pawn_on}}</td>
+                                                                                <td>{{extend.pawn_on}}</td>
+                                                                                <td>{{extend.pawn_on}}</td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <template slot="modal-footer" class="modal-footer ml-3 mr-3">
+                                                                <button type="button" class="btn btn-primary" @click="closePawnItems(extend.pawn_on)">
+                                                                    <a class="ft-s-16">ปิดหน้าต่างนี้</a>
+                                                                </button>
+                                                            </template>
+                                                        </b-modal>
 
-                                                        <b-modal :id="`pawn-renew-modal-${extend.pawn_on}`">
+                                                        <!-- Modal การต่ออายุดอกเบี้ย -->
+                                                        <b-modal :id="`pawn-renew-modal-${extend.pawn_on}`" no-close-on-backdrop>
                                                             <template slot="modal-header" class="modal-header ml-3 mr-3">
                                                                 <h4>รายการต่ออายุดอกเบี้ย</h4>
                                                             </template>
@@ -225,12 +263,20 @@ export default {
             this.$bvModal.hide(`pawn-detail-modal-${id}`);
             this.$bvModal.show(`pawn-renew-modal-${id}`);
         },
+        pawnItems(id){
+            this.$bvModal.hide(`pawn-detail-modal-${id}`);
+            this.$bvModal.show(`pawn-list-item-modal-${id}`);
+        },
         closePawnDetail(id) {
             this.$bvModal.hide(`pawn-detail-modal-${id}`);
         },
         closePawnRenew(id) {
             this.$bvModal.hide(`pawn-renew-modal-${id}`);
         },
+        closePawnItems(id){
+            this.$bvModal.hide(`pawn-list-item-modal-${id}`);
+            this.$bvModal.show(`pawn-detail-modal-${id}`);
+        }
     },
 }
 </script>

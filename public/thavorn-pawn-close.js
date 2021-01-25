@@ -1,49 +1,14 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["thavorn-pawn-extend"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["thavorn-pawn-close"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/extend.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/pawn/extend.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/close.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/pawn/close.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -241,51 +206,42 @@ __webpack_require__.r(__webpack_exports__);
   components: {},
   data: function data() {
     return {
+      status: true,
       extendTemps: [{
         pawn_on: "01/00001",
-        pawn_day: "3 พ.ย 2020",
-        pawn_dok: "3 มี.ค 2021",
-        pawn_update: "15 ม.ค 2021"
+        pawn_items: "3",
+        pawn_value: "36,000",
+        pawn_interest: "5"
       }, {
         pawn_on: "01/00002",
-        pawn_day: "3 พ.ย 2020",
-        pawn_dok: "3 มี.ค 2021",
-        pawn_update: "15 ม.ค 2021"
+        pawn_items: "3",
+        pawn_value: "36,000",
+        pawn_interest: "5"
       }]
     };
   },
+  computed: {
+    test: function test() {
+      return 'color: rgb(235, 235, 228) !important;';
+    }
+  },
   methods: {
     searchExtend: function searchExtend() {},
-    pawnDetail: function pawnDetail(id) {
-      this.$bvModal.show("pawn-detail-modal-".concat(id));
+    pawnReply: function pawnReply(id) {
+      this.$bvModal.show("pawn-reply-modal-".concat(id));
     },
-    pawnRenew: function pawnRenew(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-      this.$bvModal.show("pawn-renew-modal-".concat(id));
-    },
-    pawnItems: function pawnItems(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-      this.$bvModal.show("pawn-list-item-modal-".concat(id));
-    },
-    closePawnDetail: function closePawnDetail(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-    },
-    closePawnRenew: function closePawnRenew(id) {
-      this.$bvModal.hide("pawn-renew-modal-".concat(id));
-    },
-    closePawnItems: function closePawnItems(id) {
-      this.$bvModal.hide("pawn-list-item-modal-".concat(id));
-      this.$bvModal.show("pawn-detail-modal-".concat(id));
+    closePawnReply: function closePawnReply(id) {
+      this.$bvModal.hide("pawn-reply-modal-".concat(id));
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c&":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c& ***!
-  \*********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920& ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -314,7 +270,7 @@ var render = function() {
                 [
                   _c("font-awesome-icon", {
                     staticClass: "text-primary mt-1",
-                    attrs: { icon: "clock" }
+                    attrs: { icon: "reply" }
                   })
                 ],
                 1
@@ -449,48 +405,32 @@ var render = function() {
                                     _vm._v(_vm._s(extend.pawn_on))
                                   ]),
                                   _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(extend.pawn_day))]),
+                                  _c("td", [_vm._v(_vm._s(extend.pawn_items))]),
                                   _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(extend.pawn_dok))]),
+                                  _c("td", [_vm._v(_vm._s(extend.pawn_value))]),
                                   _vm._v(" "),
                                   _c("td", [
-                                    _vm._v(_vm._s(extend.pawn_update))
+                                    _vm._v(_vm._s(extend.pawn_interest))
                                   ]),
                                   _vm._v(" "),
                                   _c(
                                     "td",
                                     [
                                       _c(
-                                        "a",
-                                        {
-                                          attrs: { href: "#" },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.pawnDetail(
-                                                extend.pawn_on
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._v("ดูรายละเอียด")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
                                         "button",
                                         {
                                           staticClass:
-                                            "btn btn-primary btn-sm ml-3",
+                                            "btn btn-success btn-sm ml-3",
                                           on: {
                                             click: function($event) {
                                               $event.preventDefault()
-                                              return _vm.pawnRenew(
+                                              return _vm.pawnReply(
                                                 extend.pawn_on
                                               )
                                             }
                                           }
                                         },
-                                        [_vm._v("ต่ออายุ")]
+                                        [_vm._v("ไถ่ถอน")]
                                       ),
                                       _vm._v(" "),
                                       _c(
@@ -498,7 +438,7 @@ var render = function() {
                                         {
                                           attrs: {
                                             id:
-                                              "pawn-detail-modal-" +
+                                              "pawn-reply-modal-" +
                                               extend.pawn_on,
                                             "no-close-on-backdrop": ""
                                           }
@@ -513,7 +453,7 @@ var render = function() {
                                             },
                                             [
                                               _c("h4", [
-                                                _vm._v("ข้อมูลการจำนำ")
+                                                _vm._v("สรุปรายการไถ่ถอน")
                                               ])
                                             ]
                                           ),
@@ -591,7 +531,7 @@ var render = function() {
                                                         {
                                                           staticClass: "ft-s-16"
                                                         },
-                                                        [_vm._v("จำนำสินค้า")]
+                                                        [_vm._v("จำนวนสินค้า")]
                                                       ),
                                                       _vm._v(" "),
                                                       _c("div", [
@@ -619,238 +559,11 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "ประวัติการจำนำ"
+                                                            "รายการสินค้าจำนำ"
                                                           )
                                                         ]
                                                       ),
                                                       _vm._v(" "),
-                                                      _c("div", [
-                                                        _vm._v(
-                                                          _vm._s(extend.pawn_on)
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "row mb-4" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-12" },
-                                                    [
-                                                      _c(
-                                                        "b",
-                                                        {
-                                                          staticClass: "ft-s-16"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "อัตราดอกเบี้ย"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c("div", [
-                                                        _vm._v(
-                                                          _vm._s(extend.pawn_on)
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "row mb-4" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-6" },
-                                                    [
-                                                      _c(
-                                                        "b",
-                                                        {
-                                                          staticClass: "ft-s-16"
-                                                        },
-                                                        [_vm._v("วันที่มาจำนำ")]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c("div", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            extend.pawn_dok
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-6" },
-                                                    [
-                                                      _c(
-                                                        "b",
-                                                        {
-                                                          staticClass: "ft-s-16"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "วันที่ต่อดอกล่าสุด"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c("div", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            extend.pawn_update
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "row" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-12" },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "ft-s-16",
-                                                          attrs: { href: "#" },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.pawnItems(
-                                                                extend.pawn_on
-                                                              )
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "แสดงรายการภายในบัตร"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "template",
-                                            {
-                                              staticClass:
-                                                "modal-footer ml-3 mr-3",
-                                              slot: "modal-footer"
-                                            },
-                                            [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-secondary",
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.closePawnDetail(
-                                                        extend.pawn_on
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    { staticClass: "ft-s-16" },
-                                                    [_vm._v("ปิดหน้าต่าง")]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-primary",
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.pawnRenew(
-                                                        extend.pawn_on
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    { staticClass: "ft-s-16" },
-                                                    [_vm._v("ต่ออายุดอกเบี้ย")]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        2
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "b-modal",
-                                        {
-                                          attrs: {
-                                            id:
-                                              "pawn-list-item-modal-" +
-                                              extend.pawn_on,
-                                            "no-close-on-backdrop": ""
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "template",
-                                            {
-                                              staticClass:
-                                                "modal-header ml-3 mr-3",
-                                              slot: "modal-header"
-                                            },
-                                            [
-                                              _c("h4", [
-                                                _vm._v("รายการสินค้าในบัตร")
-                                              ])
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "modal-body" },
-                                            [
-                                              _c(
-                                                "div",
-                                                { staticClass: "row mb" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-12" },
-                                                    [
                                                       _c(
                                                         "table",
                                                         {
@@ -965,7 +678,7 @@ var render = function() {
                                                                     _c("td", [
                                                                       _vm._v(
                                                                         _vm._s(
-                                                                          extend.pawn_on
+                                                                          extend.pawn_items
                                                                         )
                                                                       )
                                                                     ]),
@@ -973,7 +686,7 @@ var render = function() {
                                                                     _c("td", [
                                                                       _vm._v(
                                                                         _vm._s(
-                                                                          extend.pawn_on
+                                                                          extend.pawn_value
                                                                         )
                                                                       )
                                                                     ]),
@@ -981,7 +694,7 @@ var render = function() {
                                                                     _c("td", [
                                                                       _vm._v(
                                                                         _vm._s(
-                                                                          extend.pawn_on
+                                                                          extend.pawn_interest
                                                                         )
                                                                       )
                                                                     ])
@@ -996,148 +709,6 @@ var render = function() {
                                                     ]
                                                   )
                                                 ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "template",
-                                            {
-                                              staticClass:
-                                                "modal-footer ml-3 mr-3",
-                                              slot: "modal-footer"
-                                            },
-                                            [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-primary",
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.closePawnItems(
-                                                        extend.pawn_on
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    { staticClass: "ft-s-16" },
-                                                    [_vm._v("ปิดหน้าต่างนี้")]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        2
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "b-modal",
-                                        {
-                                          attrs: {
-                                            id:
-                                              "pawn-renew-modal-" +
-                                              extend.pawn_on,
-                                            "no-close-on-backdrop": ""
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "template",
-                                            {
-                                              staticClass:
-                                                "modal-header ml-3 mr-3",
-                                              slot: "modal-header"
-                                            },
-                                            [
-                                              _c("h4", [
-                                                _vm._v("รายการต่ออายุดอกเบี้ย")
-                                              ])
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "modal-body" },
-                                            [
-                                              _c(
-                                                "div",
-                                                { staticClass: "row mb-4" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-12" },
-                                                    [
-                                                      _c(
-                                                        "b",
-                                                        {
-                                                          staticClass: "ft-s-16"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "เลือกเดือนที่ต่ออายุ"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "card card-box mt-2 mb-5"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "card-header bg-light"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "card-header--title"
-                                                                },
-                                                                [
-                                                                  _c("b", [
-                                                                    _vm._v(
-                                                                      "Datepicker"
-                                                                    )
-                                                                  ])
-                                                                ]
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "card-body"
-                                                            },
-                                                            [
-                                                              _c("div", {
-                                                                staticClass:
-                                                                  "datepicker-wrapper-flush",
-                                                                attrs: {
-                                                                  "data-toggle":
-                                                                    "datepicker"
-                                                                }
-                                                              })
-                                                            ]
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -1155,10 +726,138 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "สรุปเดือนที่ต่ออายุดอกเบี้ย"
+                                                            "อัตราดอกเบี้ย"
                                                           )
                                                         ]
-                                                      )
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [_vm._v("วันที่มาจำนำ")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "วันที่ต่อดอกล่าสุด"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "รวมมูลค่าสินค้า(บาท)"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-6" },
+                                                    [
+                                                      _c(
+                                                        "b",
+                                                        {
+                                                          staticClass: "ft-s-16"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "ดอกเบี้ย(บาท)"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("div", [
+                                                        _vm._v(
+                                                          _vm._s(extend.pawn_on)
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "row mb-4" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-12" },
+                                                    [
+                                                      _c("h2", [
+                                                        _vm._v(
+                                                          "รวมยอดชำระ(บาท)"
+                                                        )
+                                                      ])
                                                     ]
                                                   )
                                                 ]
@@ -1172,12 +871,63 @@ var render = function() {
                                                     "div",
                                                     { staticClass: "col-12" },
                                                     [
-                                                      _c("h2", [
-                                                        _vm._v(
-                                                          "รวมยอดชำระ(บาท)"
-                                                        )
-                                                      ])
-                                                    ]
+                                                      _c(
+                                                        "b-form-checkbox",
+                                                        {
+                                                          attrs: {
+                                                            id:
+                                                              "checkbox-pawn-card",
+                                                            name:
+                                                              "checkbox-pawn-card",
+                                                            value: false,
+                                                            "unchecked-value": true
+                                                          },
+                                                          model: {
+                                                            value: _vm.status,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.status = $$v
+                                                            },
+                                                            expression: "status"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("h4", [
+                                                            _vm._v(
+                                                              "ไม่มีบัตรจำนำ"
+                                                            )
+                                                          ])
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "fieldset",
+                                                        {
+                                                          staticClass: "mt-2",
+                                                          attrs: {
+                                                            disabled: _vm.status
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("b", [
+                                                            _vm._v(
+                                                              "อัพโหลดหลักฐาน"
+                                                            )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "button",
+                                                            {
+                                                              staticClass:
+                                                                "btn btn-primary btn-sm ml-3"
+                                                            },
+                                                            [_vm._v("อัพโหลด")]
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
                                                   )
                                                 ]
                                               )
@@ -1200,7 +950,7 @@ var render = function() {
                                                   attrs: { type: "button" },
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.closePawnRenew(
+                                                      return _vm.closePawnReply(
                                                         extend.pawn_on
                                                       )
                                                     }
@@ -1226,7 +976,7 @@ var render = function() {
                                                   _c(
                                                     "a",
                                                     { staticClass: "ft-s-16" },
-                                                    [_vm._v("ต่ออายุ")]
+                                                    [_vm._v("ไถ่ถอน")]
                                                   )
                                                 ]
                                               )
@@ -1263,7 +1013,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", [
       _c("h5", { staticClass: "display-4 mt-1 mb-2 font-weight-bold" }, [
-        _vm._v("ต่ออายุดอกเบี้ย")
+        _vm._v("ไถ่ถอน")
       ])
     ])
   },
@@ -1295,13 +1045,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("เลขที่บัตรจำนำ")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("วันที่มาจำนำ")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("จำนวนสินค้า (ชิ้น)")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("วันที่ครบกำหนดดอกเบี้ย")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("มูลค่าสินค้า (บาท)")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("วันที่อัพเดทล่าสุด")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("อัตราดอกเบี้ย (%)")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("การกระทำ")])
       ])
@@ -1314,17 +1062,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/pawn/extend.vue":
-/*!********************************************!*\
-  !*** ./resources/js/views/pawn/extend.vue ***!
-  \********************************************/
+/***/ "./resources/js/views/pawn/close.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/views/pawn/close.vue ***!
+  \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./extend.vue?vue&type=template&id=57a45c5c& */ "./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c&");
-/* harmony import */ var _extend_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extend.vue?vue&type=script&lang=js& */ "./resources/js/views/pawn/extend.vue?vue&type=script&lang=js&");
+/* harmony import */ var _close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./close.vue?vue&type=template&id=45f99920& */ "./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920&");
+/* harmony import */ var _close_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./close.vue?vue&type=script&lang=js& */ "./resources/js/views/pawn/close.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1334,9 +1082,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _extend_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _close_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -1346,38 +1094,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/pawn/extend.vue"
+component.options.__file = "resources/js/views/pawn/close.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/pawn/extend.vue?vue&type=script&lang=js&":
-/*!*********************************************************************!*\
-  !*** ./resources/js/views/pawn/extend.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************/
+/***/ "./resources/js/views/pawn/close.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/views/pawn/close.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_extend_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./extend.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/extend.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_extend_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_close_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./close.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/close.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_close_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c& ***!
-  \***************************************************************************/
+/***/ "./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920& ***!
+  \**************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./extend.vue?vue&type=template&id=57a45c5c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/extend.vue?vue&type=template&id=57a45c5c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./close.vue?vue&type=template&id=45f99920& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/close.vue?vue&type=template&id=45f99920&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_extend_vue_vue_type_template_id_57a45c5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_close_vue_vue_type_template_id_45f99920___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
