@@ -251,6 +251,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -458,6 +459,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -473,6 +488,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
   data: function data() {
     return {
       selectedCustomer: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"](),
+      createdPawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"](),
       customers: [],
       customerOptions: [],
       genderOptions: [{
@@ -481,15 +497,16 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
       }, {
         text: "หญิง",
         value: "F"
-      }]
+      }],
+      fetchingLastestPawnNo: false
     };
   },
   methods: {
-    fetchCustomerOptions: function () {
-      var _fetchCustomerOptions = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(keyword, loading) {
-        var _ref, response, _response$data$users, users;
+    fetchCustomerOptions: function fetchCustomerOptions(keyword, loading) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _yield$User$api$get, response, _response$data$users, users;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -510,20 +527,20 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                   params: {
                     search: {
                       keyword: keyword,
-                      fields: ["first_name", "last_name"]
+                      fields: ["full_name"]
                     }
                   },
                   save: false
                 });
 
               case 6:
-                _ref = _context.sent;
-                response = _ref.response;
+                _yield$User$api$get = _context.sent;
+                response = _yield$User$api$get.response;
 
                 if (response && response.data) {
                   _response$data$users = response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
-                  this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
-                  this.customerOptions = this.makeCustomerOptions(users);
+                  _this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
+                  _this.customerOptions = _this.makeCustomerOptions(users);
                 }
 
                 _context.next = 14;
@@ -544,15 +561,9 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 11, 14, 17]]);
-      }));
-
-      function fetchCustomerOptions(_x, _x2) {
-        return _fetchCustomerOptions.apply(this, arguments);
-      }
-
-      return fetchCustomerOptions;
-    }(),
+        }, _callee, null, [[3, 11, 14, 17]]);
+      }))();
+    },
     makeCustomerOptions: function makeCustomerOptions(data) {
       return data.reduce(function (carry, record, key) {
         carry.push({
@@ -565,10 +576,98 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
     updateSelectedCustomer: function updateSelectedCustomer(selectedCustomerOption) {
       var customerId = selectedCustomerOption.customerId;
       this.selectedCustomer = new models_User__WEBPACK_IMPORTED_MODULE_6__["default"](this.customers[customerId]);
+    },
+    fetchLatestPawnNo: function fetchLatestPawnNo() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var result, _result, response;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.fetchingLastestPawnNo = true;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().get('/generate-number', {
+                  save: false
+                });
+
+              case 4:
+                result = _context2.sent;
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](1);
+                console.log(_context2.t0);
+
+              case 10:
+                _context2.prev = 10;
+                _this2.fetchingLastestPawnNo = false;
+                return _context2.finish(10);
+
+              case 13:
+                _result = result, response = _result.response;
+
+                if (response && response.data && response.data.pawn_no) {
+                  _this2.$set(_this2.createdPawn, 'pawn_no', response.data.pawn_no);
+                }
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 7, 10, 13]]);
+      }))();
+    },
+    createPawn: function createPawn() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post('', {
+                  pawn: {
+                    user: _this3.selectedCustomer,
+                    pawn_no: _this3.createdPawn.pawn_no,
+                    interest_rate: _this3.createdPawn.interest_rate,
+                    pawn_items: []
+                  }
+                });
+
+              case 3:
+                result = _context3.sent;
+                _context3.next = 9;
+                break;
+
+              case 6:
+                _context3.prev = 6;
+                _context3.t0 = _context3["catch"](0);
+                console.error(_context3.t0);
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 6]]);
+      }))();
     }
   },
   created: function created() {
     this.fetchCustomerOptions = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(this.fetchCustomerOptions, 500);
+  },
+  mounted: function mounted() {
+    this.fetchLatestPawnNo();
   }
 });
 
@@ -1064,7 +1163,34 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-lg-6" }, [
           _c("div", { staticClass: "card card-box" }, [
-            _vm._m(1),
+            _c(
+              "div",
+              { staticClass: "card-header justify-content-between" },
+              [
+                _c("h5", { staticClass: "my-3" }, [
+                  _vm._v("ข้อมูลส่วนตัวลูกค้า")
+                ]),
+                _vm._v(" "),
+                _vm.fetchingLastestPawnNo
+                  ? _c("b-spinner", {
+                      attrs: {
+                        label: "Fetching latest pawn no",
+                        variant: "primary",
+                        small: ""
+                      }
+                    })
+                  : _c("div", [
+                      _vm.createdPawn && _vm.createdPawn.pawn_no
+                        ? _c("small", [
+                            _vm._v(
+                              "เลขบัตรจำนำ: " + _vm._s(_vm.createdPawn.pawn_no)
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c(
@@ -1421,7 +1547,34 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2)
+        _vm._m(1)
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-12 align-items-center" },
+          [
+            _c(
+              "b-button",
+              {
+                attrs: { variant: "primary" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.createPawn($event)
+                  }
+                }
+              },
+              [_vm._v("บันทึก")]
+            ),
+            _vm._v(" "),
+            _c("b-button", { attrs: { variant: "secondary" } }, [
+              _vm._v("ละทิ้ง")
+            ])
+          ],
+          1
+        )
       ])
     ])
   ])
@@ -1435,14 +1588,6 @@ var staticRenderFns = [
       _c("h5", { staticClass: "display-4 mt-1 mb-2 font-weight-bold" }, [
         _vm._v("การจำนำ")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลส่วนตัวลูกค้า")])
     ])
   },
   function() {
