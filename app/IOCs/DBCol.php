@@ -98,7 +98,7 @@ class DBCol
     const _PUBLIC = 'public';
 
     /**
-     * THAWON
+     * THAVORN
      */
     const AMOUNT = 'amount';
     const MONTH_AMOUNT = 'month_amount';

@@ -82,10 +82,10 @@ class StorePawnRequest extends FormRequest
                 'max:13'
             ],
 
-            'pawn.user.' . DBCol::GENDER => [
-                'required',
-                Rule::in([User::MALE, User::FEMALE]),
-            ],
+            // 'pawn.user.' . DBCol::GENDER => [
+            //     'required',
+            //     Rule::in([User::MALE, User::FEMALE]),
+            // ],
 
             'pawn.user.' . DBCol::EMAIL => [
                 'nullable',

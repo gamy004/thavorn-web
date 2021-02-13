@@ -24,8 +24,14 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="card card-box">
-            <div class="card-header">
+            <div class="card-header justify-content-between">
               <h5 class="my-3">ข้อมูลส่วนตัวลูกค้า</h5>
+
+              <b-spinner v-if="fetchingLastestPawnNo" label="Fetching latest pawn no" variant="primary" small></b-spinner>
+
+              <div v-else>
+                <small v-if="createdPawn && createdPawn.pawn_no">เลขบัตรจำนำ: {{ createdPawn.pawn_no }}</small>
+              </div>
             </div>
             <div class="card-body">
               <form>
@@ -195,6 +201,13 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-12 align-items-center">
+          <b-button variant="primary" @click.prevent="createPawn">บันทึก</b-button>
+          <b-button variant="secondary">ละทิ้ง</b-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -206,6 +219,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faHandHoldingUsd, faSearch } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
 import User from "models/User";
+import Pawn from "models/Pawn";
 
 library.add(faHandHoldingUsd, faSearch);
 
@@ -218,12 +232,14 @@ export default {
   data() {
     return {
       selectedCustomer: new User(),
+      createdPawn: new Pawn(),
       customers: [],
       customerOptions: [],
       genderOptions: [
         { text: "ชาย", value: "M" },
         { text: "หญิง", value: "F" },
       ],
+      fetchingLastestPawnNo: false
     };
   },
 
@@ -238,7 +254,7 @@ export default {
           params: {
             search: {
               keyword,
-              fields: ["first_name", "last_name"],
+              fields: ["full_name"],
             },
           },
           save: false,
@@ -269,10 +285,51 @@ export default {
 
       this.selectedCustomer = new User(this.customers[customerId]);
     },
+
+    async fetchLatestPawnNo() {
+      let result;
+
+      this.fetchingLastestPawnNo = true;
+
+      try {
+        result = await Pawn.api().get('/generate-number', { save: false });  
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.fetchingLastestPawnNo = false;
+      }
+
+      const { response } = result;
+
+      if (response && response.data && response.data.pawn_no) {
+        this.$set(this.createdPawn, 'pawn_no', response.data.pawn_no);
+      }
+    },
+
+    async createPawn() {
+      let result;
+
+      try {
+        result = await Pawn.api().post('', {
+          pawn: {
+            user: this.selectedCustomer,
+            pawn_no: this.createdPawn.pawn_no,
+            interest_rate: this.createdPawn.interest_rate,
+            pawn_items: []
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 
   created() {
     this.fetchCustomerOptions = debounce(this.fetchCustomerOptions, 500);
   },
+
+  mounted() {
+    this.fetchLatestPawnNo();
+  }
 };
 </script>
