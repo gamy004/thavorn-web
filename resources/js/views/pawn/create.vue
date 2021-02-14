@@ -27,10 +27,17 @@
             <div class="card-header justify-content-between">
               <h5 class="my-3">ข้อมูลส่วนตัวลูกค้า</h5>
 
-              <b-spinner v-if="fetchingLastestPawnNo" label="Fetching latest pawn no" variant="primary" small></b-spinner>
+              <b-spinner
+                v-if="fetchingLastestPawnNo"
+                label="Fetching latest pawn no"
+                variant="primary"
+                small
+              ></b-spinner>
 
               <div v-else>
-                <small v-if="createdPawn && createdPawn.pawn_no">เลขบัตรจำนำ: {{ createdPawn.pawn_no }}</small>
+                <small v-if="createdPawn && createdPawn.pawn_no"
+                  >เลขบัตรจำนำ: {{ createdPawn.pawn_no }}</small
+                >
               </div>
             </div>
             <div class="card-body">
@@ -204,7 +211,9 @@
 
       <div class="row">
         <div class="col-12 align-items-center">
-          <b-button variant="primary" @click.prevent="createPawn">บันทึก</b-button>
+          <b-button variant="primary" @click.prevent="createPawn"
+            >บันทึก</b-button
+          >
           <b-button variant="secondary">ละทิ้ง</b-button>
         </div>
       </div>
@@ -239,7 +248,7 @@ export default {
         { text: "ชาย", value: "M" },
         { text: "หญิง", value: "F" },
       ],
-      fetchingLastestPawnNo: false
+      fetchingLastestPawnNo: false,
     };
   },
 
@@ -292,7 +301,7 @@ export default {
       this.fetchingLastestPawnNo = true;
 
       try {
-        result = await Pawn.api().get('/generate-number', { save: false });  
+        result = await Pawn.api().get("/generate-number", { save: false });
       } catch (error) {
         console.log(error);
       } finally {
@@ -302,7 +311,7 @@ export default {
       const { response } = result;
 
       if (response && response.data && response.data.pawn_no) {
-        this.$set(this.createdPawn, 'pawn_no', response.data.pawn_no);
+        this.$set(this.createdPawn, "pawn_no", response.data.pawn_no);
       }
     },
 
@@ -310,18 +319,18 @@ export default {
       let result;
 
       try {
-        result = await Pawn.api().post('', {
+        result = await Pawn.api().post("", {
           pawn: {
             user: this.selectedCustomer,
             pawn_no: this.createdPawn.pawn_no,
             interest_rate: this.createdPawn.interest_rate,
-            pawn_items: []
-          }
+            pawn_items: [],
+          },
         });
       } catch (error) {
         console.error(error);
       }
-    }
+    },
   },
 
   created() {
@@ -330,6 +339,6 @@ export default {
 
   mounted() {
     this.fetchLatestPawnNo();
-  }
+  },
 };
 </script>

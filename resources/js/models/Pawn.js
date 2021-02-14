@@ -1,5 +1,5 @@
 import { Model } from "@vuex-orm/core";
-
+import User from "./User"
 export default class Pawn extends Model {
     // This is the name used as module name of the Vuex Store.
     static get entity() {
@@ -14,13 +14,20 @@ export default class Pawn extends Model {
             pawn_no: this.attr(''),
             interest_rate: this.number('3.00'),
             customer_id: this.attr(null),
+            latest_paid_at: this.attr(null),
+            complete: this.attr(null),
+            next_paid_at: this.attr(null),
+            latest_paid_at: this.attr(null),
+            created_at: this.attr(null),
+            updated_at: this.attr(null),
+            user: this.belongsTo(User, 'customer_id'),
         };
     }
 
     static get apiConfig() {
         return {
             dataKey: "pawns",
-            baseURL: "/api/pawns",
+            baseURL: "/api",
         };
     }
 }

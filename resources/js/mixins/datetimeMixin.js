@@ -1,0 +1,33 @@
+import moment from "moment";
+import "moment-timezone"
+
+export const datetimeMixin = {
+  computed: {
+    /**
+     * Get now date-time
+     * only two arguments: ["format", "toISOString"]
+     * 
+     * @type {String}
+     */
+    today() {
+      return (format) => moment()[format]()
+    },
+
+    cityTimezone() {
+      let userTimezone = moment.tz.guess();
+      return userTimezone.substr(userTimezone.indexOf("/") + 1);
+    },
+
+    formatingDatetime: () => {
+      return (datetime, format) => {
+        moment.locale('th')
+        // if (moment(datetime).format('hh') === '12') {
+        //   let date = moment(datetime).format("DD MMM YYYY")
+        //   let minute = moment(datetime).format("hh:mma").substr(2)
+        //   return `${date} 00${minute}`
+        // }
+        return moment(datetime).add(543, 'year').format(format)
+      }
+    },
+  },
+}

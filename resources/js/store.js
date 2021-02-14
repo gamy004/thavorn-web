@@ -6,6 +6,7 @@ import VuexORM from "@vuex-orm/core";
 import VuexORMAxios from "@vuex-orm/plugin-axios";
 import User from "models/User";
 import Pawn from "models/Pawn";
+import PawnItem from "models/PawnItem";
 
 VuexORM.use(VuexORMAxios, {
     axios,
@@ -20,6 +21,7 @@ const database = new VuexORM.Database();
 
 database.register(User);
 database.register(Pawn);
+database.register(PawnItem);
 
 export const store = new Vuex.Store({
     plugins: [VuexORM.install(database)],
