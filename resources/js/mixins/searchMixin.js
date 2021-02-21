@@ -74,11 +74,14 @@ export const searchMixin = {
             }
             // return sumBy(this.pawnItemByPawnNo(id), 'item_value')
         },
-        async searchPawnByCustomerData() {
-            if (!this.searchInput) return;
+        clearDataVuex(){
             User.deleteAll() // Delete all Users.
             Pawn.deleteAll() // Delete all Pawns.
             PawnItem.deleteAll() // Delete all PawnItems.
+        },
+        async searchPawnByCustomerData() {
+            if (!this.searchInput) return;
+                this.clearDataVuex()
             try {
                 /*
                     Search Pawn by Pawn ID

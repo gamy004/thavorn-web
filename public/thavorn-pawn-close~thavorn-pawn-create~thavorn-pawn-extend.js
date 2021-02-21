@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["thavorn-pawn-close~thavorn-pawn-extend"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["thavorn-pawn-close~thavorn-pawn-create~thavorn-pawn-extend"],{
 
 /***/ "./node_modules/moment/locale sync recursive ^\\.\\/.*$":
 /*!**************************************************!*\

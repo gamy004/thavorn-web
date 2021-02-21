@@ -33,7 +33,18 @@ const routes = [
         path: "/pawns/close",
         name: "pawn-close",
         component: VIEWS.PAWN.CLOSE
+    },
+    {
+        path: "/data/customers",
+        name: "data-customer",
+        component: VIEWS.DATA.CUSTOMER
+    },
+    {
+        path: "/data/pawns",
+        name: "data-pawn",
+        component: VIEWS.DATA.PAWN
     }
+
     // {
     //   path: '/pawn',
     //   name: 'pawn',

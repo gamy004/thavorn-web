@@ -12,9 +12,9 @@ export default class PawnItem extends Model {
         return {
             id: this.attr(null),
             item_weight: this.number(''),
-            item_weight_unit: this.attr(null),
+            item_weight_unit: this.attr('gram'),
             item_value: this.number(''),
-            item_value_unit: this.attr(null),
+            item_value_unit: this.attr('THB'),
             item_category: this.attr(null),
             item_category_id: this.attr(null),
             item_damage: this.attr(null),
