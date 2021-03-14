@@ -24,7 +24,7 @@ class UserApi extends BaseApi implements ApiInterface
 
     public function index() {
 
-        $this->setCustomQuery(
+        $this->setCustomModel(
             $this->queryIndex()
         );
 
@@ -35,10 +35,11 @@ class UserApi extends BaseApi implements ApiInterface
     {
         $base_table = $this->getBaseBuilderTable();
 
-        return $this->getOriginalModel()
+        $sub_query__fullname_name = 'sub_query__fullname';
+        $sub_query__fullname = $this->getOriginalModel()
             ->select([
                 DB::raw(
-                    sprintf("`%s`.*", $base_table)
+                    sprintf("`%s`.id as user_id", $base_table)
                 ),
                 DB::raw(
                     sprintf(
@@ -51,6 +52,21 @@ class UserApi extends BaseApi implements ApiInterface
                     )
                 )
             ]);
+        
+        $index_query = $this->getOriginalModel()
+            ->joinSub(
+                $sub_query__fullname,
+                $sub_query__fullname_name,
+                function ($join) use ($base_table, $sub_query__fullname_name) {
+                    $join->on(
+                        sprintf("%s.id", $base_table),
+                        '=',
+                        sprintf("%s.user_id", $sub_query__fullname_name)
+                    );
+                }
+            );
+
+        return $index_query;
     }
 
     protected function beforeStore(array $raw = [])

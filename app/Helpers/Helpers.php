@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 function convertToBytes($from)
 {
@@ -230,4 +231,41 @@ function GetWords($text) {
   $cleanWordsOnly = str_replace("  ", " ", $clean);
 
   return explode(" ", $cleanWordsOnly);
+}
+
+function toSubQuery($query, $sub_query_name)
+{
+    // dump("sub", $sub_query_name);
+    return DB::raw('(' . getEloquentSqlWithBindings($query) . ') as '. $sub_query_name .'');
+}
+
+function toNewQuery($query, $query_name)
+{
+    // dump("new", $query_name);
+
+    $bindings = method_exists($query, "getQuery")
+            ? $query->getQuery()
+            : $query;
+    
+    $sqlWithBindings = toSqlBindings($query);
+
+    return DB::table(DB::raw("({$sqlWithBindings}) as $query_name"));
+    // MergeBindings method has a problem when using with union(), it make the binding occurs in the wrong position!!!
+        // So I have replaced the $query->toSql() with the already merged query.
+        // ->mergeBindings(
+        //     $bindings
+        // );
+}
+
+function getEloquentSqlWithBindings($query)
+{
+    // dump($query->toSql(), $query->getBindings());
+    return vsprintf(str_replace('?', '%s', $query->toSql()), collect($query->getBindings())->map(function ($binding) {
+        return is_numeric($binding) ? $binding : "'{$binding}'";
+    })->toArray());
+}
+
+function toSqlBindings($query)
+{
+    return getEloquentSqlWithBindings($query);
 }

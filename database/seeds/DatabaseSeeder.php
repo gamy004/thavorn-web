@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(ItemCategorySeeder::class);
         $this->call(ItemDamageSeeder::class);
-        $this->call(PawnSeeder::class);
-        $this->call(PawnItemSeeder::class);
-        $this->call(PaymentSeeder::class);
+        // $this->call(PawnSeeder::class);
+        // $this->call(PawnItemSeeder::class);
+        // $this->call(PaymentSeeder::class);
     }
 }

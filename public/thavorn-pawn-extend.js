@@ -123,27 +123,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {},
   methods: {
-    getUsers: function () {
-      var _getUsers = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _ref, response;
+    getUsers: function getUsers() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _yield$User$api$get, response;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                this.loading = true;
+                _this.loading = true;
                 _context.next = 4;
                 return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("users");
 
               case 4:
-                _ref = _context.sent;
-                response = _ref.response;
+                _yield$User$api$get = _context.sent;
+                response = _yield$User$api$get.response;
 
                 if (response && response.data && response.data.users) {
-                  this.users = response.data.users;
+                  _this.users = response.data.users;
                 }
 
                 _context.next = 12;
@@ -156,7 +156,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 12:
                 _context.prev = 12;
-                this.loading = false;
+                _this.loading = false;
                 return _context.finish(12);
 
               case 15:
@@ -164,15 +164,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 9, 12, 15]]);
-      }));
-
-      function getUsers() {
-        return _getUsers.apply(this, arguments);
-      }
-
-      return getUsers;
-    }()
+        }, _callee, null, [[0, 9, 12, 15]]);
+      }))();
+    }
   },
   created: function created() {
     this.getUsers();

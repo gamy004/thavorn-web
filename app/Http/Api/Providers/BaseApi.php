@@ -58,6 +58,12 @@ abstract class BaseApi
     protected $customQuery = null;
 
     /**
+     * Custom Model
+     *
+     */
+    protected $customModel = null;
+
+    /**
      * Custom Table
      *
      */
@@ -119,6 +125,18 @@ abstract class BaseApi
         return !is_null($this->customTable)
         ? $this->customTable
         : $builder->getModel()->getTable();
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     public function getFilterValue($key)
@@ -959,9 +977,11 @@ abstract class BaseApi
      */
     protected function createQueryBuilder()
     {
+        $model = !is_null($this->customModel) ? $this->customModel : $this->originalModel;
+
         return !is_null($this->customQuery)
         ? $this->customQuery
-        : $this->originalModel->newQuery();
+        : $model->newQuery();
     }
 
     public function setCustomQuery($custom_query)
@@ -986,6 +1006,13 @@ abstract class BaseApi
                 ); // you need to get underlying Query Builder
             // $this->customQuery = $custom_query;
         }
+
+        return $this;
+    }
+
+    public function setCustomModel($customModel)
+    {
+        $this->customModel = $customModel;
 
         return $this;
     }

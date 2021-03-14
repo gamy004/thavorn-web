@@ -33,6 +33,8 @@ var map = {
 	"./bm": "./node_modules/moment/locale/bm.js",
 	"./bm.js": "./node_modules/moment/locale/bm.js",
 	"./bn": "./node_modules/moment/locale/bn.js",
+	"./bn-bd": "./node_modules/moment/locale/bn-bd.js",
+	"./bn-bd.js": "./node_modules/moment/locale/bn-bd.js",
 	"./bn.js": "./node_modules/moment/locale/bn.js",
 	"./bo": "./node_modules/moment/locale/bo.js",
 	"./bo.js": "./node_modules/moment/locale/bo.js",
@@ -60,8 +62,6 @@ var map = {
 	"./dv.js": "./node_modules/moment/locale/dv.js",
 	"./el": "./node_modules/moment/locale/el.js",
 	"./el.js": "./node_modules/moment/locale/el.js",
-	"./en-SG": "./node_modules/moment/locale/en-SG.js",
-	"./en-SG.js": "./node_modules/moment/locale/en-SG.js",
 	"./en-au": "./node_modules/moment/locale/en-au.js",
 	"./en-au.js": "./node_modules/moment/locale/en-au.js",
 	"./en-ca": "./node_modules/moment/locale/en-ca.js",
@@ -72,13 +72,19 @@ var map = {
 	"./en-ie.js": "./node_modules/moment/locale/en-ie.js",
 	"./en-il": "./node_modules/moment/locale/en-il.js",
 	"./en-il.js": "./node_modules/moment/locale/en-il.js",
+	"./en-in": "./node_modules/moment/locale/en-in.js",
+	"./en-in.js": "./node_modules/moment/locale/en-in.js",
 	"./en-nz": "./node_modules/moment/locale/en-nz.js",
 	"./en-nz.js": "./node_modules/moment/locale/en-nz.js",
+	"./en-sg": "./node_modules/moment/locale/en-sg.js",
+	"./en-sg.js": "./node_modules/moment/locale/en-sg.js",
 	"./eo": "./node_modules/moment/locale/eo.js",
 	"./eo.js": "./node_modules/moment/locale/eo.js",
 	"./es": "./node_modules/moment/locale/es.js",
 	"./es-do": "./node_modules/moment/locale/es-do.js",
 	"./es-do.js": "./node_modules/moment/locale/es-do.js",
+	"./es-mx": "./node_modules/moment/locale/es-mx.js",
+	"./es-mx.js": "./node_modules/moment/locale/es-mx.js",
 	"./es-us": "./node_modules/moment/locale/es-us.js",
 	"./es-us.js": "./node_modules/moment/locale/es-us.js",
 	"./es.js": "./node_modules/moment/locale/es.js",
@@ -90,6 +96,8 @@ var map = {
 	"./fa.js": "./node_modules/moment/locale/fa.js",
 	"./fi": "./node_modules/moment/locale/fi.js",
 	"./fi.js": "./node_modules/moment/locale/fi.js",
+	"./fil": "./node_modules/moment/locale/fil.js",
+	"./fil.js": "./node_modules/moment/locale/fil.js",
 	"./fo": "./node_modules/moment/locale/fo.js",
 	"./fo.js": "./node_modules/moment/locale/fo.js",
 	"./fr": "./node_modules/moment/locale/fr.js",
@@ -106,6 +114,8 @@ var map = {
 	"./gd.js": "./node_modules/moment/locale/gd.js",
 	"./gl": "./node_modules/moment/locale/gl.js",
 	"./gl.js": "./node_modules/moment/locale/gl.js",
+	"./gom-deva": "./node_modules/moment/locale/gom-deva.js",
+	"./gom-deva.js": "./node_modules/moment/locale/gom-deva.js",
 	"./gom-latn": "./node_modules/moment/locale/gom-latn.js",
 	"./gom-latn.js": "./node_modules/moment/locale/gom-latn.js",
 	"./gu": "./node_modules/moment/locale/gu.js",
@@ -184,6 +194,8 @@ var map = {
 	"./nl.js": "./node_modules/moment/locale/nl.js",
 	"./nn": "./node_modules/moment/locale/nn.js",
 	"./nn.js": "./node_modules/moment/locale/nn.js",
+	"./oc-lnc": "./node_modules/moment/locale/oc-lnc.js",
+	"./oc-lnc.js": "./node_modules/moment/locale/oc-lnc.js",
 	"./pa-in": "./node_modules/moment/locale/pa-in.js",
 	"./pa-in.js": "./node_modules/moment/locale/pa-in.js",
 	"./pl": "./node_modules/moment/locale/pl.js",
@@ -228,6 +240,8 @@ var map = {
 	"./tg.js": "./node_modules/moment/locale/tg.js",
 	"./th": "./node_modules/moment/locale/th.js",
 	"./th.js": "./node_modules/moment/locale/th.js",
+	"./tk": "./node_modules/moment/locale/tk.js",
+	"./tk.js": "./node_modules/moment/locale/tk.js",
 	"./tl-ph": "./node_modules/moment/locale/tl-ph.js",
 	"./tl-ph.js": "./node_modules/moment/locale/tl-ph.js",
 	"./tlh": "./node_modules/moment/locale/tlh.js",
@@ -260,6 +274,8 @@ var map = {
 	"./zh-cn.js": "./node_modules/moment/locale/zh-cn.js",
 	"./zh-hk": "./node_modules/moment/locale/zh-hk.js",
 	"./zh-hk.js": "./node_modules/moment/locale/zh-hk.js",
+	"./zh-mo": "./node_modules/moment/locale/zh-mo.js",
+	"./zh-mo.js": "./node_modules/moment/locale/zh-mo.js",
 	"./zh-tw": "./node_modules/moment/locale/zh-tw.js",
 	"./zh-tw.js": "./node_modules/moment/locale/zh-tw.js"
 };
@@ -407,19 +423,16 @@ var searchMixin = {
     }
   },
   methods: {
-    fetchPawns: function () {
-      var _fetchPawns = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var keyword,
-            fieldKeys,
-            _args = arguments;
+    fetchPawns: function fetchPawns() {
+      var _arguments = arguments;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var keyword, fieldKeys;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                keyword = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
-                fieldKeys = _args.length > 1 && _args[1] !== undefined ? _args[1] : [];
+                keyword = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : "";
+                fieldKeys = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : [];
                 return _context.abrupt("return", _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"].api().get("/pawns", {
                   params: {
                     search: {
@@ -435,27 +448,18 @@ var searchMixin = {
             }
           }
         }, _callee);
-      }));
-
-      function fetchPawns() {
-        return _fetchPawns.apply(this, arguments);
-      }
-
-      return fetchPawns;
-    }(),
-    fetchPawnItems: function () {
-      var _fetchPawnItems = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var keyword,
-            fieldKeys,
-            _args2 = arguments;
+      }))();
+    },
+    fetchPawnItems: function fetchPawnItems() {
+      var _arguments2 = arguments;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var keyword, fieldKeys;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                keyword = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : "";
-                fieldKeys = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
+                keyword = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : "";
+                fieldKeys = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : [];
                 return _context2.abrupt("return", _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/pawn_user_items", {
                   params: {
                     search: {
@@ -471,14 +475,8 @@ var searchMixin = {
             }
           }
         }, _callee2);
-      }));
-
-      function fetchPawnItems() {
-        return _fetchPawnItems.apply(this, arguments);
-      }
-
-      return fetchPawnItems;
-    }(),
+      }))();
+    },
     fullNameByPawnNo: function fullNameByPawnNo(id) {
       console.log('1');
       return _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().where('pawn_no', id).first() ? "".concat(_models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().where('pawn_no', id).first().first_name, " ").concat(_models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().where('pawn_no', id).first().last_name) : this.fullName;
@@ -511,17 +509,17 @@ var searchMixin = {
 
       _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].deleteAll(); // Delete all PawnItems.
     },
-    searchPawnByCustomerData: function () {
-      var _searchPawnByCustomerData = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _ref, response, _ref2, _response, _response$data$users, users, result;
+    searchPawnByCustomerData: function searchPawnByCustomerData() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _yield$_this$fetchPaw, response, _yield$User$api$get, _response, _response$data$users, users, result;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (this.searchInput) {
+                if (_this.searchInput) {
                   _context3.next = 2;
                   break;
                 }
@@ -529,20 +527,21 @@ var searchMixin = {
                 return _context3.abrupt("return");
 
               case 2:
-                this.clearDataVuex();
+                _this.clearDataVuex();
+
                 _context3.prev = 3;
 
                 /*
                     Search Pawn by Pawn ID
                 */
-                this.search = true;
-                this.loading = true;
+                _this.search = true;
+                _this.loading = true;
                 _context3.next = 8;
-                return this.fetchPawns(this.searchInput, ["pawn_no"]);
+                return _this.fetchPawns(_this.searchInput, ["pawn_no"]);
 
               case 8:
-                _ref = _context3.sent;
-                response = _ref.response;
+                _yield$_this$fetchPaw = _context3.sent;
+                response = _yield$_this$fetchPaw.response;
 
                 if (!(response && response.data && response.data.pawns.length)) {
                   _context3.next = 15;
@@ -550,7 +549,7 @@ var searchMixin = {
                 }
 
                 _context3.next = 13;
-                return this.fetchPawnItems(this.searchInput, ["pawn_no"]);
+                return _this.fetchPawnItems(_this.searchInput, ["pawn_no"]);
 
               case 13:
                 _context3.next = 27;
@@ -561,15 +560,15 @@ var searchMixin = {
                 return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("users", {
                   params: {
                     search: {
-                      keyword: this.searchInput,
+                      keyword: _this.searchInput,
                       fields: ["full_name", "identity_card_id"]
                     }
                   }
                 });
 
               case 17:
-                _ref2 = _context3.sent;
-                _response = _ref2.response;
+                _yield$User$api$get = _context3.sent;
+                _response = _yield$User$api$get.response;
 
                 if (!(_response && _response.data && _response.data.users.length)) {
                   _context3.next = 27;
@@ -578,7 +577,7 @@ var searchMixin = {
 
                 _response$data$users = _response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
                 _context3.next = 23;
-                return this.fetchPawns(users[0].id, ["customer_id"]);
+                return _this.fetchPawns(users[0].id, ["customer_id"]);
 
               case 23:
                 result = _context3.sent;
@@ -589,7 +588,7 @@ var searchMixin = {
                 }
 
                 _context3.next = 27;
-                return this.fetchPawnItems(users[0].id, ["customer_id"]);
+                return _this.fetchPawnItems(users[0].id, ["customer_id"]);
 
               case 27:
                 _context3.next = 31;
@@ -601,7 +600,7 @@ var searchMixin = {
 
               case 31:
                 _context3.prev = 31;
-                this.loading = false;
+                _this.loading = false;
                 return _context3.finish(31);
 
               case 34:
@@ -609,15 +608,9 @@ var searchMixin = {
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[3, 29, 31, 34]]);
-      }));
-
-      function searchPawnByCustomerData() {
-        return _searchPawnByCustomerData.apply(this, arguments);
-      }
-
-      return searchPawnByCustomerData;
-    }()
+        }, _callee3, null, [[3, 29, 31, 34]]);
+      }))();
+    }
   }
 };
 
