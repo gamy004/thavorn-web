@@ -1,5 +1,5 @@
-export const HOME = () =>
-    import(/* webpackChunkName: "thavorn-home" */ "./home");
+// export const HOME = () =>
+    // import(/* webpackChunkName: "thavorn-home" */ "./home");
 // export const SIGNIN = () => import( /* webpackChunkName: "thavorn-auth" */ 'auth/views/login');
 // export const SIGNUP = () => import( /* webpackChunkName: "thavorn-auth" */ 'auth/views/register');
 // export const PASSWORD = {

@@ -12,22 +12,22 @@ export default class Pawn extends Model {
         return {
             id: this.attr(null),
             pawn_no: this.attr(''),
-            interest_rate: this.number('3.00'),
+            interest_rate: this.number(3),
             customer_id: this.attr(null),
+            user: this.belongsTo(User, 'customer_id'),
             latest_paid_at: this.attr(null),
             complete: this.attr(null),
             next_paid_at: this.attr(null),
             latest_paid_at: this.attr(null),
             created_at: this.attr(null),
             updated_at: this.attr(null),
-            user: this.belongsTo(User, 'customer_id'),
         };
     }
 
     static get apiConfig() {
         return {
             dataKey: "pawns",
-            baseURL: "/api",
+            baseURL: "/api/pawns",
         };
     }
 }
