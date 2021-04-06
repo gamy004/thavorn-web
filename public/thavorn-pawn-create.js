@@ -785,6 +785,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return selectedPawnItem;
     },
     add: function add() {
+      this.selectedPawnItemError.clear();
+
       if (this.validate()) {
         this.$pawnItems.push(this.getValidatedSelectedPawnItem());
         this.clear();
@@ -799,6 +801,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var isEditing = this.isEditing,
           editingIndex = this.editingIndex,
           $pawnItems = this.$pawnItems;
+      this.selectedPawnItemError.clear();
 
       if (isEditing && editingIndex !== null && $pawnItems.length >= editingIndex + 1 && this.validate()) {
         $pawnItems.splice(editingIndex, 1, this.getValidatedSelectedPawnItem());
@@ -807,10 +810,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     clear: function clear() {
+      this.selectedPawnItemError.clear();
       this.editingIndex = null;
       this.selectedPawnItem = new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"]();
       this.isEditing = false;
-      this.selectedPawnItemError.clear();
     },
     destroy: function destroy(index) {
       var $pawnItems = this.$pawnItems;
@@ -1298,18 +1301,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layout/Components/PageTitle */ "./resources/js/Layout/Components/PageTitle.vue");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_Error__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core/Error */ "./resources/js/core/Error.js");
-/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
-/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
-/* harmony import */ var components_users_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! components/users/form */ "./resources/js/components/users/form.vue");
-/* harmony import */ var components_pawn_items_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! components/pawn-items/form */ "./resources/js/components/pawn-items/form.vue");
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_Error__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core/Error */ "./resources/js/core/Error.js");
+/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var components_users_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! components/users/form */ "./resources/js/components/users/form.vue");
+/* harmony import */ var components_pawn_items_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! components/pawn-items/form */ "./resources/js/components/pawn-items/form.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1465,22 +1465,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-
-
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__["faHandHoldingUsd"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faHandHoldingUsd"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_1__["default"],
-    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_5___default.a,
-    UserForm: components_users_form__WEBPACK_IMPORTED_MODULE_10__["default"],
-    PawnItemForm: components_pawn_items_form__WEBPACK_IMPORTED_MODULE_11__["default"]
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_4___default.a,
+    UserForm: components_users_form__WEBPACK_IMPORTED_MODULE_8__["default"],
+    PawnItemForm: components_pawn_items_form__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   data: function data() {
     return {
-      pawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"]({
-        user: new models_User__WEBPACK_IMPORTED_MODULE_7__["default"]()
+      pawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"]({
+        user: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"]()
       }),
-      error: new core_Error__WEBPACK_IMPORTED_MODULE_6__["default"](),
+      error: new core_Error__WEBPACK_IMPORTED_MODULE_5__["default"](),
       isSubmitting: false,
       fetchingLastestPawnNo: false
     };
@@ -1499,7 +1497,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 _this.fetchingLastestPawnNo = true;
                 _context.prev = 1;
                 _context.next = 4;
-                return models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"].api().get("/generate-number", {
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().get("/generate-number", {
                   save: false
                 });
 
@@ -1546,7 +1544,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 _this2.isSubmitting = true;
                 _context2.prev = 2;
                 _context2.next = 5;
-                return models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"].api().post("", {
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post("", {
                   pawn: pawn
                 });
 

@@ -140,14 +140,12 @@
 
 <script>
 import PageTitle from "../../Layout/Components/PageTitle";
-import { pull, clone } from "lodash";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
 import Error from "core/Error";
 import User from "models/User";
 import Pawn from "models/Pawn";
-import PawnItem from "models/PawnItem";
 import UserForm from "components/users/form";
 import PawnItemForm from "components/pawn-items/form";
 

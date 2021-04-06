@@ -251,6 +251,8 @@ export default {
     },
 
     add() {
+      this.selectedPawnItemError.clear();
+
       if (this.validate()) {
         this.$pawnItems.push(this.getValidatedSelectedPawnItem());
 
@@ -269,6 +271,8 @@ export default {
     update() {
       const { isEditing, editingIndex, $pawnItems } = this;
 
+      this.selectedPawnItemError.clear();
+
       if (
         isEditing &&
         editingIndex !== null &&
@@ -282,10 +286,10 @@ export default {
     },
 
     clear() {
+      this.selectedPawnItemError.clear();
       this.editingIndex = null;
       this.selectedPawnItem = new PawnItem();
       this.isEditing = false;
-      this.selectedPawnItemError.clear();
     },
 
     destroy(index) {
