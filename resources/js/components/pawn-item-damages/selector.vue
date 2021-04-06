@@ -59,7 +59,9 @@ export default {
       },
 
       set(v) {
-        this.$emit("change", ItemDamage.find(v));
+        const itemDamage = v !== null ? ItemDamage.find(v) : new ItemDamage();
+
+        this.$emit("change", itemDamage);
       },
     },
 

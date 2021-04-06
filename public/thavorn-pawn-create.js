@@ -307,9 +307,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       get: function get() {
         return this.itemCategory ? this.itemCategory.item_category : null;
       },
-      set: function set(_ref) {
-        var value = _ref.value;
-        this.$emit("change", models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(value));
+      set: function set(v) {
+        var itemCategory = v !== null ? models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(v.value) : new models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        this.$emit("change", itemCategory);
       }
     },
     options: function options() {
@@ -447,7 +447,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return this.itemDamage ? this.itemDamage.id : null;
       },
       set: function set(v) {
-        this.$emit("change", models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].find(v));
+        var itemDamage = v !== null ? models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].find(v) : new models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        this.$emit("change", itemDamage);
       }
     },
     options: function options() {
@@ -1456,6 +1457,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1476,10 +1500,13 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_f
   data: function data() {
     return {
       pawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"]({
+        pawn_items: [],
         user: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"]()
       }),
       error: new core_Error__WEBPACK_IMPORTED_MODULE_5__["default"](),
       isSubmitting: false,
+      toastError: false,
+      toastSuccess: false,
       fetchingLastestPawnNo: false
     };
   },
@@ -1549,27 +1576,39 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_f
                 });
 
               case 5:
-                _context2.next = 10;
+                _this2.toastSuccess = true;
+
+                _this2.clear();
+
+                _context2.next = 13;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 9:
+                _context2.prev = 9;
                 _context2.t0 = _context2["catch"](2);
+                _this2.toastError = true;
 
                 _this2.error.recordResponse(_context2.t0.response);
 
-              case 10:
-                _context2.prev = 10;
-                _this2.isSubmitting = false;
-                return _context2.finish(10);
-
               case 13:
+                _context2.prev = 13;
+                _this2.isSubmitting = false;
+                return _context2.finish(13);
+
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[2, 7, 10, 13]]);
+        }, _callee2, null, [[2, 9, 13, 16]]);
       }))();
+    },
+    clear: function clear() {
+      this.pawn = new models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"]({
+        pawn_items: [],
+        user: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"]()
+      });
+      this.error = new core_Error__WEBPACK_IMPORTED_MODULE_5__["default"]();
     }
   },
   mounted: function mounted() {
@@ -3232,6 +3271,12 @@ var render = function() {
                           variant: "secondary",
                           disabled:
                             _vm.fetchingLastestPawnNo || _vm.isSubmitting
+                        },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.clear($event)
+                          }
                         }
                       },
                       [_vm._v("ละทิ้ง")]
@@ -3260,6 +3305,56 @@ var render = function() {
                           : _c("span", [_vm._v("บันทึก")])
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-toast",
+                      {
+                        attrs: {
+                          id: "pawn-toast-error",
+                          variant: "danger",
+                          solid: "",
+                          "no-close-button": "",
+                          toaster: "b-toaster-bottom-right"
+                        },
+                        model: {
+                          value: _vm.toastError,
+                          callback: function($$v) {
+                            _vm.toastError = $$v
+                          },
+                          expression: "toastError"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                ไม่สามารถสร้างการจำนำได้ กรุณาตรวจสอบข้อผิดพลาด\n              "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-toast",
+                      {
+                        attrs: {
+                          id: "pawn-toast-success",
+                          variant: "success",
+                          solid: "",
+                          "no-close-button": "",
+                          toaster: "b-toaster-bottom-right"
+                        },
+                        model: {
+                          value: _vm.toastSuccess,
+                          callback: function($$v) {
+                            _vm.toastSuccess = $$v
+                          },
+                          expression: "toastSuccess"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                สร้างการจำนำสำเร็จเรียบร้อย\n              "
+                        )
+                      ]
                     )
                   ],
                   1

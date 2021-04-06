@@ -58,8 +58,11 @@ export default {
         return this.itemCategory ? this.itemCategory.item_category : null;
       },
 
-      set({ value }) {
-        this.$emit("change", ItemCategory.find(value));
+      set(v) {
+        const itemCategory =
+          v !== null ? ItemCategory.find(v.value) : new ItemCategory();
+
+        this.$emit("change", itemCategory);
       },
     },
 

@@ -116,6 +116,7 @@
                   class="mr-2"
                   variant="secondary"
                   :disabled="fetchingLastestPawnNo || isSubmitting"
+                  @click.prevent="clear"
                   >ละทิ้ง</b-button
                 >
                 <b-button
@@ -129,6 +130,28 @@
                   ></b-spinner>
                   <span v-else>บันทึก</span>
                 </b-button>
+
+                <b-toast
+                  id="pawn-toast-error"
+                  variant="danger"
+                  solid
+                  no-close-button
+                  toaster="b-toaster-bottom-right"
+                  v-model="toastError"
+                >
+                  ไม่สามารถสร้างการจำนำได้ กรุณาตรวจสอบข้อผิดพลาด
+                </b-toast>
+
+                <b-toast
+                  id="pawn-toast-success"
+                  variant="success"
+                  solid
+                  no-close-button
+                  toaster="b-toaster-bottom-right"
+                  v-model="toastSuccess"
+                >
+                  สร้างการจำนำสำเร็จเรียบร้อย
+                </b-toast>
               </div>
             </div>
           </div>
@@ -162,13 +185,15 @@ export default {
   data() {
     return {
       pawn: new Pawn({
+        pawn_items: [],
         user: new User(),
       }),
 
       error: new Error(),
 
       isSubmitting: false,
-
+      toastError: false,
+      toastSuccess: false,
       fetchingLastestPawnNo: false,
     };
   },
@@ -203,11 +228,24 @@ export default {
         await Pawn.api().post("", {
           pawn,
         });
+
+        this.toastSuccess = true;
+        this.clear();
       } catch (error) {
+        this.toastError = true;
         this.error.recordResponse(error.response);
       } finally {
         this.isSubmitting = false;
       }
+    },
+
+    clear() {
+      this.pawn = new Pawn({
+        pawn_items: [],
+        user: new User(),
+      });
+
+      this.error = new Error();
     },
   },
 
