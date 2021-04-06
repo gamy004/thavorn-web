@@ -99,17 +99,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -123,27 +112,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {},
   methods: {
-    getUsers: function getUsers() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$User$api$get, response;
+    getUsers: function () {
+      var _getUsers = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _ref, response;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _this.loading = true;
+                this.loading = true;
                 _context.next = 4;
                 return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("users");
 
               case 4:
-                _yield$User$api$get = _context.sent;
-                response = _yield$User$api$get.response;
+                _ref = _context.sent;
+                response = _ref.response;
 
                 if (response && response.data && response.data.users) {
-                  _this.users = response.data.users;
+                  this.users = response.data.users;
                 }
 
                 _context.next = 12;
@@ -156,7 +145,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 12:
                 _context.prev = 12;
-                _this.loading = false;
+                this.loading = false;
                 return _context.finish(12);
 
               case 15:
@@ -164,9 +153,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9, 12, 15]]);
-      }))();
-    }
+        }, _callee, this, [[0, 9, 12, 15]]);
+      }));
+
+      function getUsers() {
+        return _getUsers.apply(this, arguments);
+      }
+
+      return getUsers;
+    }()
   },
   created: function created() {
     this.getUsers();
@@ -187,6 +182,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins */ "./resources/js/mixins/index.js");
 /* harmony import */ var _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal/pawnDetail */ "./resources/js/views/pawn/modal/pawnDetail.vue");
 /* harmony import */ var _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal/pawnRenew */ "./resources/js/views/pawn/modal/pawnRenew.vue");
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 //
 //
 //
@@ -344,6 +340,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -351,7 +349,8 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
   components: {
     PawnDetail: _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PawnRenew: _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_2__["default"]
+    PawnRenew: _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {};
@@ -380,6 +379,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -733,33 +737,25 @@ var render = function() {
                           _vm._l(_vm.users, function(user, index) {
                             return _c("tr", { key: "user-" + index }, [
                               _c("th", { attrs: { scope: "row" } }, [
-                                _vm._v(
-                                  " " + _vm._s(user.identity_card_id) + " "
-                                )
+                                _vm._v(_vm._s(user.identity_card_id))
                               ]),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(" " + _vm._s(user.first_name) + " ")
-                              ]),
+                              _c("td", [_vm._v(_vm._s(user.first_name))]),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(" " + _vm._s(user.last_name) + " ")
-                              ]),
+                              _c("td", [_vm._v(_vm._s(user.last_name))]),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(" " + _vm._s(user.phone_number) + " ")
-                              ]),
+                              _c("td", [_vm._v(_vm._s(user.phone_number))]),
                               _vm._v(" "),
                               _c("td", [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                    " +
                                     _vm._s(
                                       _vm.formatingDatetime(
                                         user.created_at,
                                         "DD MMM YYYY"
                                       )
                                     ) +
-                                    "\n                                        "
+                                    "\n                  "
                                 )
                               ])
                             ])
@@ -850,7 +846,19 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _c(
+              "div",
+              [
+                _c(
+                  "h5",
+                  { staticClass: "display-4 mt-1 mb-2 font-weight-bold" },
+                  [_vm._v("\n            ต่ออายุดอกเบี้ย\n          ")]
+                ),
+                _vm._v(" "),
+                _c("datepicker")
+              ],
+              1
+            )
           ]
         )
       ])
@@ -860,11 +868,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-lg-12" }, [
           _c("div", { staticClass: "card card-box" }, [
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c("form", [
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-row" }, [
                   _c(
@@ -1141,16 +1149,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h5", { staticClass: "display-4 mt-1 mb-2 font-weight-bold" }, [
-        _vm._v("\n            ต่ออายุดอกเบี้ย\n          ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", { staticClass: "my-3" }, [_vm._v("ข้อมูลสินค้าจำนำ")])
     ])
@@ -1220,13 +1218,17 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("ผู้จำนำ")]),
                 _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.fullNameByPawnNo(_vm.pawn.pawn_no)) +
-                      "\n          "
-                  )
-                ])
+                _vm.user[_vm.pawn.customer_id]
+                  ? _c("div", [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.user[_vm.pawn.customer_id][0].first_name) +
+                          "\n            " +
+                          _vm._s(_vm.user[_vm.pawn.customer_id][0].last_name) +
+                          "\n          "
+                      )
+                    ])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -1234,13 +1236,16 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("จำนวนสินค้า")]),
                 _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.pawnItemCount(_vm.pawn.pawn_no)) +
-                      "\n          "
-                  )
-                ])
+                _vm.pawnItemsByPawnID[_vm.pawn.id] &&
+                _vm.pawnItemsByPawnID[_vm.pawn.id].length
+                  ? _c("div", [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.pawnItemsByPawnID[_vm.pawn.id].length) +
+                          "\n          "
+                      )
+                    ])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -1405,7 +1410,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "tbody",
-                      _vm._l(_vm.pawnItemByPawnNo(_vm.pawn.pawn_no), function(
+                      _vm._l(_vm.pawnItemsByPawnID[_vm.pawn.id], function(
                         pawnItem,
                         index
                       ) {

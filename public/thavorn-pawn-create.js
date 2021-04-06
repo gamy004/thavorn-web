@@ -328,18 +328,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {},
   methods: {
-    getUsers: function getUsers() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$User$api$get, response;
+    getUsers: function () {
+      var _getUsers = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _ref, response;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _this.loading = true;
+                this.loading = true;
                 _context.next = 4;
                 return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("users", {
                   params: {
@@ -348,11 +348,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 4:
-                _yield$User$api$get = _context.sent;
-                response = _yield$User$api$get.response;
+                _ref = _context.sent;
+                response = _ref.response;
 
                 if (response && response.data && response.data.users) {
-                  _this.users = response.data.users;
+                  this.users = response.data.users;
                 }
 
                 _context.next = 12;
@@ -365,7 +365,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 12:
                 _context.prev = 12;
-                _this.loading = false;
+                this.loading = false;
                 return _context.finish(12);
 
               case 15:
@@ -373,9 +373,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9, 12, 15]]);
-      }))();
-    }
+        }, _callee, this, [[0, 9, 12, 15]]);
+      }));
+
+      function getUsers() {
+        return _getUsers.apply(this, arguments);
+      }
+
+      return getUsers;
+    }()
   },
   created: function created() {
     this.getUsers();
@@ -405,13 +411,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
 /* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
 /* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
+
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -823,11 +829,11 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
     };
   },
   methods: {
-    fetchCustomerOptions: function fetchCustomerOptions(keyword, loading) {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$User$api$get, response, _response$data$users, users;
+    fetchCustomerOptions: function () {
+      var _fetchCustomerOptions = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(keyword, loading) {
+        var _ref, response, _response$data$users, users;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -855,13 +861,13 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 });
 
               case 6:
-                _yield$User$api$get = _context.sent;
-                response = _yield$User$api$get.response;
+                _ref = _context.sent;
+                response = _ref.response;
 
                 if (response && response.data) {
                   _response$data$users = response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
-                  _this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
-                  _this.customerOptions = _this.makeCustomerOptions(users);
+                  this.customers = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keyBy"])(users, "id");
+                  this.customerOptions = this.makeCustomerOptions(users);
                 }
 
                 _context.next = 14;
@@ -882,9 +888,15 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 11, 14, 17]]);
-      }))();
-    },
+        }, _callee, this, [[3, 11, 14, 17]]);
+      }));
+
+      function fetchCustomerOptions(_x, _x2) {
+        return _fetchCustomerOptions.apply(this, arguments);
+      }
+
+      return fetchCustomerOptions;
+    }(),
     makeCustomerOptions: function makeCustomerOptions(data) {
       return data.reduce(function (carry, record, key) {
         carry.push({
@@ -898,17 +910,17 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
       var customerId = selectedCustomerOption.customerId;
       this.selectedCustomer = new models_User__WEBPACK_IMPORTED_MODULE_6__["default"](this.customers[customerId]);
     },
-    fetchLatestPawnNo: function fetchLatestPawnNo() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+    fetchLatestPawnNo: function () {
+      var _fetchLatestPawnNo = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var result, _result, response;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.fetchingLastestPawnNo = true;
+                this.fetchingLastestPawnNo = true;
                 _context2.prev = 1;
                 _context2.next = 4;
                 return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().get("/generate-number", {
@@ -927,14 +939,14 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
 
               case 10:
                 _context2.prev = 10;
-                _this2.fetchingLastestPawnNo = false;
+                this.fetchingLastestPawnNo = false;
                 return _context2.finish(10);
 
               case 13:
                 _result = result, response = _result.response;
 
                 if (response && response.data && response.data.pawn_no) {
-                  _this2.$set(_this2.createdPawn, "pawn_no", response.data.pawn_no);
+                  this.$set(this.createdPawn, "pawn_no", response.data.pawn_no);
                 }
 
               case 15:
@@ -942,13 +954,19 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 7, 10, 13]]);
-      }))();
-    },
-    createPawn: function createPawn() {
-      var _this3 = this;
+        }, _callee2, this, [[1, 7, 10, 13]]);
+      }));
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      function fetchLatestPawnNo() {
+        return _fetchLatestPawnNo.apply(this, arguments);
+      }
+
+      return fetchLatestPawnNo;
+    }(),
+    createPawn: function () {
+      var _createPawn = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var result;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
@@ -958,9 +976,9 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 _context3.next = 3;
                 return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post("", {
                   pawn: {
-                    user: _this3.selectedCustomer,
-                    pawn_no: _this3.createdPawn.pawn_no,
-                    interest_rate: _this3.createdPawn.interest_rate,
+                    user: this.selectedCustomer,
+                    pawn_no: this.createdPawn.pawn_no,
+                    interest_rate: this.createdPawn.interest_rate,
                     pawn_items: []
                   }
                 });
@@ -980,11 +998,17 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 6]]);
-      }))();
-    },
+        }, _callee3, this, [[0, 6]]);
+      }));
+
+      function createPawn() {
+        return _createPawn.apply(this, arguments);
+      }
+
+      return createPawn;
+    }(),
     addItemList: function addItemList() {
-      var item = _objectSpread(_objectSpread({}, this.selectedItem), {}, {
+      var item = _objectSpread({}, this.selectedItem, {
         item_category_id: this.selectedItem.item_category.id,
         item_category: this.selectedItem.item_category.name,
         item_damage_id: this.selectedItem.item_damage.id,
@@ -993,21 +1017,21 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
 
       this.itemLists.push(new models_PawnItem__WEBPACK_IMPORTED_MODULE_8__["default"](item));
     },
-    deleteItemList: function deleteItemList(index) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+    deleteItemList: function () {
+      var _deleteItemList = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(index) {
         var tmpItemList;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["clone"])(_this4.itemLists);
+                return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["clone"])(this.itemLists);
 
               case 2:
                 tmpItemList = _context4.sent;
-                _this4.itemLists = [];
+                this.itemLists = [];
                 _context4.next = 6;
                 return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pull"])(tmpItemList, tmpItemList[index]);
 
@@ -1016,16 +1040,22 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["clone"])(tmpItemList);
 
               case 8:
-                _this4.itemLists = _context4.sent;
+                this.itemLists = _context4.sent;
 
               case 9:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4);
-      }))();
-    }
+        }, _callee4, this);
+      }));
+
+      function deleteItemList(_x3) {
+        return _deleteItemList.apply(this, arguments);
+      }
+
+      return deleteItemList;
+    }()
   },
   created: function created() {
     this.fetchCustomerOptions = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(this.fetchCustomerOptions, 500);

@@ -1,5 +1,6 @@
 import { Model } from "@vuex-orm/core";
-import User from "./User"
+import PawnItem from "./PawnItem"
+import User from "./User";
 export default class Pawn extends Model {
     // This is the name used as module name of the Vuex Store.
     static get entity() {
@@ -20,7 +21,9 @@ export default class Pawn extends Model {
             latest_paid_at: this.attr(null),
             created_at: this.attr(null),
             updated_at: this.attr(null),
-            user: this.belongsTo(User, 'customer_id'),
+            pawn_item_ids: this.attr(null),
+            pawn_items: this.hasManyBy(PawnItem, 'pawn_item_ids', 'pawn_id'),
+            user: this.belongsTo(User, 'customer_id')
         };
     }
 
