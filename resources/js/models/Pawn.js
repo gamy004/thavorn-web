@@ -13,10 +13,11 @@ export default class Pawn extends Model {
         return {
             id: this.attr(null),
             pawn_no: this.attr(''),
-            interest_rate: this.number('3.00'),
+            interest_rate: this.number(3),
             customer_id: this.attr(null),
+            user: this.belongsTo(User, 'customer_id'),
             latest_paid_at: this.attr(null),
-            complete: this.attr(null),
+            complete: this.boolean(0),
             next_paid_at: this.attr(null),
             latest_paid_at: this.attr(null),
             created_at: this.attr(null),
@@ -24,13 +25,23 @@ export default class Pawn extends Model {
             pawn_item_ids: this.attr(null),
             pawn_items: this.hasManyBy(PawnItem, 'pawn_item_ids', 'pawn_id'),
             user: this.belongsTo(User, 'customer_id')
+
+            // pawn_items: this.attr([])
         };
+    }
+
+    get totalValue() {
+        return this.pawn_items.reduce((carry, pawnItem) => {
+            carry += pawnItem.item_value ? pawnItem.item_value : 0;
+
+            return carry;
+        }, 0);
     }
 
     static get apiConfig() {
         return {
             dataKey: "pawns",
-            baseURL: "/api",
+            baseURL: "/api/pawns",
         };
     }
 }

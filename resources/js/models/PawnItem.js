@@ -1,5 +1,7 @@
 import { Model } from "@vuex-orm/core";
-
+import Pawn from './Pawn';
+import ItemCategory from './ItemCategory';
+import ItemDamage from './ItemDamage';
 export default class PawnItem extends Model {
     // This is the name used as module name of the Vuex Store.
     static get entity() {
@@ -11,20 +13,17 @@ export default class PawnItem extends Model {
     static fields() {
         return {
             id: this.attr(null),
-            item_weight: this.number(''),
+            item_weight: this.number(0.00),
             item_weight_unit: this.attr('gram'),
-            item_value: this.number(''),
+            item_value: this.number(0.00),
             item_value_unit: this.attr('THB'),
-            item_category: this.attr(null),
+            item_category: this.belongsTo(ItemCategory, 'item_category_id'),
             item_category_id: this.attr(null),
-            item_damage: this.attr(null),
+            item_damage: this.belongsTo(ItemDamage, 'item_damage_id'),
             item_damage_id: this.attr(null),
             pawn_id: this.attr(null),
-            pawn_no: this.attr(null),
-            complete: this.attr(null),
-            first_name: this.attr(null),
-            last_name: this.attr(null),
-            customer_id: this.attr(null),
+            pawn: this.belongsTo(Pawn, 'pawn_id'),
+            complete: this.boolean(0),
             created_at: this.attr(null),
             updated_at: this.attr(null),
         };

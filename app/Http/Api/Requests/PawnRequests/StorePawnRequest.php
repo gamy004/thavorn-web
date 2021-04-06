@@ -35,6 +35,11 @@ class StorePawnRequest extends FormRequest
         //     $query->where('deleted_at', null);
         // });
 
+        $rule_unique_phone_number = Rule::unique('users', DBCol::PHONE_NUMBER)
+        ->where(function ($query) {
+            $query->where('deleted_at', null);
+        });
+
         $rule_unique_email = Rule::unique('users', DBCol::EMAIL)
         ->where(function ($query) {
             $query->where('deleted_at', null);
@@ -50,11 +55,18 @@ class StorePawnRequest extends FormRequest
 
         if (!is_null($user_id)) {
             // $rule_unique_id_card->ignore($user_id);
+            $rule_unique_phone_number->ignore($user_id);
             $rule_unique_email->ignore($user_id);
         }
 
         return [
             'pawn' => 'array',
+            'pawn.' . DBCol::INTEREST_RATE => [
+                'required',
+                'numeric',
+                'min:0',
+                'max:100'
+            ],
             'pawn.user' => 'array',
             'pawn.user.' . DBCol::ID => [
                 'numeric',
@@ -82,6 +94,12 @@ class StorePawnRequest extends FormRequest
                 'max:13'
             ],
 
+            'pawn.user.'. DBCol::PHONE_NUMBER => [
+                'nullable',
+                'string',
+                'max:10'
+            ],
+
             // 'pawn.user.' . DBCol::GENDER => [
             //     'required',
             //     Rule::in([User::MALE, User::FEMALE]),
@@ -94,7 +112,7 @@ class StorePawnRequest extends FormRequest
                 $rule_unique_email
             ],
 
-            'pawn.pawn_items' => 'array',
+            'pawn.pawn_items' => ['array', 'min:1'],
             'pawn.pawn_items.*.' . DBCol::ID => [
                 'numeric',
                 'nullable',
@@ -106,9 +124,7 @@ class StorePawnRequest extends FormRequest
             'pawn.pawn_items.*.' . DBCol::ITEM_WEIGHT => 'required|numeric|min:0',
             'pawn.pawn_items.*.' . DBCol::ITEM_VALUE => 'required|numeric|min:0',
             'pawn.pawn_items.*.' . ItemCategory::FK => 'numeric|nullable|exists:item_categories,id',
-            'pawn.pawn_items.*.' . ItemDamage::FK => 'numeric|nullable|exists:item_damages,id',
-
-            'pawn.' . DBCol::INTEREST_RATE => 'required|numeric'
+            'pawn.pawn_items.*.' . ItemDamage::FK => 'numeric|nullable|exists:item_damages,id'
         ];
     }
 }
