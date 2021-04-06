@@ -1,7 +1,7 @@
 import Pawn from "../models/Pawn";
 import PawnItem from "../models/PawnItem";
 import User from "../models/User";
-import { sumBy } from "lodash"
+import { sumBy, groupBy, mapValues, omit } from "lodash"
 
 export const searchMixin = {
     models: [Pawn, User, PawnItem],
@@ -11,6 +11,7 @@ export const searchMixin = {
             searchInput: "",
             search: false,
             loading: false,
+            items: {}
         }
     },
 
@@ -19,10 +20,13 @@ export const searchMixin = {
             return Pawn.query().get()
         },
         user() {
-            return User.query().first()
+            return groupBy(User.query().get(), user => user.id);
         },
         pawnItems() {
-            return PawnItem.query().get()
+            return PawnItem.query().get();
+        },
+        pawnItemsByPawnID() {
+            return groupBy(PawnItem.query().get(), pawn_item => pawn_item.pawn_id);
         },
         fullName() {
             return this.user ? this.user.full_name : "-"
@@ -30,17 +34,39 @@ export const searchMixin = {
     },
 
     methods: {
-        async fetchPawns(keyword = "", fieldKeys = []) {
+        fetchPawns(keyword = "", fieldKeys = []) {
             return Pawn.api().get("/pawns", {
                 params: {
                     search: {
                         keyword: keyword,
                         fields: fieldKeys,
                     },
+                    includes: [
+                        "user",
+                        "pawn_items",
+                        "pawns.pawn_items.item_damage",
+                        "pawns.pawn_items.item_category"
+                    ]
                 },
             });
         },
-        async fetchPawnItems(keyword = "", fieldKeys = []) {
+        fetchUserPawn(keyword = "", fieldKeys = []) {
+            return User.api().get("users", {
+                params: {
+                    search: {
+                        keyword: keyword,
+                        fields: fieldKeys,
+                    },
+                    includes: [
+                        "pawns",
+                        "pawns.pawn_items",
+                        "pawns.pawn_items.item_category",
+                        "pawns.pawn_items.item_damage"
+                    ]
+                }
+            });
+        },
+        fetchPawnItems(keyword = "", fieldKeys = []) {
             return PawnItem.api().get("/pawn_user_items", {
                 params: {
                     search: {
@@ -74,47 +100,33 @@ export const searchMixin = {
             }
             // return sumBy(this.pawnItemByPawnNo(id), 'item_value')
         },
-        clearDataVuex(){
+        clearDataVuex() {
             User.deleteAll() // Delete all Users.
             Pawn.deleteAll() // Delete all Pawns.
             PawnItem.deleteAll() // Delete all PawnItems.
         },
         async searchPawnByCustomerData() {
             if (!this.searchInput) return;
-                this.clearDataVuex()
+            this.clearDataVuex()
             try {
-                /*
-                    Search Pawn by Pawn ID
-                */
                 this.search = true;
                 this.loading = true;
-                let { response } = await this.fetchPawns(this.searchInput, ["pawn_no"]);
-                if (response && response.data && response.data.pawns.length) {
-                    await this.fetchPawnItems(this.searchInput, ["pawn_no"]);
+                // let { response } = await this.fetchPawnItems(this.searchInput, ["pawn_no", "first_name", "last_name", "identity_card_id"]);
+                // if (response && response.data && response.data.pawn_items) {
+                //     const { pawn_items } = response.data
+                //     this.items = groupBy(pawn_items, pawn_item => pawn_item.pawn_no);
+                // }
 
-                } else {
+                /*
+                    Search Pawn by Pawn ID, Name, Identity Card ID
+                */
+                let { response } = await this.fetchPawns(this.searchInput, ["pawn_no"]);
+
+                if (response && response.data && !response.data.pawns.length) {
                     /*
                         Search Pawn by Customer Name and Identity ID
                     */
-                    let { response } = await User.api().get("users", {
-                        params: {
-                            search: {
-                                keyword: this.searchInput,
-                                fields: ["full_name", "identity_card_id"],
-                            },
-                        }
-                    });
-                    if (response && response.data && response.data.users.length) {
-                        let { users = [] } = response.data;
-                        let result = await this.fetchPawns(users[0].id, ["customer_id"]);
-                        if (
-                            result.response &&
-                            result.response.data &&
-                            result.response.data.pawns.length
-                        ) {
-                            await this.fetchPawnItems(users[0].id, ["customer_id"]);
-                        }
-                    }
+                    await this.fetchUserPawn(this.searchInput, ["full_name", "identity_card_id"])
                 }
             } catch (error) {
 

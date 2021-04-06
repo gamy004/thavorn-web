@@ -14,6 +14,7 @@
             <h5 class="display-4 mt-1 mb-2 font-weight-bold">
               ต่ออายุดอกเบี้ย
             </h5>
+            <datepicker></datepicker>
           </div>
         </div>
       </div>
@@ -159,6 +160,7 @@
 import { datetimeMixin, searchMixin } from "../../mixins";
 import PawnDetail from "./modal/pawnDetail";
 import PawnRenew from "./modal/pawnRenew";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   mixins: [datetimeMixin, searchMixin],
@@ -166,6 +168,7 @@ export default {
   components: {
     PawnDetail,
     PawnRenew,
+    Datepicker,
   },
 
   data() {

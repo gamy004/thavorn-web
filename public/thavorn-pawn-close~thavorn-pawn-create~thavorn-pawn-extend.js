@@ -748,7 +748,8 @@ var searchMixin = {
     return {
       searchInput: "",
       search: false,
-      loading: false
+      loading: false,
+      items: {}
     };
   },
   computed: {
@@ -756,10 +757,17 @@ var searchMixin = {
       return _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"].query().get();
     },
     user: function user() {
-      return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].query().first();
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_4__["groupBy"])(_models_User__WEBPACK_IMPORTED_MODULE_3__["default"].query().get(), function (user) {
+        return user.id;
+      });
     },
     pawnItems: function pawnItems() {
       return _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().get();
+    },
+    pawnItemsByPawnID: function pawnItemsByPawnID() {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_4__["groupBy"])(_models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().get(), function (pawn_item) {
+        return pawn_item.pawn_id;
+      });
     },
     fullName: function fullName() {
       return this.user ? this.user.full_name : "-";
@@ -767,58 +775,42 @@ var searchMixin = {
   },
   methods: {
     fetchPawns: function fetchPawns() {
-      var _arguments = arguments;
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var keyword, fieldKeys;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                keyword = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : "";
-                fieldKeys = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : [];
-                return _context.abrupt("return", _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"].api().get("/pawns", {
-                  params: {
-                    search: {
-                      keyword: keyword,
-                      fields: fieldKeys
-                    }
-                  }
-                }));
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+      var keyword = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+      var fieldKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      return _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"].api().get("/pawns", {
+        params: {
+          search: {
+            keyword: keyword,
+            fields: fieldKeys
+          },
+          includes: ["user", "pawn_items", "pawns.pawn_items.item_damage", "pawns.pawn_items.item_category"]
+        }
+      });
+    },
+    fetchUserPawn: function fetchUserPawn() {
+      var keyword = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+      var fieldKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("users", {
+        params: {
+          search: {
+            keyword: keyword,
+            fields: fieldKeys
+          },
+          includes: ["pawns", "pawns.pawn_items", "pawns.pawn_items.item_category", "pawns.pawn_items.item_damage"]
+        }
+      });
     },
     fetchPawnItems: function fetchPawnItems() {
-      var _arguments2 = arguments;
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var keyword, fieldKeys;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                keyword = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : "";
-                fieldKeys = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : [];
-                return _context2.abrupt("return", _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/pawn_user_items", {
-                  params: {
-                    search: {
-                      keyword: keyword,
-                      fields: fieldKeys
-                    }
-                  }
-                }));
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
+      var keyword = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+      var fieldKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      return _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/pawn_user_items", {
+        params: {
+          search: {
+            keyword: keyword,
+            fields: fieldKeys
           }
-        }, _callee2);
-      }))();
+        }
+      });
     },
     fullNameByPawnNo: function fullNameByPawnNo(id) {
       console.log('1');
@@ -855,103 +847,69 @@ var searchMixin = {
     searchPawnByCustomerData: function searchPawnByCustomerData() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _yield$_this$fetchPaw, response, _yield$User$api$get, _response, _response$data$users, users, result;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _yield$_this$fetchPaw, response;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (_this.searchInput) {
-                  _context3.next = 2;
+                  _context.next = 2;
                   break;
                 }
 
-                return _context3.abrupt("return");
+                return _context.abrupt("return");
 
               case 2:
                 _this.clearDataVuex();
 
-                _context3.prev = 3;
+                _context.prev = 3;
+                _this.search = true;
+                _this.loading = true; // let { response } = await this.fetchPawnItems(this.searchInput, ["pawn_no", "first_name", "last_name", "identity_card_id"]);
+                // if (response && response.data && response.data.pawn_items) {
+                //     const { pawn_items } = response.data
+                //     this.items = groupBy(pawn_items, pawn_item => pawn_item.pawn_no);
+                // }
 
                 /*
-                    Search Pawn by Pawn ID
+                    Search Pawn by Pawn ID, Name, Identity Card ID
                 */
-                _this.search = true;
-                _this.loading = true;
-                _context3.next = 8;
+
+                _context.next = 8;
                 return _this.fetchPawns(_this.searchInput, ["pawn_no"]);
 
               case 8:
-                _yield$_this$fetchPaw = _context3.sent;
+                _yield$_this$fetchPaw = _context.sent;
                 response = _yield$_this$fetchPaw.response;
 
-                if (!(response && response.data && response.data.pawns.length)) {
-                  _context3.next = 15;
+                if (!(response && response.data && !response.data.pawns.length)) {
+                  _context.next = 13;
                   break;
                 }
 
-                _context3.next = 13;
-                return _this.fetchPawnItems(_this.searchInput, ["pawn_no"]);
+                _context.next = 13;
+                return _this.fetchUserPawn(_this.searchInput, ["full_name", "identity_card_id"]);
 
               case 13:
-                _context3.next = 27;
+                _context.next = 17;
                 break;
 
               case 15:
-                _context3.next = 17;
-                return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("users", {
-                  params: {
-                    search: {
-                      keyword: _this.searchInput,
-                      fields: ["full_name", "identity_card_id"]
-                    }
-                  }
-                });
+                _context.prev = 15;
+                _context.t0 = _context["catch"](3);
 
               case 17:
-                _yield$User$api$get = _context3.sent;
-                _response = _yield$User$api$get.response;
-
-                if (!(_response && _response.data && _response.data.users.length)) {
-                  _context3.next = 27;
-                  break;
-                }
-
-                _response$data$users = _response.data.users, users = _response$data$users === void 0 ? [] : _response$data$users;
-                _context3.next = 23;
-                return _this.fetchPawns(users[0].id, ["customer_id"]);
-
-              case 23:
-                result = _context3.sent;
-
-                if (!(result.response && result.response.data && result.response.data.pawns.length)) {
-                  _context3.next = 27;
-                  break;
-                }
-
-                _context3.next = 27;
-                return _this.fetchPawnItems(users[0].id, ["customer_id"]);
-
-              case 27:
-                _context3.next = 31;
-                break;
-
-              case 29:
-                _context3.prev = 29;
-                _context3.t0 = _context3["catch"](3);
-
-              case 31:
-                _context3.prev = 31;
+                _context.prev = 17;
                 _this.loading = false;
-                return _context3.finish(31);
+                return _context.finish(17);
 
-              case 34:
+              case 20:
               case "end":
-                return _context3.stop();
+                return _context.stop();
             }
           }
-        }, _callee3, null, [[3, 29, 31, 34]]);
+        }, _callee, null, [[3, 15, 17, 20]]);
       }))();
     }
   }

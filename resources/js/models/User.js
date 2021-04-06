@@ -22,7 +22,8 @@ export default class User extends Model {
             line: this.attr(null),
             note: this.attr(null),
             role_id: this.attr(null),
-            pawns: this.hasMany(Pawn, 'customer_id')
+            pawn_ids: this.attr(null),
+            pawns: this.hasManyBy(Pawn, 'pawn_ids', 'customer_id')
         };
     }
 

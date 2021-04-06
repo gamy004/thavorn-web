@@ -14,16 +14,21 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">ผู้จำนำ</b>
-            <div>
-              {{ fullNameByPawnNo(pawn.pawn_no) }}
+            <div v-if="user[pawn.customer_id]">
+              {{ user[pawn.customer_id][0].first_name }}
+              {{ user[pawn.customer_id][0].last_name }}
             </div>
           </div>
         </div>
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">จำนวนสินค้า</b>
-            <div>
-              {{ pawnItemCount(pawn.pawn_no) }}
+            <div
+              v-if="
+                pawnItemsByPawnID[pawn.id] && pawnItemsByPawnID[pawn.id].length
+              "
+            >
+              {{ pawnItemsByPawnID[pawn.id].length }}
             </div>
           </div>
         </div>
@@ -98,7 +103,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(pawnItem, index) in pawnItemByPawnNo(pawn.pawn_no)"
+                  v-for="(pawnItem, index) in pawnItemsByPawnID[pawn.id]"
                   :key="`pawn-item-${index}`"
                 >
                   <th scope="row">
