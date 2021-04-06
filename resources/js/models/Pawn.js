@@ -16,12 +16,22 @@ export default class Pawn extends Model {
             customer_id: this.attr(null),
             user: this.belongsTo(User, 'customer_id'),
             latest_paid_at: this.attr(null),
-            complete: this.attr(null),
+            complete: this.boolean(0),
             next_paid_at: this.attr(null),
             latest_paid_at: this.attr(null),
             created_at: this.attr(null),
             updated_at: this.attr(null),
+
+            pawn_items: this.attr([])
         };
+    }
+
+    get totalValue() {
+        return this.pawn_items.reduce((carry, pawnItem) => {
+            carry += pawnItem.item_value ? pawnItem.item_value : 0;
+
+            return carry;
+        }, 0);
     }
 
     static get apiConfig() {

@@ -20,7 +20,7 @@ export default class ItemDamage extends Model {
     static get apiConfig() {
         return {
             dataKey: "item_damages",
-            baseURL: "/api/item_categories",
+            baseURL: "/api/item_damages",
         };
     }
 }

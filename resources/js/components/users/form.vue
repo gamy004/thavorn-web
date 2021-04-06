@@ -26,7 +26,11 @@
           type="text"
           id="inputFirstname"
           v-model="$user.first_name"
+          :state="error.state('pawn.user.first_name')"
         ></b-form-input>
+        <b-form-invalid-feedback id="inputFirstname-feedback">
+          {{ error.message("pawn.user.first_name") }}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group class="col-sm-6" label-for="inputLastname" label="สกุล">
@@ -34,8 +38,13 @@
           name="lastname"
           type="text"
           id="inputLastname"
+          :state="error.state('pawn.user.last_name')"
           v-model="$user.last_name"
         ></b-form-input>
+
+        <b-form-invalid-feedback id="inputLastname-feedback">
+          {{ error.message("pawn.user.last_name") }}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <!-- <b-form-group
@@ -61,8 +70,13 @@
           name="phone"
           type="text"
           id="inputPhone"
+          :state="error.state('pawn.user.phone_number')"
           v-model="$user.phone_number"
         ></b-form-input>
+
+        <b-form-invalid-feedback id="inputPhone-feedback">
+          {{ error.message("pawn.user.phone_number") }}
+        </b-form-invalid-feedback>
       </b-form-group>
     </b-form-row>
 
@@ -84,8 +98,13 @@
           name="identityCardNo"
           type="text"
           id="inputIdentityCardNo"
+          :state="error.state('pawn.user.identity_card_id')"
           v-model="$user.identity_card_id"
         ></b-form-input>
+
+        <b-form-invalid-feedback id="inputIdentityCardNo-feedback">
+          {{ error.message("pawn.user.identity_card_id") }}
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group class="col-sm-6" label-for="inputEmail" label="Email">
@@ -93,8 +112,13 @@
           name="email"
           type="email"
           id="inputEmail"
+          :state="error.state('pawn.user.email')"
           v-model="$user.email"
         ></b-form-input>
+
+        <b-form-invalid-feedback id="inputEmail-feedback">
+          {{ error.message("pawn.user.email") }}
+        </b-form-invalid-feedback>
       </b-form-group>
     </b-form-row>
 
@@ -148,10 +172,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
 import User from "models/User";
+import { disabledMixin, errorMixin } from "mixins";
 
 library.add(faSearch);
 
 export default {
+  mixins: [disabledMixin, errorMixin],
+
   props: {
     user: {
       type: User,

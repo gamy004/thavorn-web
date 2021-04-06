@@ -13,9 +13,9 @@ export default class PawnItem extends Model {
     static fields() {
         return {
             id: this.attr(null),
-            item_weight: this.number(''),
+            item_weight: this.number(0.00),
             item_weight_unit: this.attr('gram'),
-            item_value: this.number(''),
+            item_value: this.number(0.00),
             item_value_unit: this.attr('THB'),
             item_category: this.belongsTo(ItemCategory, 'item_category_id'),
             item_category_id: this.attr(null),
@@ -23,7 +23,7 @@ export default class PawnItem extends Model {
             item_damage_id: this.attr(null),
             pawn_id: this.attr(null),
             pawn: this.belongsTo(Pawn, 'pawn_id'),
-            complete: this.attr(null),
+            complete: this.boolean(0),
             created_at: this.attr(null),
             updated_at: this.attr(null),
         };

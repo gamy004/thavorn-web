@@ -245,6 +245,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var mixins__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mixins */ "./resources/js/mixins/index.js");
 /* harmony import */ var models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! models/ItemCategory */ "./resources/js/models/ItemCategory.js");
 
 
@@ -272,11 +273,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [mixins__WEBPACK_IMPORTED_MODULE_2__["errorMixin"]],
   props: {
-    ItemCategory: {
+    itemCategory: {
       type: models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"],
       "default": function _default() {
         return new models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"]();
@@ -284,7 +291,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   model: {
-    prop: "ItemCategory",
+    prop: "itemCategory",
     event: "change"
   },
   components: {
@@ -296,12 +303,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   computed: {
-    $ItemCategory: {
+    $itemCategory: {
       get: function get() {
-        return this.ItemCategory;
+        return this.itemCategory ? this.itemCategory.item_category : null;
       },
-      set: function set(v) {
-        this.$emit("change", v);
+      set: function set(_ref) {
+        var value = _ref.value;
+        this.$emit("change", models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(value));
       }
     },
     options: function options() {
@@ -358,97 +366,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee, null, [[3, 8, 11, 14]]);
       }))();
-    },
-    update: function update(option) {
-      var value = option.value;
-      this.$ItemCategory = models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(value);
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-items/form.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-items/form.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
-/* harmony import */ var components_pawn_item_categories_selector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! components/pawn-item-categories/selector */ "./resources/js/components/pawn-item-categories/selector.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/ItemDamage */ "./resources/js/models/ItemDamage.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -481,6 +423,274 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [mixins__WEBPACK_IMPORTED_MODULE_1__["errorMixin"]],
+  props: {
+    itemDamage: {
+      type: models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"],
+      "default": function _default() {
+        return new models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      }
+    }
+  },
+  model: {
+    prop: "itemDamage",
+    event: "change"
+  },
+  data: function data() {
+    return {
+      isLoading: false
+    };
+  },
+  computed: {
+    $itemDamage: {
+      get: function get() {
+        return this.itemDamage ? this.itemDamage.id : null;
+      },
+      set: function set(v) {
+        this.$emit("change", models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].find(v));
+      }
+    },
+    options: function options() {
+      var data = models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].all();
+      return data.reduce(function (carry, record) {
+        carry.push({
+          text: record.item_damage,
+          value: record.id
+        });
+        return carry;
+      }, []);
+    }
+  },
+  methods: {
+    fetch: function fetch() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.options && _this.options.length)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                _this.isLoading = true;
+                _context.prev = 3;
+                _context.next = 6;
+                return models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].api().get();
+
+              case 6:
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](3);
+                console.error(_context.t0);
+
+              case 11:
+                _context.prev = 11;
+                _this.isLoading = false;
+                return _context.finish(11);
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 8, 11, 14]]);
+      }))();
+    }
+  },
+  mounted: function mounted() {
+    this.fetch();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-items/form.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-items/form.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var core_Error__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core/Error */ "./resources/js/core/Error.js");
+/* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var components_pawn_item_categories_selector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/pawn-item-categories/selector */ "./resources/js/components/pawn-item-categories/selector.vue");
+/* harmony import */ var components_pawn_item_damages_selector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/pawn-item-damages/selector */ "./resources/js/components/pawn-item-damages/selector.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [mixins__WEBPACK_IMPORTED_MODULE_0__["disabledMixin"], mixins__WEBPACK_IMPORTED_MODULE_0__["errorMixin"]],
   props: {
     pawnItems: {
       type: Array,
@@ -494,11 +704,15 @@ __webpack_require__.r(__webpack_exports__);
     event: "change"
   },
   components: {
-    ItemCategorySelector: components_pawn_item_categories_selector__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ItemCategorySelector: components_pawn_item_categories_selector__WEBPACK_IMPORTED_MODULE_3__["default"],
+    ItemDamageSelector: components_pawn_item_damages_selector__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
-      selectedPawnItem: new models_PawnItem__WEBPACK_IMPORTED_MODULE_0__["default"]()
+      isEditing: false,
+      editingIndex: null,
+      selectedPawnItemError: core_Error__WEBPACK_IMPORTED_MODULE_1__["default"].make(),
+      selectedPawnItem: new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"]()
     };
   },
   computed: {
@@ -512,10 +726,48 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    add: function add(selectedPawnItem) {
+    validate: function validate() {
+      var pass = true;
+      var selectedPawnItem = this.selectedPawnItem;
+      var item_category = selectedPawnItem.item_category,
+          item_damage = selectedPawnItem.item_damage,
+          item_weight = selectedPawnItem.item_weight,
+          item_value = selectedPawnItem.item_value;
+
+      if (!item_category) {
+        pass = false;
+        this.selectedPawnItemError.add({
+          item_category: ["กรุณาเลือกประเภททอง อย่างน้อย 1 ตัวเลือก"]
+        });
+      }
+
+      if (!item_damage) {
+        pass = false;
+        this.selectedPawnItemError.add({
+          item_damage: ["กรุณาเลือกความเสียหาย อย่างน้อย 1 ตัวเลือก"]
+        });
+      }
+
+      if (item_weight <= 0) {
+        pass = false;
+        this.selectedPawnItemError.add({
+          item_weight: ["น้ำหนักทองควรมีค่ามากกว่า 0"]
+        });
+      }
+
+      if (item_value <= 0) {
+        pass = false;
+        this.selectedPawnItemError.add({
+          item_value: ["มูลค่าควรมีค่ามากกว่า 0"]
+        });
+      }
+
+      return pass;
+    },
+    getValidatedSelectedPawnItem: function getValidatedSelectedPawnItem() {
+      var selectedPawnItem = this.selectedPawnItem;
       var item_category = selectedPawnItem.item_category,
           item_damage = selectedPawnItem.item_damage;
-      console.log(item_category && item_category.id);
 
       if (item_category && item_category.id) {
         this.$set(selectedPawnItem, "item_category_id", item_category.id);
@@ -525,9 +777,50 @@ __webpack_require__.r(__webpack_exports__);
         this.$set(selectedPawnItem, "item_damage_id", item_damage.id);
       }
 
-      console.log(selectedPawnItem);
+      if (this.pawn && this.pawn.id) {
+        this.$set(selectedPawnItem, "pawn_id", pawn.id);
+        this.$set(selectedPawnItem, "pawn", pawn);
+      }
+
+      return selectedPawnItem;
     },
-    destroy: function destroy(index) {}
+    add: function add() {
+      if (this.validate()) {
+        this.$pawnItems.push(this.getValidatedSelectedPawnItem());
+        this.clear();
+      }
+    },
+    edit: function edit(index) {
+      this.isEditing = true;
+      this.editingIndex = index;
+      this.selectedPawnItem = new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"](_objectSpread({}, this.$pawnItems[index]));
+    },
+    update: function update() {
+      var isEditing = this.isEditing,
+          editingIndex = this.editingIndex,
+          $pawnItems = this.$pawnItems;
+
+      if (isEditing && editingIndex !== null && $pawnItems.length >= editingIndex + 1 && this.validate()) {
+        $pawnItems.splice(editingIndex, 1, this.getValidatedSelectedPawnItem());
+        this.$pawnItems = _toConsumableArray($pawnItems);
+        this.clear();
+      }
+    },
+    clear: function clear() {
+      this.editingIndex = null;
+      this.selectedPawnItem = new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      this.isEditing = false;
+      this.selectedPawnItemError.clear();
+    },
+    destroy: function destroy(index) {
+      var $pawnItems = this.$pawnItems;
+
+      if ($pawnItems.length >= index + 1) {
+        $pawnItems.splice(index, 1);
+      }
+
+      this.$pawnItems = _toConsumableArray($pawnItems);
+    }
   }
 });
 
@@ -551,6 +844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+/* harmony import */ var mixins__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! mixins */ "./resources/js/mixins/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -701,6 +995,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -708,6 +1027,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__["faSearch"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [mixins__WEBPACK_IMPORTED_MODULE_6__["disabledMixin"], mixins__WEBPACK_IMPORTED_MODULE_6__["errorMixin"]],
   props: {
     user: {
       type: models_User__WEBPACK_IMPORTED_MODULE_5__["default"],
@@ -984,17 +1304,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
-/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
-/* harmony import */ var components_users_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! components/users/form */ "./resources/js/components/users/form.vue");
-/* harmony import */ var components_pawn_items_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! components/pawn-items/form */ "./resources/js/components/pawn-items/form.vue");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var core_Error__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core/Error */ "./resources/js/core/Error.js");
+/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var models_PawnItem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var components_users_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! components/users/form */ "./resources/js/components/users/form.vue");
+/* harmony import */ var components_pawn_items_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! components/pawn-items/form */ "./resources/js/components/pawn-items/form.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1141,15 +1456,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -1165,47 +1472,16 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
   components: {
     PageTitle: _Layout_Components_PageTitle__WEBPACK_IMPORTED_MODULE_1__["default"],
     vSelect: vue_select__WEBPACK_IMPORTED_MODULE_5___default.a,
-    UserForm: components_users_form__WEBPACK_IMPORTED_MODULE_9__["default"],
-    PawnItemForm: components_pawn_items_form__WEBPACK_IMPORTED_MODULE_10__["default"]
+    UserForm: components_users_form__WEBPACK_IMPORTED_MODULE_10__["default"],
+    PawnItemForm: components_pawn_items_form__WEBPACK_IMPORTED_MODULE_11__["default"]
   },
   data: function data() {
     return {
-      selectedItem: new models_PawnItem__WEBPACK_IMPORTED_MODULE_8__["default"](),
-      itemLists: [],
-      sumValue: "",
-      pawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"]({
-        pawn_no: null,
-        interest_rate: 3,
-        pawn_items: [],
-        customer_id: null,
-        user: new models_User__WEBPACK_IMPORTED_MODULE_6__["default"]()
+      pawn: new models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"]({
+        user: new models_User__WEBPACK_IMPORTED_MODULE_7__["default"]()
       }),
-      itemOptions: [{
-        text: "ทองเส้น",
-        value: {
-          id: 1,
-          name: "ทองเส้น"
-        }
-      }, {
-        text: "ทองแท่ง",
-        value: {
-          id: 2,
-          name: "ทองแท่ง"
-        }
-      }],
-      ItemDamagesOptions: [{
-        text: "ไม่มีตำหนิ",
-        value: {
-          id: 1,
-          name: "ไม่มีตำหนิ"
-        }
-      }, {
-        text: "มีตำหนิ",
-        value: {
-          id: 2,
-          name: "มีตำหนิ"
-        }
-      }],
+      error: new core_Error__WEBPACK_IMPORTED_MODULE_6__["default"](),
+      isSubmitting: false,
       fetchingLastestPawnNo: false
     };
   },
@@ -1223,7 +1499,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
                 _this.fetchingLastestPawnNo = true;
                 _context.prev = 1;
                 _context.next = 4;
-                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().get("/generate-number", {
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"].api().get("/generate-number", {
                   save: false
                 });
 
@@ -1257,87 +1533,44 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
         }, _callee, null, [[1, 7, 10, 13]]);
       }))();
     },
-    createPawn: function createPawn() {
+    submit: function submit() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var result, pawn;
+        var pawn;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 pawn = _this2.pawn;
-                _context2.prev = 1;
-                _context2.next = 4;
-                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post("", {
-                  pawn: pawn // pawn: {
-                  //   user: this.pawn.user,
-                  //   pawn_no: this.pawn.pawn_no,
-                  //   interest_rate: this.pawn.interest_rate,
-                  //   pawn_items: [],
-                  // },
-
+                _this2.isSubmitting = true;
+                _context2.prev = 2;
+                _context2.next = 5;
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_8__["default"].api().post("", {
+                  pawn: pawn
                 });
 
-              case 4:
-                result = _context2.sent;
+              case 5:
                 _context2.next = 10;
                 break;
 
               case 7:
                 _context2.prev = 7;
-                _context2.t0 = _context2["catch"](1);
-                console.error(_context2.t0);
+                _context2.t0 = _context2["catch"](2);
+
+                _this2.error.recordResponse(_context2.t0.response);
 
               case 10:
+                _context2.prev = 10;
+                _this2.isSubmitting = false;
+                return _context2.finish(10);
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 7]]);
-      }))();
-    },
-    addItemList: function addItemList() {
-      var item = _objectSpread(_objectSpread({}, this.selectedItem), {}, {
-        item_category_id: this.selectedItem.item_category.id,
-        item_category: this.selectedItem.item_category.name,
-        item_damage_id: this.selectedItem.item_damage.id,
-        item_damage: this.selectedItem.item_damage.name
-      });
-
-      this.itemLists.push(new models_PawnItem__WEBPACK_IMPORTED_MODULE_8__["default"](item));
-    },
-    deleteItemList: function deleteItemList(index) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var tmpItemList;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["clone"])(_this3.itemLists);
-
-              case 2:
-                tmpItemList = _context3.sent;
-                _this3.itemLists = [];
-                _context3.next = 6;
-                return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pull"])(tmpItemList, tmpItemList[index]);
-
-              case 6:
-                _context3.next = 8;
-                return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["clone"])(tmpItemList);
-
-              case 8:
-                _this3.itemLists = _context3.sent;
-
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
+        }, _callee2, null, [[2, 7, 10, 13]]);
       }))();
     }
   },
@@ -1345,6 +1578,55 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__["library"].add(_f
     this.fetchLatestPawnNo();
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".error__message[data-v-a9fe14ac] {\n  position: relative;\n  top: 5px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -1807,7 +2089,7 @@ var render = function() {
   return _c(
     "b-form-group",
     [
-      _c("label", { attrs: { for: "inputItem" } }, [_vm._v("ประเภทของทอง")]),
+      _c("label", { attrs: { for: "inputItem" } }, [_vm._v("ประเภททอง")]),
       _vm._v(" "),
       _c("v-select", {
         staticClass: "w-100",
@@ -1817,7 +2099,7 @@ var render = function() {
           loading: _vm.isLoading,
           options: _vm.options
         },
-        on: { "search:focus": _vm.fetch, "option:selected": _vm.update },
+        on: { "search:focus": _vm.fetch },
         scopedSlots: _vm._u([
           {
             key: "open-indicator",
@@ -1826,11 +2108,90 @@ var render = function() {
               return [_c("span", _vm._b({}, "span", attributes, false))]
             }
           }
-        ])
-      })
+        ]),
+        model: {
+          value: _vm.$itemCategory,
+          callback: function($$v) {
+            _vm.$itemCategory = $$v
+          },
+          expression: "$itemCategory"
+        }
+      }),
+      _vm._v(" "),
+      _vm.error.has("item_category")
+        ? _c("small", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.error.message("item_category")))
+          ])
+        : _vm._e()
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("b-form-group", {
+    staticClass: "col-sm-6",
+    attrs: { label: "ความเสียหาย" },
+    scopedSlots: _vm._u([
+      {
+        key: "default",
+        fn: function(ref) {
+          var ariaDescribedby = ref.ariaDescribedby
+          return [
+            _vm.isLoading
+              ? _c("b-spinner", {
+                  attrs: { small: "", label: "Small Spinner Item Damages" }
+                })
+              : _vm.options && _vm.options.length
+              ? _c("b-form-radio-group", {
+                  attrs: {
+                    id: "inputItemDamages",
+                    options: _vm.options,
+                    "aria-describedby": ariaDescribedby,
+                    name: "itemDamages"
+                  },
+                  model: {
+                    value: _vm.$itemDamage,
+                    callback: function($$v) {
+                      _vm.$itemDamage = $$v
+                    },
+                    expression: "$itemDamage"
+                  }
+                })
+              : _c("div", { staticClass: "text-muted" }, [
+                  _vm._v("ไม่พบข้อมูลความเสียหาย")
+                ]),
+            _vm._v(" "),
+            _vm.error.has("item_damage")
+              ? _c("small", { staticClass: "text-danger error__message" }, [
+                  _vm._v(_vm._s(_vm.error.message("item_damage")))
+                ])
+              : _vm._e()
+          ]
+        }
+      }
+    ])
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1862,12 +2223,25 @@ var render = function() {
         [
           _c("item-category-selector", {
             staticClass: "col-sm-6",
+            attrs: { error: _vm.selectedPawnItemError },
             model: {
               value: _vm.selectedPawnItem.item_category,
               callback: function($$v) {
                 _vm.$set(_vm.selectedPawnItem, "item_category", $$v)
               },
               expression: "selectedPawnItem.item_category"
+            }
+          }),
+          _vm._v(" "),
+          _c("item-damage-selector", {
+            staticClass: "col-sm-6",
+            attrs: { error: _vm.selectedPawnItemError },
+            model: {
+              value: _vm.selectedPawnItem.item_damage,
+              callback: function($$v) {
+                _vm.$set(_vm.selectedPawnItem, "item_damage", $$v)
+              },
+              expression: "selectedPawnItem.item_damage"
             }
           }),
           _vm._v(" "),
@@ -1881,17 +2255,32 @@ var render = function() {
               _c("b-form-input", {
                 attrs: {
                   name: "itemWeight",
-                  type: "text",
-                  id: "inputItemWeight"
+                  type: "number",
+                  step: 0.01,
+                  min: 0,
+                  id: "inputItemWeight",
+                  state: _vm.selectedPawnItemError.state("item_weight")
                 },
                 model: {
                   value: _vm.selectedPawnItem.item_weight,
                   callback: function($$v) {
-                    _vm.$set(_vm.selectedPawnItem, "item_weight", $$v)
+                    _vm.$set(_vm.selectedPawnItem, "item_weight", _vm._n($$v))
                   },
                   expression: "selectedPawnItem.item_weight"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputItemWeight-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.selectedPawnItemError.message("item_weight")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           ),
@@ -1906,17 +2295,32 @@ var render = function() {
               _c("b-form-input", {
                 attrs: {
                   name: "itemValue",
-                  type: "text",
-                  id: "inputItemValue"
+                  type: "number",
+                  step: 0.01,
+                  min: 0,
+                  id: "inputItemValue",
+                  state: _vm.selectedPawnItemError.state("item_value")
                 },
                 model: {
                   value: _vm.selectedPawnItem.item_value,
                   callback: function($$v) {
-                    _vm.$set(_vm.selectedPawnItem, "item_value", $$v)
+                    _vm.$set(_vm.selectedPawnItem, "item_value", _vm._n($$v))
                   },
                   expression: "selectedPawnItem.item_value"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputItemValue-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.selectedPawnItemError.message("item_value")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           )
@@ -1924,86 +2328,190 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "b-button",
-        {
-          attrs: { variant: "primary", type: "button" },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.add(_vm.selectedPawnItem)
-            }
-          }
-        },
-        [_vm._v("เพิ่มเข้ารายการ")]
-      ),
+      _vm.isEditing
+        ? _c(
+            "b-button",
+            {
+              attrs: { variant: "primary", type: "button" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.update($event)
+                }
+              }
+            },
+            [_vm._v("แก้ไข")]
+          )
+        : _c(
+            "b-button",
+            {
+              attrs: {
+                variant: "primary",
+                type: "button",
+                disabled: _vm.disabled
+              },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.add($event)
+                }
+              }
+            },
+            [_vm._v("เพิ่มเข้ารายการ")]
+          ),
+      _vm._v(" "),
+      _vm.isEditing
+        ? _c(
+            "b-button",
+            {
+              staticClass: "ml-2",
+              attrs: { variant: "secondary", type: "button" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.clear($event)
+                }
+              }
+            },
+            [_vm._v("ยกเลิก")]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("b-form-row", [
-        _c(
-          "table",
-          {
-            staticClass:
-              "table table-hover table-striped table-bordered mt-3 mb-5"
-          },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("ประเภทของทอง")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [
-                  _vm._v("น้ำหนักทอง (กรัม)")
-                ]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("มูลค่า (บาท)")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("ความเสียหาย")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("การกระทำ")])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.$pawnItems && _vm.$pawnItems.length > 0
-              ? _c(
-                  "tbody",
-                  _vm._l(_vm.$pawnItems, function(itemList, index) {
-                    return _c("tr", { key: "pawn-item-" + index }, [
-                      _c("th", { attrs: { scope: "row" } }, [
-                        _vm._v(_vm._s(itemList.item_category))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(itemList.item_weight))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(itemList.item_value))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(itemList.item_damage))]),
-                      _vm._v(" "),
-                      _c("td", [
+      _c(
+        "b-form-row",
+        [
+          _c(
+            "table",
+            {
+              staticClass:
+                "table table-hover table-striped table-bordered mt-3 mb-5"
+            },
+            [
+              _c("thead", { staticClass: "thead-light" }, [
+                _c("tr", [
+                  _c("th", { attrs: { scope: "col" } }, [_vm._v("ประเภททอง")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _vm._v("น้ำหนักทอง (กรัม)")
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _vm._v("มูลค่า (บาท)")
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [
+                    _vm._v("ความเสียหาย")
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { scope: "col" } }, [_vm._v("การกระทำ")])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.$pawnItems && _vm.$pawnItems.length > 0
+                ? _c(
+                    "tbody",
+                    _vm._l(_vm.$pawnItems, function(itemList, index) {
+                      return _c("tr", { key: "pawn-item-" + index }, [
+                        _c("th", { attrs: { scope: "row" } }, [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(
+                                itemList.item_category
+                                  ? itemList.item_category.item_category
+                                  : "ไม่ได้ระบุประเภททอง"
+                              ) +
+                              "\n          "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(itemList.item_weight))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(itemList.item_value))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(
+                                itemList.item_damage
+                                  ? itemList.item_damage.item_damage
+                                  : "ไม่ได้ระบุความเสียหาย"
+                              ) +
+                              "\n          "
+                          )
+                        ]),
+                        _vm._v(" "),
                         _c(
-                          "a",
-                          {
-                            staticStyle: { color: "red" },
-                            attrs: { href: "" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                $event.stopPropagation()
-                                return _vm.destroy(index)
-                              }
-                            }
-                          },
-                          [_vm._v("นำออก\n            ")]
+                          "td",
+                          [
+                            _c(
+                              "b-button",
+                              {
+                                attrs: {
+                                  variant: "outline-primary",
+                                  disabled: _vm.disabled || _vm.isEditing,
+                                  size: "sm"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    $event.stopPropagation()
+                                    return _vm.edit(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("แก้ไข")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-button",
+                              {
+                                attrs: {
+                                  variant: "outline-danger",
+                                  disabled: _vm.disabled || _vm.isEditing,
+                                  size: "sm"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    $event.stopPropagation()
+                                    return _vm.destroy(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("นำออก")]
+                            )
+                          ],
+                          1
                         )
                       ])
-                    ])
-                  }),
-                  0
-                )
-              : _vm._e()
-          ]
-        )
-      ])
+                    }),
+                    0
+                  )
+                : _vm._e()
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "b-alert",
+            {
+              attrs: {
+                show: _vm.error.has("pawn.pawn_items"),
+                variant: "danger"
+              }
+            },
+            [
+              _vm._v(
+                "\n      " +
+                  _vm._s(_vm.error.message("pawn.pawn_items")) +
+                  "\n    "
+              )
+            ]
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -2087,7 +2595,8 @@ var render = function() {
                 attrs: {
                   name: "firstname",
                   type: "text",
-                  id: "inputFirstname"
+                  id: "inputFirstname",
+                  state: _vm.error.state("pawn.user.first_name")
                 },
                 model: {
                   value: _vm.$user.first_name,
@@ -2096,7 +2605,19 @@ var render = function() {
                   },
                   expression: "$user.first_name"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputFirstname-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.error.message("pawn.user.first_name")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           ),
@@ -2109,7 +2630,12 @@ var render = function() {
             },
             [
               _c("b-form-input", {
-                attrs: { name: "lastname", type: "text", id: "inputLastname" },
+                attrs: {
+                  name: "lastname",
+                  type: "text",
+                  id: "inputLastname",
+                  state: _vm.error.state("pawn.user.last_name")
+                },
                 model: {
                   value: _vm.$user.last_name,
                   callback: function($$v) {
@@ -2117,7 +2643,19 @@ var render = function() {
                   },
                   expression: "$user.last_name"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputLastname-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.error.message("pawn.user.last_name")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           ),
@@ -2130,7 +2668,12 @@ var render = function() {
             },
             [
               _c("b-form-input", {
-                attrs: { name: "phone", type: "text", id: "inputPhone" },
+                attrs: {
+                  name: "phone",
+                  type: "text",
+                  id: "inputPhone",
+                  state: _vm.error.state("pawn.user.phone_number")
+                },
                 model: {
                   value: _vm.$user.phone_number,
                   callback: function($$v) {
@@ -2138,7 +2681,19 @@ var render = function() {
                   },
                   expression: "$user.phone_number"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputPhone-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.error.message("pawn.user.phone_number")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           )
@@ -2177,7 +2732,8 @@ var render = function() {
                 attrs: {
                   name: "identityCardNo",
                   type: "text",
-                  id: "inputIdentityCardNo"
+                  id: "inputIdentityCardNo",
+                  state: _vm.error.state("pawn.user.identity_card_id")
                 },
                 model: {
                   value: _vm.$user.identity_card_id,
@@ -2186,7 +2742,19 @@ var render = function() {
                   },
                   expression: "$user.identity_card_id"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputIdentityCardNo-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.error.message("pawn.user.identity_card_id")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           ),
@@ -2199,7 +2767,12 @@ var render = function() {
             },
             [
               _c("b-form-input", {
-                attrs: { name: "email", type: "email", id: "inputEmail" },
+                attrs: {
+                  name: "email",
+                  type: "email",
+                  id: "inputEmail",
+                  state: _vm.error.state("pawn.user.email")
+                },
                 model: {
                   value: _vm.$user.email,
                   callback: function($$v) {
@@ -2207,7 +2780,19 @@ var render = function() {
                   },
                   expression: "$user.email"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "b-form-invalid-feedback",
+                { attrs: { id: "inputEmail-feedback" } },
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.error.message("pawn.user.email")) +
+                      "\n      "
+                  )
+                ]
+              )
             ],
             1
           )
@@ -2497,6 +3082,10 @@ var render = function() {
               { staticClass: "card-body" },
               [
                 _c("user-form", {
+                  attrs: {
+                    disabled: _vm.fetchingLastestPawnNo || _vm.isSubmitting,
+                    error: _vm.error
+                  },
                   model: {
                     value: _vm.pawn.user,
                     callback: function($$v) {
@@ -2520,6 +3109,10 @@ var render = function() {
               { staticClass: "card-body" },
               [
                 _c("pawn-item-form", {
+                  attrs: {
+                    disabled: _vm.fetchingLastestPawnNo || _vm.isSubmitting,
+                    error: _vm.error
+                  },
                   model: {
                     value: _vm.pawn.pawn_items,
                     callback: function($$v) {
@@ -2529,11 +3122,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-row" }),
-                _vm._v(" "),
                 _c(
-                  "div",
-                  { staticClass: "row" },
+                  "b-form-row",
                   [
                     _c(
                       "label",
@@ -2560,11 +3150,11 @@ var render = function() {
                             disabled: true
                           },
                           model: {
-                            value: _vm.sumValue,
+                            value: _vm.pawn.totalValue,
                             callback: function($$v) {
-                              _vm.sumValue = $$v
+                              _vm.$set(_vm.pawn, "totalValue", $$v)
                             },
-                            expression: "sumValue"
+                            expression: "pawn.totalValue"
                           }
                         })
                       ],
@@ -2600,16 +3190,31 @@ var render = function() {
                             type: "number",
                             id: "inputInterestRate",
                             min: 0,
-                            max: 100
+                            max: 100,
+                            state: _vm.error.state("pawn.interest_rate")
                           },
                           model: {
                             value: _vm.pawn.interest_rate,
                             callback: function($$v) {
-                              _vm.$set(_vm.pawn, "interest_rate", $$v)
+                              _vm.$set(_vm.pawn, "interest_rate", _vm._n($$v))
                             },
                             expression: "pawn.interest_rate"
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "b-form-invalid-feedback",
+                          { attrs: { id: "inputInterestRate-feedback" } },
+                          [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(
+                                  _vm.error.message("pawn.interest_rate")
+                                ) +
+                                "\n                "
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -2623,22 +3228,40 @@ var render = function() {
                   [
                     _c(
                       "b-button",
-                      { staticClass: "mr-3", attrs: { variant: "secondary" } },
+                      {
+                        staticClass: "mr-2",
+                        attrs: {
+                          variant: "secondary",
+                          disabled:
+                            _vm.fetchingLastestPawnNo || _vm.isSubmitting
+                        }
+                      },
                       [_vm._v("ละทิ้ง")]
                     ),
                     _vm._v(" "),
                     _c(
                       "b-button",
                       {
-                        attrs: { variant: "primary" },
+                        attrs: {
+                          variant: "primary",
+                          disabled:
+                            _vm.fetchingLastestPawnNo || _vm.isSubmitting
+                        },
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            return _vm.createPawn($event)
+                            return _vm.submit($event)
                           }
                         }
                       },
-                      [_vm._v("บันทึก")]
+                      [
+                        _vm.isSubmitting
+                          ? _c("b-spinner", {
+                              attrs: { label: "Small Spinner Pawn Form" }
+                            })
+                          : _c("span", [_vm._v("บันทึก")])
+                      ],
+                      1
                     )
                   ],
                   1
@@ -2811,6 +3434,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_template_id_214649a2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_template_id_214649a2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/pawn-item-damages/selector.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/pawn-item-damages/selector.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./selector.vue?vue&type=template&id=a9fe14ac&scoped=true& */ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true&");
+/* harmony import */ var _selector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./selector.vue?vue&type=script&lang=js& */ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& */ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _selector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "a9fe14ac",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/pawn-item-damages/selector.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./selector.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************!*\
+  !*** ./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=style&index=0&id=a9fe14ac&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_style_index_0_id_a9fe14ac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true&":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true& ***!
+  \***********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./selector.vue?vue&type=template&id=a9fe14ac&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pawn-item-damages/selector.vue?vue&type=template&id=a9fe14ac&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_selector_vue_vue_type_template_id_a9fe14ac_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

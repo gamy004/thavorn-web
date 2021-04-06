@@ -41,7 +41,11 @@
               </div>
             </div>
             <div class="card-body">
-              <user-form v-model="pawn.user"></user-form>
+              <user-form
+                v-model="pawn.user"
+                :disabled="fetchingLastestPawnNo || isSubmitting"
+                :error="error"
+              ></user-form>
             </div>
           </div>
         </div>
@@ -52,44 +56,13 @@
               <h5 class="my-3">ข้อมูลสินค้าจำนำ</h5>
             </div>
             <div class="card-body">
-              <pawn-item-form v-model="pawn.pawn_items"></pawn-item-form>
+              <pawn-item-form
+                v-model="pawn.pawn_items"
+                :disabled="fetchingLastestPawnNo || isSubmitting"
+                :error="error"
+              ></pawn-item-form>
 
-              <div class="form-row">
-                <!-- <table
-                    class="table table-hover table-striped table-bordered mt-3 mb-5"
-                  >
-                    <thead class="thead-light">
-                      <tr>
-                        <th scope="col">ประเภทของทอง</th>
-                        <th scope="col">น้ำหนักทอง (กรัม)</th>
-                        <th scope="col">มูลค่า (บาท)</th>
-                        <th scope="col">ความเสียหาย</th>
-                        <th scope="col">การกระทำ</th>
-                      </tr>
-                    </thead>
-                    <tbody v-if="itemLists && itemLists.length > 0">
-                      <tr
-                        v-for="(itemList, index) in itemLists"
-                        :key="`itemList-${index}`"
-                      >
-                        <th scope="row">{{ itemList.item_category }}</th>
-                        <td>{{ itemList.item_weight }}</td>
-                        <td>{{ itemList.item_value }}</td>
-                        <td>{{ itemList.item_damage }}</td>
-                        <td>
-                          <a
-                            href=""
-                            style="color: red"
-                            @click.prevent.stop="deleteItemList(index)"
-                            >นำออก
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table> -->
-              </div>
-
-              <div class="row">
+              <b-form-row>
                 <label
                   class="col-12"
                   for="itemValue"
@@ -102,7 +75,7 @@
                     type="text"
                     id="inputSumValue"
                     :disabled="true"
-                    v-model="sumValue"
+                    v-model="pawn.totalValue"
                   >
                   </b-form-input>
                 </b-form-group>
@@ -127,17 +100,35 @@
                     id="inputInterestRate"
                     :min="0"
                     :max="100"
-                    v-model="pawn.interest_rate"
+                    :state="error.state('pawn.interest_rate')"
+                    v-model.number="pawn.interest_rate"
                   >
                   </b-form-input>
+
+                  <b-form-invalid-feedback id="inputInterestRate-feedback">
+                    {{ error.message("pawn.interest_rate") }}
+                  </b-form-invalid-feedback>
                 </b-form-group>
-              </div>
+              </b-form-row>
 
               <div class="d-flex mt-3">
-                <b-button class="mr-3" variant="secondary">ละทิ้ง</b-button>
-                <b-button variant="primary" @click.prevent="createPawn"
-                  >บันทึก</b-button
+                <b-button
+                  class="mr-2"
+                  variant="secondary"
+                  :disabled="fetchingLastestPawnNo || isSubmitting"
+                  >ละทิ้ง</b-button
                 >
+                <b-button
+                  variant="primary"
+                  :disabled="fetchingLastestPawnNo || isSubmitting"
+                  @click.prevent="submit"
+                >
+                  <b-spinner
+                    v-if="isSubmitting"
+                    label="Small Spinner Pawn Form"
+                  ></b-spinner>
+                  <span v-else>บันทึก</span>
+                </b-button>
               </div>
             </div>
           </div>
@@ -153,6 +144,7 @@ import { pull, clone } from "lodash";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
+import Error from "core/Error";
 import User from "models/User";
 import Pawn from "models/Pawn";
 import PawnItem from "models/PawnItem";
@@ -171,51 +163,13 @@ export default {
 
   data() {
     return {
-      selectedItem: new PawnItem(),
-      itemLists: [],
-      sumValue: "",
-
       pawn: new Pawn({
-        pawn_no: null,
-        interest_rate: 3,
-        pawn_items: [],
-        customer_id: null,
         user: new User(),
       }),
 
-      itemOptions: [
-        {
-          text: "ทองเส้น",
-          value: {
-            id: 1,
-            name: "ทองเส้น",
-          },
-        },
-        {
-          text: "ทองแท่ง",
-          value: {
-            id: 2,
-            name: "ทองแท่ง",
-          },
-        },
-      ],
+      error: new Error(),
 
-      ItemDamagesOptions: [
-        {
-          text: "ไม่มีตำหนิ",
-          value: {
-            id: 1,
-            name: "ไม่มีตำหนิ",
-          },
-        },
-        {
-          text: "มีตำหนิ",
-          value: {
-            id: 2,
-            name: "มีตำหนิ",
-          },
-        },
-      ],
+      isSubmitting: false,
 
       fetchingLastestPawnNo: false,
     };
@@ -242,41 +196,20 @@ export default {
       }
     },
 
-    async createPawn() {
-      let result;
+    async submit() {
       const { pawn } = this;
 
+      this.isSubmitting = true;
+
       try {
-        result = await Pawn.api().post("", {
+        await Pawn.api().post("", {
           pawn,
-          // pawn: {
-          //   user: this.pawn.user,
-          //   pawn_no: this.pawn.pawn_no,
-          //   interest_rate: this.pawn.interest_rate,
-          //   pawn_items: [],
-          // },
         });
       } catch (error) {
-        console.error(error);
+        this.error.recordResponse(error.response);
+      } finally {
+        this.isSubmitting = false;
       }
-    },
-
-    addItemList() {
-      const item = {
-        ...this.selectedItem,
-        item_category_id: this.selectedItem.item_category.id,
-        item_category: this.selectedItem.item_category.name,
-        item_damage_id: this.selectedItem.item_damage.id,
-        item_damage: this.selectedItem.item_damage.name,
-      };
-      this.itemLists.push(new PawnItem(item));
-    },
-
-    async deleteItemList(index) {
-      let tmpItemList = await clone(this.itemLists);
-      this.itemLists = [];
-      await pull(tmpItemList, tmpItemList[index]);
-      this.itemLists = await clone(tmpItemList);
     },
   },
 
