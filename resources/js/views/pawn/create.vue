@@ -45,6 +45,7 @@
                 v-model="pawn.user"
                 :disabled="fetchingLastestPawnNo || isSubmitting"
                 :error="error"
+                :reset="reset"
               ></user-form>
             </div>
           </div>
@@ -60,6 +61,7 @@
                 v-model="pawn.pawn_items"
                 :disabled="fetchingLastestPawnNo || isSubmitting"
                 :error="error"
+                :reset="reset"
               ></pawn-item-form>
 
               <b-form-row>
@@ -136,7 +138,6 @@
                   variant="danger"
                   solid
                   no-close-button
-                  toaster="b-toaster-bottom-right"
                   v-model="toastError"
                 >
                   ไม่สามารถสร้างการจำนำได้ กรุณาตรวจสอบข้อผิดพลาด
@@ -147,7 +148,6 @@
                   variant="success"
                   solid
                   no-close-button
-                  toaster="b-toaster-bottom-right"
                   v-model="toastSuccess"
                 >
                   สร้างการจำนำสำเร็จเรียบร้อย
@@ -192,6 +192,7 @@ export default {
       error: new Error(),
 
       isSubmitting: false,
+      reset: false,
       toastError: false,
       toastSuccess: false,
       fetchingLastestPawnNo: false,
@@ -229,7 +230,10 @@ export default {
           pawn,
         });
 
+        pawn.user.$save();
+
         this.toastSuccess = true;
+
         this.clear();
       } catch (error) {
         this.toastError = true;
@@ -246,6 +250,12 @@ export default {
       });
 
       this.error = new Error();
+
+      this.reset = true;
+
+      setTimeout(() => {
+        this.reset = false;
+      }, 100);
     },
   },
 

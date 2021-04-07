@@ -4,13 +4,13 @@
       <b-form-group class="col-md-12">
         <label for="inputCustomer">ค้นหาลูกค้า</label>
         <v-select
+          v-model="$selectedUser"
           name="customer"
           id="inputCustomer"
           class="w-100"
           :options="options"
           @search="search"
           @input="check"
-          @option:selected="update"
         >
           <template #open-indicator="{ attributes }">
             <span v-bind="attributes"></span>
@@ -25,7 +25,7 @@
           name="firstname"
           type="text"
           id="inputFirstname"
-          v-model="$user.first_name"
+          v-model="user.first_name"
           :state="error.state('pawn.user.first_name')"
         ></b-form-input>
         <b-form-invalid-feedback id="inputFirstname-feedback">
@@ -39,7 +39,7 @@
           type="text"
           id="inputLastname"
           :state="error.state('pawn.user.last_name')"
-          v-model="$user.last_name"
+          v-model="user.last_name"
         ></b-form-input>
 
         <b-form-invalid-feedback id="inputLastname-feedback">
@@ -57,7 +57,7 @@
                       :options="genderOptions"
                       :aria-describedby="ariaDescribedby"
                       name="gender"
-                      v-model="$user.gender"
+                      v-model="user.gender"
                     ></b-form-radio-group>
                   </b-form-group> -->
 
@@ -71,7 +71,7 @@
           type="text"
           id="inputPhone"
           :state="error.state('pawn.user.phone_number')"
-          v-model="$user.phone_number"
+          v-model="user.phone_number"
         ></b-form-input>
 
         <b-form-invalid-feedback id="inputPhone-feedback">
@@ -99,7 +99,7 @@
           type="text"
           id="inputIdentityCardNo"
           :state="error.state('pawn.user.identity_card_id')"
-          v-model="$user.identity_card_id"
+          v-model="user.identity_card_id"
         ></b-form-input>
 
         <b-form-invalid-feedback id="inputIdentityCardNo-feedback">
@@ -113,7 +113,7 @@
           type="email"
           id="inputEmail"
           :state="error.state('pawn.user.email')"
-          v-model="$user.email"
+          v-model="user.email"
         ></b-form-input>
 
         <b-form-invalid-feedback id="inputEmail-feedback">
@@ -132,7 +132,7 @@
                       name="facebook"
                       type="text"
                       id="inputFacebook"
-                      v-model="$user.facebook"
+                      v-model="user.facebook"
                     ></b-form-input>
                   </b-form-group>
 
@@ -145,7 +145,7 @@
                       name="Line"
                       type="text"
                       id="inputLine"
-                      v-model="$user.line"
+                      v-model="user.line"
                     ></b-form-input>
                   </b-form-group>
                 </b-form-row> -->
@@ -159,7 +159,7 @@
           rows="3"
           max-rows="8"
           no-auto-shrink
-          v-model="$user.note"
+          v-model="user.note"
         ></b-form-textarea>
       </b-form-group>
     </b-form-row>
@@ -172,12 +172,12 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import vSelect from "vue-select";
 import User from "models/User";
-import { disabledMixin, errorMixin } from "mixins";
+import { disabledMixin, errorMixin, resetMixin } from "mixins";
 
 library.add(faSearch);
 
 export default {
-  mixins: [disabledMixin, errorMixin],
+  mixins: [disabledMixin, errorMixin, resetMixin],
 
   props: {
     user: {
@@ -195,13 +195,24 @@ export default {
     vSelect,
   },
 
+  watch: {
+    reset(v) {
+      if (v) {
+        this.clear();
+      }
+    },
+  },
+
   computed: {
-    $user: {
+    $selectedUser: {
       get() {
-        return this.user;
+        return this.user ? this.user.full_name : null;
       },
 
-      set(user) {
+      set(option) {
+        const user =
+          option !== null ? User.find(option.customerId) : new User();
+
         this.$emit("change", user);
       },
     },
@@ -239,12 +250,6 @@ export default {
       }
     },
 
-    update(option) {
-      const { customerId } = option;
-
-      this.$user = User.find(customerId);
-    },
-
     check(input) {
       if (!input) {
         this.clear();
@@ -252,9 +257,7 @@ export default {
     },
 
     clear() {
-      if (this.$user && this.$user.id) {
-        this.$user = new User();
-      }
+      this.$selectedUser = null;
     },
   },
 

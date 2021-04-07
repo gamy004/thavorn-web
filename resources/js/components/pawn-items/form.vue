@@ -138,14 +138,14 @@
 </template>
 
 <script>
-import { disabledMixin, errorMixin } from "mixins";
+import { disabledMixin, errorMixin, resetMixin } from "mixins";
 import Error from "core/Error";
 import PawnItem from "models/PawnItem";
 import ItemCategorySelector from "components/pawn-item-categories/selector";
 import ItemDamageSelector from "components/pawn-item-damages/selector";
 
 export default {
-  mixins: [disabledMixin, errorMixin],
+  mixins: [disabledMixin, errorMixin, resetMixin],
 
   props: {
     pawnItems: {
@@ -182,6 +182,14 @@ export default {
       set(pawnItems) {
         this.$emit("change", pawnItems);
       },
+    },
+  },
+
+  watch: {
+    reset(v) {
+      if (v) {
+        this.clear();
+      }
     },
   },
 
@@ -222,7 +230,7 @@ export default {
       if (item_value <= 0) {
         pass = false;
         this.selectedPawnItemError.add({
-          item_value: ["มูลค่าควรมีค่ามากกว่า 0"],
+          item_value: ["มูลค่าสินค้าจำนำควรมีค่ามากกว่า 0"],
         });
       }
 

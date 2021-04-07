@@ -29,7 +29,8 @@ export default class User extends Model {
 
     static get apiConfig() {
         return {
-            dataKey: "users"
+            dataKey: "users",
+            baseURL: "/api",
         };
     }
 }

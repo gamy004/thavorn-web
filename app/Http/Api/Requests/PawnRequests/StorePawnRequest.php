@@ -127,4 +127,13 @@ class StorePawnRequest extends FormRequest
             'pawn.pawn_items.*.' . ItemDamage::FK => 'numeric|nullable|exists:item_damages,id'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'pawn.user.first_name.required' => 'กรุณากรอกชื่อ',
+            'pawn.user.last_name.required' => 'กรุณากรอกนามสกุล',
+            'pawn.pawn_items.min' => 'ข้อมูลสินค้าจำนำต้องมากกว่า 1 รายการ'
+        ];
+    }
 }
