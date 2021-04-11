@@ -11,6 +11,7 @@
           :options="options"
           @search="search"
           @input="check"
+          @option:selected="error.clear()"
         >
           <template #open-indicator="{ attributes }">
             <span v-bind="attributes"></span>
@@ -27,6 +28,7 @@
           id="inputFirstname"
           v-model="user.first_name"
           :state="error.state('pawn.user.first_name')"
+          @input="error.clear('pawn.user.first_name')"
         ></b-form-input>
         <b-form-invalid-feedback id="inputFirstname-feedback">
           {{ error.message("pawn.user.first_name") }}
@@ -39,6 +41,7 @@
           type="text"
           id="inputLastname"
           :state="error.state('pawn.user.last_name')"
+          @input="error.clear('pawn.user.last_name')"
           v-model="user.last_name"
         ></b-form-input>
 
@@ -71,6 +74,7 @@
           type="text"
           id="inputPhone"
           :state="error.state('pawn.user.phone_number')"
+          @input="error.clear('pawn.user.phone_number')"
           v-model="user.phone_number"
         ></b-form-input>
 
@@ -99,6 +103,7 @@
           type="text"
           id="inputIdentityCardNo"
           :state="error.state('pawn.user.identity_card_id')"
+          @input="error.clear('pawn.user.identity_card_id')"
           v-model="user.identity_card_id"
         ></b-form-input>
 
@@ -113,6 +118,7 @@
           type="email"
           id="inputEmail"
           :state="error.state('pawn.user.email')"
+          @input="error.clear('pawn.user.email')"
           v-model="user.email"
         ></b-form-input>
 

@@ -14,7 +14,6 @@
             <h5 class="display-4 mt-1 mb-2 font-weight-bold">
               ต่ออายุดอกเบี้ย
             </h5>
-            <datepicker></datepicker>
           </div>
         </div>
       </div>
@@ -49,7 +48,7 @@
                     <button
                       class="btn btn-primary btn-md"
                       :disabled="loading"
-                      @click.stop="searchPawnByCustomerData()"
+                      @click.prevent="searchPawnByCustomerData"
                     >
                       ค้นหา
                     </button>
@@ -71,13 +70,13 @@
                         variant="primary"
                       ></b-spinner>
                       <h4
-                        v-else-if="!loading && pawns && pawns.length == 0"
+                        v-else-if="!loading && pawnUsers && pawnUsers.length == 0"
                         style="text-align: center"
                         class="text-black-50"
                       >
                         ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง
                       </h4>
-                      <div v-else-if="!loading && pawns && pawns.length > 0">
+                      <div v-else-if="!loading && pawnUsers && pawnUsers.length > 0">
                         <span>ผลการค้นหา</span>
                         <table
                           class="table table-hover table-striped table-bordered mt-3 mb-5"
@@ -93,14 +92,14 @@
                           </thead>
                           <tbody>
                             <tr
-                              v-for="(pawn, index) in pawns"
-                              :key="`pawn-${index}`"
+                              v-for="(pawnUser, index) in pawnUsers"
+                              :key="`pawnUser-${index}`"
                             >
-                              <th scope="row">{{ pawn.pawn_no }}</th>
+                              <th scope="row">{{ pawnUser.pawn_no }}</th>
                               <td>
                                 {{
                                   formatingDatetime(
-                                    pawn.created_at,
+                                    pawnUser.created_at,
                                     "DD MMM YYYY"
                                   )
                                 }}
@@ -108,7 +107,7 @@
                               <td>
                                 {{
                                   formatingDatetime(
-                                    pawn.next_paid_at,
+                                    pawnUser.next_paid_at,
                                     "DD MMM YYYY"
                                   )
                                 }}
@@ -116,29 +115,31 @@
                               <td>
                                 {{
                                   formatingDatetime(
-                                    pawn.updated_at,
+                                    pawnUser.updated_at,
                                     "DD MMM YYYY"
                                   )
                                 }}
                               </td>
                               <td>
-                                <a
-                                  href="#"
-                                  @click.prevent="showPawnDetail(pawn.pawn_no)"
-                                  >ดูรายละเอียด</a
-                                >
+                                <small>
+                                  <a
+                                    href="#"
+                                    @click.prevent="showPawnDetail(pawnUser.pawn_no)"
+                                    >ดูรายละเอียด</a
+                                  >
+                                </small>
                                 <button
-                                  @click.prevent="showPawnRenew(pawn.pawn_no)"
+                                  @click.prevent="showPawnRenew(pawnUser.pawn_no)"
                                   class="btn btn-primary btn-sm ml-3"
                                 >
                                   ต่ออายุ
                                 </button>
 
                                 <!-- Modal ดูรายละเอียดข้อมูลการจำนำ -->
-                                <pawn-detail :pawn="pawn"></pawn-detail>
+                                <pawn-detail :pawn="pawnUser"></pawn-detail>
 
                                 <!-- Modal การต่ออายุดอกเบี้ย -->
-                                <pawn-renew :pawn="pawn"></pawn-renew>
+                                <pawn-renew :pawn="pawnUser"></pawn-renew>
                               </td>
                             </tr>
                           </tbody>

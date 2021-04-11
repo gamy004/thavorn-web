@@ -1,11 +1,10 @@
 import Pawn from "../models/Pawn";
 import PawnItem from "../models/PawnItem";
 import User from "../models/User";
+import PawnUserItem from "../models/PawnUserItem";
 import { sumBy, groupBy, mapValues, omit } from "lodash"
 
 export const searchMixin = {
-    models: [Pawn, User, PawnItem],
-
     data() {
         return {
             searchInput: "",
@@ -22,8 +21,8 @@ export const searchMixin = {
         user() {
             return groupBy(User.query().get(), user => user.id);
         },
-        pawnItems() {
-            return PawnItem.query().get();
+        pawnUsers() {
+            return PawnUserItem.all();
         },
         pawnItemsByPawnID() {
             return groupBy(PawnItem.query().get(), pawn_item => pawn_item.pawn_id);
@@ -76,6 +75,50 @@ export const searchMixin = {
                 },
             });
         },
+
+        fetchPawnDetailByPawnId(id) {
+            return Pawn.api().get(`/pawns/${id}`, {
+                params: {
+                    // filters: [
+                    //     {
+                    //         key: 'pawn_id',
+                    //         value: pawnId
+                    //     },
+                    //     {
+                    //         key: 'complete',
+                    //         value: 0
+                    //     }
+                    // ],
+                    includes: [
+                        'pawn_items',
+                        'pawn_items.item_damage',
+                        'pawn_items.item_category',
+                        'payments'
+                    ]
+                },
+            });
+        },
+
+        fetchPawnItemsByPawnId(pawnId) {
+            return PawnItem.api().get("/pawn_items", {
+                params: {
+                    filters: [
+                        {
+                            key: 'pawn_id',
+                            value: pawnId
+                        },
+                        {
+                            key: 'complete',
+                            value: 0
+                        }
+                    ],
+                    includes: [
+                        'item_damage',
+                        'item_category'
+                    ]
+                },
+            });
+        },
         fullNameByPawnNo(id) {
             console.log('1');
             return PawnItem.query().where('pawn_no', id).first() ? `${PawnItem.query().where('pawn_no', id).first().first_name} ${PawnItem.query().where('pawn_no', id).first().last_name}` : this.fullName
@@ -104,10 +147,14 @@ export const searchMixin = {
             User.deleteAll() // Delete all Users.
             Pawn.deleteAll() // Delete all Pawns.
             PawnItem.deleteAll() // Delete all PawnItems.
+            PawnUserItem.deleteAll()
         },
         async searchPawnByCustomerData() {
             if (!this.searchInput) return;
-            this.clearDataVuex()
+
+            PawnItem.deleteAll();
+            PawnUserItem.deleteAll();
+
             try {
                 this.search = true;
                 this.loading = true;
@@ -120,16 +167,33 @@ export const searchMixin = {
                 /*
                     Search Pawn by Pawn ID, Name, Identity Card ID
                 */
-                let { response } = await this.fetchPawns(this.searchInput, ["pawn_no"]);
-
-                if (response && response.data && !response.data.pawns.length) {
-                    /*
-                        Search Pawn by Customer Name and Identity ID
-                    */
-                    await this.fetchUserPawn(this.searchInput, ["full_name", "identity_card_id"])
-                }
+                await PawnUserItem.api().get('/', {
+                    params: {
+                        filters: [
+                            {
+                                key: 'complete',
+                                value: 0
+                            }
+                        ],
+                        search: {
+                            keyword: this.searchInput,
+                            fields: [
+                                'full_name',
+                                'identity_card_id',
+                                'pawn_no'
+                            ],
+                        },
+                        select: ['pawns:id,full_name,identity_card_id,pawn_no,complete,created_at,updated_at,latest_paid_at,next_paid_at']
+                    }
+                });
+                // if (response && response.data && !response.data.pawns.length) {
+                //     /*
+                //         Search Pawn by Customer Name and Identity ID
+                //     */
+                //     await this.fetchUserPawn(this.searchInput, ["full_name", "identity_card_id"])
+                // }
             } catch (error) {
-
+                console.log(error);
             } finally {
                 this.loading = false;
             }

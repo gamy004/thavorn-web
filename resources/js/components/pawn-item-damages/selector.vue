@@ -16,6 +16,7 @@
       :options="options"
       :aria-describedby="ariaDescribedby"
       name="itemDamages"
+      @input="error.clear('item_damage')"
       v-model="$itemDamage"
     ></b-form-radio-group>
 
@@ -59,7 +60,7 @@ export default {
       },
 
       set(v) {
-        const itemDamage = v !== null ? ItemDamage.find(v) : new ItemDamage();
+        const itemDamage = v !== null ? ItemDamage.find(v) : null;
 
         this.$emit("change", itemDamage);
       },

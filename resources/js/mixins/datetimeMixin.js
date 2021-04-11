@@ -26,7 +26,11 @@ export const datetimeMixin = {
         //   let minute = moment(datetime).format("hh:mma").substr(2)
         //   return `${date} 00${minute}`
         // }
-        return moment(datetime).add(543, 'year').format(format)
+        let formattedDatetime = datetime
+          ? moment(datetime).add(543, 'year').format(format)
+          : 'ไม่ระบุ';
+        
+        return formattedDatetime;
       }
     },
   },

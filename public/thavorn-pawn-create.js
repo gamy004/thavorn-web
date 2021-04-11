@@ -277,6 +277,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -308,7 +310,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return this.itemCategory ? this.itemCategory.item_category : null;
       },
       set: function set(v) {
-        var itemCategory = v !== null ? models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(v.value) : new models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        var itemCategory = v !== null ? models_ItemCategory__WEBPACK_IMPORTED_MODULE_3__["default"].find(v.value) : null;
         this.$emit("change", itemCategory);
       }
     },
@@ -324,6 +326,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    focus: function focus() {
+      this.$refs.itemCategorySelector.$refs.search.focus();
+    },
     fetch: function fetch() {
       var _this = this;
 
@@ -420,6 +425,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -447,7 +453,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return this.itemDamage ? this.itemDamage.id : null;
       },
       set: function set(v) {
-        var itemDamage = v !== null ? models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].find(v) : new models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"]();
+        var itemDamage = v !== null ? models_ItemDamage__WEBPACK_IMPORTED_MODULE_2__["default"].find(v) : null;
         this.$emit("change", itemDamage);
       }
     },
@@ -685,6 +691,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -749,6 +759,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
 
+      console.log(item_damage);
+
       if (!item_damage) {
         pass = false;
         this.selectedPawnItemError.add({
@@ -798,6 +810,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.validate()) {
         this.$pawnItems.push(this.getValidatedSelectedPawnItem());
         this.clear();
+        this.$refs.itemCategorySelector.focus();
       }
     },
     edit: function edit(index) {
@@ -820,7 +833,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     clear: function clear() {
       this.selectedPawnItemError.clear();
       this.editingIndex = null;
-      this.selectedPawnItem = new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      this.selectedPawnItem = new models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        item_category: null,
+        item_damage: null
+      });
       this.isEditing = false;
     },
     destroy: function destroy(index) {
@@ -862,6 +878,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2146,6 +2168,7 @@ var render = function() {
       _c("label", { attrs: { for: "inputItem" } }, [_vm._v("ประเภททอง")]),
       _vm._v(" "),
       _c("v-select", {
+        ref: "itemCategorySelector",
         staticClass: "w-100",
         attrs: {
           name: "ItemCategory",
@@ -2153,7 +2176,12 @@ var render = function() {
           loading: _vm.isLoading,
           options: _vm.options
         },
-        on: { "search:focus": _vm.fetch },
+        on: {
+          "option:selected": function($event) {
+            return _vm.error.clear("item_category")
+          },
+          "search:focus": _vm.fetch
+        },
         scopedSlots: _vm._u([
           {
             key: "open-indicator",
@@ -2224,6 +2252,11 @@ var render = function() {
                     "aria-describedby": ariaDescribedby,
                     name: "itemDamages"
                   },
+                  on: {
+                    input: function($event) {
+                      return _vm.error.clear("item_damage")
+                    }
+                  },
                   model: {
                     value: _vm.$itemDamage,
                     callback: function($$v) {
@@ -2276,6 +2309,7 @@ var render = function() {
         "b-form-row",
         [
           _c("item-category-selector", {
+            ref: "itemCategorySelector",
             staticClass: "col-sm-6",
             attrs: { error: _vm.selectedPawnItemError },
             model: {
@@ -2314,6 +2348,11 @@ var render = function() {
                   min: 0,
                   id: "inputItemWeight",
                   state: _vm.selectedPawnItemError.state("item_weight")
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.selectedPawnItemError.clear("item_weight")
+                  }
                 },
                 model: {
                   value: _vm.selectedPawnItem.item_weight,
@@ -2354,6 +2393,11 @@ var render = function() {
                   min: 0,
                   id: "inputItemValue",
                   state: _vm.selectedPawnItemError.state("item_value")
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.selectedPawnItemError.clear("item_value")
+                  }
                 },
                 model: {
                   value: _vm.selectedPawnItem.item_value,
@@ -2399,6 +2443,7 @@ var render = function() {
         : _c(
             "b-button",
             {
+              staticClass: "m-1",
               attrs: {
                 variant: "primary",
                 type: "button",
@@ -2418,7 +2463,7 @@ var render = function() {
         ? _c(
             "b-button",
             {
-              staticClass: "ml-2",
+              staticClass: "m-1",
               attrs: { variant: "secondary", type: "button" },
               on: {
                 click: function($event) {
@@ -2613,7 +2658,13 @@ var render = function() {
                   id: "inputCustomer",
                   options: _vm.options
                 },
-                on: { search: _vm.search, input: _vm.check },
+                on: {
+                  search: _vm.search,
+                  input: _vm.check,
+                  "option:selected": function($event) {
+                    return _vm.error.clear()
+                  }
+                },
                 scopedSlots: _vm._u([
                   {
                     key: "open-indicator",
@@ -2655,6 +2706,11 @@ var render = function() {
                   id: "inputFirstname",
                   state: _vm.error.state("pawn.user.first_name")
                 },
+                on: {
+                  input: function($event) {
+                    return _vm.error.clear("pawn.user.first_name")
+                  }
+                },
                 model: {
                   value: _vm.user.first_name,
                   callback: function($$v) {
@@ -2693,6 +2749,11 @@ var render = function() {
                   id: "inputLastname",
                   state: _vm.error.state("pawn.user.last_name")
                 },
+                on: {
+                  input: function($event) {
+                    return _vm.error.clear("pawn.user.last_name")
+                  }
+                },
                 model: {
                   value: _vm.user.last_name,
                   callback: function($$v) {
@@ -2730,6 +2791,11 @@ var render = function() {
                   type: "text",
                   id: "inputPhone",
                   state: _vm.error.state("pawn.user.phone_number")
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.error.clear("pawn.user.phone_number")
+                  }
                 },
                 model: {
                   value: _vm.user.phone_number,
@@ -2792,6 +2858,11 @@ var render = function() {
                   id: "inputIdentityCardNo",
                   state: _vm.error.state("pawn.user.identity_card_id")
                 },
+                on: {
+                  input: function($event) {
+                    return _vm.error.clear("pawn.user.identity_card_id")
+                  }
+                },
                 model: {
                   value: _vm.user.identity_card_id,
                   callback: function($$v) {
@@ -2829,6 +2900,11 @@ var render = function() {
                   type: "email",
                   id: "inputEmail",
                   state: _vm.error.state("pawn.user.email")
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.error.clear("pawn.user.email")
+                  }
                 },
                 model: {
                   value: _vm.user.email,

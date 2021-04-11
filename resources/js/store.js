@@ -6,7 +6,9 @@ import VuexORM from "@vuex-orm/core";
 import VuexORMAxios from "@vuex-orm/plugin-axios";
 import User from "models/User";
 import Pawn from "models/Pawn";
+import Payment from "models/Payment";
 import PawnItem from "models/PawnItem";
+import PawnUserItem from "models/PawnUserItem";
 import ItemCategory from "models/ItemCategory";
 import ItemDamage from "models/ItemDamage";
 
@@ -23,7 +25,9 @@ const database = new VuexORM.Database();
 
 database.register(User);
 database.register(Pawn);
+database.register(Payment);
 database.register(PawnItem);
+database.register(PawnUserItem);
 database.register(ItemCategory);
 database.register(ItemDamage);
 

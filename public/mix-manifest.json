@@ -7,5 +7,6 @@
     "/thavorn-pawn-extend.js": "/thavorn-pawn-extend.js",
     "/vendors~thavorn-pawn-close~thavorn-pawn-create~thavorn-pawn-extend.js": "/vendors~thavorn-pawn-close~thavorn-pawn-create~thavorn-pawn-extend.js",
     "/vendors~thavorn-pawn-create.js": "/vendors~thavorn-pawn-create.js",
-    "/vendors~thavorn-pawn-extend.js": "/vendors~thavorn-pawn-extend.js"
+    "/vendors~thavorn-pawn-extend.js": "/vendors~thavorn-pawn-extend.js",
+    "/vendors~thavorn-pawn-create~thavorn-pawn-extend.js": "/vendors~thavorn-pawn-create~thavorn-pawn-extend.js"
 }

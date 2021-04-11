@@ -13,6 +13,13 @@
         background: rgba(255, 255, 255, 0);
     }
 }
+
+.ul {
+    &__no-bullets {
+        list-style-type: none;
+        padding-inline-start: 0;
+    }
+}
 // body{
 // font-family: 'Kanit', sans-serif;
 // }

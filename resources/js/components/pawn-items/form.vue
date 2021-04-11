@@ -2,6 +2,7 @@
   <b-form>
     <b-form-row>
       <item-category-selector
+        ref="itemCategorySelector"
         class="col-sm-6"
         :error="selectedPawnItemError"
         v-model="selectedPawnItem.item_category"
@@ -25,6 +26,7 @@
           :min="0"
           id="inputItemWeight"
           :state="selectedPawnItemError.state('item_weight')"
+          @input="selectedPawnItemError.clear('item_weight')"
           v-model.number="selectedPawnItem.item_weight"
         ></b-form-input>
 
@@ -41,6 +43,7 @@
           :min="0"
           id="inputItemValue"
           :state="selectedPawnItemError.state('item_value')"
+          @input="selectedPawnItemError.clear('item_value')"
           v-model.number="selectedPawnItem.item_value"
         ></b-form-input>
 
@@ -62,6 +65,7 @@
       v-else
       variant="primary"
       type="button"
+      class="m-1"
       :disabled="disabled"
       @click.prevent="add"
       >เพิ่มเข้ารายการ</b-button
@@ -71,7 +75,7 @@
       v-if="isEditing"
       variant="secondary"
       type="button"
-      class="ml-2"
+      class="m-1"
       @click.prevent="clear"
       >ยกเลิก</b-button
     >
@@ -212,7 +216,7 @@ export default {
           item_category: ["กรุณาเลือกประเภททอง อย่างน้อย 1 ตัวเลือก"],
         });
       }
-
+      console.log(item_damage);
       if (!item_damage) {
         pass = false;
         this.selectedPawnItemError.add({
@@ -265,6 +269,8 @@ export default {
         this.$pawnItems.push(this.getValidatedSelectedPawnItem());
 
         this.clear();
+
+        this.$refs.itemCategorySelector.focus();
       }
     },
 
@@ -296,7 +302,10 @@ export default {
     clear() {
       this.selectedPawnItemError.clear();
       this.editingIndex = null;
-      this.selectedPawnItem = new PawnItem();
+      this.selectedPawnItem = new PawnItem({
+        item_category: null,
+        item_damage: null
+      });
       this.isEditing = false;
     },
 

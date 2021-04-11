@@ -1,5 +1,6 @@
 import { Model } from "@vuex-orm/core";
-import PawnItem from "./PawnItem"
+import Payment from "./Payment";
+import PawnItem from "./PawnItem";
 import User from "./User";
 export default class Pawn extends Model {
     // This is the name used as module name of the Vuex Store.
@@ -23,7 +24,9 @@ export default class Pawn extends Model {
             created_at: this.attr(null),
             updated_at: this.attr(null),
             pawn_item_ids: this.attr(null),
-            pawn_items: this.hasManyBy(PawnItem, 'pawn_item_ids', 'pawn_id')
+            pawn_items: this.hasManyBy(PawnItem, 'pawn_item_ids', 'pawn_id'),
+            payment_ids: this.attr(null),
+            payments: this.hasManyBy(Payment, 'payment_ids', 'pawn_id')
         };
     }
 
@@ -38,7 +41,7 @@ export default class Pawn extends Model {
     static get apiConfig() {
         return {
             dataKey: "pawns",
-            baseURL: "/api/pawns",
+            baseURL: "/api",
         };
     }
 }

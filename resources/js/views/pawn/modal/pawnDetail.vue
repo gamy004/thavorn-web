@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal :id="`pawn-detail-modal-${pawn.pawn_no}`" no-close-on-backdrop>
+    <b-modal v-model="showPawnDetail" :id="`pawn-detail-modal-${pawn.pawn_no}`" no-close-on-backdrop>
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>ข้อมูลการจำนำ</h4>
       </template>
@@ -14,9 +14,8 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">ผู้จำนำ</b>
-            <div v-if="user[pawn.customer_id]">
-              {{ user[pawn.customer_id][0].first_name }}
-              {{ user[pawn.customer_id][0].last_name }}
+            <div>
+              {{ pawn && pawn.full_name ? pawn.full_name : 'ไม่ระบุ' }}
             </div>
           </div>
         </div>
@@ -35,13 +34,18 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">ประวัติการจำนำ</b>
-            <div>{{ pawn.pawn_no }}</div>
+            <ul class="ul__no-bullets mb-0">
+              <li>{{ formatingDatetime(pawn.created_at, "DD MMM YYYY") }} - จำนำสินค้า</li>
+              <template v-for="payment in payments">
+                <li :key="`payment_${payment.id}`">{{ payment.timeDescription }}</li>
+              </template>
+            </ul>
           </div>
         </div>
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">อัตราดอกเบี้ย</b>
-            <div>{{ pawn.interest_rate }}</div>
+            <div>{{ pawn.interest_rate }} %</div>
           </div>
         </div>
         <div class="row mb-4">
@@ -60,9 +64,15 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <a href="#" class="ft-s-16" @click="showPawnItems(pawn.pawn_no)"
-              >แสดงรายการภายในบัตร</a
-            >
+
+            <b-spinner
+              v-if="loadingPawnItems"
+              label="Fetching pawn items"
+              variant="primary"
+            ></b-spinner>
+
+            <b-button v-else variant="link" class="ft-s-16 pl-0" @click="showPawnItems"
+              >แสดงรายการภายในบัตร</b-button>
           </div>
         </div>
       </div>
@@ -70,14 +80,14 @@
         <button
           type="button"
           class="btn btn-secondary"
-          @click="closePawnDetail(pawn.pawn_no)"
+          @click="closePawnDetail"
         >
           <a class="ft-s-16">ปิดหน้าต่าง</a>
         </button>
         <button
           type="button"
           class="btn btn-primary"
-          @click="showPawnRenew(pawn.pawn_no)"
+          @click="showPawnRenew"
         >
           <a class="ft-s-16">ต่ออายุดอกเบี้ย</a>
         </button>
@@ -85,7 +95,7 @@
     </b-modal>
 
     <!-- Modal แสดงรายการสินค้าภายในบัตร -->
-    <b-modal :id="`pawn-list-item-modal-${pawn.pawn_no}`" no-close-on-backdrop>
+    <b-modal :id="`pawn-list-item-modal-${pawn.pawn_no}`" no-close-on-backdrop no-fade>
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>รายการสินค้าในบัตร</h4>
       </template>
@@ -103,18 +113,18 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(pawnItem, index) in pawnItemsByPawnID[pawn.id]"
+                  v-for="(pawnItem, index) in pawnItems"
                   :key="`pawn-item-${index}`"
                 >
                   <th scope="row">
-                    {{ pawnItem.item_category }}
+                    {{ pawnItem.item_category ? pawnItem.item_category.item_category : 'ไม่ระบุ' }}
                   </th>
                   <td>
                     {{ pawnItem.item_weight }}
                   </td>
                   <td>{{ pawnItem.item_value }}</td>
                   <td>
-                    {{ pawnItem.item_damage }}
+                    {{ pawnItem.item_damage ? pawnItem.item_damage.item_damage : 'ไม่ระบุ' }}
                   </td>
                 </tr>
               </tbody>
@@ -126,7 +136,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="closePawnItems(pawn.pawn_no)"
+          @click="closePawnItems"
         >
           <a class="ft-s-16">ปิดหน้าต่างนี้</a>
         </button>
@@ -136,32 +146,83 @@
 </template>
 
 <script>
-import Pawn from "../../../models/Pawn";
+import Payment from "../../../models/Payment";
+import PawnUserItem from "../../../models/PawnUserItem";
+import PawnItem from "../../../models/PawnItem";
 import { datetimeMixin, searchMixin } from "../../../mixins";
 
 export default {
   mixins: [datetimeMixin, searchMixin],
 
   props: {
-    pawn: new Pawn(),
+    pawn: {
+      type: PawnUserItem
+    },
+  },
+
+  data() {
+    return {
+      loadingPawnItems: false,
+      showPawnDetail: false
+    };
+  },
+
+  watch: {
+    showPawnDetail(v) {
+      if (v) {
+        this.fetch();
+      }
+    }
   },
 
   methods: {
-    showPawnRenew(id) {
-      this.$bvModal.hide(`pawn-detail-modal-${id}`);
-      this.$bvModal.show(`pawn-renew-modal-${id}`);
+    showPawnRenew() {
+      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },
-    showPawnItems(id) {
-      this.$bvModal.hide(`pawn-detail-modal-${id}`);
-      this.$bvModal.show(`pawn-list-item-modal-${id}`);
+    async showPawnItems() {
+      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      this.$bvModal.show(`pawn-list-item-modal-${this.pawn.pawn_no}`);
     },
-    closePawnDetail(id) {
-      this.$bvModal.hide(`pawn-detail-modal-${id}`);
+    closePawnDetail() {
+      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
-    closePawnItems(id) {
-      this.$bvModal.hide(`pawn-list-item-modal-${id}`);
-      this.$bvModal.show(`pawn-detail-modal-${id}`);
+    closePawnItems() {
+      this.$bvModal.hide(`pawn-list-item-modal-${this.pawn.pawn_no}`);
+      this.$bvModal.show(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
+
+    async fetch() {
+      this.loadingPawnItems = true;
+      
+      try {
+        await this.fetchPawnDetailByPawnId(this.pawn.id);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingPawnItems = false;
+      }
+    }
   },
+
+  computed: {
+    pawnItems() {
+      return this.pawn && this.pawn.id
+        ? PawnItem.query()
+                  .where('pawn_id', this.pawn.id)
+                  .where('complete', 0)
+                  .with(['item_damage', 'item_category'])
+                  .get()
+        : [];
+    },
+
+    payments() {
+      return this.pawn && this.pawn.id
+        ? Payment.query()
+                .where('pawn_id', this.pawn.id)
+                .get()
+        : [];
+    }
+  }
 };
 </script>

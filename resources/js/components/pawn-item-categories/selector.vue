@@ -3,12 +3,14 @@
     <label for="inputItem">ประเภททอง</label>
 
     <v-select
+      ref="itemCategorySelector"
       v-model="$itemCategory"
       name="ItemCategory"
       id="inputItemCategorySelector"
       class="w-100"
       :loading="isLoading"
       :options="options"
+      @option:selected="error.clear('item_category')"
       @search:focus="fetch"
     >
       <template #open-indicator="{ attributes }">
@@ -60,7 +62,7 @@ export default {
 
       set(v) {
         const itemCategory =
-          v !== null ? ItemCategory.find(v.value) : new ItemCategory();
+          v !== null ? ItemCategory.find(v.value) : null;
 
         this.$emit("change", itemCategory);
       },
@@ -78,6 +80,10 @@ export default {
   },
 
   methods: {
+    focus() {
+      this.$refs.itemCategorySelector.$refs.search.focus();
+    },
+
     async fetch() {
       if (this.options && this.options.length) return;
 

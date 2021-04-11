@@ -165,7 +165,7 @@ abstract class BaseApi
         } catch (Exception $e) {
             throw $e;
         }
-
+        
         return $data;
     }
 
@@ -447,7 +447,7 @@ abstract class BaseApi
         $architectKey = $this->getArchitectKey();
 
         $fields = [];
-
+        
         if (
             $this->hasSelect($architectKey)
         ) {

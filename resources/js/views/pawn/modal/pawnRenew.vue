@@ -8,19 +8,13 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">เลือกเดือนที่ต่ออายุ</b>
-            <div class="card card-box mt-2 mb-5">
-              <div class="card-header bg-light">
-                <div class="card-header--title">
-                  <b>Datepicker</b>
-                </div>
-              </div>
-              <div class="card-body">
-                <div
-                  class="datepicker-wrapper-flush"
-                  data-toggle="datepicker"
-                ></div>
-              </div>
-            </div>
+            <datepicker
+              :inline="true"
+              :bootstrap-styling="true"
+              wrapper-class="datepicker-wrapper-flush"
+              calendar-class="datepicker datepicker-inline"
+              minimum-view="month"
+              maximum-view="month"></datepicker>
           </div>
         </div>
         <div class="row mb-4">
@@ -51,6 +45,7 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
 import Pawn from "../../../models/Pawn";
 import { datetimeMixin, searchMixin } from "../../../mixins";
 
@@ -59,6 +54,10 @@ export default {
 
   props: {
     pawn: new Pawn(),
+  },
+
+  components: {
+    Datepicker
   },
 
   methods: {

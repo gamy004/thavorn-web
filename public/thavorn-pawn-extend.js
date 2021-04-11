@@ -335,6 +335,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -371,8 +372,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _models_Payment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../models/Payment */ "./resources/js/models/Payment.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -510,28 +521,114 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_4__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_4__["searchMixin"]],
   props: {
-    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_0__["default"]()
+    pawn: {
+      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"]
+    }
+  },
+  data: function data() {
+    return {
+      loadingPawnItems: false,
+      showPawnDetail: false
+    };
+  },
+  watch: {
+    showPawnDetail: function showPawnDetail(v) {
+      if (v) {
+        this.fetch();
+      }
+    }
   },
   methods: {
-    showPawnRenew: function showPawnRenew(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-      this.$bvModal.show("pawn-renew-modal-".concat(id));
+    showPawnRenew: function showPawnRenew() {
+      this.$bvModal.hide("pawn-detail-modal-".concat(this.pawn.pawn_no));
+      this.$bvModal.show("pawn-renew-modal-".concat(this.pawn.pawn_no));
     },
-    showPawnItems: function showPawnItems(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-      this.$bvModal.show("pawn-list-item-modal-".concat(id));
+    showPawnItems: function showPawnItems() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.$bvModal.hide("pawn-detail-modal-".concat(_this.pawn.pawn_no));
+
+                _this.$bvModal.show("pawn-list-item-modal-".concat(_this.pawn.pawn_no));
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
-    closePawnDetail: function closePawnDetail(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
+    closePawnDetail: function closePawnDetail() {
+      this.$bvModal.hide("pawn-detail-modal-".concat(this.pawn.pawn_no));
     },
-    closePawnItems: function closePawnItems(id) {
-      this.$bvModal.hide("pawn-list-item-modal-".concat(id));
-      this.$bvModal.show("pawn-detail-modal-".concat(id));
+    closePawnItems: function closePawnItems() {
+      this.$bvModal.hide("pawn-list-item-modal-".concat(this.pawn.pawn_no));
+      this.$bvModal.show("pawn-detail-modal-".concat(this.pawn.pawn_no));
+    },
+    fetch: function fetch() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.loadingPawnItems = true;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return _this2.fetchPawnDetailByPawnId(_this2.pawn.id);
+
+              case 4:
+                _context2.next = 9;
+                break;
+
+              case 6:
+                _context2.prev = 6;
+                _context2.t0 = _context2["catch"](1);
+                console.error(_context2.t0);
+
+              case 9:
+                _context2.prev = 9;
+                _this2.loadingPawnItems = false;
+                return _context2.finish(9);
+
+              case 12:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 6, 9, 12]]);
+      }))();
+    }
+  },
+  computed: {
+    pawnItems: function pawnItems() {
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where('pawn_id', this.pawn.id).where('complete', 0)["with"](['item_damage', 'item_category']).get() : [];
+    },
+    payments: function payments() {
+      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_1__["default"].query().where('pawn_id', this.pawn.id).get() : [];
     }
   }
 });
@@ -547,8 +644,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
 //
 //
 //
@@ -595,18 +693,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_2__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_2__["searchMixin"]],
   props: {
-    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_0__["default"]()
+    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"]()
+  },
+  components: {
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
     closePawnRenew: function closePawnRenew(id) {
@@ -840,19 +936,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              [
-                _c(
-                  "h5",
-                  { staticClass: "display-4 mt-1 mb-2 font-weight-bold" },
-                  [_vm._v("\n            ต่ออายุดอกเบี้ย\n          ")]
-                ),
-                _vm._v(" "),
-                _c("datepicker")
-              ],
-              1
-            )
+            _vm._m(0)
           ]
         )
       ])
@@ -862,11 +946,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-lg-12" }, [
           _c("div", { staticClass: "card card-box" }, [
-            _vm._m(0),
+            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c("form", [
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-row" }, [
                   _c(
@@ -902,8 +986,8 @@ var render = function() {
                         attrs: { disabled: _vm.loading },
                         on: {
                           click: function($event) {
-                            $event.stopPropagation()
-                            return _vm.searchPawnByCustomerData()
+                            $event.preventDefault()
+                            return _vm.searchPawnByCustomerData($event)
                           }
                         }
                       },
@@ -942,8 +1026,8 @@ var render = function() {
                                   }
                                 })
                               : !_vm.loading &&
-                                _vm.pawns &&
-                                _vm.pawns.length == 0
+                                _vm.pawnUsers &&
+                                _vm.pawnUsers.length == 0
                               ? _c(
                                   "h4",
                                   {
@@ -957,8 +1041,8 @@ var render = function() {
                                   ]
                                 )
                               : !_vm.loading &&
-                                _vm.pawns &&
-                                _vm.pawns.length > 0
+                                _vm.pawnUsers &&
+                                _vm.pawnUsers.length > 0
                               ? _c("div", [
                                   _c("span", [_vm._v("ผลการค้นหา")]),
                                   _vm._v(" "),
@@ -1009,18 +1093,22 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
-                                        _vm._l(_vm.pawns, function(
-                                          pawn,
+                                        _vm._l(_vm.pawnUsers, function(
+                                          pawnUser,
                                           index
                                         ) {
                                           return _c(
                                             "tr",
-                                            { key: "pawn-" + index },
+                                            { key: "pawnUser-" + index },
                                             [
                                               _c(
                                                 "th",
                                                 { attrs: { scope: "row" } },
-                                                [_vm._v(_vm._s(pawn.pawn_no))]
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(pawnUser.pawn_no)
+                                                  )
+                                                ]
                                               ),
                                               _vm._v(" "),
                                               _c("td", [
@@ -1028,7 +1116,7 @@ var render = function() {
                                                   "\n                              " +
                                                     _vm._s(
                                                       _vm.formatingDatetime(
-                                                        pawn.created_at,
+                                                        pawnUser.created_at,
                                                         "DD MMM YYYY"
                                                       )
                                                     ) +
@@ -1041,7 +1129,7 @@ var render = function() {
                                                   "\n                              " +
                                                     _vm._s(
                                                       _vm.formatingDatetime(
-                                                        pawn.next_paid_at,
+                                                        pawnUser.next_paid_at,
                                                         "DD MMM YYYY"
                                                       )
                                                     ) +
@@ -1054,7 +1142,7 @@ var render = function() {
                                                   "\n                              " +
                                                     _vm._s(
                                                       _vm.formatingDatetime(
-                                                        pawn.updated_at,
+                                                        pawnUser.updated_at,
                                                         "DD MMM YYYY"
                                                       )
                                                     ) +
@@ -1065,23 +1153,25 @@ var render = function() {
                                               _c(
                                                 "td",
                                                 [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      attrs: { href: "#" },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          $event.preventDefault()
-                                                          return _vm.showPawnDetail(
-                                                            pawn.pawn_no
-                                                          )
+                                                  _c("small", [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: { href: "#" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            return _vm.showPawnDetail(
+                                                              pawnUser.pawn_no
+                                                            )
+                                                          }
                                                         }
-                                                      }
-                                                    },
-                                                    [_vm._v("ดูรายละเอียด")]
-                                                  ),
+                                                      },
+                                                      [_vm._v("ดูรายละเอียด")]
+                                                    )
+                                                  ]),
                                                   _vm._v(" "),
                                                   _c(
                                                     "button",
@@ -1094,7 +1184,7 @@ var render = function() {
                                                         ) {
                                                           $event.preventDefault()
                                                           return _vm.showPawnRenew(
-                                                            pawn.pawn_no
+                                                            pawnUser.pawn_no
                                                           )
                                                         }
                                                       }
@@ -1107,11 +1197,11 @@ var render = function() {
                                                   ),
                                                   _vm._v(" "),
                                                   _c("pawn-detail", {
-                                                    attrs: { pawn: pawn }
+                                                    attrs: { pawn: pawnUser }
                                                   }),
                                                   _vm._v(" "),
                                                   _c("pawn-renew", {
-                                                    attrs: { pawn: pawn }
+                                                    attrs: { pawn: pawnUser }
                                                   })
                                                 ],
                                                 1
@@ -1139,6 +1229,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("h5", { staticClass: "display-4 mt-1 mb-2 font-weight-bold" }, [
+        _vm._v("\n            ต่ออายุดอกเบี้ย\n          ")
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -1190,6 +1290,13 @@ var render = function() {
           attrs: {
             id: "pawn-detail-modal-" + _vm.pawn.pawn_no,
             "no-close-on-backdrop": ""
+          },
+          model: {
+            value: _vm.showPawnDetail,
+            callback: function($$v) {
+              _vm.showPawnDetail = $$v
+            },
+            expression: "showPawnDetail"
           }
         },
         [
@@ -1212,17 +1319,17 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("ผู้จำนำ")]),
                 _vm._v(" "),
-                _vm.user[_vm.pawn.customer_id]
-                  ? _c("div", [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.user[_vm.pawn.customer_id][0].first_name) +
-                          "\n            " +
-                          _vm._s(_vm.user[_vm.pawn.customer_id][0].last_name) +
-                          "\n          "
-                      )
-                    ])
-                  : _vm._e()
+                _c("div", [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(
+                        _vm.pawn && _vm.pawn.full_name
+                          ? _vm.pawn.full_name
+                          : "ไม่ระบุ"
+                      ) +
+                      "\n          "
+                  )
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -1247,7 +1354,31 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("ประวัติการจำนำ")]),
                 _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.pawn_no))])
+                _c(
+                  "ul",
+                  { staticClass: "ul__no-bullets mb-0" },
+                  [
+                    _c("li", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.formatingDatetime(
+                            _vm.pawn.created_at,
+                            "DD MMM YYYY"
+                          )
+                        ) + " - จำนำสินค้า"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.payments, function(payment) {
+                      return [
+                        _c("li", { key: "payment_" + payment.id }, [
+                          _vm._v(_vm._s(payment.timeDescription))
+                        ])
+                      ]
+                    })
+                  ],
+                  2
+                )
               ])
             ]),
             _vm._v(" "),
@@ -1255,7 +1386,7 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("อัตราดอกเบี้ย")]),
                 _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate))])
+                _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate) + " %")])
               ])
             ]),
             _vm._v(" "),
@@ -1298,21 +1429,29 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "ft-s-16",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        return _vm.showPawnItems(_vm.pawn.pawn_no)
-                      }
-                    }
-                  },
-                  [_vm._v("แสดงรายการภายในบัตร")]
-                )
-              ])
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _vm.loadingPawnItems
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Fetching pawn items",
+                          variant: "primary"
+                        }
+                      })
+                    : _c(
+                        "b-button",
+                        {
+                          staticClass: "ft-s-16 pl-0",
+                          attrs: { variant: "link" },
+                          on: { click: _vm.showPawnItems }
+                        },
+                        [_vm._v("แสดงรายการภายในบัตร")]
+                      )
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
@@ -1325,11 +1464,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-secondary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.closePawnDetail(_vm.pawn.pawn_no)
-                    }
-                  }
+                  on: { click: _vm.closePawnDetail }
                 },
                 [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ปิดหน้าต่าง")])]
               ),
@@ -1339,11 +1474,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-primary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.showPawnRenew(_vm.pawn.pawn_no)
-                    }
-                  }
+                  on: { click: _vm.showPawnRenew }
                 },
                 [
                   _c("a", { staticClass: "ft-s-16" }, [
@@ -1362,7 +1493,8 @@ var render = function() {
         {
           attrs: {
             id: "pawn-list-item-modal-" + _vm.pawn.pawn_no,
-            "no-close-on-backdrop": ""
+            "no-close-on-backdrop": "",
+            "no-fade": ""
           }
         },
         [
@@ -1404,15 +1536,16 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "tbody",
-                      _vm._l(_vm.pawnItemsByPawnID[_vm.pawn.id], function(
-                        pawnItem,
-                        index
-                      ) {
+                      _vm._l(_vm.pawnItems, function(pawnItem, index) {
                         return _c("tr", { key: "pawn-item-" + index }, [
                           _c("th", { attrs: { scope: "row" } }, [
                             _vm._v(
                               "\n                  " +
-                                _vm._s(pawnItem.item_category) +
+                                _vm._s(
+                                  pawnItem.item_category
+                                    ? pawnItem.item_category.item_category
+                                    : "ไม่ระบุ"
+                                ) +
                                 "\n                "
                             )
                           ]),
@@ -1430,7 +1563,11 @@ var render = function() {
                           _c("td", [
                             _vm._v(
                               "\n                  " +
-                                _vm._s(pawnItem.item_damage) +
+                                _vm._s(
+                                  pawnItem.item_damage
+                                    ? pawnItem.item_damage.item_damage
+                                    : "ไม่ระบุ"
+                                ) +
                                 "\n                "
                             )
                           ])
@@ -1453,11 +1590,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-primary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.closePawnItems(_vm.pawn.pawn_no)
-                    }
-                  }
+                  on: { click: _vm.closePawnItems }
                 },
                 [
                   _c("a", { staticClass: "ft-s-16" }, [
@@ -1516,26 +1649,27 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [
-                  _vm._v("เลือกเดือนที่ต่ออายุ")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card card-box mt-2 mb-5" }, [
-                  _c("div", { staticClass: "card-header bg-light" }, [
-                    _c("div", { staticClass: "card-header--title" }, [
-                      _c("b", [_vm._v("Datepicker")])
-                    ])
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("เลือกเดือนที่ต่ออายุ")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", {
-                      staticClass: "datepicker-wrapper-flush",
-                      attrs: { "data-toggle": "datepicker" }
-                    })
-                  ])
-                ])
-              ])
+                  _c("datepicker", {
+                    attrs: {
+                      inline: true,
+                      "bootstrap-styling": true,
+                      "wrapper-class": "datepicker-wrapper-flush",
+                      "calendar-class": "datepicker datepicker-inline",
+                      "minimum-view": "month",
+                      "maximum-view": "month"
+                    }
+                  })
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
