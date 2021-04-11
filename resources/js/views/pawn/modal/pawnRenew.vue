@@ -13,6 +13,7 @@
               :bootstrap-styling="true"
               wrapper-class="datepicker-wrapper-flush"
               calendar-class="datepicker datepicker-inline"
+              :language="th"
               minimum-view="month"
               maximum-view="month"></datepicker>
           </div>
@@ -46,6 +47,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import { th } from 'vuejs-datepicker/dist/locale';
 import Pawn from "../../../models/Pawn";
 import { datetimeMixin, searchMixin } from "../../../mixins";
 
@@ -58,6 +60,12 @@ export default {
 
   components: {
     Datepicker
+  },
+
+  data() {
+    return {
+      th
+    }
   },
 
   methods: {

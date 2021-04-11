@@ -645,8 +645,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker/dist/locale */ "./node_modules/vuejs-datepicker/dist/locale/index.js");
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
 //
 //
 //
@@ -693,16 +695,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_2__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_2__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_3__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_3__["searchMixin"]],
   props: {
-    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_1__["default"]()
+    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"]()
   },
   components: {
     Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      th: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__["th"]
+    };
   },
   methods: {
     closePawnRenew: function closePawnRenew(id) {
@@ -1663,6 +1672,7 @@ var render = function() {
                       "bootstrap-styling": true,
                       "wrapper-class": "datepicker-wrapper-flush",
                       "calendar-class": "datepicker datepicker-inline",
+                      language: _vm.th,
                       "minimum-view": "month",
                       "maximum-view": "month"
                     }
