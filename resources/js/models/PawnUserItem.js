@@ -14,7 +14,9 @@ export default class PawnUserItem extends Pawn {
         return {
             ...Pawn.fields(),
             full_name: this.attr(""),
-            identity_card_id: this.attr(null)
+            identity_card_id: this.attr(null),
+            count_items: this.number(0),
+            total_items_value: this.number(0),
         };
     }
 

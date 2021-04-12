@@ -107,4 +107,7 @@ class DBCol
     const NEXT_PAID_AT = 'next_paid_at';
     const TIME_START_AT = 'time_start_at';
     const TIME_END_AT = 'time_end_at';
+
+    const COUNT_ITEMS = 'count_items';
+    const TOTAL_ITEMS_VALUE = 'total_items_value';
 }

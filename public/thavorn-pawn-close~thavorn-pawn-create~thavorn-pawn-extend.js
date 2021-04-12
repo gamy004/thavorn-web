@@ -495,7 +495,7 @@ var searchMixin = {
       });
     },
     pawnUsers: function pawnUsers() {
-      return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].all();
+      return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].query()["with"](['pawn_items']).all();
     },
     pawnItemsByPawnID: function pawnItemsByPawnID() {
       return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["groupBy"])(_models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().get(), function (pawn_item) {
@@ -611,71 +611,78 @@ var searchMixin = {
       _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAll();
     },
     searchPawnByCustomerData: function searchPawnByCustomerData() {
-      var _this = this;
+      var _arguments = arguments,
+          _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _ref, _ref$select, select, _ref$includes, includes, params;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _ref = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {}, _ref$select = _ref.select, select = _ref$select === void 0 ? ['pawns:id,full_name,identity_card_id,pawn_no,complete,created_at,updated_at,latest_paid_at,next_paid_at'] : _ref$select, _ref$includes = _ref.includes, includes = _ref$includes === void 0 ? [] : _ref$includes;
+
                 if (_this.searchInput) {
-                  _context.next = 2;
+                  _context.next = 3;
                   break;
                 }
 
                 return _context.abrupt("return");
 
-              case 2:
+              case 3:
                 _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].deleteAll();
                 _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAll();
-                _context.prev = 4;
+                _context.prev = 5;
                 _this.search = true;
-                _this.loading = true; // let { response } = await this.fetchPawnItems(this.searchInput, ["pawn_no", "first_name", "last_name", "identity_card_id"]);
-                // if (response && response.data && response.data.pawn_items) {
-                //     const { pawn_items } = response.data
-                //     this.items = groupBy(pawn_items, pawn_item => pawn_item.pawn_no);
-                // }
+                _this.loading = true;
+                params = {
+                  filters: [{
+                    key: 'complete',
+                    value: 0
+                  }],
+                  search: {
+                    keyword: _this.searchInput,
+                    fields: ['full_name', 'identity_card_id', 'pawn_no']
+                  },
+                  select: select
+                };
 
-                /*
-                    Search Pawn by Pawn ID, Name, Identity Card ID
-                */
+                if (includes.length) {
+                  _this.$set(params, 'includes', includes);
+                }
 
-                _context.next = 9;
+                _context.next = 12;
                 return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].api().get('/', {
-                  params: {
-                    filters: [{
-                      key: 'complete',
-                      value: 0
-                    }],
-                    search: {
-                      keyword: _this.searchInput,
-                      fields: ['full_name', 'identity_card_id', 'pawn_no']
-                    },
-                    select: ['pawns:id,full_name,identity_card_id,pawn_no,complete,created_at,updated_at,latest_paid_at,next_paid_at']
-                  }
+                  params: params
                 });
 
-              case 9:
-                _context.next = 14;
+              case 12:
+                _context.next = 17;
                 break;
-
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](4);
-                console.log(_context.t0);
 
               case 14:
                 _context.prev = 14;
-                _this.loading = false;
-                return _context.finish(14);
+                _context.t0 = _context["catch"](5);
+                console.log(_context.t0);
 
               case 17:
+                _context.prev = 17;
+                _this.loading = false;
+                return _context.finish(17);
+
+              case 20:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[4, 11, 14, 17]]);
+        }, _callee, null, [[5, 14, 17, 20]]);
       }))();
+    },
+    searchPawnByCustomerDataWithItems: function searchPawnByCustomerDataWithItems() {
+      return this.searchPawnByCustomerData({
+        select: ['pawns:id,full_name,identity_card_id,pawn_no,complete,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
+      });
     }
   }
 };
