@@ -1603,7 +1603,7 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_f
                 _this2.isSubmitting = true;
                 _context2.prev = 2;
                 _context2.next = 5;
-                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post("", {
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_7__["default"].api().post("/pawns", {
                   pawn: pawn
                 });
 

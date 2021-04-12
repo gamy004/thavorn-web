@@ -34,4 +34,10 @@ export const datetimeMixin = {
       }
     },
   },
+
+  methods: {
+    diffMonth(monthStart, monthEnd) {
+      return Math.ceil(moment(monthEnd).diff(moment(monthStart), 'months', true)) + 1;
+    }
+  }
 }

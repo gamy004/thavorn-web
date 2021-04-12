@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal v-model="showPawnDetail" :id="`pawn-detail-modal-${pawn.pawn_no}`" no-close-on-backdrop>
+    <b-modal v-model="show" :id="`pawn-detail-modal-${pawn.pawn_no}`" no-close-on-backdrop>
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>ข้อมูลการจำนำ</h4>
       </template>
@@ -95,7 +95,7 @@
     </b-modal>
 
     <!-- Modal แสดงรายการสินค้าภายในบัตร -->
-    <b-modal :id="`pawn-list-item-modal-${pawn.pawn_no}`" no-close-on-backdrop no-fade>
+    <b-modal v-model="showItems" :id="`pawn-list-item-modal-${pawn.pawn_no}`" no-close-on-backdrop no-fade>
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>รายการสินค้าในบัตร</h4>
       </template>
@@ -158,38 +158,58 @@ export default {
     pawn: {
       type: PawnUserItem
     },
+
+    show: {
+      type: Boolean,
+      default: () => false
+    }
   },
+
+  model: {
+    prop: 'show',
+    event: 'change'
+  },
+
 
   data() {
     return {
       loadingPawnItems: false,
-      showPawnDetail: false
+      showItems: false
     };
   },
 
   watch: {
-    showPawnDetail(v) {
-      if (v) {
-        this.fetch();
+    show: {
+      immediate: true,
+      handler(v) {
+        if (v) {
+          this.fetch();
+        }
       }
     }
   },
 
   methods: {
     showPawnRenew() {
-      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
-      this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
+      this.$emit('renew', this.pawn.pawn_no);
+      // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      // this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },
     async showPawnItems() {
-      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
-      this.$bvModal.show(`pawn-list-item-modal-${this.pawn.pawn_no}`);
+      // this.$emit('change', false);
+      this.showItems = true;
+      // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      // this.$bvModal.show(`pawn-list-item-modal-${this.pawn.pawn_no}`);
     },
     closePawnDetail() {
-      this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      this.$emit('change', false);
+      // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
     closePawnItems() {
-      this.$bvModal.hide(`pawn-list-item-modal-${this.pawn.pawn_no}`);
-      this.$bvModal.show(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      // this.$emit('change', true);
+      this.showItems = false;
+      // this.$bvModal.hide(`pawn-list-item-modal-${this.pawn.pawn_no}`);
+      // this.$bvModal.show(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
 
     async fetch() {
@@ -210,7 +230,7 @@ export default {
       return this.pawn && this.pawn.id
         ? PawnItem.query()
                   .where('pawn_id', this.pawn.id)
-                  .where('complete', 0)
+                  .where('complete', false)
                   .with(['item_damage', 'item_category'])
                   .get()
         : [];

@@ -174,9 +174,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins */ "./resources/js/mixins/index.js");
-/* harmony import */ var _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal/pawnDetail */ "./resources/js/views/pawn/modal/pawnDetail.vue");
-/* harmony import */ var _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal/pawnRenew */ "./resources/js/views/pawn/modal/pawnRenew.vue");
-/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal/pawnDetail */ "./resources/js/views/pawn/modal/pawnDetail.vue");
+/* harmony import */ var _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modal/pawnRenew */ "./resources/js/views/pawn/modal/pawnRenew.vue");
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -336,6 +343,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -343,20 +381,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
   components: {
-    PawnDetail: _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PawnRenew: _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_3__["default"]
+    PawnDetail: _modal_pawnDetail__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PawnRenew: _modal_pawnRenew__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      selectedDetailPawnNo: null,
+      selectedRenewPawnNo: null,
+      showDetail: false,
+      showRenew: false,
+      toastSuccess: false
+    };
+  },
+  watch: {
+    showDetail: function showDetail(v) {
+      if (!v) {
+        this.selectedDetailPawnNo = null;
+      }
+    },
+    showRenew: function showRenew(v) {
+      if (!v) {
+        this.selectedRenewPawnNo = null;
+      }
+    }
   },
   methods: {
     showPawnDetail: function showPawnDetail(id) {
-      this.$bvModal.show("pawn-detail-modal-".concat(id));
+      this.selectedDetailPawnNo = id;
+      this.showDetail = true; // this.$bvModal.show(`pawn-detail-modal-${id}`);
     },
     showPawnRenew: function showPawnRenew(id) {
-      this.$bvModal.hide("pawn-detail-modal-".concat(id));
-      this.$bvModal.show("pawn-renew-modal-".concat(id));
+      this.selectedRenewPawnNo = id;
+      this.showRenew = true; // this.$bvModal.hide(`pawn-detail-modal-${id}`);
+      // this.$bvModal.show(`pawn-renew-modal-${id}`);
+    },
+    onRenewed: function onRenewed(id) {
+      this.selectedRenewPawnNo = id;
+      this.showDetail = false;
+      this.showRenew = true;
+    },
+    onPawnRenewUpdated: function onPawnRenewUpdated(updatedPawn) {
+      this.toastSuccess = true;
+      _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_1__["default"].update({
+        where: updatedPawn.id,
+        data: _objectSpread({}, updatedPawn)
+      });
+      this.showRenew = false;
     }
   }
 });
@@ -540,25 +611,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     pawn: {
       type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"]
+    },
+    show: {
+      type: Boolean,
+      "default": function _default() {
+        return false;
+      }
     }
+  },
+  model: {
+    prop: 'show',
+    event: 'change'
   },
   data: function data() {
     return {
       loadingPawnItems: false,
-      showPawnDetail: false
+      showItems: false
     };
   },
   watch: {
-    showPawnDetail: function showPawnDetail(v) {
-      if (v) {
-        this.fetch();
+    show: {
+      immediate: true,
+      handler: function handler(v) {
+        if (v) {
+          this.fetch();
+        }
       }
     }
   },
   methods: {
     showPawnRenew: function showPawnRenew() {
-      this.$bvModal.hide("pawn-detail-modal-".concat(this.pawn.pawn_no));
-      this.$bvModal.show("pawn-renew-modal-".concat(this.pawn.pawn_no));
+      this.$emit('renew', this.pawn.pawn_no); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      // this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },
     showPawnItems: function showPawnItems() {
       var _this = this;
@@ -568,11 +652,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.$bvModal.hide("pawn-detail-modal-".concat(_this.pawn.pawn_no));
+                // this.$emit('change', false);
+                _this.showItems = true; // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+                // this.$bvModal.show(`pawn-list-item-modal-${this.pawn.pawn_no}`);
 
-                _this.$bvModal.show("pawn-list-item-modal-".concat(_this.pawn.pawn_no));
-
-              case 2:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -581,11 +665,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     closePawnDetail: function closePawnDetail() {
-      this.$bvModal.hide("pawn-detail-modal-".concat(this.pawn.pawn_no));
+      this.$emit('change', false); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
     closePawnItems: function closePawnItems() {
-      this.$bvModal.hide("pawn-list-item-modal-".concat(this.pawn.pawn_no));
-      this.$bvModal.show("pawn-detail-modal-".concat(this.pawn.pawn_no));
+      // this.$emit('change', true);
+      this.showItems = false; // this.$bvModal.hide(`pawn-list-item-modal-${this.pawn.pawn_no}`);
+      // this.$bvModal.show(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
     fetch: function fetch() {
       var _this2 = this;
@@ -625,7 +710,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     pawnItems: function pawnItems() {
-      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where('pawn_id', this.pawn.id).where('complete', 0)["with"](['item_damage', 'item_category']).get() : [];
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where('pawn_id', this.pawn.id).where('complete', false)["with"](['item_damage', 'item_category']).get() : [];
     },
     payments: function payments() {
       return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_1__["default"].query().where('pawn_id', this.pawn.id).get() : [];
@@ -644,11 +729,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
-/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker/dist/locale */ "./node_modules/vuejs-datepicker/dist/locale/index.js");
-/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuejs-datepicker/dist/locale */ "./node_modules/vuejs-datepicker/dist/locale/index.js");
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -701,21 +830,202 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_3__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_3__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_4__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_4__["searchMixin"]],
   props: {
-    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"]()
+    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_3__["default"](),
+    show: {
+      type: Boolean,
+      "default": function _default() {
+        return false;
+      }
+    }
+  },
+  model: {
+    prop: 'show',
+    event: 'change'
   },
   components: {
-    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
-      th: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_1__["th"]
+      th: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__["th"],
+      submitting: false,
+      checkingPaidAmount: false,
+      toastSuccess: false,
+      selectedDate: {
+        start: this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null,
+        end: this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null
+      },
+      form: {
+        month_amount: null,
+        paid_amount: null
+      }
     };
   },
+  watch: {
+    'selectedDate.end': 'onSelectedEndDateChanged',
+    'monthAmount': {
+      immediate: true,
+      handler: 'onMonthAmountChanged'
+    }
+  },
+  computed: {
+    disabledDateTo: function disabledDateTo() {
+      return this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null;
+    },
+    disabledDateFrom: function disabledDateFrom() {
+      var from = this.pawn ? new Date(this.pawn.latest_paid_at ? this.pawn.latest_paid_at : this.pawn.created_at) : null;
+      return from;
+    },
+    disabledDateStart: function disabledDateStart() {
+      if (!this.pawn) return {};
+      return {
+        to: this.disabledDateTo,
+        from: this.disabledDateFrom
+      };
+    },
+    disabledDateEnd: function disabledDateEnd() {
+      if (!this.pawn) return {};
+      var to = this.disabledDateTo;
+
+      if (this.selectedDate && this.selectedDate.start) {
+        to = this.selectedDate.start;
+      }
+
+      return {
+        to: to
+      };
+    },
+    selectedMonthDescription: function selectedMonthDescription() {
+      var monthStart = this.formatingDatetime(this.selectedDate.start, "MMM YYYY");
+      var monthEnd = this.formatingDatetime(this.selectedDate.end, "MMM YYYY");
+      var description = monthStart;
+
+      if (monthStart !== monthEnd) {
+        description += " - ".concat(monthEnd);
+      }
+
+      return description;
+    },
+    monthAmount: function monthAmount() {
+      return this.diffMonth(this.selectedDate.start, this.selectedDate.end);
+    }
+  },
   methods: {
-    closePawnRenew: function closePawnRenew(id) {
-      this.$bvModal.hide("pawn-renew-modal-".concat(id));
+    closePawnRenew: function closePawnRenew() {
+      this.$emit('change', false);
+    },
+    onSelectedEndDateChanged: function onSelectedEndDateChanged(selectedEndDate) {
+      var selectedStartDate = this.selectedDate.start;
+
+      if (selectedEndDate) {
+        var selectedStartDateDay = selectedStartDate.getDate();
+        var selectedEndDateDay = selectedEndDate.getDate();
+
+        if (selectedStartDateDay !== selectedEndDateDay) {
+          selectedEndDate.setDate(selectedStartDateDay);
+          this.$set(this.selectedDate, 'end', selectedEndDate);
+        }
+      }
+    },
+    onMonthAmountChanged: function onMonthAmountChanged(monthAmount) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var paidAmount;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (_this.pawn) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                _this.$set(_this.form, 'month_amount', monthAmount);
+
+                _this.checkingPaidAmount = true;
+                _context.prev = 4;
+                _context.next = 7;
+                return _models_Pawn__WEBPACK_IMPORTED_MODULE_3__["default"].api().getPaidAmount(_this.pawn.id, _this.form.month_amount);
+
+              case 7:
+                paidAmount = _context.sent;
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](4);
+                console.error(_context.t0);
+
+              case 13:
+                _context.prev = 13;
+                setTimeout(function () {
+                  _this.checkingPaidAmount = false;
+                }, 500);
+                return _context.finish(13);
+
+              case 16:
+                if (paidAmount) {
+                  _this.$set(_this.form, 'paid_amount', paidAmount);
+                }
+
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[4, 10, 13, 16]]);
+      }))();
+    },
+    submit: function submit() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.submitting = true;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return _models_Pawn__WEBPACK_IMPORTED_MODULE_3__["default"].api().extend(_this2.pawn.id, _this2.form.month_amount, _this2.form.paid_amount);
+
+              case 4:
+                res = _context2.sent;
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](1);
+                console.error(_context2.t0);
+
+              case 10:
+                _context2.prev = 10;
+                setTimeout(function () {
+                  _this2.submitting = false;
+                }, 500);
+                return _context2.finish(10);
+
+              case 13:
+                setTimeout(function () {
+                  _this2.$emit('update:pawn', res);
+                }, 500);
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 7, 10, 13]]);
+      }))();
     }
   }
 });
@@ -921,321 +1231,402 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "page-title page-title--alt" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-xl-7 d-block d-xl-flex align-items-center" },
-          [
-            _c("div", { staticClass: "pr-0 pr-xl-4 mb-4 mb-xl-0" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "d-70 mx-auto rounded font-size-xxl bg-white text-center shadow-sm"
-                },
-                [
-                  _c("font-awesome-icon", {
-                    staticClass: "text-primary mt-1",
-                    attrs: { icon: "clock" }
-                  })
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-lg-12" }, [
-          _c("div", { staticClass: "card card-box" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("form", [
-                _vm._m(2),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-sm-10" },
-                    [
-                      _c("b-form-input", {
-                        attrs: {
-                          name: "inputCustomerInfoExtend",
-                          type: "text",
-                          id: "inputCustomerInfoExtend",
-                          placeholder:
-                            "ระบุชื่อ, นามสกุล, เลขบัตรประจำตัวประชาชน หรือเลขบัตรจำนำ",
-                          disabled: _vm.loading
-                        },
-                        model: {
-                          value: _vm.searchInput,
-                          callback: function($$v) {
-                            _vm.searchInput = $$v
-                          },
-                          expression: "searchInput"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "page-title page-title--alt" }, [
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-xl-7 d-block d-xl-flex align-items-center" },
+            [
+              _c("div", { staticClass: "pr-0 pr-xl-4 mb-4 mb-xl-0" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "d-70 mx-auto rounded font-size-xxl bg-white text-center shadow-sm"
+                  },
+                  [
+                    _c("font-awesome-icon", {
+                      staticClass: "text-primary mt-1",
+                      attrs: { icon: "clock" }
+                    })
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-12" }, [
+            _c("div", { staticClass: "card card-box" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("form", [
+                  _vm._m(2),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-2" }, [
+                  _c("div", { staticClass: "form-row" }, [
                     _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary btn-md",
-                        attrs: { disabled: _vm.loading },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.searchPawnByCustomerData($event)
-                          }
-                        }
-                      },
+                      "div",
+                      { staticClass: "col-sm-10" },
                       [
-                        _vm._v(
-                          "\n                    ค้นหา\n                  "
-                        )
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row mt-5" }, [
-                  _c("div", { staticClass: "col-xl-12 d-block" }, [
-                    !_vm.search
-                      ? _c(
-                          "h4",
-                          {
-                            staticClass: "text-black-50",
-                            staticStyle: { "text-align": "center" }
+                        _c("b-form-input", {
+                          attrs: {
+                            name: "inputCustomerInfoExtend",
+                            type: "text",
+                            id: "inputCustomerInfoExtend",
+                            placeholder:
+                              "ระบุชื่อ, นามสกุล, เลขบัตรประจำตัวประชาชน หรือเลขบัตรจำนำ",
+                            disabled: _vm.loading
                           },
-                          [
-                            _vm._v(
-                              "\n                    กรุณากรอกข้อมูลเพื่อทำการค้นหา\n                  "
-                            )
-                          ]
-                        )
-                      : _c(
-                          "div",
-                          [
-                            _vm.loading
-                              ? _c("b-spinner", {
-                                  attrs: {
-                                    label: "Fetching pawn",
-                                    variant: "primary"
-                                  }
-                                })
-                              : !_vm.loading &&
-                                _vm.pawnUsers &&
-                                _vm.pawnUsers.length == 0
-                              ? _c(
-                                  "h4",
-                                  {
-                                    staticClass: "text-black-50",
-                                    staticStyle: { "text-align": "center" }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                      ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง\n                    "
-                                    )
-                                  ]
-                                )
-                              : !_vm.loading &&
-                                _vm.pawnUsers &&
-                                _vm.pawnUsers.length > 0
-                              ? _c("div", [
-                                  _c("span", [_vm._v("ผลการค้นหา")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "table",
+                          model: {
+                            value: _vm.searchInput,
+                            callback: function($$v) {
+                              _vm.searchInput = $$v
+                            },
+                            expression: "searchInput"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-2" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-md",
+                          attrs: { disabled: _vm.loading },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.searchPawnByCustomerData($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    ค้นหา\n                  "
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-5" }, [
+                    _c("div", { staticClass: "col-xl-12 d-block" }, [
+                      !_vm.search
+                        ? _c(
+                            "h4",
+                            {
+                              staticClass: "text-black-50",
+                              staticStyle: { "text-align": "center" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                    กรุณากรอกข้อมูลเพื่อทำการค้นหา\n                  "
+                              )
+                            ]
+                          )
+                        : _c(
+                            "div",
+                            [
+                              _vm.loading
+                                ? _c("b-spinner", {
+                                    attrs: {
+                                      label: "Fetching pawn",
+                                      variant: "primary"
+                                    }
+                                  })
+                                : !_vm.loading &&
+                                  _vm.pawnUsers &&
+                                  _vm.pawnUsers.length == 0
+                                ? _c(
+                                    "h4",
                                     {
-                                      staticClass:
-                                        "table table-hover table-striped table-bordered mt-3 mb-5"
+                                      staticClass: "text-black-50",
+                                      staticStyle: { "text-align": "center" }
                                     },
                                     [
-                                      _c(
-                                        "thead",
-                                        { staticClass: "thead-light" },
-                                        [
-                                          _c("tr", [
-                                            _c(
-                                              "th",
-                                              { attrs: { scope: "col" } },
-                                              [_vm._v("เลขที่บัตรจำนำ")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "th",
-                                              { attrs: { scope: "col" } },
-                                              [_vm._v("วันที่มาจำนำ")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "th",
-                                              { attrs: { scope: "col" } },
-                                              [_vm._v("วันที่ครบกำหนดดอกเบี้ย")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "th",
-                                              { attrs: { scope: "col" } },
-                                              [_vm._v("วันที่อัพเดทล่าสุด")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "th",
-                                              { attrs: { scope: "col" } },
-                                              [_vm._v("การกระทำ")]
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "tbody",
-                                        _vm._l(_vm.pawnUsers, function(
-                                          pawnUser,
-                                          index
-                                        ) {
-                                          return _c(
-                                            "tr",
-                                            { key: "pawnUser-" + index },
-                                            [
+                                      _vm._v(
+                                        "\n                      ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง\n                    "
+                                      )
+                                    ]
+                                  )
+                                : !_vm.loading &&
+                                  _vm.pawnUsers &&
+                                  _vm.pawnUsers.length > 0
+                                ? _c("div", [
+                                    _c("span", [_vm._v("ผลการค้นหา")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "table",
+                                      {
+                                        staticClass:
+                                          "table table-hover table-striped table-bordered mt-3 mb-5"
+                                      },
+                                      [
+                                        _c(
+                                          "thead",
+                                          { staticClass: "thead-light" },
+                                          [
+                                            _c("tr", [
                                               _c(
                                                 "th",
-                                                { attrs: { scope: "row" } },
+                                                { attrs: { scope: "col" } },
+                                                [_vm._v("เลขที่บัตรจำนำ")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                { attrs: { scope: "col" } },
+                                                [_vm._v("วันที่มาจำนำ")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                { attrs: { scope: "col" } },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(pawnUser.pawn_no)
+                                                    "วันที่ครบกำหนดดอกเบี้ย"
                                                   )
                                                 ]
                                               ),
                                               _vm._v(" "),
-                                              _c("td", [
-                                                _vm._v(
-                                                  "\n                              " +
-                                                    _vm._s(
-                                                      _vm.formatingDatetime(
-                                                        pawnUser.created_at,
-                                                        "DD MMM YYYY"
-                                                      )
-                                                    ) +
-                                                    "\n                            "
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _vm._v(
-                                                  "\n                              " +
-                                                    _vm._s(
-                                                      _vm.formatingDatetime(
-                                                        pawnUser.next_paid_at,
-                                                        "DD MMM YYYY"
-                                                      )
-                                                    ) +
-                                                    "\n                            "
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _vm._v(
-                                                  "\n                              " +
-                                                    _vm._s(
-                                                      _vm.formatingDatetime(
-                                                        pawnUser.updated_at,
-                                                        "DD MMM YYYY"
-                                                      )
-                                                    ) +
-                                                    "\n                            "
-                                                )
-                                              ]),
+                                              _c(
+                                                "th",
+                                                { attrs: { scope: "col" } },
+                                                [_vm._v("วันที่อัพเดทล่าสุด")]
+                                              ),
                                               _vm._v(" "),
                                               _c(
-                                                "td",
-                                                [
-                                                  _c("small", [
+                                                "th",
+                                                { attrs: { scope: "col" } },
+                                                [_vm._v("การกระทำ")]
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tbody",
+                                          _vm._l(_vm.pawnUsers, function(
+                                            pawnUser,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "tr",
+                                              { key: "pawnUser-" + index },
+                                              [
+                                                _c(
+                                                  "th",
+                                                  { attrs: { scope: "row" } },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(pawnUser.pawn_no)
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _vm._v(
+                                                    "\n                              " +
+                                                      _vm._s(
+                                                        _vm.formatingDatetime(
+                                                          pawnUser.created_at,
+                                                          "DD MMM YYYY"
+                                                        )
+                                                      ) +
+                                                      "\n                            "
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _vm._v(
+                                                    "\n                              " +
+                                                      _vm._s(
+                                                        _vm.formatingDatetime(
+                                                          pawnUser.next_paid_at,
+                                                          "DD MMM YYYY"
+                                                        )
+                                                      ) +
+                                                      "\n                            "
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _vm._v(
+                                                    "\n                              " +
+                                                      _vm._s(
+                                                        _vm.formatingDatetime(
+                                                          pawnUser.updated_at,
+                                                          "DD MMM YYYY"
+                                                        )
+                                                      ) +
+                                                      "\n                            "
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  [
                                                     _c(
-                                                      "a",
+                                                      "small",
                                                       {
-                                                        attrs: { href: "#" },
+                                                        staticClass: "my-2 mr-2"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "a",
+                                                          {
+                                                            attrs: {
+                                                              href: "#"
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                $event.stopPropagation()
+                                                                return _vm.showPawnDetail(
+                                                                  pawnUser.pawn_no
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "ดูรายละเอียด"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-primary btn-sm my-2",
                                                         on: {
                                                           click: function(
                                                             $event
                                                           ) {
                                                             $event.preventDefault()
-                                                            return _vm.showPawnDetail(
+                                                            $event.stopPropagation()
+                                                            return _vm.showPawnRenew(
                                                               pawnUser.pawn_no
                                                             )
                                                           }
                                                         }
                                                       },
-                                                      [_vm._v("ดูรายละเอียด")]
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-primary btn-sm ml-3",
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          $event.preventDefault()
-                                                          return _vm.showPawnRenew(
-                                                            pawnUser.pawn_no
-                                                          )
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                ต่ออายุ\n                              "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("pawn-detail", {
-                                                    attrs: { pawn: pawnUser }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("pawn-renew", {
-                                                    attrs: { pawn: pawnUser }
-                                                  })
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          )
-                                        }),
-                                        0
-                                      )
-                                    ]
-                                  )
-                                ])
-                              : _vm._e()
-                          ],
-                          1
-                        )
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                ต่ออายุ\n                              "
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm.selectedDetailPawnNo ===
+                                                    pawnUser.pawn_no
+                                                      ? _c("pawn-detail", {
+                                                          attrs: {
+                                                            pawn: pawnUser
+                                                          },
+                                                          on: {
+                                                            renew: _vm.onRenewed
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.showDetail,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.showDetail = $$v
+                                                            },
+                                                            expression:
+                                                              "showDetail"
+                                                          }
+                                                        })
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    _vm.selectedRenewPawnNo ===
+                                                    pawnUser.pawn_no
+                                                      ? _c("pawn-renew", {
+                                                          attrs: {
+                                                            pawn: pawnUser
+                                                          },
+                                                          on: {
+                                                            "update:pawn":
+                                                              _vm.onPawnRenewUpdated
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.showRenew,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.showRenew = $$v
+                                                            },
+                                                            expression:
+                                                              "showRenew"
+                                                          }
+                                                        })
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          0
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                    ])
                   ])
                 ])
               ])
             ])
           ])
         ])
-      ])
-    ])
-  ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "pawn-extend-toast-success",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastSuccess,
+            callback: function($$v) {
+              _vm.toastSuccess = $$v
+            },
+            expression: "toastSuccess"
+          }
+        },
+        [_vm._v("\n    ต่ออายุดอกเบี้ยสำเร็จเรียบร้อย\n  ")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -1301,11 +1692,11 @@ var render = function() {
             "no-close-on-backdrop": ""
           },
           model: {
-            value: _vm.showPawnDetail,
+            value: _vm.show,
             callback: function($$v) {
-              _vm.showPawnDetail = $$v
+              _vm.show = $$v
             },
-            expression: "showPawnDetail"
+            expression: "show"
           }
         },
         [
@@ -1504,6 +1895,13 @@ var render = function() {
             id: "pawn-list-item-modal-" + _vm.pawn.pawn_no,
             "no-close-on-backdrop": "",
             "no-fade": ""
+          },
+          model: {
+            value: _vm.showItems,
+            callback: function($$v) {
+              _vm.showItems = $$v
+            },
+            expression: "showItems"
           }
         },
         [
@@ -1646,7 +2044,15 @@ var render = function() {
         {
           attrs: {
             id: "pawn-renew-modal-" + _vm.pawn.pawn_no,
+            size: "lg",
             "no-close-on-backdrop": ""
+          },
+          model: {
+            value: _vm.show,
+            callback: function($$v) {
+              _vm.show = $$v
+            },
+            expression: "show"
           }
         },
         [
@@ -1658,42 +2064,128 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "row mb-4" }, [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _c("b", { staticClass: "ft-s-16" }, [
-                    _vm._v("เลือกเดือนที่ต่ออายุ")
-                  ]),
+              _c("div", { staticClass: "col-12" }, [
+                _c("b", { staticClass: "ft-s-16" }, [
+                  _vm._v("เลือกเดือนที่ต่ออายุดอกเบี้ย")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-lg-6 my-2" },
+                    [
+                      _c(
+                        "label",
+                        { attrs: { for: "date-picker-extend-from" } },
+                        [_vm._v("เดือนที่เริ่ม")]
+                      ),
+                      _vm._v(" "),
+                      _c("datepicker", {
+                        attrs: {
+                          id: "date-picker-extend-from",
+                          inline: true,
+                          "bootstrap-styling": true,
+                          "wrapper-class": "datepicker-wrapper-flush w-100",
+                          "calendar-class": "datepicker datepicker-inline",
+                          language: _vm.th,
+                          "minimum-view": "month",
+                          "maximum-view": "month",
+                          disabledDates: _vm.disabledDateStart
+                        },
+                        model: {
+                          value: _vm.selectedDate.start,
+                          callback: function($$v) {
+                            _vm.$set(_vm.selectedDate, "start", $$v)
+                          },
+                          expression: "selectedDate.start"
+                        }
+                      })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("datepicker", {
-                    attrs: {
-                      inline: true,
-                      "bootstrap-styling": true,
-                      "wrapper-class": "datepicker-wrapper-flush",
-                      "calendar-class": "datepicker datepicker-inline",
-                      language: _vm.th,
-                      "minimum-view": "month",
-                      "maximum-view": "month"
-                    }
-                  })
-                ],
-                1
-              )
+                  _c(
+                    "div",
+                    { staticClass: "col-lg-6 my-2" },
+                    [
+                      _c(
+                        "label",
+                        { attrs: { for: "date-picker-extend-from" } },
+                        [_vm._v("เดือนที่สิ้นสุด")]
+                      ),
+                      _vm._v(" "),
+                      _c("datepicker", {
+                        attrs: {
+                          inline: true,
+                          "bootstrap-styling": true,
+                          "wrapper-class": "datepicker-wrapper-flush w-100",
+                          "calendar-class": "datepicker datepicker-inline",
+                          language: _vm.th,
+                          "minimum-view": "month",
+                          "maximum-view": "month",
+                          disabledDates: _vm.disabledDateEnd
+                        },
+                        model: {
+                          value: _vm.selectedDate.end,
+                          callback: function($$v) {
+                            _vm.$set(_vm.selectedDate, "end", $$v)
+                          },
+                          expression: "selectedDate.end"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [
                   _vm._v("สรุปเดือนที่ต่ออายุดอกเบี้ย")
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _vm._v(
+                    _vm._s(_vm.selectedMonthDescription) +
+                      " " +
+                      _vm._s(
+                        _vm.form.month_amount
+                          ? "(" + _vm.form.month_amount + " เดือน)"
+                          : "ไม่สามารถระบุได้"
+                      )
+                  )
                 ])
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("h2", [_vm._v("รวมยอดชำระ(บาท)")])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _c("h2", [_vm._v("รวมยอดชำระ(บาท)")]),
+                  _vm._v(" "),
+                  _vm.checkingPaidAmount
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Checking paid amount",
+                          variant: "primary"
+                        }
+                      })
+                    : _c("h5", [
+                        _vm._v(
+                          _vm._s(
+                            _vm.form.paid_amount
+                              ? _vm.form.paid_amount + " บาท"
+                              : "ไม่สามารถระบุได้"
+                          )
+                        )
+                      ])
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
@@ -1706,19 +2198,40 @@ var render = function() {
                 {
                   staticClass: "btn btn-secondary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.closePawnRenew(_vm.pawn.pawn_no)
-                    }
-                  }
+                  on: { click: _vm.closePawnRenew }
                 },
-                [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ปิดหน้าต่าง")])]
+                [
+                  _c("span", { staticClass: "ft-s-16" }, [
+                    _vm._v("ปิดหน้าต่าง")
+                  ])
+                ]
               ),
               _vm._v(" "),
               _c(
                 "button",
-                { staticClass: "btn btn-success", attrs: { type: "button" } },
-                [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ต่ออายุ")])]
+                {
+                  staticClass: "btn btn-success",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _vm.submitting
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Submitting extend",
+                          variant: "primary"
+                        }
+                      })
+                    : _c("span", { staticClass: "ft-s-16" }, [
+                        _vm._v("ต่ออายุ")
+                      ])
+                ],
+                1
               )
             ]
           )

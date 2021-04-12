@@ -226,7 +226,7 @@ export default {
       this.isSubmitting = true;
 
       try {
-        await Pawn.api().post("", {
+        await Pawn.api().post("/pawns", {
           pawn,
         });
 

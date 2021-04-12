@@ -39,9 +39,58 @@ export default class Pawn extends Model {
     }
 
     static get apiConfig() {
+        const model = this;
+
         return {
             dataKey: "pawns",
             baseURL: "/api",
+            actions: {
+                async getPaidAmount(id, month_amount) {
+                    let res;
+
+                    try {
+                        res = await this.get(
+                        `pawns/${id}/paid-amount`,
+                            {
+                                params: { month_amount },
+                                save: false
+                            }
+                        );
+                    } catch (error) {
+                        throw error;
+                    }
+
+                    const { response } = res;
+
+                    if (response && response.data && response.data.paid_amount) {
+                        return response.data.paid_amount;
+                    }
+                },
+
+                async extend(id, month_amount, amount) {
+                    let res;
+
+                    try {
+                        res = await this.post(
+                        `pawns/${id}/pay`,
+                            { month_amount, amount }
+                        );
+                    } catch (error) {
+                        throw error;
+                    }
+
+                    const { response } = res;
+
+                    if (response && response.data) {
+                        model.update({
+                            where: id,
+                            data: response.data
+                        })
+
+                        return response.data;
+                    }
+                }
+            }
         };
     }
 }

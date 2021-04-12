@@ -70,13 +70,19 @@
                         variant="primary"
                       ></b-spinner>
                       <h4
-                        v-else-if="!loading && pawnUsers && pawnUsers.length == 0"
+                        v-else-if="
+                          !loading && pawnUsers && pawnUsers.length == 0
+                        "
                         style="text-align: center"
                         class="text-black-50"
                       >
                         ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง
                       </h4>
-                      <div v-else-if="!loading && pawnUsers && pawnUsers.length > 0">
+                      <div
+                        v-else-if="
+                          !loading && pawnUsers && pawnUsers.length > 0
+                        "
+                      >
                         <span>ผลการค้นหา</span>
                         <table
                           class="table table-hover table-striped table-bordered mt-3 mb-5"
@@ -121,25 +127,39 @@
                                 }}
                               </td>
                               <td>
-                                <small>
+                                <small class="my-2 mr-2">
                                   <a
                                     href="#"
-                                    @click.prevent="showPawnDetail(pawnUser.pawn_no)"
+                                    @click.prevent.stop="
+                                      showPawnDetail(pawnUser.pawn_no)
+                                    "
                                     >ดูรายละเอียด</a
                                   >
                                 </small>
                                 <button
-                                  @click.prevent="showPawnRenew(pawnUser.pawn_no)"
-                                  class="btn btn-primary btn-sm ml-3"
+                                  @click.prevent.stop="
+                                    showPawnRenew(pawnUser.pawn_no)
+                                  "
+                                  class="btn btn-primary btn-sm my-2"
                                 >
                                   ต่ออายุ
                                 </button>
 
                                 <!-- Modal ดูรายละเอียดข้อมูลการจำนำ -->
-                                <pawn-detail :pawn="pawnUser"></pawn-detail>
+                                <pawn-detail
+                                  v-if="selectedDetailPawnNo === pawnUser.pawn_no"
+                                  @renew="onRenewed"
+                                  :pawn="pawnUser"
+                                  v-model="showDetail"
+                                ></pawn-detail>
 
                                 <!-- Modal การต่ออายุดอกเบี้ย -->
-                                <pawn-renew :pawn="pawnUser"></pawn-renew>
+                                <pawn-renew
+                                  v-if="selectedRenewPawnNo === pawnUser.pawn_no"
+                                  :pawn="pawnUser"
+                                  @update:pawn="onPawnRenewUpdated"
+                                  v-model="showRenew"
+                                ></pawn-renew>
                               </td>
                             </tr>
                           </tbody>
@@ -154,11 +174,22 @@
         </div>
       </div>
     </div>
+
+    <b-toast
+      id="pawn-extend-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastSuccess"
+    >
+      ต่ออายุดอกเบี้ยสำเร็จเรียบร้อย
+    </b-toast>
   </div>
 </template>
 
 <script>
 import { datetimeMixin, searchMixin } from "../../mixins";
+import PawnUserItem from "../../models/PawnUserItem";
 import PawnDetail from "./modal/pawnDetail";
 import PawnRenew from "./modal/pawnRenew";
 import Datepicker from "vuejs-datepicker";
@@ -173,17 +204,58 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      selectedDetailPawnNo: null,
+      selectedRenewPawnNo: null,
+      showDetail: false,
+      showRenew: false,
+      toastSuccess: false
+    };
+  },
+
+  watch: {
+    showDetail(v) {
+      if (!v) {
+        this.selectedDetailPawnNo = null;
+      }
+    },
+
+    showRenew(v) {
+      if (!v) {
+        this.selectedRenewPawnNo = null;
+      }
+    }
   },
 
   methods: {
     showPawnDetail(id) {
-      this.$bvModal.show(`pawn-detail-modal-${id}`);
+      this.selectedDetailPawnNo = id;
+      this.showDetail = true;
+      // this.$bvModal.show(`pawn-detail-modal-${id}`);
     },
     showPawnRenew(id) {
-      this.$bvModal.hide(`pawn-detail-modal-${id}`);
-      this.$bvModal.show(`pawn-renew-modal-${id}`);
+      this.selectedRenewPawnNo = id;
+      this.showRenew = true;
+      // this.$bvModal.hide(`pawn-detail-modal-${id}`);
+      // this.$bvModal.show(`pawn-renew-modal-${id}`);
     },
+
+    onRenewed(id) {
+      this.selectedRenewPawnNo = id;
+      this.showDetail = false;
+      this.showRenew = true;
+    },
+
+    onPawnRenewUpdated(updatedPawn) {
+      this.toastSuccess = true;
+
+      PawnUserItem.update({
+        where: updatedPawn.id,
+        data: { ...updatedPawn }
+      });
+
+      this.showRenew = false;
+    }
   },
 };
 </script>
