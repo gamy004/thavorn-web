@@ -62,7 +62,7 @@
 
 <script>
 import { datetimeMixin, searchMixin } from "../../mixins";
-console.log(searchMixin.methods);
+
 export default {
   mixins: [datetimeMixin, searchMixin],
 

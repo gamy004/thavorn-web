@@ -73,7 +73,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-console.log(_mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
   props: {
@@ -788,8 +787,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -2244,7 +2241,7 @@ var render = function() {
                           "\n            " +
                             _vm._s(
                               _vm.form.paid_amount
-                                ? _vm.form.paid_amount + " บาท"
+                                ? "" + _vm.form.paid_amount
                                 : "ไม่สามารถระบุได้"
                             ) +
                             "\n          "

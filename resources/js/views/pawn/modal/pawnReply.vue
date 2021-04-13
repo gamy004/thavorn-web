@@ -33,6 +33,22 @@
         </div>
         <div class="row mb-4">
           <div class="col-12">
+            <b class="ft-s-16">ประวัติการจำนำ</b>
+            <ul class="ul__no-bullets mb-0">
+              <li>
+                {{ formatingDatetime(pawn.created_at, "DD MMM YYYY") }} -
+                จำนำสินค้า
+              </li>
+              <template v-for="payment in payments">
+                <li :key="`payment_${payment.id}`">
+                  {{ payment.timeDescription }}
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-12">
             <b class="ft-s-16">รายการสินค้าจำนำ</b>
             <b-spinner
               v-if="loadingPawnItems"
@@ -75,7 +91,7 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">อัตราดอกเบี้ย</b>
-            <div>{{ pawn.interest_rate }}</div>
+            <div>{{ pawn.interest_rate }} %</div>
           </div>
         </div>
         <div class="row mb-4">
@@ -99,7 +115,18 @@
           </div>
           <div class="col-6">
             <b class="ft-s-16">ดอกเบี้ย(บาท)</b>
-            <div>{{ pawn.pawn_no }}</div>
+            <b-spinner
+              v-if="loadingPawnItems"
+              label="Fetching pawn items"
+              variant="primary"
+            ></b-spinner>
+            <div v-else>
+              {{
+                form.interest_value
+                  ? `${form.interest_value}`
+                  : "ไม่สามารถระบุได้"
+              }}
+            </div>
           </div>
         </div>
         <div class="row mb-4">
@@ -111,7 +138,9 @@
               variant="primary"
             ></b-spinner>
             <h5 v-else>
-              {{ form.amount ? `${form.amount} บาท` : "ไม่สามารถระบุได้" }}
+              {{
+                form.close_amount ? `${form.close_amount}` : "ไม่สามารถระบุได้"
+              }}
             </h5>
           </div>
         </div>
@@ -156,6 +185,7 @@
 <script>
 import { datetimeMixin, searchMixin } from "../../../mixins";
 import Pawn from "../../../models/Pawn";
+import Payment from "../../../models/Payment";
 import PawnItem from "../../../models/PawnItem";
 import PawnUserItem from "../../../models/PawnUserItem";
 
@@ -167,7 +197,8 @@ export default {
       loadingPawnItems: false,
       status: true,
       form: {
-        amount: null,
+        close_amount: null,
+        interest_value: null,
       },
     };
   },
@@ -210,6 +241,12 @@ export default {
             .get()
         : [];
     },
+
+    payments() {
+      return this.pawn && this.pawn.id
+        ? Payment.query().where("pawn_id", this.pawn.id).get()
+        : [];
+    },
   },
 
   methods: {
@@ -220,19 +257,31 @@ export default {
 
     async fetch() {
       this.loadingPawnItems = true;
-      let pawnDetailPromise, closeAmount;
+      let pawnDetailPromise, closeAmountResponse;
 
       try {
         // pawnDetailPromise = this.fetchPawnDetailByPawnId(this.pawn.id);
         // closeAmount = Pawn.api().getCloseAmount(this.pawn.id);
 
-        [pawnDetailPromise, closeAmount] = await Promise.all([
+        [pawnDetailPromise, closeAmountResponse] = await Promise.all([
           this.fetchPawnDetailByPawnId(this.pawn.id),
           Pawn.api().getCloseAmount(this.pawn.id),
         ]);
 
-        if (closeAmount) {
-          this.$set(this.form, "amount", closeAmount);
+        if (closeAmountResponse && closeAmountResponse.close_amount) {
+          this.$set(
+            this.form,
+            "close_amount",
+            closeAmountResponse.close_amount
+          );
+        }
+
+        if (closeAmountResponse && closeAmountResponse.interest_value) {
+          this.$set(
+            this.form,
+            "interest_value",
+            closeAmountResponse.interest_value
+          );
         }
       } catch (error) {
         console.error(error);

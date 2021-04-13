@@ -66,4 +66,6 @@ class Data
      */
     const CLOSE_AMOUNT = 'close_amount';
     const PAID_AMOUNT = 'paid_amount';
+    const INTEREST_VALUE = 'interest_value';
+    const TOTAL_ITEMS_VALUE = 'total_items_value';
 }

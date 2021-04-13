@@ -32,7 +32,11 @@ class CloseAmount implements Rule
     {
         $this->checked_amount = $amount;
 
-        $this->paid_amount = $this->pawn->getClosePayment();
+        $close_payment = $this->pawn->getClosePayment();
+
+        if (isset($close_payment[Data::CLOSE_AMOUNT])) {
+            $this->paid_amount = $close_payment[Data::CLOSE_AMOUNT];
+        }
 
         return $this->checked_amount == $this->paid_amount;
     }

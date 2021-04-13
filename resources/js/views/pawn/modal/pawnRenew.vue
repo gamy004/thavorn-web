@@ -69,9 +69,7 @@
             ></b-spinner>
             <h5 v-else>
               {{
-                form.paid_amount
-                  ? `${form.paid_amount} บาท`
-                  : "ไม่สามารถระบุได้"
+                form.paid_amount ? `${form.paid_amount}` : "ไม่สามารถระบุได้"
               }}
             </h5>
           </div>

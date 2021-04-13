@@ -73,7 +73,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-console.log(_mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
   props: {
@@ -224,8 +223,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
 /* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
-/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _models_Payment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/Payment */ "./resources/js/models/Payment.js");
+/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
 
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -399,6 +399,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -410,7 +440,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loadingPawnItems: false,
       status: true,
       form: {
-        amount: null
+        close_amount: null,
+        interest_value: null
       }
     };
   },
@@ -420,9 +451,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       "default": false
     },
     pawn: {
-      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"],
+      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__["default"],
       "default": function _default() {
-        return new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"]();
+        return new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__["default"]();
       }
     }
   },
@@ -442,7 +473,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     pawnItems: function pawnItems() {
-      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_4__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
+    },
+    payments: function payments() {
+      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).get() : [];
     }
   },
   methods: {
@@ -454,7 +488,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var pawnDetailPromise, closeAmount, _yield$Promise$all, _yield$Promise$all2;
+        var pawnDetailPromise, closeAmountResponse, _yield$Promise$all, _yield$Promise$all2;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -469,31 +503,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _yield$Promise$all = _context.sent;
                 _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
                 pawnDetailPromise = _yield$Promise$all2[0];
-                closeAmount = _yield$Promise$all2[1];
+                closeAmountResponse = _yield$Promise$all2[1];
 
-                if (closeAmount) {
-                  _this.$set(_this.form, "amount", closeAmount);
+                if (closeAmountResponse && closeAmountResponse.close_amount) {
+                  _this.$set(_this.form, "close_amount", closeAmountResponse.close_amount);
                 }
 
-                _context.next = 14;
+                if (closeAmountResponse && closeAmountResponse.interest_value) {
+                  _this.$set(_this.form, "interest_value", closeAmountResponse.interest_value);
+                }
+
+                _context.next = 15;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](1);
                 console.error(_context.t0);
 
-              case 14:
-                _context.prev = 14;
+              case 15:
+                _context.prev = 15;
                 _this.loadingPawnItems = false;
-                return _context.finish(14);
+                return _context.finish(15);
 
-              case 17:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 11, 14, 17]]);
+        }, _callee, null, [[1, 12, 15, 18]]);
       }))();
     }
   }
@@ -926,6 +964,44 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
+              _c("div", { staticClass: "col-12" }, [
+                _c("b", { staticClass: "ft-s-16" }, [_vm._v("ประวัติการจำนำ")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "ul__no-bullets mb-0" },
+                  [
+                    _c("li", [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(
+                            _vm.formatingDatetime(
+                              _vm.pawn.created_at,
+                              "DD MMM YYYY"
+                            )
+                          ) +
+                          " -\n              จำนำสินค้า\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.payments, function(payment) {
+                      return [
+                        _c("li", { key: "payment_" + payment.id }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(payment.timeDescription) +
+                              "\n              "
+                          )
+                        ])
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mb-4" }, [
               _c(
                 "div",
                 { staticClass: "col-12" },
@@ -1014,7 +1090,7 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("b", { staticClass: "ft-s-16" }, [_vm._v("อัตราดอกเบี้ย")]),
                 _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate))])
+                _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate) + " %")])
               ])
             ]),
             _vm._v(" "),
@@ -1065,11 +1141,35 @@ var render = function() {
                 _c("div", [_vm._v(_vm._s(_vm.pawn.total_items_value))])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-6" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("ดอกเบี้ย(บาท)")]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.pawn_no))])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-6" },
+                [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("ดอกเบี้ย(บาท)")
+                  ]),
+                  _vm._v(" "),
+                  _vm.loadingPawnItems
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Fetching pawn items",
+                          variant: "primary"
+                        }
+                      })
+                    : _c("div", [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(
+                              _vm.form.interest_value
+                                ? "" + _vm.form.interest_value
+                                : "ไม่สามารถระบุได้"
+                            ) +
+                            "\n          "
+                        )
+                      ])
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
@@ -1090,8 +1190,8 @@ var render = function() {
                         _vm._v(
                           "\n            " +
                             _vm._s(
-                              _vm.form.amount
-                                ? _vm.form.amount + " บาท"
+                              _vm.form.close_amount
+                                ? "" + _vm.form.close_amount
                                 : "ไม่สามารถระบุได้"
                             ) +
                             "\n          "

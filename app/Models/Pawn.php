@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\IOCs\Data;
 use App\IOCs\DBCol;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -133,9 +134,24 @@ class Pawn extends Model
         return round($total_item_values * $this->interest_factor() * $num_month, 2);
     }
 
+    public function latestPayment()
+    {
+        return $this->payments()->orderBy('created_at', 'desc')->limit(1)->first();
+    }
+
     public function getPaidTime()
     {
-        $time = $this->{DBCol::NEXT_PAID_AT};
+        $time = null;
+
+        $latest_payment = $this->latestPayment();
+
+        // dd($latest_payment);
+
+        if (!is_null($latest_payment)) {
+            $time = $latest_payment->{DBCol::TIME_END_AT};
+        }
+
+        // dd($time);
 
         // If next paid at is null, use created_at as the latest datetime
         if (is_null($time)) {
@@ -146,19 +162,23 @@ class Pawn extends Model
     }
     
     public function getDueMonthDay()
-    {
-        // $time = $this->{DBCol::LATEST_PAID_AT};
-
-        // // If latest paid at is null, use created_at as the latest time
-        // if (is_null($time)) {
-        //     $time = $this->{DBCol::CREATED_AT};
-        // }
-        
+    {   
         $time = $this->getPaidTime();
+
         $latest = Carbon::make($time);
+
         $current = Carbon::now();
-        $diff_day = $current->diffInDays($time);
         
+        if ($current->lt($latest)) {
+            $latest_payment = $this->latestPayment();
+
+            if (!is_null($latest_payment)) {
+                $current = Carbon::make($latest_payment->{DBCol::TIME_END_AT});
+            }
+        }
+
+        $diff_day = $current->diffInDays($latest);
+        // dd($latest, $current, $diff_day);
         // set initial counter
         $next_month_latest = Carbon::make($time)->addMonth();
         $next_month_diff_day = $next_month_latest->diffInDays($latest);
@@ -183,14 +203,19 @@ class Pawn extends Model
         $over_due_month_interest = null;
         $due_month_day = $this->getDueMonthDay();
         $pawn_items_value = $this->computePawnItemsValue();
+        $count_payments = $this->payments()->count();
 
-        if ($due_month_day['due_month'] == 0 && $due_month_day['due_day'] == 0) {
+        if (
+            $due_month_day['due_month'] === 0 &&
+            $due_month_day['due_day'] === 0 &&
+            $count_payments === 0
+        ) {
             // Case: one day
             $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
         } else {
             $interest_value = $this->computePaidAmount($due_month_day['due_month']);
         }
-
+        
         // Case: least than one month
         if ($due_month_day['due_day'] > 0) {
             $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
@@ -207,7 +232,11 @@ class Pawn extends Model
         
         $close_payment_amount = $pawn_items_value + $interest_value;
         
-        return round($close_payment_amount, 2);
+        return [
+            Data::CLOSE_AMOUNT => round($close_payment_amount, 2),
+            Data::TOTAL_ITEMS_VALUE => round($pawn_items_value, 2),
+            Data::INTEREST_VALUE => round($interest_value, 2)
+        ];
     }
 
 

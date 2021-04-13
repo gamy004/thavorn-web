@@ -83,8 +83,8 @@ export default class Pawn extends Model {
 
                     const { response } = res;
 
-                    if (response && response.data && response.data.close_amount) {
-                        return response.data.close_amount;
+                    if (response && response.data) {
+                        return response.data;
                     }
                 },
 

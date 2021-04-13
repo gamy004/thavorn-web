@@ -102,9 +102,7 @@ class PawnApi extends BaseApi implements ApiInterface
     }
 
     public function getCloseAmount(Pawn $pawn, array $raw = []) {
-        return [
-            Data::CLOSE_AMOUNT => $pawn->getClosePayment()
-        ];
+        return $pawn->getClosePayment();
     }
 
     public function generateNumber() {
