@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
               <pawn-user-searcher :search-fn="searchFn">
-                <template v-slot:search-result="{ pawnUsers = [] }">
+                <template v-slot:search-result="{ pawnUserItems = [] }">
                   <table
                     class="table table-hover table-striped table-bordered mt-3 mb-5"
                   >
@@ -41,25 +41,29 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(pawnUser, index) in pawnUsers"
+                        v-for="(pawnUserItem, index) in pawnUserItems"
                         :key="`pawn-${index}`"
                       >
-                        <th scope="row">{{ pawnUser.pawn_no }}</th>
-                        <td>{{ pawnUser.count_items }}</td>
+                        <th scope="row">{{ pawnUserItem.pawn_no }}</th>
+                        <td>{{ pawnUserItem.count_items }}</td>
                         <td>
-                          {{ pawnUser.total_items_value }}
+                          {{ pawnUserItem.total_items_value }}
                         </td>
-                        <td>{{ pawnUser.interest_rate }}</td>
+                        <td>{{ pawnUserItem.interest_rate }}</td>
                         <td>
                           <button
-                            @click.prevent="showPawnReply(pawnUser.pawn_no)"
+                            @click.prevent="showPawnReply(pawnUserItem.pawn_no)"
                             class="btn btn-success btn-sm ml-3"
                           >
                             ไถ่ถอน
                           </button>
 
                           <!-- Modal สรุปรายการไถ่ถอน -->
-                          <pawn-reply :pawn="pawnUser"></pawn-reply>
+                          <pawn-reply
+                            v-if="selectedReplyPawnNo === pawnUserItem.pawn_no"
+                            :pawn="pawnUserItem"
+                            v-model="showReply"
+                          ></pawn-reply>
                         </td>
                       </tr>
                     </tbody>
@@ -90,13 +94,24 @@ export default {
   data() {
     return {
       searchFn: searchMixin.methods.searchPawnByCustomerDataWithItems,
+      selectedReplyPawnNo: null,
+      showReply: false,
     };
   },
-  computed: {},
+
+  watch: {
+    showReply(v) {
+      if (!v) {
+        this.selectedReplyPawnNo = null;
+      }
+    },
+  },
 
   methods: {
     showPawnReply(id) {
-      this.$bvModal.show(`pawn-reply-modal-${id}`);
+      this.selectedReplyPawnNo = id;
+      this.showReply = true;
+      // this.$bvModal.show(`pawn-reply-modal-${id}`);
     },
   },
 };

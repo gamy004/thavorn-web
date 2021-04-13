@@ -38,16 +38,21 @@
             variant="primary"
           ></b-spinner>
           <h4
-            v-else-if="!loading && pawnUsers && pawnUsers.length == 0"
+            v-else-if="!loading && pawnUserItems && pawnUserItems.length == 0"
             style="text-align: center"
             class="text-black-50"
           >
             ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง
           </h4>
-          <div v-else-if="!loading && pawnUsers && pawnUsers.length > 0">
+          <div
+            v-else-if="!loading && pawnUserItems && pawnUserItems.length > 0"
+          >
             <span>ผลการค้นหา</span>
 
-            <slot name="search-result" v-bind:pawnUsers="pawnUsers"></slot>
+            <slot
+              name="search-result"
+              v-bind:pawnUserItems="pawnUserItems"
+            ></slot>
           </div>
         </div>
       </div>

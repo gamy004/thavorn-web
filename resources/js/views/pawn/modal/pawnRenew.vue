@@ -49,7 +49,14 @@
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">สรุปเดือนที่ต่ออายุดอกเบี้ย</b>
-            <div>{{ selectedMonthDescription }} {{ form.month_amount ? `(${form.month_amount} เดือน)` : 'ไม่สามารถระบุได้' }}</div>
+            <div>
+              {{ selectedMonthDescription }}
+              {{
+                form.month_amount
+                  ? `(${form.month_amount} เดือน)`
+                  : "ไม่สามารถระบุได้"
+              }}
+            </div>
           </div>
         </div>
         <div class="row">
@@ -60,7 +67,13 @@
               label="Checking paid amount"
               variant="primary"
             ></b-spinner>
-            <h5 v-else>{{ form.paid_amount ? `${form.paid_amount} บาท` : 'ไม่สามารถระบุได้' }}</h5>
+            <h5 v-else>
+              {{
+                form.paid_amount
+                  ? `${form.paid_amount} บาท`
+                  : "ไม่สามารถระบุได้"
+              }}
+            </h5>
           </div>
         </div>
       </div>
@@ -95,13 +108,13 @@ export default {
 
     show: {
       type: Boolean,
-      default: () => false
-    }
+      default: () => false,
+    },
   },
 
   model: {
-    prop: 'show',
-    event: 'change'
+    prop: "show",
+    event: "change",
   },
 
   components: {
@@ -115,42 +128,46 @@ export default {
       checkingPaidAmount: false,
       toastSuccess: false,
       selectedDate: {
-        start: this.pawn ? new Date(
-            this.pawn.next_paid_at
-              ? this.pawn.next_paid_at
-              : this.pawn.created_at
-        ) : null,
-        end: this.pawn ? new Date(
-            this.pawn.next_paid_at
-              ? this.pawn.next_paid_at
-              : this.pawn.created_at
-        ) : null,
+        start: this.pawn
+          ? new Date(
+              this.pawn.next_paid_at
+                ? this.pawn.next_paid_at
+                : this.pawn.created_at
+            )
+          : null,
+        end: null,
       },
 
       form: {
         month_amount: null,
-        paid_amount: null
-      }
+        paid_amount: null,
+      },
     };
   },
 
   watch: {
-    'selectedDate.end': 'onSelectedEndDateChanged',
-    'monthAmount': {
+    "selectedDate.start": {
       immediate: true,
-      handler: 'onMonthAmountChanged'
-    }
+      handler: "onSelectedStartDateChanged",
+    },
+    "selectedDate.end": "onSelectedEndDateChanged",
+    monthAmount: {
+      immediate: true,
+      handler: "onMonthAmountChanged",
+    },
   },
 
   computed: {
     disabledDateTo() {
-      return this.pawn
+      const to = this.pawn
         ? new Date(
             this.pawn.next_paid_at
               ? this.pawn.next_paid_at
               : this.pawn.created_at
           )
         : null;
+
+      return to;
     },
 
     disabledDateFrom() {
@@ -167,55 +184,69 @@ export default {
 
     disabledDateStart() {
       if (!this.pawn) return {};
-      
+
       return {
         to: this.disabledDateTo,
-        from: this.disabledDateFrom
+        from: this.disabledDateFrom,
       };
     },
 
     disabledDateEnd() {
       if (!this.pawn) return {};
 
-      let to = this.disabledDateTo;
+      let to = new Date(this.disabledDateTo);
 
       if (this.selectedDate && this.selectedDate.start) {
-        to = this.selectedDate.start;
+        to = new Date(this.selectedDate.start);
       }
 
+      to.setMonth(to.getMonth() + 1);
+
       return {
-        to
+        to,
       };
     },
 
     selectedMonthDescription() {
       const monthStart = this.formatingDatetime(
-                this.selectedDate.start,
-                "MMM YYYY"
-              );
+        this.selectedDate.start,
+        "MMM YYYY"
+      );
 
       const monthEnd = this.formatingDatetime(
-                this.selectedDate.end,
-                "MMM YYYY"
-              );
-      
+        this.selectedDate.end,
+        "MMM YYYY"
+      );
+
       let description = monthStart;
 
       if (monthStart !== monthEnd) {
         description += ` - ${monthEnd}`;
-      }      
+      }
 
       return description;
     },
 
     monthAmount() {
       return this.diffMonth(this.selectedDate.start, this.selectedDate.end);
-    }
+    },
   },
 
   methods: {
     closePawnRenew() {
-      this.$emit('change', false);
+      this.$emit("change", false);
+    },
+
+    onSelectedStartDateChanged(selectedStartDate) {
+      if (selectedStartDate) {
+        const selectedStartDateMonth = selectedStartDate.getMonth();
+
+        const selectedEndDate = new Date(selectedStartDate);
+
+        selectedEndDate.setMonth(selectedStartDateMonth + 1);
+
+        this.$set(this.selectedDate, "end", selectedEndDate);
+      }
     },
 
     onSelectedEndDateChanged(selectedEndDate) {
@@ -228,17 +259,17 @@ export default {
         if (selectedStartDateDay !== selectedEndDateDay) {
           selectedEndDate.setDate(selectedStartDateDay);
 
-          this.$set(this.selectedDate, 'end', selectedEndDate);
+          this.$set(this.selectedDate, "end", selectedEndDate);
         }
       }
     },
 
     async onMonthAmountChanged(monthAmount) {
-      if (!this.pawn) return;
+      if (!this.pawn || !monthAmount) return;
 
       let paidAmount;
 
-      this.$set(this.form, 'month_amount', monthAmount);
+      this.$set(this.form, "month_amount", monthAmount);
 
       this.checkingPaidAmount = true;
 
@@ -254,9 +285,9 @@ export default {
           this.checkingPaidAmount = false;
         }, 500);
       }
-      
+
       if (paidAmount) {
-        this.$set(this.form, 'paid_amount', paidAmount);
+        this.$set(this.form, "paid_amount", paidAmount);
       }
     },
 
@@ -280,9 +311,9 @@ export default {
       }
 
       setTimeout(() => {
-        this.$emit('update:pawn', res);
+        this.$emit("update:pawn", res);
       }, 500);
-    }
+    },
   },
 };
 </script>

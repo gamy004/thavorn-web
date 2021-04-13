@@ -29,7 +29,7 @@ export const datetimeMixin = {
         let formattedDatetime = datetime
           ? moment(datetime).add(543, 'year').format(format)
           : 'ไม่ระบุ';
-        
+
         return formattedDatetime;
       }
     },
@@ -37,7 +37,7 @@ export const datetimeMixin = {
 
   methods: {
     diffMonth(monthStart, monthEnd) {
-      return Math.ceil(moment(monthEnd).diff(moment(monthStart), 'months', true)) + 1;
+      return Math.ceil(moment(monthEnd).diff(moment(monthStart), 'months', true));
     }
   }
 }

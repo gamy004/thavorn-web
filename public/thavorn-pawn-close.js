@@ -67,6 +67,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 console.log(_mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods);
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -169,6 +174,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -180,13 +189,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerDataWithItems
+      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerDataWithItems,
+      selectedReplyPawnNo: null,
+      showReply: false
     };
   },
-  computed: {},
+  watch: {
+    showReply: function showReply(v) {
+      if (!v) {
+        this.selectedReplyPawnNo = null;
+      }
+    }
+  },
   methods: {
     showPawnReply: function showPawnReply(id) {
-      this.$bvModal.show("pawn-reply-modal-".concat(id));
+      this.selectedReplyPawnNo = id;
+      this.showReply = true; // this.$bvModal.show(`pawn-reply-modal-${id}`);
     }
   }
 });
@@ -202,8 +220,30 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -338,21 +378,123 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
   data: function data() {
     return {
-      status: true
+      loadingPawnItems: false,
+      status: true,
+      form: {
+        amount: null
+      }
     };
   },
   props: {
-    pawn: new _models_Pawn__WEBPACK_IMPORTED_MODULE_0__["default"]()
+    show: {
+      type: Boolean,
+      "default": false
+    },
+    pawn: {
+      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"],
+      "default": function _default() {
+        return new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"]();
+      }
+    }
+  },
+  model: {
+    prop: "show",
+    event: "change"
+  },
+  watch: {
+    show: {
+      immediate: true,
+      handler: function handler(v) {
+        if (v) {
+          this.fetch();
+        }
+      }
+    }
+  },
+  computed: {
+    pawnItems: function pawnItems() {
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
+    }
   },
   methods: {
     closePawnReply: function closePawnReply(id) {
-      this.$bvModal.hide("pawn-reply-modal-".concat(id));
+      // this.$bvModal.hide(`pawn-reply-modal-${id}`);
+      this.$emit("change", false);
+    },
+    fetch: function fetch() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var pawnDetailPromise, closeAmount, _yield$Promise$all, _yield$Promise$all2;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.loadingPawnItems = true;
+                _context.prev = 1;
+                _context.next = 4;
+                return Promise.all([_this.fetchPawnDetailByPawnId(_this.pawn.id), _models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"].api().getCloseAmount(_this.pawn.id)]);
+
+              case 4:
+                _yield$Promise$all = _context.sent;
+                _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
+                pawnDetailPromise = _yield$Promise$all2[0];
+                closeAmount = _yield$Promise$all2[1];
+
+                if (closeAmount) {
+                  _this.$set(_this.form, "amount", closeAmount);
+                }
+
+                _context.next = 14;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](1);
+                console.error(_context.t0);
+
+              case 14:
+                _context.prev = 14;
+                _this.loadingPawnItems = false;
+                return _context.finish(14);
+
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[1, 11, 14, 17]]);
+      }))();
     }
   }
 });
@@ -439,7 +581,9 @@ var render = function() {
                   ? _c("b-spinner", {
                       attrs: { label: "Fetching pawn", variant: "primary" }
                     })
-                  : !_vm.loading && _vm.pawnUsers && _vm.pawnUsers.length == 0
+                  : !_vm.loading &&
+                    _vm.pawnUserItems &&
+                    _vm.pawnUserItems.length == 0
                   ? _c(
                       "h4",
                       {
@@ -452,14 +596,16 @@ var render = function() {
                         )
                       ]
                     )
-                  : !_vm.loading && _vm.pawnUsers && _vm.pawnUsers.length > 0
+                  : !_vm.loading &&
+                    _vm.pawnUserItems &&
+                    _vm.pawnUserItems.length > 0
                   ? _c(
                       "div",
                       [
                         _c("span", [_vm._v("ผลการค้นหา")]),
                         _vm._v(" "),
                         _vm._t("search-result", null, {
-                          pawnUsers: _vm.pawnUsers
+                          pawnUserItems: _vm.pawnUserItems
                         })
                       ],
                       2
@@ -553,8 +699,8 @@ var render = function() {
                     {
                       key: "search-result",
                       fn: function(ref) {
-                        var pawnUsers = ref.pawnUsers
-                        if (pawnUsers === void 0) pawnUsers = []
+                        var pawnUserItems = ref.pawnUserItems
+                        if (pawnUserItems === void 0) pawnUserItems = []
                         return [
                           _c(
                             "table",
@@ -589,26 +735,31 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "tbody",
-                                _vm._l(pawnUsers, function(pawnUser, index) {
+                                _vm._l(pawnUserItems, function(
+                                  pawnUserItem,
+                                  index
+                                ) {
                                   return _c("tr", { key: "pawn-" + index }, [
                                     _c("th", { attrs: { scope: "row" } }, [
-                                      _vm._v(_vm._s(pawnUser.pawn_no))
+                                      _vm._v(_vm._s(pawnUserItem.pawn_no))
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _vm._v(_vm._s(pawnUser.count_items))
+                                      _vm._v(_vm._s(pawnUserItem.count_items))
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
                                       _vm._v(
                                         "\n                        " +
-                                          _vm._s(pawnUser.total_items_value) +
+                                          _vm._s(
+                                            pawnUserItem.total_items_value
+                                          ) +
                                           "\n                      "
                                       )
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _vm._v(_vm._s(pawnUser.interest_rate))
+                                      _vm._v(_vm._s(pawnUserItem.interest_rate))
                                     ]),
                                     _vm._v(" "),
                                     _c(
@@ -623,7 +774,7 @@ var render = function() {
                                               click: function($event) {
                                                 $event.preventDefault()
                                                 return _vm.showPawnReply(
-                                                  pawnUser.pawn_no
+                                                  pawnUserItem.pawn_no
                                                 )
                                               }
                                             }
@@ -635,9 +786,19 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _c("pawn-reply", {
-                                          attrs: { pawn: pawnUser }
-                                        })
+                                        _vm.selectedReplyPawnNo ===
+                                        pawnUserItem.pawn_no
+                                          ? _c("pawn-reply", {
+                                              attrs: { pawn: pawnUserItem },
+                                              model: {
+                                                value: _vm.showReply,
+                                                callback: function($$v) {
+                                                  _vm.showReply = $$v
+                                                },
+                                                expression: "showReply"
+                                              }
+                                            })
+                                          : _vm._e()
                                       ],
                                       1
                                     )
@@ -711,6 +872,13 @@ var render = function() {
           attrs: {
             id: "pawn-reply-modal-" + _vm.pawn.pawn_no,
             "no-close-on-backdrop": ""
+          },
+          model: {
+            value: _vm.show,
+            callback: function($$v) {
+              _vm.show = $$v
+            },
+            expression: "show"
           }
         },
         [
@@ -736,7 +904,7 @@ var render = function() {
                 _c("div", [
                   _vm._v(
                     "\n            " +
-                      _vm._s(_vm.fullNameByPawnNo(_vm.pawn.pawn_no)) +
+                      _vm._s(_vm.pawn.fullName) +
                       "\n          "
                   )
                 ])
@@ -750,7 +918,7 @@ var render = function() {
                 _c("div", [
                   _vm._v(
                     "\n            " +
-                      _vm._s(_vm.pawnItemCount(_vm.pawn.pawn_no)) +
+                      _vm._s(_vm.pawn.count_items) +
                       "\n          "
                   )
                 ])
@@ -758,77 +926,88 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [
-                  _vm._v("รายการสินค้าจำนำ")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "table",
-                  {
-                    staticClass:
-                      "table table-hover table-striped table-bordered mt-3"
-                  },
-                  [
-                    _c("thead", { staticClass: "thead-light" }, [
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "col" } }, [
-                          _vm._v("ประเภทของทอง")
-                        ]),
-                        _vm._v(" "),
-                        _c("th", { attrs: { scope: "col" } }, [
-                          _vm._v("น้ำหนักทอง (กรัม)")
-                        ]),
-                        _vm._v(" "),
-                        _c("th", { attrs: { scope: "col" } }, [
-                          _vm._v("มูลค่า (บาท)")
-                        ]),
-                        _vm._v(" "),
-                        _c("th", { attrs: { scope: "col" } }, [
-                          _vm._v("ความเสียหาย")
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.pawnItemByPawnNo(_vm.pawn.pawn_no), function(
-                        pawnItem,
-                        index
-                      ) {
-                        return _c("tr", { key: "pawn-item-" + index }, [
-                          _c("th", { attrs: { scope: "row" } }, [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(pawnItem.item_category) +
-                                "\n                "
-                            )
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("รายการสินค้าจำนำ")
+                  ]),
+                  _vm._v(" "),
+                  _vm.loadingPawnItems
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Fetching pawn items",
+                          variant: "primary"
+                        }
+                      })
+                    : _c(
+                        "table",
+                        {
+                          staticClass:
+                            "table table-hover table-striped table-bordered mt-3"
+                        },
+                        [
+                          _c("thead", { staticClass: "thead-light" }, [
+                            _c("tr", [
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("ประเภทของทอง")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("น้ำหนักทอง (กรัม)")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("มูลค่า (บาท)")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("ความเสียหาย")
+                              ])
+                            ])
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(pawnItem.item_weight) +
-                                "\n                "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(pawnItem.item_value))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(pawnItem.item_damage) +
-                                "\n                "
-                            )
-                          ])
-                        ])
-                      }),
-                      0
-                    )
-                  ]
-                )
-              ])
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.pawnItems, function(pawnItem, index) {
+                              return _c("tr", { key: "pawn-item-" + index }, [
+                                _c("th", { attrs: { scope: "row" } }, [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(
+                                        pawnItem.item_category.item_category
+                                      ) +
+                                      "\n                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(pawnItem.item_weight) +
+                                      "\n                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(pawnItem.item_value))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    "\n                  " +
+                                      _vm._s(pawnItem.item_damage.item_damage) +
+                                      "\n                "
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
@@ -883,9 +1062,7 @@ var render = function() {
                   _vm._v("รวมมูลค่าสินค้า(บาท)")
                 ]),
                 _vm._v(" "),
-                _c("div", [
-                  _vm._v(_vm._s(_vm.sumPawnItemValueByPawnNo(_vm.pawn.pawn_no)))
-                ])
+                _c("div", [_vm._v(_vm._s(_vm.pawn.total_items_value))])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }, [
@@ -896,9 +1073,33 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("h2", [_vm._v("รวมยอดชำระ(บาท)")])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _c("h2", [_vm._v("รวมยอดชำระ(บาท)")]),
+                  _vm._v(" "),
+                  _vm.loadingPawnItems
+                    ? _c("b-spinner", {
+                        attrs: {
+                          label: "Fetching pawn items",
+                          variant: "primary"
+                        }
+                      })
+                    : _c("h5", [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(
+                              _vm.form.amount
+                                ? _vm.form.amount + " บาท"
+                                : "ไม่สามารถระบุได้"
+                            ) +
+                            "\n          "
+                        )
+                      ])
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [

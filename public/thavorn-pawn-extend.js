@@ -67,6 +67,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 console.log(_mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods);
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -625,6 +630,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -643,8 +666,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   model: {
-    prop: 'show',
-    event: 'change'
+    prop: "show",
+    event: "change"
   },
   data: function data() {
     return {
@@ -664,7 +687,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     showPawnRenew: function showPawnRenew() {
-      this.$emit('renew', this.pawn.pawn_no); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      this.$emit("renew", this.pawn.pawn_no); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
       // this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },
     showPawnItems: function showPawnItems() {
@@ -688,7 +711,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     closePawnDetail: function closePawnDetail() {
-      this.$emit('change', false); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
+      this.$emit("change", false); // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
     closePawnItems: function closePawnItems() {
       // this.$emit('change', true);
@@ -733,10 +756,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     pawnItems: function pawnItems() {
-      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where('pawn_id', this.pawn.id).where('complete', false)["with"](['item_damage', 'item_category']).get() : [];
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
     },
     payments: function payments() {
-      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_1__["default"].query().where('pawn_id', this.pawn.id).get() : [];
+      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_1__["default"].query().where("pawn_id", this.pawn.id).get() : [];
     }
   }
 });
@@ -848,6 +871,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -864,8 +900,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   model: {
-    prop: 'show',
-    event: 'change'
+    prop: "show",
+    event: "change"
   },
   components: {
     Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -878,7 +914,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       toastSuccess: false,
       selectedDate: {
         start: this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null,
-        end: this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null
+        end: null
       },
       form: {
         month_amount: null,
@@ -887,15 +923,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   watch: {
-    'selectedDate.end': 'onSelectedEndDateChanged',
-    'monthAmount': {
+    "selectedDate.start": {
       immediate: true,
-      handler: 'onMonthAmountChanged'
+      handler: "onSelectedStartDateChanged"
+    },
+    "selectedDate.end": "onSelectedEndDateChanged",
+    monthAmount: {
+      immediate: true,
+      handler: "onMonthAmountChanged"
     }
   },
   computed: {
     disabledDateTo: function disabledDateTo() {
-      return this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null;
+      var to = this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null;
+      return to;
     },
     disabledDateFrom: function disabledDateFrom() {
       var from = this.pawn ? new Date(this.pawn.latest_paid_at ? this.pawn.latest_paid_at : this.pawn.created_at) : null;
@@ -910,12 +951,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     disabledDateEnd: function disabledDateEnd() {
       if (!this.pawn) return {};
-      var to = this.disabledDateTo;
+      var to = new Date(this.disabledDateTo);
 
       if (this.selectedDate && this.selectedDate.start) {
-        to = this.selectedDate.start;
+        to = new Date(this.selectedDate.start);
       }
 
+      to.setMonth(to.getMonth() + 1);
       return {
         to: to
       };
@@ -937,7 +979,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     closePawnRenew: function closePawnRenew() {
-      this.$emit('change', false);
+      this.$emit("change", false);
+    },
+    onSelectedStartDateChanged: function onSelectedStartDateChanged(selectedStartDate) {
+      if (selectedStartDate) {
+        var selectedStartDateMonth = selectedStartDate.getMonth();
+        var selectedEndDate = new Date(selectedStartDate);
+        selectedEndDate.setMonth(selectedStartDateMonth + 1);
+        this.$set(this.selectedDate, "end", selectedEndDate);
+      }
     },
     onSelectedEndDateChanged: function onSelectedEndDateChanged(selectedEndDate) {
       var selectedStartDate = this.selectedDate.start;
@@ -948,7 +998,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (selectedStartDateDay !== selectedEndDateDay) {
           selectedEndDate.setDate(selectedStartDateDay);
-          this.$set(this.selectedDate, 'end', selectedEndDate);
+          this.$set(this.selectedDate, "end", selectedEndDate);
         }
       }
     },
@@ -961,7 +1011,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this.pawn) {
+                if (!(!_this.pawn || !monthAmount)) {
                   _context.next = 2;
                   break;
                 }
@@ -969,7 +1019,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return");
 
               case 2:
-                _this.$set(_this.form, 'month_amount', monthAmount);
+                _this.$set(_this.form, "month_amount", monthAmount);
 
                 _this.checkingPaidAmount = true;
                 _context.prev = 4;
@@ -995,7 +1045,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 16:
                 if (paidAmount) {
-                  _this.$set(_this.form, 'paid_amount', paidAmount);
+                  _this.$set(_this.form, "paid_amount", paidAmount);
                 }
 
               case 17:
@@ -1039,7 +1089,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 13:
                 setTimeout(function () {
-                  _this2.$emit('update:pawn', res);
+                  _this2.$emit("update:pawn", res);
                 }, 500);
 
               case 14:
@@ -1135,7 +1185,9 @@ var render = function() {
                   ? _c("b-spinner", {
                       attrs: { label: "Fetching pawn", variant: "primary" }
                     })
-                  : !_vm.loading && _vm.pawnUsers && _vm.pawnUsers.length == 0
+                  : !_vm.loading &&
+                    _vm.pawnUserItems &&
+                    _vm.pawnUserItems.length == 0
                   ? _c(
                       "h4",
                       {
@@ -1148,14 +1200,16 @@ var render = function() {
                         )
                       ]
                     )
-                  : !_vm.loading && _vm.pawnUsers && _vm.pawnUsers.length > 0
+                  : !_vm.loading &&
+                    _vm.pawnUserItems &&
+                    _vm.pawnUserItems.length > 0
                   ? _c(
                       "div",
                       [
                         _c("span", [_vm._v("ผลการค้นหา")]),
                         _vm._v(" "),
                         _vm._t("search-result", null, {
-                          pawnUsers: _vm.pawnUsers
+                          pawnUserItems: _vm.pawnUserItems
                         })
                       ],
                       2
@@ -1434,8 +1488,8 @@ var render = function() {
                       {
                         key: "search-result",
                         fn: function(ref) {
-                          var pawnUsers = ref.pawnUsers
-                          if (pawnUsers === void 0) pawnUsers = []
+                          var pawnUserItems = ref.pawnUserItems
+                          if (pawnUserItems === void 0) pawnUserItems = []
                           return [
                             _c(
                               "table",
@@ -1470,13 +1524,16 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
-                                  _vm._l(pawnUsers, function(pawnUser, index) {
+                                  _vm._l(pawnUserItems, function(
+                                    pawnUserItem,
+                                    index
+                                  ) {
                                     return _c(
                                       "tr",
                                       { key: "pawnUser-" + index },
                                       [
                                         _c("th", { attrs: { scope: "row" } }, [
-                                          _vm._v(_vm._s(pawnUser.pawn_no))
+                                          _vm._v(_vm._s(pawnUserItem.pawn_no))
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
@@ -1484,7 +1541,7 @@ var render = function() {
                                             "\n                        " +
                                               _vm._s(
                                                 _vm.formatingDatetime(
-                                                  pawnUser.created_at,
+                                                  pawnUserItem.created_at,
                                                   "DD MMM YYYY"
                                                 )
                                               ) +
@@ -1497,7 +1554,7 @@ var render = function() {
                                             "\n                        " +
                                               _vm._s(
                                                 _vm.formatingDatetime(
-                                                  pawnUser.next_paid_at,
+                                                  pawnUserItem.next_paid_at,
                                                   "DD MMM YYYY"
                                                 )
                                               ) +
@@ -1510,7 +1567,7 @@ var render = function() {
                                             "\n                        " +
                                               _vm._s(
                                                 _vm.formatingDatetime(
-                                                  pawnUser.updated_at,
+                                                  pawnUserItem.updated_at,
                                                   "DD MMM YYYY"
                                                 )
                                               ) +
@@ -1534,7 +1591,7 @@ var render = function() {
                                                         $event.preventDefault()
                                                         $event.stopPropagation()
                                                         return _vm.showPawnDetail(
-                                                          pawnUser.pawn_no
+                                                          pawnUserItem.pawn_no
                                                         )
                                                       }
                                                     }
@@ -1554,7 +1611,7 @@ var render = function() {
                                                     $event.preventDefault()
                                                     $event.stopPropagation()
                                                     return _vm.showPawnRenew(
-                                                      pawnUser.pawn_no
+                                                      pawnUserItem.pawn_no
                                                     )
                                                   }
                                                 }
@@ -1567,9 +1624,9 @@ var render = function() {
                                             ),
                                             _vm._v(" "),
                                             _vm.selectedDetailPawnNo ===
-                                            pawnUser.pawn_no
+                                            pawnUserItem.pawn_no
                                               ? _c("pawn-detail", {
-                                                  attrs: { pawn: pawnUser },
+                                                  attrs: { pawn: pawnUserItem },
                                                   on: { renew: _vm.onRenewed },
                                                   model: {
                                                     value: _vm.showDetail,
@@ -1582,9 +1639,9 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             _vm.selectedRenewPawnNo ===
-                                            pawnUser.pawn_no
+                                            pawnUserItem.pawn_no
                                               ? _c("pawn-renew", {
-                                                  attrs: { pawn: pawnUser },
+                                                  attrs: { pawn: pawnUserItem },
                                                   on: {
                                                     "update:pawn":
                                                       _vm.onPawnRenewUpdated
@@ -1726,11 +1783,7 @@ var render = function() {
                 _c("div", [
                   _vm._v(
                     "\n            " +
-                      _vm._s(
-                        _vm.pawn && _vm.pawn.full_name
-                          ? _vm.pawn.full_name
-                          : "ไม่ระบุ"
-                      ) +
+                      _vm._s(_vm.pawn.fullName) +
                       "\n          "
                   )
                 ])
@@ -1764,19 +1817,25 @@ var render = function() {
                   [
                     _c("li", [
                       _vm._v(
-                        _vm._s(
-                          _vm.formatingDatetime(
-                            _vm.pawn.created_at,
-                            "DD MMM YYYY"
-                          )
-                        ) + " - จำนำสินค้า"
+                        "\n              " +
+                          _vm._s(
+                            _vm.formatingDatetime(
+                              _vm.pawn.created_at,
+                              "DD MMM YYYY"
+                            )
+                          ) +
+                          " -\n              จำนำสินค้า\n            "
                       )
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.payments, function(payment) {
                       return [
                         _c("li", { key: "payment_" + payment.id }, [
-                          _vm._v(_vm._s(payment.timeDescription))
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(payment.timeDescription) +
+                              "\n              "
+                          )
                         ])
                       ]
                     })
@@ -2152,13 +2211,15 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _vm._v(
-                    _vm._s(_vm.selectedMonthDescription) +
-                      " " +
+                    "\n            " +
+                      _vm._s(_vm.selectedMonthDescription) +
+                      "\n            " +
                       _vm._s(
                         _vm.form.month_amount
                           ? "(" + _vm.form.month_amount + " เดือน)"
                           : "ไม่สามารถระบุได้"
-                      )
+                      ) +
+                      "\n          "
                   )
                 ])
               ])
@@ -2180,11 +2241,13 @@ var render = function() {
                       })
                     : _c("h5", [
                         _vm._v(
-                          _vm._s(
-                            _vm.form.paid_amount
-                              ? _vm.form.paid_amount + " บาท"
-                              : "ไม่สามารถระบุได้"
-                          )
+                          "\n            " +
+                            _vm._s(
+                              _vm.form.paid_amount
+                                ? _vm.form.paid_amount + " บาท"
+                                : "ไม่สามารถระบุได้"
+                            ) +
+                            "\n          "
                         )
                       ])
                 ],

@@ -8,7 +8,7 @@ function formatingDatetime(datetime, format) {
     let formattedDatetime = datetime
         ? moment(datetime).add(543, 'year').format(format)
         : 'ไม่ระบุ';
-      
+
     return formattedDatetime;
 }
 
@@ -43,18 +43,20 @@ export default class Payment extends Model {
             let time_start_month = formatingDatetime(this.time_start_at, "MMM");
 
             description += ` - ต่ออายุดอกเบี้ยเดือน ${time_start_month}`;
-            
-            if (this.time_end_at !== null && this.month_amount > 1) {
+
+            if (this.time_end_at !== null && this.time_start_at !== this.time_end_at) {
                 let time_end = new Date(this.time_end_at);
 
-                time_end.setMonth(time_end.getMonth() - 1);
+                time_end.setMonth(time_end.getMonth());
 
                 let time_end_month = formatingDatetime(time_end, "MMM");
 
                 description += ` - ${time_end_month}`;
             }
+
+            description += ` (${this.month_amount} เดือน)`;
         }
-        
+
         return description;
     }
 

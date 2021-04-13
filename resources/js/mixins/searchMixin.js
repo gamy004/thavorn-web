@@ -21,7 +21,7 @@ export const searchMixin = {
         user() {
             return groupBy(User.query().get(), user => user.id);
         },
-        pawnUsers() {
+        pawnUserItems() {
             return PawnUserItem.query().with(['pawn_items']).all();
         },
         pawnItemsByPawnID() {

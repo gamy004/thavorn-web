@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-modal v-model="show" :id="`pawn-detail-modal-${pawn.pawn_no}`" no-close-on-backdrop>
+    <b-modal
+      v-model="show"
+      :id="`pawn-detail-modal-${pawn.pawn_no}`"
+      no-close-on-backdrop
+    >
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>ข้อมูลการจำนำ</h4>
       </template>
@@ -15,7 +19,7 @@
           <div class="col-12">
             <b class="ft-s-16">ผู้จำนำ</b>
             <div>
-              {{ pawn && pawn.full_name ? pawn.full_name : 'ไม่ระบุ' }}
+              {{ pawn.fullName }}
             </div>
           </div>
         </div>
@@ -35,9 +39,14 @@
           <div class="col-12">
             <b class="ft-s-16">ประวัติการจำนำ</b>
             <ul class="ul__no-bullets mb-0">
-              <li>{{ formatingDatetime(pawn.created_at, "DD MMM YYYY") }} - จำนำสินค้า</li>
+              <li>
+                {{ formatingDatetime(pawn.created_at, "DD MMM YYYY") }} -
+                จำนำสินค้า
+              </li>
               <template v-for="payment in payments">
-                <li :key="`payment_${payment.id}`">{{ payment.timeDescription }}</li>
+                <li :key="`payment_${payment.id}`">
+                  {{ payment.timeDescription }}
+                </li>
               </template>
             </ul>
           </div>
@@ -64,15 +73,19 @@
         </div>
         <div class="row">
           <div class="col-12">
-
             <b-spinner
               v-if="loadingPawnItems"
               label="Fetching pawn items"
               variant="primary"
             ></b-spinner>
 
-            <b-button v-else variant="link" class="ft-s-16 pl-0" @click="showPawnItems"
-              >แสดงรายการภายในบัตร</b-button>
+            <b-button
+              v-else
+              variant="link"
+              class="ft-s-16 pl-0"
+              @click="showPawnItems"
+              >แสดงรายการภายในบัตร</b-button
+            >
           </div>
         </div>
       </div>
@@ -84,18 +97,19 @@
         >
           <a class="ft-s-16">ปิดหน้าต่าง</a>
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click="showPawnRenew"
-        >
+        <button type="button" class="btn btn-primary" @click="showPawnRenew">
           <a class="ft-s-16">ต่ออายุดอกเบี้ย</a>
         </button>
       </template>
     </b-modal>
 
     <!-- Modal แสดงรายการสินค้าภายในบัตร -->
-    <b-modal v-model="showItems" :id="`pawn-list-item-modal-${pawn.pawn_no}`" no-close-on-backdrop no-fade>
+    <b-modal
+      v-model="showItems"
+      :id="`pawn-list-item-modal-${pawn.pawn_no}`"
+      no-close-on-backdrop
+      no-fade
+    >
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>รายการสินค้าในบัตร</h4>
       </template>
@@ -117,14 +131,22 @@
                   :key="`pawn-item-${index}`"
                 >
                   <th scope="row">
-                    {{ pawnItem.item_category ? pawnItem.item_category.item_category : 'ไม่ระบุ' }}
+                    {{
+                      pawnItem.item_category
+                        ? pawnItem.item_category.item_category
+                        : "ไม่ระบุ"
+                    }}
                   </th>
                   <td>
                     {{ pawnItem.item_weight }}
                   </td>
                   <td>{{ pawnItem.item_value }}</td>
                   <td>
-                    {{ pawnItem.item_damage ? pawnItem.item_damage.item_damage : 'ไม่ระบุ' }}
+                    {{
+                      pawnItem.item_damage
+                        ? pawnItem.item_damage.item_damage
+                        : "ไม่ระบุ"
+                    }}
                   </td>
                 </tr>
               </tbody>
@@ -133,11 +155,7 @@
         </div>
       </div>
       <template slot="modal-footer" class="modal-footer ml-3 mr-3">
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click="closePawnItems"
-        >
+        <button type="button" class="btn btn-primary" @click="closePawnItems">
           <a class="ft-s-16">ปิดหน้าต่างนี้</a>
         </button>
       </template>
@@ -156,25 +174,24 @@ export default {
 
   props: {
     pawn: {
-      type: PawnUserItem
+      type: PawnUserItem,
     },
 
     show: {
       type: Boolean,
-      default: () => false
-    }
+      default: () => false,
+    },
   },
 
   model: {
-    prop: 'show',
-    event: 'change'
+    prop: "show",
+    event: "change",
   },
-
 
   data() {
     return {
       loadingPawnItems: false,
-      showItems: false
+      showItems: false,
     };
   },
 
@@ -185,13 +202,13 @@ export default {
         if (v) {
           this.fetch();
         }
-      }
-    }
+      },
+    },
   },
 
   methods: {
     showPawnRenew() {
-      this.$emit('renew', this.pawn.pawn_no);
+      this.$emit("renew", this.pawn.pawn_no);
       // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
       // this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },
@@ -202,7 +219,7 @@ export default {
       // this.$bvModal.show(`pawn-list-item-modal-${this.pawn.pawn_no}`);
     },
     closePawnDetail() {
-      this.$emit('change', false);
+      this.$emit("change", false);
       // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
     },
     closePawnItems() {
@@ -214,7 +231,7 @@ export default {
 
     async fetch() {
       this.loadingPawnItems = true;
-      
+
       try {
         await this.fetchPawnDetailByPawnId(this.pawn.id);
       } catch (error) {
@@ -222,27 +239,25 @@ export default {
       } finally {
         this.loadingPawnItems = false;
       }
-    }
+    },
   },
 
   computed: {
     pawnItems() {
       return this.pawn && this.pawn.id
         ? PawnItem.query()
-                  .where('pawn_id', this.pawn.id)
-                  .where('complete', false)
-                  .with(['item_damage', 'item_category'])
-                  .get()
+            .where("pawn_id", this.pawn.id)
+            .where("complete", false)
+            .with(["item_damage", "item_category"])
+            .get()
         : [];
     },
 
     payments() {
       return this.pawn && this.pawn.id
-        ? Payment.query()
-                .where('pawn_id', this.pawn.id)
-                .get()
+        ? Payment.query().where("pawn_id", this.pawn.id).get()
         : [];
-    }
-  }
+    },
+  },
 };
 </script>

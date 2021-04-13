@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-modal :id="`pawn-reply-modal-${pawn.pawn_no}`" no-close-on-backdrop>
+    <b-modal
+      v-model="show"
+      :id="`pawn-reply-modal-${pawn.pawn_no}`"
+      no-close-on-backdrop
+    >
       <template slot="modal-header" class="modal-header ml-3 mr-3">
         <h4>สรุปรายการไถ่ถอน</h4>
       </template>
@@ -15,7 +19,7 @@
           <div class="col-12">
             <b class="ft-s-16">ผู้จำนำ</b>
             <div>
-              {{ fullNameByPawnNo(pawn.pawn_no) }}
+              {{ pawn.fullName }}
             </div>
           </div>
         </div>
@@ -23,14 +27,23 @@
           <div class="col-12">
             <b class="ft-s-16">จำนวนสินค้า</b>
             <div>
-              {{ pawnItemCount(pawn.pawn_no) }}
+              {{ pawn.count_items }}
             </div>
           </div>
         </div>
         <div class="row mb-4">
           <div class="col-12">
             <b class="ft-s-16">รายการสินค้าจำนำ</b>
-            <table class="table table-hover table-striped table-bordered mt-3">
+            <b-spinner
+              v-if="loadingPawnItems"
+              label="Fetching pawn items"
+              variant="primary"
+            ></b-spinner>
+
+            <table
+              v-else
+              class="table table-hover table-striped table-bordered mt-3"
+            >
               <thead class="thead-light">
                 <tr>
                   <th scope="col">ประเภทของทอง</th>
@@ -41,18 +54,18 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(pawnItem, index) in pawnItemByPawnNo(pawn.pawn_no)"
+                  v-for="(pawnItem, index) in pawnItems"
                   :key="`pawn-item-${index}`"
                 >
                   <th scope="row">
-                    {{ pawnItem.item_category }}
+                    {{ pawnItem.item_category.item_category }}
                   </th>
                   <td>
                     {{ pawnItem.item_weight }}
                   </td>
                   <td>{{ pawnItem.item_value }}</td>
                   <td>
-                    {{ pawnItem.item_damage }}
+                    {{ pawnItem.item_damage.item_damage }}
                   </td>
                 </tr>
               </tbody>
@@ -82,7 +95,7 @@
         <div class="row mb-4">
           <div class="col-6">
             <b class="ft-s-16">รวมมูลค่าสินค้า(บาท)</b>
-            <div>{{ sumPawnItemValueByPawnNo(pawn.pawn_no) }}</div>
+            <div>{{ pawn.total_items_value }}</div>
           </div>
           <div class="col-6">
             <b class="ft-s-16">ดอกเบี้ย(บาท)</b>
@@ -92,6 +105,14 @@
         <div class="row mb-4">
           <div class="col-12">
             <h2>รวมยอดชำระ(บาท)</h2>
+            <b-spinner
+              v-if="loadingPawnItems"
+              label="Fetching pawn items"
+              variant="primary"
+            ></b-spinner>
+            <h5 v-else>
+              {{ form.amount ? `${form.amount} บาท` : "ไม่สามารถระบุได้" }}
+            </h5>
           </div>
         </div>
         <div class="row">
@@ -133,25 +154,91 @@
 </template>
 
 <script>
-import Pawn from "../../../models/Pawn";
 import { datetimeMixin, searchMixin } from "../../../mixins";
+import Pawn from "../../../models/Pawn";
+import PawnItem from "../../../models/PawnItem";
+import PawnUserItem from "../../../models/PawnUserItem";
 
 export default {
   mixins: [datetimeMixin, searchMixin],
 
   data() {
     return {
+      loadingPawnItems: false,
       status: true,
+      form: {
+        amount: null,
+      },
     };
   },
 
   props: {
-    pawn: new Pawn(),
+    show: {
+      type: Boolean,
+      default: false,
+    },
+
+    pawn: {
+      type: PawnUserItem,
+      default: () => new PawnUserItem(),
+    },
+  },
+
+  model: {
+    prop: "show",
+    event: "change",
+  },
+
+  watch: {
+    show: {
+      immediate: true,
+      handler(v) {
+        if (v) {
+          this.fetch();
+        }
+      },
+    },
+  },
+
+  computed: {
+    pawnItems() {
+      return this.pawn && this.pawn.id
+        ? PawnItem.query()
+            .where("pawn_id", this.pawn.id)
+            .where("complete", false)
+            .with(["item_damage", "item_category"])
+            .get()
+        : [];
+    },
   },
 
   methods: {
     closePawnReply(id) {
-      this.$bvModal.hide(`pawn-reply-modal-${id}`);
+      // this.$bvModal.hide(`pawn-reply-modal-${id}`);
+      this.$emit("change", false);
+    },
+
+    async fetch() {
+      this.loadingPawnItems = true;
+      let pawnDetailPromise, closeAmount;
+
+      try {
+        // pawnDetailPromise = this.fetchPawnDetailByPawnId(this.pawn.id);
+        // closeAmount = Pawn.api().getCloseAmount(this.pawn.id);
+
+        [pawnDetailPromise, closeAmount] = await Promise.all([
+          this.fetchPawnDetailByPawnId(this.pawn.id),
+          Pawn.api().getCloseAmount(this.pawn.id),
+        ]);
+
+        if (closeAmount) {
+          this.$set(this.form, "amount", closeAmount);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingPawnItems = false;
+      }
     },
   },
 };

@@ -50,7 +50,7 @@ export default class Pawn extends Model {
 
                     try {
                         res = await this.get(
-                        `pawns/${id}/paid-amount`,
+                            `pawns/${id}/paid-amount`,
                             {
                                 params: { month_amount },
                                 save: false
@@ -67,12 +67,33 @@ export default class Pawn extends Model {
                     }
                 },
 
+                async getCloseAmount(id) {
+                    let res;
+
+                    try {
+                        res = await this.get(
+                            `pawns/${id}/close-amount`,
+                            {
+                                save: false
+                            }
+                        );
+                    } catch (error) {
+                        throw error;
+                    }
+
+                    const { response } = res;
+
+                    if (response && response.data && response.data.close_amount) {
+                        return response.data.close_amount;
+                    }
+                },
+
                 async extend(id, month_amount, amount) {
                     let res;
 
                     try {
                         res = await this.post(
-                        `pawns/${id}/pay`,
+                            `pawns/${id}/pay`,
                             { month_amount, amount }
                         );
                     } catch (error) {

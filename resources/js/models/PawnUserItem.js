@@ -20,6 +20,10 @@ export default class PawnUserItem extends Pawn {
         };
     }
 
+    get fullName() {
+        return this.full_name && this.full_name.length ? this.full_name : 'ไม่ระบุ';
+    }
+
     static get apiConfig() {
         return {
             dataKey: "pawns",

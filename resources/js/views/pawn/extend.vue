@@ -28,7 +28,7 @@
             </div>
             <div class="card-body">
               <pawn-user-searcher>
-                <template v-slot:search-result="{ pawnUsers = [] }">
+                <template v-slot:search-result="{ pawnUserItems = [] }">
                   <table
                     class="table table-hover table-striped table-bordered mt-3 mb-5"
                   >
@@ -43,14 +43,14 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(pawnUser, index) in pawnUsers"
+                        v-for="(pawnUserItem, index) in pawnUserItems"
                         :key="`pawnUser-${index}`"
                       >
-                        <th scope="row">{{ pawnUser.pawn_no }}</th>
+                        <th scope="row">{{ pawnUserItem.pawn_no }}</th>
                         <td>
                           {{
                             formatingDatetime(
-                              pawnUser.created_at,
+                              pawnUserItem.created_at,
                               "DD MMM YYYY"
                             )
                           }}
@@ -58,7 +58,7 @@
                         <td>
                           {{
                             formatingDatetime(
-                              pawnUser.next_paid_at,
+                              pawnUserItem.next_paid_at,
                               "DD MMM YYYY"
                             )
                           }}
@@ -66,7 +66,7 @@
                         <td>
                           {{
                             formatingDatetime(
-                              pawnUser.updated_at,
+                              pawnUserItem.updated_at,
                               "DD MMM YYYY"
                             )
                           }}
@@ -76,14 +76,14 @@
                             <a
                               href="#"
                               @click.prevent.stop="
-                                showPawnDetail(pawnUser.pawn_no)
+                                showPawnDetail(pawnUserItem.pawn_no)
                               "
                               >ดูรายละเอียด</a
                             >
                           </small>
                           <button
                             @click.prevent.stop="
-                              showPawnRenew(pawnUser.pawn_no)
+                              showPawnRenew(pawnUserItem.pawn_no)
                             "
                             class="btn btn-primary btn-sm my-2"
                           >
@@ -92,16 +92,16 @@
 
                           <!-- Modal ดูรายละเอียดข้อมูลการจำนำ -->
                           <pawn-detail
-                            v-if="selectedDetailPawnNo === pawnUser.pawn_no"
+                            v-if="selectedDetailPawnNo === pawnUserItem.pawn_no"
                             @renew="onRenewed"
-                            :pawn="pawnUser"
+                            :pawn="pawnUserItem"
                             v-model="showDetail"
                           ></pawn-detail>
 
                           <!-- Modal การต่ออายุดอกเบี้ย -->
                           <pawn-renew
-                            v-if="selectedRenewPawnNo === pawnUser.pawn_no"
-                            :pawn="pawnUser"
+                            v-if="selectedRenewPawnNo === pawnUserItem.pawn_no"
+                            :pawn="pawnUserItem"
                             @update:pawn="onPawnRenewUpdated"
                             v-model="showRenew"
                           ></pawn-renew>

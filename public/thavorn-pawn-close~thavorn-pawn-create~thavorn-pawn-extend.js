@@ -333,7 +333,7 @@ var datetimeMixin = {
   },
   methods: {
     diffMonth: function diffMonth(monthStart, monthEnd) {
-      return Math.ceil(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months', true)) + 1;
+      return Math.ceil(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months', true));
     }
   }
 };
@@ -494,7 +494,7 @@ var searchMixin = {
         return user.id;
       });
     },
-    pawnUsers: function pawnUsers() {
+    pawnUserItems: function pawnUserItems() {
       return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].query()["with"](['pawn_items']).all();
     },
     pawnItemsByPawnID: function pawnItemsByPawnID() {
