@@ -144,7 +144,7 @@
             </h5>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-12">
             <b-form-checkbox
               :id="`checkbox-pawn-card-${pawn.pawn_no}`"
@@ -164,7 +164,7 @@
               <button class="btn btn-primary btn-sm ml-3">อัพโหลด</button>
             </fieldset>
           </div>
-        </div>
+        </div> -->
       </div>
       <template slot="modal-footer" class="modal-footer ml-3 mr-3">
         <button

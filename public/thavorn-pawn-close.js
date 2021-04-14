@@ -1200,55 +1200,6 @@ var render = function() {
                 ],
                 1
               )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _c(
-                    "b-form-checkbox",
-                    {
-                      attrs: {
-                        id: "checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        name: "checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        value: false,
-                        "unchecked-value": true
-                      },
-                      model: {
-                        value: _vm.status,
-                        callback: function($$v) {
-                          _vm.status = $$v
-                        },
-                        expression: "status"
-                      }
-                    },
-                    [_c("h4", [_vm._v("ไม่มีบัตรจำนำ")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "fieldset",
-                    {
-                      staticClass: "mt-2",
-                      attrs: {
-                        id: "fieldset-checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        disabled: _vm.status
-                      }
-                    },
-                    [
-                      _c("b", [_vm._v("อัพโหลดหลักฐาน")]),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        { staticClass: "btn btn-primary btn-sm ml-3" },
-                        [_vm._v("อัพโหลด")]
-                      )
-                    ]
-                  )
-                ],
-                1
-              )
             ])
           ]),
           _vm._v(" "),

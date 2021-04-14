@@ -169,32 +169,57 @@ class Pawn extends Model
 
         $current = Carbon::now();
         
-        if ($current->lt($latest)) {
-            $latest_payment = $this->latestPayment();
+        // if ($current->lt($latest)) {
+        //     $latest_payment = $this->latestPayment();
 
-            if (!is_null($latest_payment)) {
-                $current = Carbon::make($latest_payment->{DBCol::TIME_END_AT});
-            }
-        }
+        //     if (!is_null($latest_payment)) {
+        //         $current = Carbon::make($latest_payment->{DBCol::TIME_END_AT});
+        //     }
+        // }
 
-        $diff_day = $current->diffInDays($latest);
-        // dd($latest, $current, $diff_day);
-        // set initial counter
-        $next_month_latest = Carbon::make($time)->addMonth();
-        $next_month_diff_day = $next_month_latest->diffInDays($latest);
+        $diff_day = $latest->diffInDays($current, false);
+        
         $due_month = 0;
-        
-        // Count month by adding one month until $next_month_diff_day greater than $diff_day
-        while ($next_month_diff_day <= $diff_day) {
-            $due_month += 1;
-            $next_month_latest->addMonth();
-            $next_month_diff_day = $next_month_latest->diffInDays($latest);
-        }
-        
-        // Use $due_month to find the previous month to calculate $due_day
-        $latest_month = Carbon::make($time)->addMonths($due_month);
-        $due_day = $current->diffInDays($latest_month);
+        $due_day = 0;
+        // dump($diff_day);
+        if ($diff_day > 0) {
+            // set initial counter
+            $next_month_latest = Carbon::make($time)->addMonth();
+            $next_month_diff_day = $latest->diffInDays($next_month_latest, false);
+            // dump($next_month_latest, $latest, $next_month_diff_day);
 
+            // Count month by adding one month until $next_month_diff_day greater than $diff_day
+            while ($next_month_diff_day <= $diff_day) {
+                $due_month += 1;
+                $next_month_latest->addMonth();
+                $next_month_diff_day = $latest->diffInDays($next_month_latest, false);
+                // dump($next_month_latest, $latest, $next_month_diff_day);
+            }
+
+            // Use $due_month to find the previous month to calculate $due_day
+            $latest_month = Carbon::make($time)->addMonths($due_month);
+            $due_day = $latest_month->diffInDays($current, false);
+        } else {
+            // set initial counter
+            $next_month_latest = Carbon::make($time)->subMonth();
+            $next_month_diff_day = $latest->diffInDays($next_month_latest, false);
+            // dump($next_month_latest, $latest, $next_month_diff_day);
+
+            // Count month by subing one month until $next_month_diff_day greater than $diff_day
+            while ($next_month_diff_day >= $diff_day) {
+                $due_month -= 1;
+                $next_month_latest->subMonth();
+                $next_month_diff_day = $latest->diffInDays($next_month_latest, false);
+                // dump($next_month_latest, $latest, $next_month_diff_day);
+            }
+
+            // Use $due_month to find the previous month to calculate $due_day
+            $latest_month = Carbon::make($time)->subMonths(abs($due_month));
+            $due_day = $latest_month->diffInDays($current, false);
+        }
+
+        // dd($due_month, $due_day);
+        
         return compact('due_month', 'due_day');
     }
 
@@ -205,28 +230,41 @@ class Pawn extends Model
         $pawn_items_value = $this->computePawnItemsValue();
         $count_payments = $this->payments()->count();
 
+        $due_month = abs($due_month_day['due_month']);
+        $due_day = abs($due_month_day['due_day']);
+        $is_due_month_exceed = $due_month_day['due_month'] < 0;
+        $is_due_day_exceed = $due_month_day['due_day'] < 0;
+
         if (
-            $due_month_day['due_month'] === 0 &&
-            $due_month_day['due_day'] === 0 &&
+            $due_month === 0 &&
+            $due_day === 0 &&
             $count_payments === 0
         ) {
             // Case: one day
             $interest_value = $pawn_items_value * $this->interest_rate_one_day_factor();
         } else {
-            $interest_value = $this->computePaidAmount($due_month_day['due_month']);
-        }
-        
-        // Case: least than one month
-        if ($due_month_day['due_day'] > 0) {
-            $divider = $due_month_day['due_day'] > 15 ? 1 : 2;
-            $over_due_month_interest = $this->computePaidAmount(1) / $divider;
-            
-            if (!is_null($over_due_month_interest)) {
-                $interest_value += $over_due_month_interest;
+            $interest_value = $this->computePaidAmount($due_month);
+
+            if ($is_due_month_exceed) {
+                $interest_value = -1 * $interest_value;
             }
         }
         
-        if ($interest_value < self::MINIMUM_INTEREST) {
+        // Case: least than one month
+        if ($due_day > 0) {
+            $divider = $due_day > 15 ? 1 : 2;
+            $due_day_interest = $this->computePaidAmount(1) / $divider;
+            
+            if (!is_null($due_day_interest)) {
+                if ($is_due_day_exceed) {
+                    $due_day_interest = -1 * $due_day_interest;
+                }
+
+                $interest_value += $due_day_interest;
+            }
+        }
+        
+        if ($interest_value > 0 && $interest_value < self::MINIMUM_INTEREST) {
             $interest_value = self::MINIMUM_INTEREST;
         }
         
