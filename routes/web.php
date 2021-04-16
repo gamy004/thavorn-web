@@ -39,6 +39,13 @@ Route::group([
         Route::get('{pawn}/close-amount', 'PawnController@getCloseAmount')->name('close-amount');
     });
 
+    Route::group([
+        'as' => 'files.',
+        'prefix' => 'files',
+    ], function () {
+        Route::post('/upload/{user}/evidences', 'FileController@uploadEvidence')->name('upload-evidence');
+    });
+
     Route::resources([
         'users' => 'UserController',
         'pawns' => 'PawnController',

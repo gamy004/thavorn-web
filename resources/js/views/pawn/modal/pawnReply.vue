@@ -144,7 +144,7 @@
             </h5>
           </div>
         </div>
-        <!-- <div class="row">
+        <div class="row">
           <div class="col-12">
             <b-form-checkbox
               :id="`checkbox-pawn-card-${pawn.pawn_no}`"
@@ -161,10 +161,17 @@
               :disabled="status"
             >
               <b>อัพโหลดหลักฐาน</b>
+              <vue-dropzone
+                ref="dropzoneIdCard"
+                id="dropzone"
+                :options="dropzoneOptions"
+                v-on:vdropzone-error="onDropzoneError"
+              ></vue-dropzone>
+
               <button class="btn btn-primary btn-sm ml-3">อัพโหลด</button>
             </fieldset>
           </div>
-        </div> -->
+        </div>
       </div>
       <template slot="modal-footer" class="modal-footer ml-3 mr-3">
         <button
@@ -183,14 +190,23 @@
 </template>
 
 <script>
+import axios from "axios";
+import vue2Dropzone from "vue2-dropzone";
 import { datetimeMixin, searchMixin } from "../../../mixins";
 import Pawn from "../../../models/Pawn";
 import Payment from "../../../models/Payment";
 import PawnItem from "../../../models/PawnItem";
 import PawnUserItem from "../../../models/PawnUserItem";
 
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
+
+console.log(axios);
 export default {
   mixins: [datetimeMixin, searchMixin],
+
+  components: {
+    vueDropzone: vue2Dropzone,
+  },
 
   data() {
     return {
@@ -199,6 +215,36 @@ export default {
       form: {
         close_amount: null,
         interest_value: null,
+      },
+      dropzoneOptions: {
+        url: `/api/files/upload/${this.pawn.customer_id}/evidences`,
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]')
+            .content,
+        },
+        thumbnailMethod: "contain",
+        thumbnailWidth: 500,
+        thumbnailHeight: 500,
+        previewTemplate: this.template(),
+        renameFile: (file) => {
+          let index = 1;
+          const previews = this.$refs.dropzoneIdCard.$refs.dropzoneElement.querySelectorAll(
+            ".dz-preview"
+          );
+
+          if (previews) {
+            index = previews.length + 1;
+          }
+
+          const fileName = `หลักฐาน-${index}.${file.name.split(".").pop()}`;
+
+          return fileName;
+        },
+        addRemoveLinks: true,
+        dictRemoveFile: "ลบไฟล์",
+        capture: true,
+        acceptedFiles: "image/*",
       },
     };
   },
@@ -250,6 +296,32 @@ export default {
   },
 
   methods: {
+    template() {
+      return `<div class="dz-preview dz-file-preview">
+                <div class="dz-image">
+                    <img data-dz-thumbnail />
+                </div>
+                <div class="dz-details">
+                    <div class="dz-filename"><span data-dz-name></span></div>
+                </div>
+                <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                <div class="dz-error-message"><span data-dz-errormessage></span></div>
+            </div>
+        `;
+    },
+
+    onDropzoneError(file, response) {
+      if (file && file.previewElement && response && response.message) {
+        const errormessage = file.previewElement.querySelector(
+          "span[data-dz-errormessage]"
+        );
+
+        if (errormessage) {
+          errormessage.innerText = response.message;
+        }
+      }
+    },
+
     closePawnReply(id) {
       // this.$bvModal.hide(`pawn-reply-modal-${id}`);
       this.$emit("change", false);

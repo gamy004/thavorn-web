@@ -48,6 +48,9 @@ class ApiServiceProvider extends ServiceProvider
             //     self::REQUEST_STORE => StorePawnRequest::class,
             //     self::REQUEST_UPDATE => UpdatePawnRequest::class,
             // ]
+            ],
+        \App\Http\Api\Controllers\FileController::class => [
+            "api" => \App\Http\Api\Providers\FileApi::class
         ]
     ];
 

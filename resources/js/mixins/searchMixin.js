@@ -151,7 +151,7 @@ export const searchMixin = {
         },
 
         async searchPawnByCustomerData({
-            select = ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,created_at,updated_at,latest_paid_at,next_paid_at'],
+            select = ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at'],
             includes = []
         } = {}) {
             if (!this.searchInput) return;
@@ -197,7 +197,7 @@ export const searchMixin = {
 
         searchPawnByCustomerDataWithItems() {
             return this.searchPawnByCustomerData({
-                select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
+                select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
             })
         }
     },

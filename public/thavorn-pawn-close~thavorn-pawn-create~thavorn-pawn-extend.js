@@ -621,7 +621,7 @@ var searchMixin = {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _ref = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {}, _ref$select = _ref.select, select = _ref$select === void 0 ? ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,created_at,updated_at,latest_paid_at,next_paid_at'] : _ref$select, _ref$includes = _ref.includes, includes = _ref$includes === void 0 ? [] : _ref$includes;
+                _ref = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {}, _ref$select = _ref.select, select = _ref$select === void 0 ? ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at'] : _ref$select, _ref$includes = _ref.includes, includes = _ref$includes === void 0 ? [] : _ref$includes;
 
                 if (_this.searchInput) {
                   _context.next = 3;
@@ -681,7 +681,7 @@ var searchMixin = {
     },
     searchPawnByCustomerDataWithItems: function searchPawnByCustomerDataWithItems() {
       return this.searchPawnByCustomerData({
-        select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
+        select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
       });
     }
   }

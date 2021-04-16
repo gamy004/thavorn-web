@@ -90,6 +90,12 @@ class User extends Authenticatable
         return $this->hasMany(Pawn::class, Pawn::USER_FK);
     }
 
+    public function files()
+    {
+        return $this->belongsToMany(File::class, 'user_file')
+                    ->using(UserFile::class);
+    }
+
     public function updateRoleByRoleId($role_id)
     {
         try {
