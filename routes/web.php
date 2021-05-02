@@ -43,6 +43,7 @@ Route::group([
         'as' => 'files.',
         'prefix' => 'files',
     ], function () {
+        Route::get('/evidences/{file}', 'FileController@downloadEvidence')->name('download-evidence');
         Route::post('/upload/{user}/evidences', 'FileController@uploadEvidence')->name('upload-evidence');
     });
 
@@ -52,7 +53,8 @@ Route::group([
         'pawn_items' => 'PawnItemController',
         'pawn_user_items' => 'PawnUserItemController',
         'item_damages' => 'ItemDamageController',
-        'item_categories' => 'ItemCategoryController'
+        'item_categories' => 'ItemCategoryController',
+        'files' => 'FileController',
     ]);
 });
 

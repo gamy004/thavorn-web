@@ -24,9 +24,13 @@
 
 .dropzone {
     & > .dz-preview {
+        &.dz-image-preview {
+            background: transparent !important;
+        }
+
         .dz-image {
             img[data-dz-thumbnail] {
-                border-radius: 7%;
+                border-radius: .65em;
                 width: 100%;
                 height: auto;
             }
@@ -40,9 +44,49 @@
 
 .vue-dropzone {
     & > .dz-preview {
+        .dz-image,
         .dz-details {
-            border-radius: 7%;
+            border-radius: .65em !important;
+        }
+
+        .dz-details {
             background-color: rgb(60, 68, 177, .8) !important;
+        }
+
+        .dz-show,
+        .dz-download {
+            position: absolute;
+            z-index: 30;
+            color: #fff;
+            padding: 10px;
+            top: inherit;
+            bottom: 15px;
+            border: 2px #fff solid;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: .8rem;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+            opacity: 0;
+        }
+
+        .dz-show {
+            margin-left: 90px;
+        }
+
+        .dz-download {
+            margin-left: 200px;
+        }
+
+        &:hover {
+            .dz-show,
+            .dz-download {
+                opacity: 1;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }

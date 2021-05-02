@@ -165,7 +165,10 @@
                 ref="dropzoneIdCard"
                 id="dropzone"
                 :options="dropzoneOptions"
+                v-on:vdropzone-thumbnail="onDropzoneThumbnail"
                 v-on:vdropzone-error="onDropzoneError"
+                v-on:vdropzone-success="onDropzoneSuccess"
+                v-on:vdropzone-removed-file="onDropzoneRemovedFile"
               ></vue-dropzone>
 
               <button class="btn btn-primary btn-sm ml-3">อัพโหลด</button>
@@ -186,6 +189,46 @@
         </button>
       </template>
     </b-modal>
+
+    <b-toast
+      id="evidence-upload-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastUploadEvidenceSuccess"
+    >
+      อัพโหลดหลักฐานการจำนำสำเร็จเรียบร้อย
+    </b-toast>
+
+    <b-toast
+      id="evidence-upload-toast-fail"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastUploadEvidenceFail"
+    >
+      อัพโหลดหลักฐานการจำนำไม่สำเร็จ
+    </b-toast>
+
+    <b-toast
+      id="evidence-delete-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastDeleteEvidenceSuccess"
+    >
+      ลบหลักฐานการจำนำสำเร็จเรียบร้อย
+    </b-toast>
+
+    <b-toast
+      id="evidence-delete-toast-fail"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastDeleteEvidenceFail"
+    >
+      ลบหลักฐานการจำนำไม่สำเร็จ
+    </b-toast>
   </div>
 </template>
 
@@ -193,6 +236,7 @@
 import axios from "axios";
 import vue2Dropzone from "vue2-dropzone";
 import { datetimeMixin, searchMixin } from "../../../mixins";
+import Evidence from "../../../models/Evidence";
 import Pawn from "../../../models/Pawn";
 import Payment from "../../../models/Payment";
 import PawnItem from "../../../models/PawnItem";
@@ -200,7 +244,6 @@ import PawnUserItem from "../../../models/PawnUserItem";
 
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
-console.log(axios);
 export default {
   mixins: [datetimeMixin, searchMixin],
 
@@ -241,11 +284,14 @@ export default {
 
           return fileName;
         },
-        addRemoveLinks: true,
-        dictRemoveFile: "ลบไฟล์",
         capture: true,
         acceptedFiles: "image/*",
       },
+
+      toastUploadEvidenceSuccess: false,
+      toastUploadEvidenceFail: false,
+      toastDeleteEvidenceSuccess: false,
+      toastDeleteEvidenceFail: false,
     };
   },
 
@@ -306,11 +352,24 @@ export default {
                 </div>
                 <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
                 <div class="dz-error-message"><span data-dz-errormessage></span></div>
+                <a class="dz-remove" href="javascript:undefined;" data-dz-remove>ลบไฟล์</a>
+                <a class="dz-show" href="javascript:undefined;" data-dz-show>ดูภาพเต็มจอ</a>
+                <a class="dz-download" href="javascript:undefined;" data-dz-download>ดาว์นโหลด</a>
             </div>
         `;
     },
 
+    showFileFullScreen(event) {
+      console.log("showFileFullScreen", event);
+    },
+
+    downloadFile(event) {
+      console.log("downloadFile", event);
+    },
+
     onDropzoneError(file, response) {
+      this.toastUploadEvidenceFail = true;
+
       if (file && file.previewElement && response && response.message) {
         const errormessage = file.previewElement.querySelector(
           "span[data-dz-errormessage]"
@@ -318,6 +377,104 @@ export default {
 
         if (errormessage) {
           errormessage.innerText = response.message;
+        }
+      }
+    },
+
+    onDropzoneSuccess(file, response) {
+      this.toastUploadEvidenceSuccess = true;
+
+      if (
+        file &&
+        file.previewElement &&
+        response &&
+        response.files &&
+        response.files.length
+      ) {
+        const uploadedFile = response.files[0];
+
+        if (uploadedFile) {
+          this.$set(file, "id", uploadedFile.id);
+          this.$set(file, "mime", uploadedFile.mime);
+        }
+
+        console.log(file, uploadedFile);
+
+        const showButton = file.previewElement.querySelector("a[data-dz-show]");
+
+        if (showButton) {
+          showButton.addEventListener("click", async () => {
+            let blob;
+
+            try {
+              blob = await this.download(uploadedFile);
+            } catch (error) {
+              console.error(error);
+            }
+
+            window.open(URL.createObjectURL(blob));
+
+            return blob;
+          });
+        }
+
+        const downloadButton = file.previewElement.querySelector(
+          "a[data-dz-download]"
+        );
+
+        if (downloadButton) {
+          downloadButton.addEventListener("click", async () => {
+            let blob;
+
+            try {
+              blob = await this.download(uploadedFile);
+            } catch (error) {
+              console.error(error);
+            }
+
+            const a = document.createElement("a");
+
+            a.setAttribute("download", uploadedFile.original_name);
+            a.setAttribute("href", URL.createObjectURL(blob));
+            a.click();
+
+            return blob;
+          });
+        }
+      }
+    },
+
+    async download(file) {
+      let promise;
+
+      promise = await Evidence.api().download(file.id);
+
+      const { data } = promise.response;
+
+      return new Blob([data], { type: file.mime });
+    },
+
+    async onDropzoneRemovedFile(file) {
+      let promise;
+
+      try {
+        promise = await Evidence.api().destroy(file.id);
+
+        this.toastDeleteEvidenceSuccess = true;
+      } catch (error) {
+        console.error(error);
+        this.toastDeleteEvidenceFail = true;
+      }
+
+      return promise;
+    },
+
+    onDropzoneThumbnail(file, thumbnail) {
+      if (file && file.previewElement && thumbnail) {
+        const name = file.previewElement.querySelector("span[data-dz-name]");
+
+        if (name) {
+          name.innerText = file.upload.filename;
         }
       }
     },

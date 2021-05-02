@@ -269,3 +269,38 @@ function toSqlBindings($query)
 {
     return getEloquentSqlWithBindings($query);
 }
+
+function error(array $args = [], $code = 400)
+{
+    return responseJson($code, array_merge($args));
+}
+
+function unauthorized(array $errors)
+{
+    return responseJson(403, $errors);
+}
+
+function unprocessable(array $errors)
+{
+    return responseJson(422, $errors);
+}
+
+function unacceptable(array $errors)
+{
+    return responseJson(406, $errors);
+}
+
+function badImplementation(array $errors)
+{
+    return responseJson(500, $errors);
+}
+
+function success(array $props)
+{
+    return responseJson(200, $props);
+}
+
+function responseJson($code = 200, $args)
+{
+    return response()->json($args, $code);
+}

@@ -20,7 +20,8 @@ class CreateFilesTable extends Migration
             $table->bigIncrements('id');
             $table->string('path');
             $table->string('original_name');
-            $table->string('extension')->nullable();
+            $table->string('mime');
+            $table->string('extension');
             $table->timestamps();
             $table->softDeletes();
         });

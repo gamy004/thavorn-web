@@ -94,6 +94,8 @@ class DBCol
     const FORMATTED_SIZE = 'formatted_size';
     const MIME = 'mime';
     const PATH = 'path';
+    const ORIGINAL_NAME = 'original_name';
+    const EXTENSION = 'extension';
     const URL = 'url';
     const _PUBLIC = 'public';
 

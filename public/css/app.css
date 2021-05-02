@@ -11043,8 +11043,12 @@ a.text-dark:focus {
           padding-inline-start: 0;
 }
 
+.dropzone > .dz-preview.dz-image-preview {
+  background: transparent !important;
+}
+
 .dropzone > .dz-preview .dz-image img[data-dz-thumbnail] {
-  border-radius: 7%;
+  border-radius: 0.65em;
   width: 100%;
   height: auto;
 }
@@ -11054,8 +11058,47 @@ a.text-dark:focus {
   transform: translateY(-50%);
 }
 
+.vue-dropzone > .dz-preview .dz-image,
 .vue-dropzone > .dz-preview .dz-details {
-  border-radius: 7%;
+  border-radius: 0.65em !important;
+}
+
+.vue-dropzone > .dz-preview .dz-details {
   background-color: rgba(60, 68, 177, 0.8) !important;
+}
+
+.vue-dropzone > .dz-preview .dz-show,
+.vue-dropzone > .dz-preview .dz-download {
+  position: absolute;
+  z-index: 30;
+  color: #fff;
+  padding: 10px;
+  top: inherit;
+  bottom: 15px;
+  border: 2px #fff solid;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  opacity: 0;
+}
+
+.vue-dropzone > .dz-preview .dz-show {
+  margin-left: 90px;
+}
+
+.vue-dropzone > .dz-preview .dz-download {
+  margin-left: 200px;
+}
+
+.vue-dropzone > .dz-preview:hover .dz-show,
+.vue-dropzone > .dz-preview:hover .dz-download {
+  opacity: 1;
+}
+
+.vue-dropzone > .dz-preview:hover .dz-show:hover,
+.vue-dropzone > .dz-preview:hover .dz-download:hover {
+  text-decoration: underline;
 }
 
