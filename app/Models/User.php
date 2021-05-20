@@ -92,8 +92,7 @@ class User extends Authenticatable
 
     public function files()
     {
-        return $this->belongsToMany(File::class, 'user_file')
-                    ->using(UserFile::class);
+        return $this->belongsToMany(File::class, 'user_file', self::FK, File::FK);
     }
 
     public function updateRoleByRoleId($role_id)

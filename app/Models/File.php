@@ -21,7 +21,7 @@ class File extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_file')
+        return $this->belongsToMany(User::class, 'user_file', self::FK, User::FK)
                     ->using(UserFile::class);
     }
 }

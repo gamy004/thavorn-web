@@ -85,6 +85,337 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
+/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_Evidence__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../models/Evidence */ "./resources/js/models/Evidence.js");
+/* harmony import */ var _models_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../models/User */ "./resources/js/models/User.js");
+/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
+/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_4__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    userId: {
+      type: Number,
+      required: true
+    }
+  },
+  components: {
+    vueDropzone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_4___default.a
+  },
+  data: function data() {
+    var _this = this;
+
+    return {
+      status: true,
+      dropzoneOptions: {
+        url: "/api/files/upload/".concat(this.userId, "/evidences"),
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content
+        },
+        thumbnailMethod: "contain",
+        thumbnailWidth: 500,
+        thumbnailHeight: 500,
+        previewTemplate: this.template(),
+        renameFile: function renameFile(file) {
+          var index = 1;
+
+          var previews = _this.$refs.dropzoneIdCard.$refs.dropzoneElement.querySelectorAll(".dz-preview");
+
+          if (previews) {
+            index = previews.length + 1;
+          }
+
+          var fileName = "\u0E2B\u0E25\u0E31\u0E01\u0E10\u0E32\u0E19-".concat(index, ".").concat(file.name.split(".").pop());
+          return fileName;
+        },
+        capture: true,
+        acceptedFiles: "image/*"
+      }
+    };
+  },
+  watch: {
+    userId: {
+      immediate: true,
+      handler: function handler(userId) {
+        this.fetch(userId);
+      }
+    }
+  },
+  methods: {
+    template: function template() {
+      return "<div class=\"dz-preview dz-file-preview\">\n                <div class=\"dz-image\">\n                    <img data-dz-thumbnail />\n                </div>\n                <div class=\"dz-details\">\n                    <div class=\"dz-filename\"><span data-dz-name></span></div>\n                </div>\n                <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n                <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n                <a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>\u0E25\u0E1A\u0E44\u0E1F\u0E25\u0E4C</a>\n                <a class=\"dz-show\" href=\"javascript:undefined;\" data-dz-show>\u0E14\u0E39\u0E20\u0E32\u0E1E\u0E40\u0E15\u0E47\u0E21\u0E08\u0E2D</a>\n                <a class=\"dz-download\" href=\"javascript:undefined;\" data-dz-download>\u0E14\u0E32\u0E27\u0E4C\u0E19\u0E42\u0E2B\u0E25\u0E14</a>\n            </div>\n        ";
+    },
+    onDropzoneThumbnail: function onDropzoneThumbnail(file, thumbnail) {
+      if (file && file.previewElement && thumbnail) {
+        var name = file.previewElement.querySelector("span[data-dz-name]");
+
+        if (name) {
+          name.innerText = file.upload.filename;
+        }
+      }
+    },
+    onDropzoneError: function onDropzoneError(file, response) {
+      this.toastUploadEvidenceFail = true;
+
+      if (file && file.previewElement && response && response.message) {
+        var errormessage = file.previewElement.querySelector("span[data-dz-errormessage]");
+
+        if (errormessage) {
+          errormessage.innerText = response.message;
+        }
+      }
+    },
+    onDropzoneSuccess: function onDropzoneSuccess(file, response) {
+      var _this2 = this;
+
+      this.toastUploadEvidenceSuccess = true;
+
+      if (file && file.previewElement && response && response.files && response.files.length) {
+        var uploadedFile = response.files[0];
+
+        if (uploadedFile) {
+          this.$set(file, "id", uploadedFile.id);
+          this.$set(file, "mime", uploadedFile.mime);
+        }
+
+        var showButton = file.previewElement.querySelector("a[data-dz-show]");
+
+        if (showButton) {
+          showButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+            var blob;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.prev = 0;
+                    _context.next = 3;
+                    return _this2.download(uploadedFile);
+
+                  case 3:
+                    blob = _context.sent;
+                    _context.next = 9;
+                    break;
+
+                  case 6:
+                    _context.prev = 6;
+                    _context.t0 = _context["catch"](0);
+                    console.error(_context.t0);
+
+                  case 9:
+                    window.open(URL.createObjectURL(blob));
+                    return _context.abrupt("return", blob);
+
+                  case 11:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee, null, [[0, 6]]);
+          })));
+        }
+
+        var downloadButton = file.previewElement.querySelector("a[data-dz-download]");
+
+        if (downloadButton) {
+          downloadButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+            var blob, a;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _context2.prev = 0;
+                    _context2.next = 3;
+                    return _this2.download(uploadedFile);
+
+                  case 3:
+                    blob = _context2.sent;
+                    _context2.next = 9;
+                    break;
+
+                  case 6:
+                    _context2.prev = 6;
+                    _context2.t0 = _context2["catch"](0);
+                    console.error(_context2.t0);
+
+                  case 9:
+                    a = document.createElement("a");
+                    a.setAttribute("download", uploadedFile.original_name);
+                    a.setAttribute("href", URL.createObjectURL(blob));
+                    a.click();
+                    return _context2.abrupt("return", blob);
+
+                  case 14:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2, null, [[0, 6]]);
+          })));
+        }
+      }
+    },
+    fetch: function fetch(userId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var promise, user;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("/".concat(userId), {
+                  params: {
+                    includes: ["files"]
+                  }
+                });
+
+              case 3:
+                promise = _context3.sent;
+                user = _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].query()["with"](["files"]).find(userId);
+
+                if (user) {
+                  console.log(user);
+                }
+
+                _context3.next = 11;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                console.error(_context3.t0);
+
+              case 11:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 8]]);
+      }))();
+    },
+    download: function download(file) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var promise, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _models_Evidence__WEBPACK_IMPORTED_MODULE_2__["default"].api().download(file.id);
+
+              case 2:
+                promise = _context4.sent;
+                data = promise.response.data;
+                return _context4.abrupt("return", new Blob([data], {
+                  type: file.mime
+                }));
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    onDropzoneRemovedFile: function onDropzoneRemovedFile(file) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var promise;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return _models_Evidence__WEBPACK_IMPORTED_MODULE_2__["default"].api().destroy(file.id);
+
+              case 3:
+                promise = _context5.sent;
+                _this3.toastDeleteEvidenceSuccess = true;
+                _context5.next = 11;
+                break;
+
+              case 7:
+                _context5.prev = 7;
+                _context5.t0 = _context5["catch"](0);
+                console.error(_context5.t0);
+                _this3.toastDeleteEvidenceFail = true;
+
+              case 11:
+                return _context5.abrupt("return", promise);
+
+              case 12:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 7]]);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/pawn/close.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/pawn/close.vue?vue&type=script&lang=js& ***!
@@ -221,18 +552,14 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
-/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
-/* harmony import */ var _models_Evidence__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/Evidence */ "./resources/js/models/Evidence.js");
-/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
-/* harmony import */ var _models_Payment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../models/Payment */ "./resources/js/models/Payment.js");
-/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
-/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
-/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
-/* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var _models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _models_Payment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../models/Payment */ "./resources/js/models/Payment.js");
+/* harmony import */ var _models_PawnItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../models/PawnItem */ "./resources/js/models/PawnItem.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _components_users_evidence_uploader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/users/evidence-uploader */ "./resources/js/components/users/evidence-uploader.vue");
+
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -244,8 +571,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -456,38 +781,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
 
 
 
@@ -495,44 +788,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_3__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_3__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
   components: {
-    vueDropzone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_2___default.a
+    EvidenceUploader: _components_users_evidence_uploader__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
-    var _this = this;
-
     return {
       loadingPawnItems: false,
       status: true,
       form: {
         close_amount: null,
         interest_value: null
-      },
-      dropzoneOptions: {
-        url: "/api/files/upload/".concat(this.pawn.customer_id, "/evidences"),
-        headers: {
-          "X-Requested-With": "XMLHttpRequest",
-          "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content
-        },
-        thumbnailMethod: "contain",
-        thumbnailWidth: 500,
-        thumbnailHeight: 500,
-        previewTemplate: this.template(),
-        renameFile: function renameFile(file) {
-          var index = 1;
-
-          var previews = _this.$refs.dropzoneIdCard.$refs.dropzoneElement.querySelectorAll(".dz-preview");
-
-          if (previews) {
-            index = previews.length + 1;
-          }
-
-          var fileName = "\u0E2B\u0E25\u0E31\u0E01\u0E10\u0E32\u0E19-".concat(index, ".").concat(file.name.split(".").pop());
-          return fileName;
-        },
-        capture: true,
-        acceptedFiles: "image/*"
       },
       toastUploadEvidenceSuccess: false,
       toastUploadEvidenceFail: false,
@@ -546,9 +812,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       "default": false
     },
     pawn: {
-      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_8__["default"],
+      type: _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__["default"],
       "default": function _default() {
-        return new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_8__["default"]();
+        return new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_5__["default"]();
       }
     }
   },
@@ -568,245 +834,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     pawnItems: function pawnItems() {
-      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_7__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_4__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
     },
     payments: function payments() {
-      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_6__["default"].query().where("pawn_id", this.pawn.id).get() : [];
+      return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).get() : [];
     }
   },
   methods: {
-    template: function template() {
-      return "<div class=\"dz-preview dz-file-preview\">\n                <div class=\"dz-image\">\n                    <img data-dz-thumbnail />\n                </div>\n                <div class=\"dz-details\">\n                    <div class=\"dz-filename\"><span data-dz-name></span></div>\n                </div>\n                <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n                <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n                <a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>\u0E25\u0E1A\u0E44\u0E1F\u0E25\u0E4C</a>\n                <a class=\"dz-show\" href=\"javascript:undefined;\" data-dz-show>\u0E14\u0E39\u0E20\u0E32\u0E1E\u0E40\u0E15\u0E47\u0E21\u0E08\u0E2D</a>\n                <a class=\"dz-download\" href=\"javascript:undefined;\" data-dz-download>\u0E14\u0E32\u0E27\u0E4C\u0E19\u0E42\u0E2B\u0E25\u0E14</a>\n            </div>\n        ";
-    },
-    showFileFullScreen: function showFileFullScreen(event) {
-      console.log("showFileFullScreen", event);
-    },
-    downloadFile: function downloadFile(event) {
-      console.log("downloadFile", event);
-    },
-    onDropzoneError: function onDropzoneError(file, response) {
-      this.toastUploadEvidenceFail = true;
-
-      if (file && file.previewElement && response && response.message) {
-        var errormessage = file.previewElement.querySelector("span[data-dz-errormessage]");
-
-        if (errormessage) {
-          errormessage.innerText = response.message;
-        }
-      }
-    },
-    onDropzoneSuccess: function onDropzoneSuccess(file, response) {
-      var _this2 = this;
-
-      this.toastUploadEvidenceSuccess = true;
-
-      if (file && file.previewElement && response && response.files && response.files.length) {
-        var uploadedFile = response.files[0];
-
-        if (uploadedFile) {
-          this.$set(file, "id", uploadedFile.id);
-          this.$set(file, "mime", uploadedFile.mime);
-        }
-
-        console.log(file, uploadedFile);
-        var showButton = file.previewElement.querySelector("a[data-dz-show]");
-
-        if (showButton) {
-          showButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-            var blob;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.prev = 0;
-                    _context.next = 3;
-                    return _this2.download(uploadedFile);
-
-                  case 3:
-                    blob = _context.sent;
-                    _context.next = 9;
-                    break;
-
-                  case 6:
-                    _context.prev = 6;
-                    _context.t0 = _context["catch"](0);
-                    console.error(_context.t0);
-
-                  case 9:
-                    window.open(URL.createObjectURL(blob));
-                    return _context.abrupt("return", blob);
-
-                  case 11:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee, null, [[0, 6]]);
-          })));
-        }
-
-        var downloadButton = file.previewElement.querySelector("a[data-dz-download]");
-
-        if (downloadButton) {
-          downloadButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-            var blob, a;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    _context2.prev = 0;
-                    _context2.next = 3;
-                    return _this2.download(uploadedFile);
-
-                  case 3:
-                    blob = _context2.sent;
-                    _context2.next = 9;
-                    break;
-
-                  case 6:
-                    _context2.prev = 6;
-                    _context2.t0 = _context2["catch"](0);
-                    console.error(_context2.t0);
-
-                  case 9:
-                    a = document.createElement("a");
-                    a.setAttribute("download", uploadedFile.original_name);
-                    a.setAttribute("href", URL.createObjectURL(blob));
-                    a.click();
-                    return _context2.abrupt("return", blob);
-
-                  case 14:
-                  case "end":
-                    return _context2.stop();
-                }
-              }
-            }, _callee2, null, [[0, 6]]);
-          })));
-        }
-      }
-    },
-    download: function download(file) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var promise, data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _models_Evidence__WEBPACK_IMPORTED_MODULE_4__["default"].api().download(file.id);
-
-              case 2:
-                promise = _context3.sent;
-                data = promise.response.data;
-                return _context3.abrupt("return", new Blob([data], {
-                  type: file.mime
-                }));
-
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    onDropzoneRemovedFile: function onDropzoneRemovedFile(file) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var promise;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
-                return _models_Evidence__WEBPACK_IMPORTED_MODULE_4__["default"].api().destroy(file.id);
-
-              case 3:
-                promise = _context4.sent;
-                _this3.toastDeleteEvidenceSuccess = true;
-                _context4.next = 11;
-                break;
-
-              case 7:
-                _context4.prev = 7;
-                _context4.t0 = _context4["catch"](0);
-                console.error(_context4.t0);
-                _this3.toastDeleteEvidenceFail = true;
-
-              case 11:
-                return _context4.abrupt("return", promise);
-
-              case 12:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, null, [[0, 7]]);
-      }))();
-    },
-    onDropzoneThumbnail: function onDropzoneThumbnail(file, thumbnail) {
-      if (file && file.previewElement && thumbnail) {
-        var name = file.previewElement.querySelector("span[data-dz-name]");
-
-        if (name) {
-          name.innerText = file.upload.filename;
-        }
-      }
-    },
     closePawnReply: function closePawnReply(id) {
       // this.$bvModal.hide(`pawn-reply-modal-${id}`);
       this.$emit("change", false);
     },
     fetch: function fetch() {
-      var _this4 = this;
+      var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var pawnDetailPromise, closeAmountResponse, _yield$Promise$all, _yield$Promise$all2;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                _this4.loadingPawnItems = true;
-                _context5.prev = 1;
-                _context5.next = 4;
-                return Promise.all([_this4.fetchPawnDetailByPawnId(_this4.pawn.id), _models_Pawn__WEBPACK_IMPORTED_MODULE_5__["default"].api().getCloseAmount(_this4.pawn.id)]);
+                _this.loadingPawnItems = true;
+                _context.prev = 1;
+                _context.next = 4;
+                return Promise.all([_this.fetchPawnDetailByPawnId(_this.pawn.id), _models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"].api().getCloseAmount(_this.pawn.id)]);
 
               case 4:
-                _yield$Promise$all = _context5.sent;
+                _yield$Promise$all = _context.sent;
                 _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
                 pawnDetailPromise = _yield$Promise$all2[0];
                 closeAmountResponse = _yield$Promise$all2[1];
 
                 if (closeAmountResponse && closeAmountResponse.close_amount) {
-                  _this4.$set(_this4.form, "close_amount", closeAmountResponse.close_amount);
+                  _this.$set(_this.form, "close_amount", closeAmountResponse.close_amount);
                 }
 
                 if (closeAmountResponse && closeAmountResponse.interest_value) {
-                  _this4.$set(_this4.form, "interest_value", closeAmountResponse.interest_value);
+                  _this.$set(_this.form, "interest_value", closeAmountResponse.interest_value);
                 }
 
-                _context5.next = 15;
+                _context.next = 15;
                 break;
 
               case 12:
-                _context5.prev = 12;
-                _context5.t0 = _context5["catch"](1);
-                console.error(_context5.t0);
+                _context.prev = 12;
+                _context.t0 = _context["catch"](1);
+                console.error(_context.t0);
 
               case 15:
-                _context5.prev = 15;
-                _this4.loadingPawnItems = false;
-                return _context5.finish(15);
+                _context.prev = 15;
+                _this.loadingPawnItems = false;
+                return _context.finish(15);
 
               case 18:
               case "end":
-                return _context5.stop();
+                return _context.stop();
             }
           }
-        }, _callee5, null, [[1, 12, 15, 18]]);
+        }, _callee, null, [[1, 12, 15, 18]]);
       }))();
     }
   }
@@ -945,6 +1031,84 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c(
+      "div",
+      { staticClass: "col-12" },
+      [
+        _c(
+          "b-form-checkbox",
+          {
+            attrs: {
+              id: "checkbox-pawn-card",
+              name: "checkbox-pawn-card",
+              value: false,
+              "unchecked-value": true
+            },
+            model: {
+              value: _vm.status,
+              callback: function($$v) {
+                _vm.status = $$v
+              },
+              expression: "status"
+            }
+          },
+          [_c("h4", [_vm._v("ไม่มีบัตรจำนำ")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "fieldset",
+          {
+            staticClass: "mt-2",
+            attrs: { id: "fieldset-checkbox-pawn-card", disabled: _vm.status }
+          },
+          [
+            _c("b", [_vm._v("อัพโหลดหลักฐาน")]),
+            _vm._v(" "),
+            _c("vue-dropzone", {
+              ref: "dropzoneIdCard",
+              attrs: { id: "dropzone", options: _vm.dropzoneOptions },
+              on: {
+                "vdropzone-thumbnail": _vm.onDropzoneThumbnail,
+                "vdropzone-error": _vm.onDropzoneError,
+                "vdropzone-success": _vm.onDropzoneSuccess,
+                "vdropzone-removed-file": _vm.onDropzoneRemovedFile
+              }
+            }),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn btn-primary btn-sm ml-3" }, [
+              _vm._v("อัพโหลด")
+            ])
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -1201,343 +1365,301 @@ var render = function() {
             [_c("h4", [_vm._v("สรุปรายการไถ่ถอน")])]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("เลขที่บัตรจำนำ")]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.pawn_no))])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("ผู้จำนำ")]),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.pawn.fullName) +
-                      "\n          "
-                  )
+          _c(
+            "div",
+            { staticClass: "modal-body" },
+            [
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("เลขที่บัตรจำนำ")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [_vm._v(_vm._s(_vm.pawn.pawn_no))])
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("จำนวนสินค้า")]),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.pawn.count_items) +
-                      "\n          "
-                  )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [_vm._v("ผู้จำนำ")]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.pawn.fullName) +
+                        "\n          "
+                    )
+                  ])
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("ประวัติการจำนำ")]),
-                _vm._v(" "),
-                _c(
-                  "ul",
-                  { staticClass: "ul__no-bullets mb-0" },
-                  [
-                    _c("li", [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(
-                            _vm.formatingDatetime(
-                              _vm.pawn.created_at,
-                              "DD MMM YYYY"
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [_vm._v("จำนวนสินค้า")]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.pawn.count_items) +
+                        "\n          "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("ประวัติการจำนำ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    { staticClass: "ul__no-bullets mb-0" },
+                    [
+                      _c("li", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(
+                              _vm.formatingDatetime(
+                                _vm.pawn.created_at,
+                                "DD MMM YYYY"
+                              )
+                            ) +
+                            " -\n              จำนำสินค้า\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.payments, function(payment) {
+                        return [
+                          _c("li", { key: "payment_" + payment.id }, [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(payment.timeDescription) +
+                                "\n              "
                             )
-                          ) +
-                          " -\n              จำนำสินค้า\n            "
-                      )
+                          ])
+                        ]
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-12" },
+                  [
+                    _c("b", { staticClass: "ft-s-16" }, [
+                      _vm._v("รายการสินค้าจำนำ")
                     ]),
                     _vm._v(" "),
-                    _vm._l(_vm.payments, function(payment) {
-                      return [
-                        _c("li", { key: "payment_" + payment.id }, [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(payment.timeDescription) +
-                              "\n              "
-                          )
-                        ])
-                      ]
-                    })
-                  ],
-                  2
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _c("b", { staticClass: "ft-s-16" }, [
-                    _vm._v("รายการสินค้าจำนำ")
-                  ]),
-                  _vm._v(" "),
-                  _vm.loadingPawnItems
-                    ? _c("b-spinner", {
-                        attrs: {
-                          label: "Fetching pawn items",
-                          variant: "primary"
-                        }
-                      })
-                    : _c(
-                        "table",
-                        {
-                          staticClass:
-                            "table table-hover table-striped table-bordered mt-3"
-                        },
-                        [
-                          _c("thead", { staticClass: "thead-light" }, [
-                            _c("tr", [
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("ประเภทของทอง")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("น้ำหนักทอง (กรัม)")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("มูลค่า (บาท)")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("ความเสียหาย")
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.pawnItems, function(pawnItem, index) {
-                              return _c("tr", { key: "pawn-item-" + index }, [
-                                _c("th", { attrs: { scope: "row" } }, [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(
-                                        pawnItem.item_category.item_category
-                                      ) +
-                                      "\n                "
-                                  )
+                    _vm.loadingPawnItems
+                      ? _c("b-spinner", {
+                          attrs: {
+                            label: "Fetching pawn items",
+                            variant: "primary"
+                          }
+                        })
+                      : _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered mt-3"
+                          },
+                          [
+                            _c("thead", { staticClass: "thead-light" }, [
+                              _c("tr", [
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("ประเภทของทอง")
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(pawnItem.item_weight) +
-                                      "\n                "
-                                  )
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("น้ำหนักทอง (กรัม)")
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(pawnItem.item_value))]),
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("มูลค่า (บาท)")
+                                ]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                  " +
-                                      _vm._s(pawnItem.item_damage.item_damage) +
-                                      "\n                "
-                                  )
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("ความเสียหาย")
                                 ])
                               ])
-                            }),
-                            0
-                          )
-                        ]
-                      )
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("อัตราดอกเบี้ย")]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate) + " %")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-6" }, [
-                _c("b", { staticClass: "ft-s-16" }, [_vm._v("วันที่มาจำนำ")]),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(
-                        _vm.formatingDatetime(
-                          _vm.pawn.created_at,
-                          "DD MMM YYYY"
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.pawnItems, function(pawnItem, index) {
+                                return _c("tr", { key: "pawn-item-" + index }, [
+                                  _c("th", { attrs: { scope: "row" } }, [
+                                    _vm._v(
+                                      "\n                  " +
+                                        _vm._s(
+                                          pawnItem.item_category.item_category
+                                        ) +
+                                        "\n                "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      "\n                  " +
+                                        _vm._s(pawnItem.item_weight) +
+                                        "\n                "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(pawnItem.item_value))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      "\n                  " +
+                                        _vm._s(
+                                          pawnItem.item_damage.item_damage
+                                        ) +
+                                        "\n                "
+                                    )
+                                  ])
+                                ])
+                              }),
+                              0
+                            )
+                          ]
                         )
-                      ) +
-                      "\n          "
-                  )
-                ])
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-6" }, [
-                _c("b", { staticClass: "ft-s-16" }, [
-                  _vm._v("วันที่ต่อดอกล่าสุด")
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(
-                        _vm.formatingDatetime(
-                          _vm.pawn.latest_paid_at,
-                          "DD MMM YYYY"
-                        )
-                      ) +
-                      "\n          "
-                  )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c("div", { staticClass: "col-6" }, [
-                _c("b", { staticClass: "ft-s-16" }, [
-                  _vm._v("รวมมูลค่าสินค้า(บาท)")
-                ]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(_vm.pawn.total_items_value))])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-6" },
-                [
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-12" }, [
                   _c("b", { staticClass: "ft-s-16" }, [
-                    _vm._v("ดอกเบี้ย(บาท)")
+                    _vm._v("อัตราดอกเบี้ย")
                   ]),
                   _vm._v(" "),
-                  _vm.loadingPawnItems
-                    ? _c("b-spinner", {
-                        attrs: {
-                          label: "Fetching pawn items",
-                          variant: "primary"
-                        }
-                      })
-                    : _c("div", [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(
-                              _vm.form.interest_value
-                                ? "" + _vm.form.interest_value
-                                : "ไม่สามารถระบุได้"
-                            ) +
-                            "\n          "
-                        )
-                      ])
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-4" }, [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _c("h2", [_vm._v("รวมยอดชำระ(บาท)")]),
+                  _c("div", [_vm._v(_vm._s(_vm.pawn.interest_rate) + " %")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-6" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [_vm._v("วันที่มาจำนำ")]),
                   _vm._v(" "),
-                  _vm.loadingPawnItems
-                    ? _c("b-spinner", {
-                        attrs: {
-                          label: "Fetching pawn items",
-                          variant: "primary"
-                        }
-                      })
-                    : _c("h5", [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(
-                              _vm.form.close_amount
-                                ? "" + _vm.form.close_amount
-                                : "ไม่สามารถระบุได้"
-                            ) +
-                            "\n          "
-                        )
-                      ])
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _c(
-                    "b-form-checkbox",
-                    {
-                      attrs: {
-                        id: "checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        name: "checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        value: false,
-                        "unchecked-value": true
-                      },
-                      model: {
-                        value: _vm.status,
-                        callback: function($$v) {
-                          _vm.status = $$v
-                        },
-                        expression: "status"
-                      }
-                    },
-                    [_c("h4", [_vm._v("ไม่มีบัตรจำนำ")])]
-                  ),
+                  _c("div", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(
+                          _vm.formatingDatetime(
+                            _vm.pawn.created_at,
+                            "DD MMM YYYY"
+                          )
+                        ) +
+                        "\n          "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("วันที่ต่อดอกล่าสุด")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "fieldset",
-                    {
-                      staticClass: "mt-2",
-                      attrs: {
-                        id: "fieldset-checkbox-pawn-card-" + _vm.pawn.pawn_no,
-                        disabled: _vm.status
-                      }
-                    },
-                    [
-                      _c("b", [_vm._v("อัพโหลดหลักฐาน")]),
-                      _vm._v(" "),
-                      _c("vue-dropzone", {
-                        ref: "dropzoneIdCard",
-                        attrs: { id: "dropzone", options: _vm.dropzoneOptions },
-                        on: {
-                          "vdropzone-thumbnail": _vm.onDropzoneThumbnail,
-                          "vdropzone-error": _vm.onDropzoneError,
-                          "vdropzone-success": _vm.onDropzoneSuccess,
-                          "vdropzone-removed-file": _vm.onDropzoneRemovedFile
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        { staticClass: "btn btn-primary btn-sm ml-3" },
-                        [_vm._v("อัพโหลด")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ])
-          ]),
+                  _c("div", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(
+                          _vm.formatingDatetime(
+                            _vm.pawn.latest_paid_at,
+                            "DD MMM YYYY"
+                          )
+                        ) +
+                        "\n          "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c("div", { staticClass: "col-6" }, [
+                  _c("b", { staticClass: "ft-s-16" }, [
+                    _vm._v("รวมมูลค่าสินค้า(บาท)")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [_vm._v(_vm._s(_vm.pawn.total_items_value))])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-6" },
+                  [
+                    _c("b", { staticClass: "ft-s-16" }, [
+                      _vm._v("ดอกเบี้ย(บาท)")
+                    ]),
+                    _vm._v(" "),
+                    _vm.loadingPawnItems
+                      ? _c("b-spinner", {
+                          attrs: {
+                            label: "Fetching pawn items",
+                            variant: "primary"
+                          }
+                        })
+                      : _c("div", [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(
+                                _vm.form.interest_value
+                                  ? "" + _vm.form.interest_value
+                                  : "ไม่สามารถระบุได้"
+                              ) +
+                              "\n          "
+                          )
+                        ])
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-12" },
+                  [
+                    _c("h2", [_vm._v("รวมยอดชำระ(บาท)")]),
+                    _vm._v(" "),
+                    _vm.loadingPawnItems
+                      ? _c("b-spinner", {
+                          attrs: {
+                            label: "Fetching pawn items",
+                            variant: "primary"
+                          }
+                        })
+                      : _c("h5", [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(
+                                _vm.form.close_amount
+                                  ? "" + _vm.form.close_amount
+                                  : "ไม่สามารถระบุได้"
+                              ) +
+                              "\n          "
+                          )
+                        ])
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("evidence-uploader", {
+                attrs: { "user-id": _vm.pawn.customer_id }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "template",
@@ -1722,6 +1844,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_searcher_vue_vue_type_template_id_1037d9e6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_searcher_vue_vue_type_template_id_1037d9e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/users/evidence-uploader.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/users/evidence-uploader.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./evidence-uploader.vue?vue&type=template&id=c9deb43c& */ "./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c&");
+/* harmony import */ var _evidence_uploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./evidence-uploader.vue?vue&type=script&lang=js& */ "./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _evidence_uploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/users/evidence-uploader.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./evidence-uploader.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/users/evidence-uploader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./evidence-uploader.vue?vue&type=template&id=c9deb43c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/users/evidence-uploader.vue?vue&type=template&id=c9deb43c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

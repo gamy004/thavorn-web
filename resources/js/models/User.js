@@ -1,5 +1,6 @@
 import { Model } from "@vuex-orm/core";
 import Pawn from "./Pawn"
+import Evidence from "./Evidence";
 export default class User extends Model {
     // This is the name used as module name of the Vuex Store.
     static get entity() {
@@ -23,14 +24,16 @@ export default class User extends Model {
             note: this.attr(null),
             role_id: this.attr(null),
             pawn_ids: this.attr(null),
-            pawns: this.hasManyBy(Pawn, 'pawn_ids', 'customer_id')
+            file_ids: this.attr([]),
+            pawns: this.hasManyBy(Pawn, 'pawn_ids', 'customer_id'),
+            files: this.hasManyBy(Evidence, 'file_ids', 'customer_id'),
         };
     }
 
     static get apiConfig() {
         return {
             dataKey: "users",
-            baseURL: "/api",
+            baseURL: "/api/users",
         };
     }
 }

@@ -15,6 +15,7 @@ export default class Evidence extends Model {
             original_name: this.string(''),
             mime: this.string(''),
             extension: this.string(''),
+            pivot: this.attr(null),
             created_at: this.attr(null),
             updated_at: this.attr(null)
         };
