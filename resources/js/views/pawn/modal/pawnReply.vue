@@ -160,46 +160,6 @@
         </button>
       </template>
     </b-modal>
-
-    <b-toast
-      id="evidence-upload-toast-success"
-      variant="success"
-      solid
-      no-close-button
-      v-model="toastUploadEvidenceSuccess"
-    >
-      อัพโหลดหลักฐานการจำนำสำเร็จเรียบร้อย
-    </b-toast>
-
-    <b-toast
-      id="evidence-upload-toast-fail"
-      variant="success"
-      solid
-      no-close-button
-      v-model="toastUploadEvidenceFail"
-    >
-      อัพโหลดหลักฐานการจำนำไม่สำเร็จ
-    </b-toast>
-
-    <b-toast
-      id="evidence-delete-toast-success"
-      variant="success"
-      solid
-      no-close-button
-      v-model="toastDeleteEvidenceSuccess"
-    >
-      ลบหลักฐานการจำนำสำเร็จเรียบร้อย
-    </b-toast>
-
-    <b-toast
-      id="evidence-delete-toast-fail"
-      variant="success"
-      solid
-      no-close-button
-      v-model="toastDeleteEvidenceFail"
-    >
-      ลบหลักฐานการจำนำไม่สำเร็จ
-    </b-toast>
   </div>
 </template>
 
@@ -226,10 +186,6 @@ export default {
         close_amount: null,
         interest_value: null,
       },
-      toastUploadEvidenceSuccess: false,
-      toastUploadEvidenceFail: false,
-      toastDeleteEvidenceSuccess: false,
-      toastDeleteEvidenceFail: false,
     };
   },
 

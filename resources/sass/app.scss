@@ -31,8 +31,8 @@
         .dz-image {
             img[data-dz-thumbnail] {
                 border-radius: .65em;
-                width: 100%;
-                height: auto;
+                width: 100% !important;
+                height: auto !important;
             }
         }
         .dz-error-message {

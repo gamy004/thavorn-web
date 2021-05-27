@@ -1278,9 +1278,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
                 _this.loading = true;
                 _context.next = 4;
-                return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("users", {
-                  params: {
-                    includes: ["pawns"]
+                return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/", {
+                  params: {// includes: ["pawns"],
                   }
                 });
 

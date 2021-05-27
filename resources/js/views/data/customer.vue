@@ -84,9 +84,9 @@ export default {
       try {
         this.loading = true;
 
-        let { response } = await User.api().get("users", {
+        let { response } = await User.api().get("/", {
           params: {
-            includes: ["pawns"],
+            // includes: ["pawns"],
           },
         });
         if (response && response.data && response.data.users) {

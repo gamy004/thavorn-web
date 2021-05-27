@@ -1,16 +1,6 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <b-form-checkbox
-        id="checkbox-pawn-card"
-        v-model="status"
-        name="checkbox-pawn-card"
-        :value="false"
-        :unchecked-value="true"
-      >
-        <h4>ไม่มีบัตรจำนำ</h4>
-      </b-form-checkbox>
-
       <fieldset
         id="fieldset-checkbox-pawn-card"
         class="mt-2"
@@ -25,12 +15,51 @@
           v-on:vdropzone-thumbnail="onDropzoneThumbnail"
           v-on:vdropzone-error="onDropzoneError"
           v-on:vdropzone-success="onDropzoneSuccess"
+          v-on:vdropzone-file-added="onDropzoneFileAdded"
           v-on:vdropzone-removed-file="onDropzoneRemovedFile"
         ></vue-dropzone>
-
-        <button class="btn btn-primary btn-sm ml-3">อัพโหลด</button>
       </fieldset>
     </div>
+
+    <b-toast
+      id="evidence-upload-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastUploadEvidenceSuccess"
+    >
+      อัพโหลดหลักฐานการจำนำสำเร็จเรียบร้อย
+    </b-toast>
+
+    <b-toast
+      id="evidence-upload-toast-fail"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastUploadEvidenceFail"
+    >
+      อัพโหลดหลักฐานการจำนำไม่สำเร็จ
+    </b-toast>
+
+    <b-toast
+      id="evidence-delete-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastDeleteEvidenceSuccess"
+    >
+      ลบหลักฐานการจำนำสำเร็จเรียบร้อย
+    </b-toast>
+
+    <b-toast
+      id="evidence-delete-toast-fail"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastDeleteEvidenceFail"
+    >
+      ลบหลักฐานการจำนำไม่สำเร็จ
+    </b-toast>
   </div>
 </template>
 
@@ -39,6 +68,7 @@ import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import Evidence from "../../models/Evidence";
 import User from "../../models/User";
 import vue2Dropzone from "vue2-dropzone";
+import { randStrlen } from "../../helper";
 
 export default {
   props: {
@@ -83,6 +113,10 @@ export default {
         capture: true,
         acceptedFiles: "image/*",
       },
+      toastUploadEvidenceSuccess: false,
+      toastUploadEvidenceFail: false,
+      toastDeleteEvidenceSuccess: false,
+      toastDeleteEvidenceFail: false,
     };
   },
 
@@ -118,7 +152,9 @@ export default {
         const name = file.previewElement.querySelector("span[data-dz-name]");
 
         if (name) {
-          name.innerText = file.upload.filename;
+          if (file.upload) {
+            name.innerText = file.upload.filename;
+          }
         }
       }
     },
@@ -152,49 +188,35 @@ export default {
         if (uploadedFile) {
           this.$set(file, "id", uploadedFile.id);
           this.$set(file, "mime", uploadedFile.mime);
+          this.$set(file, "original_name", uploadedFile.original_name);
+          this.$set(file, "path", uploadedFile.path);
         }
 
-        const showButton = file.previewElement.querySelector("a[data-dz-show]");
+        this.bindEvent(file);
+      }
+    },
 
-        if (showButton) {
-          showButton.addEventListener("click", async () => {
-            let blob;
+    bindEvent(file) {
+      const showButton = file.previewElement.querySelector("a[data-dz-show]");
 
-            try {
-              blob = await this.download(uploadedFile);
-            } catch (error) {
-              console.error(error);
-            }
+      if (showButton) {
+        showButton.addEventListener("click", () => {
+          window.open(`${window.location.origin}/${file.path}`);
+        });
+      }
 
-            window.open(URL.createObjectURL(blob));
+      const downloadButton = file.previewElement.querySelector(
+        "a[data-dz-download]"
+      );
 
-            return blob;
-          });
-        }
+      if (downloadButton) {
+        downloadButton.addEventListener("click", () => {
+          const a = document.createElement("a");
 
-        const downloadButton = file.previewElement.querySelector(
-          "a[data-dz-download]"
-        );
-
-        if (downloadButton) {
-          downloadButton.addEventListener("click", async () => {
-            let blob;
-
-            try {
-              blob = await this.download(uploadedFile);
-            } catch (error) {
-              console.error(error);
-            }
-
-            const a = document.createElement("a");
-
-            a.setAttribute("download", uploadedFile.original_name);
-            a.setAttribute("href", URL.createObjectURL(blob));
-            a.click();
-
-            return blob;
-          });
-        }
+          a.setAttribute("download", file.name);
+          a.setAttribute("href", `${window.location.origin}/${file.path}`);
+          a.click();
+        });
       }
     },
 
@@ -211,7 +233,29 @@ export default {
         const user = User.query().with(["files"]).find(userId);
 
         if (user) {
-          console.log(user);
+          const { file_ids = [] } = user;
+
+          if (file_ids.length) {
+            const files = Evidence.findIn(file_ids);
+
+            files.forEach(async (file) => {
+              const mockFile = new File(
+                [randStrlen(file.size)],
+                file.original_name,
+                {
+                  type: file.mime,
+                }
+              );
+
+              this.$set(mockFile, "id", file.id);
+              this.$set(mockFile, "path", file.path);
+
+              this.$refs.dropzoneIdCard.manuallyAddFile(
+                mockFile,
+                `${window.location.origin}/${file.path}`
+              );
+            });
+          }
         }
       } catch (error) {
         console.error(error);
@@ -241,6 +285,12 @@ export default {
       }
 
       return promise;
+    },
+
+    onDropzoneFileAdded(file) {
+      if (file.manuallyAdded) {
+        this.bindEvent(file);
+      }
     },
   },
 };

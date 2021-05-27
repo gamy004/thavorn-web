@@ -11049,8 +11049,8 @@ a.text-dark:focus {
 
 .dropzone > .dz-preview .dz-image img[data-dz-thumbnail] {
   border-radius: 0.65em;
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: auto !important;
 }
 
 .dropzone > .dz-preview .dz-error-message {

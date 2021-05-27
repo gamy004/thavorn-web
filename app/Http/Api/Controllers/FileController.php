@@ -16,7 +16,7 @@ class FileController extends BaseApiController
         DB::beginTransaction();
         
         try {
-            $file = $this->api->upload($request->file('file'), 'evidences', $user);
+            $file = $this->api->uploadPublic($request->file('file'), 'evidences', $user);
 
             if (is_null($file)) {
                 return unacceptable(['message' => 'หลักฐานที่ต้องการ ไม่สามารถอัพโหลดได้']);

@@ -18,13 +18,16 @@ class FileApi extends BaseApi implements ApiInterface
         parent::__construct($q);
     }
 
-    public function upload(UploadedFile $fileRequest, $directory = 'files', User $user = null)
+    public function uploadPublic(UploadedFile $fileRequest, $directory = 'files', User $user = null, $visibility = 'public')
     {
         if ($fileRequest->isValid()) {
-            $filepath = $fileRequest->store($directory.'/'.$user->{DBCol::IDENTITY_CARD_ID});
+            $filepath = $fileRequest->store('public/'.$directory.'/'.$user->{DBCol::IDENTITY_CARD_ID});
+            $exposepath = $fileRequest->store('storage/'.$directory.'/'.$user->{DBCol::IDENTITY_CARD_ID});
+            
+            Storage::setVisibility($filepath, $visibility);
 
             $file = File::create([
-                DBCol::PATH => $filepath,
+                DBCol::PATH => $exposepath,
                 DBCol::ORIGINAL_NAME => $fileRequest->getClientOriginalName(),
                 DBCol::EXTENSION => $fileRequest->clientExtension(),
                 DBCol::MIME => $fileRequest->getMimeType()

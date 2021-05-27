@@ -102,6 +102,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../models/User */ "./resources/js/models/User.js");
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helper */ "./resources/js/helper.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -144,6 +145,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -187,7 +218,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         capture: true,
         acceptedFiles: "image/*"
-      }
+      },
+      toastUploadEvidenceSuccess: false,
+      toastUploadEvidenceFail: false,
+      toastDeleteEvidenceSuccess: false,
+      toastDeleteEvidenceFail: false
     };
   },
   watch: {
@@ -207,7 +242,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var name = file.previewElement.querySelector("span[data-dz-name]");
 
         if (name) {
-          name.innerText = file.upload.filename;
+          if (file.upload) {
+            name.innerText = file.upload.filename;
+          }
         }
       }
     },
@@ -223,8 +260,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     onDropzoneSuccess: function onDropzoneSuccess(file, response) {
-      var _this2 = this;
-
       this.toastUploadEvidenceSuccess = true;
 
       if (file && file.previewElement && response && response.files && response.files.length) {
@@ -233,93 +268,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (uploadedFile) {
           this.$set(file, "id", uploadedFile.id);
           this.$set(file, "mime", uploadedFile.mime);
+          this.$set(file, "original_name", uploadedFile.original_name);
+          this.$set(file, "path", uploadedFile.path);
         }
 
-        var showButton = file.previewElement.querySelector("a[data-dz-show]");
+        this.bindEvent(file);
+      }
+    },
+    bindEvent: function bindEvent(file) {
+      var showButton = file.previewElement.querySelector("a[data-dz-show]");
 
-        if (showButton) {
-          showButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-            var blob;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.prev = 0;
-                    _context.next = 3;
-                    return _this2.download(uploadedFile);
+      if (showButton) {
+        showButton.addEventListener("click", function () {
+          window.open("".concat(window.location.origin, "/").concat(file.path));
+        });
+      }
 
-                  case 3:
-                    blob = _context.sent;
-                    _context.next = 9;
-                    break;
+      var downloadButton = file.previewElement.querySelector("a[data-dz-download]");
 
-                  case 6:
-                    _context.prev = 6;
-                    _context.t0 = _context["catch"](0);
-                    console.error(_context.t0);
-
-                  case 9:
-                    window.open(URL.createObjectURL(blob));
-                    return _context.abrupt("return", blob);
-
-                  case 11:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee, null, [[0, 6]]);
-          })));
-        }
-
-        var downloadButton = file.previewElement.querySelector("a[data-dz-download]");
-
-        if (downloadButton) {
-          downloadButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-            var blob, a;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    _context2.prev = 0;
-                    _context2.next = 3;
-                    return _this2.download(uploadedFile);
-
-                  case 3:
-                    blob = _context2.sent;
-                    _context2.next = 9;
-                    break;
-
-                  case 6:
-                    _context2.prev = 6;
-                    _context2.t0 = _context2["catch"](0);
-                    console.error(_context2.t0);
-
-                  case 9:
-                    a = document.createElement("a");
-                    a.setAttribute("download", uploadedFile.original_name);
-                    a.setAttribute("href", URL.createObjectURL(blob));
-                    a.click();
-                    return _context2.abrupt("return", blob);
-
-                  case 14:
-                  case "end":
-                    return _context2.stop();
-                }
-              }
-            }, _callee2, null, [[0, 6]]);
-          })));
-        }
+      if (downloadButton) {
+        downloadButton.addEventListener("click", function () {
+          var a = document.createElement("a");
+          a.setAttribute("download", file.name);
+          a.setAttribute("href", "".concat(window.location.origin, "/").concat(file.path));
+          a.click();
+        });
       }
     },
     fetch: function fetch(userId) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var promise, user;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var promise, user, _user$file_ids, file_ids, files;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("/".concat(userId), {
                   params: {
                     includes: ["files"]
@@ -327,89 +314,127 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 3:
-                promise = _context3.sent;
+                promise = _context2.sent;
                 user = _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].query()["with"](["files"]).find(userId);
 
                 if (user) {
-                  console.log(user);
+                  _user$file_ids = user.file_ids, file_ids = _user$file_ids === void 0 ? [] : _user$file_ids;
+
+                  if (file_ids.length) {
+                    files = _models_Evidence__WEBPACK_IMPORTED_MODULE_2__["default"].findIn(file_ids);
+                    files.forEach( /*#__PURE__*/function () {
+                      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(file) {
+                        var mockFile;
+                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                          while (1) {
+                            switch (_context.prev = _context.next) {
+                              case 0:
+                                mockFile = new File([Object(_helper__WEBPACK_IMPORTED_MODULE_5__["randStrlen"])(file.size)], file.original_name, {
+                                  type: file.mime
+                                });
+
+                                _this2.$set(mockFile, "id", file.id);
+
+                                _this2.$set(mockFile, "path", file.path);
+
+                                _this2.$refs.dropzoneIdCard.manuallyAddFile(mockFile, "".concat(window.location.origin, "/").concat(file.path));
+
+                              case 4:
+                              case "end":
+                                return _context.stop();
+                            }
+                          }
+                        }, _callee);
+                      }));
+
+                      return function (_x) {
+                        return _ref.apply(this, arguments);
+                      };
+                    }());
+                  }
                 }
 
-                _context3.next = 11;
+                _context2.next = 11;
                 break;
 
               case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](0);
-                console.error(_context3.t0);
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.error(_context2.t0);
 
               case 11:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3, null, [[0, 8]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
     download: function download(file) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var promise, data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return _models_Evidence__WEBPACK_IMPORTED_MODULE_2__["default"].api().download(file.id);
 
               case 2:
-                promise = _context4.sent;
+                promise = _context3.sent;
                 data = promise.response.data;
-                return _context4.abrupt("return", new Blob([data], {
+                return _context3.abrupt("return", new Blob([data], {
                   type: file.mime
                 }));
 
               case 5:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4);
+        }, _callee3);
       }))();
     },
     onDropzoneRemovedFile: function onDropzoneRemovedFile(file) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var promise;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return _models_Evidence__WEBPACK_IMPORTED_MODULE_2__["default"].api().destroy(file.id);
 
               case 3:
-                promise = _context5.sent;
+                promise = _context4.sent;
                 _this3.toastDeleteEvidenceSuccess = true;
-                _context5.next = 11;
+                _context4.next = 11;
                 break;
 
               case 7:
-                _context5.prev = 7;
-                _context5.t0 = _context5["catch"](0);
-                console.error(_context5.t0);
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](0);
+                console.error(_context4.t0);
                 _this3.toastDeleteEvidenceFail = true;
 
               case 11:
-                return _context5.abrupt("return", promise);
+                return _context4.abrupt("return", promise);
 
               case 12:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, null, [[0, 7]]);
+        }, _callee4, null, [[0, 7]]);
       }))();
+    },
+    onDropzoneFileAdded: function onDropzoneFileAdded(file) {
+      if (file.manuallyAdded) {
+        this.bindEvent(file);
+      }
     }
   }
 });
@@ -741,46 +766,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -799,11 +784,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         close_amount: null,
         interest_value: null
-      },
-      toastUploadEvidenceSuccess: false,
-      toastUploadEvidenceFail: false,
-      toastDeleteEvidenceSuccess: false,
-      toastDeleteEvidenceFail: false
+      }
     };
   },
   props: {
@@ -1052,31 +1033,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      { staticClass: "col-12" },
-      [
-        _c(
-          "b-form-checkbox",
-          {
-            attrs: {
-              id: "checkbox-pawn-card",
-              name: "checkbox-pawn-card",
-              value: false,
-              "unchecked-value": true
-            },
-            model: {
-              value: _vm.status,
-              callback: function($$v) {
-                _vm.status = $$v
-              },
-              expression: "status"
-            }
-          },
-          [_c("h4", [_vm._v("ไม่มีบัตรจำนำ")])]
-        ),
-        _vm._v(" "),
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c("div", { staticClass: "col-12" }, [
         _c(
           "fieldset",
           {
@@ -1093,20 +1054,97 @@ var render = function() {
                 "vdropzone-thumbnail": _vm.onDropzoneThumbnail,
                 "vdropzone-error": _vm.onDropzoneError,
                 "vdropzone-success": _vm.onDropzoneSuccess,
+                "vdropzone-file-added": _vm.onDropzoneFileAdded,
                 "vdropzone-removed-file": _vm.onDropzoneRemovedFile
               }
-            }),
-            _vm._v(" "),
-            _c("button", { staticClass: "btn btn-primary btn-sm ml-3" }, [
-              _vm._v("อัพโหลด")
-            ])
+            })
           ],
           1
         )
-      ],
-      1
-    )
-  ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "evidence-upload-toast-success",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastUploadEvidenceSuccess,
+            callback: function($$v) {
+              _vm.toastUploadEvidenceSuccess = $$v
+            },
+            expression: "toastUploadEvidenceSuccess"
+          }
+        },
+        [_vm._v("\n    อัพโหลดหลักฐานการจำนำสำเร็จเรียบร้อย\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "evidence-upload-toast-fail",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastUploadEvidenceFail,
+            callback: function($$v) {
+              _vm.toastUploadEvidenceFail = $$v
+            },
+            expression: "toastUploadEvidenceFail"
+          }
+        },
+        [_vm._v("\n    อัพโหลดหลักฐานการจำนำไม่สำเร็จ\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "evidence-delete-toast-success",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastDeleteEvidenceSuccess,
+            callback: function($$v) {
+              _vm.toastDeleteEvidenceSuccess = $$v
+            },
+            expression: "toastDeleteEvidenceSuccess"
+          }
+        },
+        [_vm._v("\n    ลบหลักฐานการจำนำสำเร็จเรียบร้อย\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "evidence-delete-toast-fail",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastDeleteEvidenceFail,
+            callback: function($$v) {
+              _vm.toastDeleteEvidenceFail = $$v
+            },
+            expression: "toastDeleteEvidenceFail"
+          }
+        },
+        [_vm._v("\n    ลบหลักฐานการจำนำไม่สำเร็จ\n  ")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1688,86 +1726,6 @@ var render = function() {
           )
         ],
         2
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "evidence-upload-toast-success",
-            variant: "success",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastUploadEvidenceSuccess,
-            callback: function($$v) {
-              _vm.toastUploadEvidenceSuccess = $$v
-            },
-            expression: "toastUploadEvidenceSuccess"
-          }
-        },
-        [_vm._v("\n    อัพโหลดหลักฐานการจำนำสำเร็จเรียบร้อย\n  ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "evidence-upload-toast-fail",
-            variant: "success",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastUploadEvidenceFail,
-            callback: function($$v) {
-              _vm.toastUploadEvidenceFail = $$v
-            },
-            expression: "toastUploadEvidenceFail"
-          }
-        },
-        [_vm._v("\n    อัพโหลดหลักฐานการจำนำไม่สำเร็จ\n  ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "evidence-delete-toast-success",
-            variant: "success",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastDeleteEvidenceSuccess,
-            callback: function($$v) {
-              _vm.toastDeleteEvidenceSuccess = $$v
-            },
-            expression: "toastDeleteEvidenceSuccess"
-          }
-        },
-        [_vm._v("\n    ลบหลักฐานการจำนำสำเร็จเรียบร้อย\n  ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "evidence-delete-toast-fail",
-            variant: "success",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastDeleteEvidenceFail,
-            callback: function($$v) {
-              _vm.toastDeleteEvidenceFail = $$v
-            },
-            expression: "toastDeleteEvidenceFail"
-          }
-        },
-        [_vm._v("\n    ลบหลักฐานการจำนำไม่สำเร็จ\n  ")]
       )
     ],
     1
@@ -1915,6 +1873,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_evidence_uploader_vue_vue_type_template_id_c9deb43c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/helper.js":
+/*!********************************!*\
+  !*** ./resources/js/helper.js ***!
+  \********************************/
+/*! exports provided: randStrlen */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randStrlen", function() { return randStrlen; });
+function randStrlen(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return text;
+}
 
 /***/ }),
 
