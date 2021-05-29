@@ -94,7 +94,10 @@ export default class Pawn extends Model {
                     try {
                         res = await this.post(
                             `pawns/${id}/pay`,
-                            { month_amount, amount }
+                            { month_amount, amount },
+                            {
+                                save: false
+                            }
                         );
                     } catch (error) {
                         throw error;
@@ -118,7 +121,10 @@ export default class Pawn extends Model {
                     try {
                         res = await this.post(
                             `pawns/${id}/close`,
-                            { amount }
+                            { amount },
+                            {
+                                save: false
+                            }
                         );
                     } catch (error) {
                         throw error;

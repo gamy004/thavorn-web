@@ -355,7 +355,7 @@ export default {
           this.isSubmitting = false;
 
           this.$emit("change", false);
-        }, 2000);
+        }, 1000);
       } catch (error) {
         this.toastCloseFail = true;
         this.isSubmitting = false;

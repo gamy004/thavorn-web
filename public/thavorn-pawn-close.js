@@ -1017,7 +1017,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.isSubmitting = false;
 
                   _this2.$emit("change", false);
-                }, 2000);
+                }, 1000);
                 _context2.next = 14;
                 break;
 
