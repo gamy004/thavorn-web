@@ -157,10 +157,14 @@ export const searchMixin = {
 
         async searchPawnByCustomerData({
             select = ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at'],
-            includes = []
+            includes = [],
+            filters = [
+                {
+                    key: 'complete',
+                    value: 0
+                }
+            ]
         } = {}) {
-            if (!this.searchInput) return;
-
             PawnItem.deleteAll();
             PawnUserItem.deleteAll();
 
@@ -169,22 +173,24 @@ export const searchMixin = {
                 this.loading = true;
 
                 let params = {
-                    filters: [
-                        {
-                            key: 'complete',
-                            value: 0
-                        }
-                    ],
-                    search: {
-                        keyword: this.searchInput,
-                        fields: [
-                            'full_name',
-                            'identity_card_id',
-                            'pawn_no'
-                        ],
-                    },
+                    filters,
                     select
                 };
+
+                if (this.searchInput && this.searchInput.length) {
+                    this.$set(
+                        params,
+                        'search',
+                        {
+                            keyword: this.searchInput,
+                            fields: [
+                                'full_name',
+                                'identity_card_id',
+                                'pawn_no'
+                            ],
+                        },
+                    )
+                }
 
                 if (includes.length) {
                     this.$set(params, 'includes', includes);
@@ -204,6 +210,13 @@ export const searchMixin = {
             return this.searchPawnByCustomerData({
                 select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
             })
-        }
+        },
+
+        searchAllPawnByCustomerDataWithItems() {
+            return this.searchPawnByCustomerData({
+                select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value'],
+                filters: []
+            })
+        },
     },
 }

@@ -11067,6 +11067,7 @@ a.text-dark:focus {
   background-color: rgba(60, 68, 177, 0.8) !important;
 }
 
+.vue-dropzone > .dz-preview .dz-custom-remove,
 .vue-dropzone > .dz-preview .dz-show,
 .vue-dropzone > .dz-preview .dz-download {
   position: absolute;
@@ -11084,6 +11085,10 @@ a.text-dark:focus {
   opacity: 0;
 }
 
+.vue-dropzone > .dz-preview .dz-custom-remove {
+  margin-left: 15px;
+}
+
 .vue-dropzone > .dz-preview .dz-show {
   margin-left: 90px;
 }
@@ -11092,11 +11097,13 @@ a.text-dark:focus {
   margin-left: 200px;
 }
 
+.vue-dropzone > .dz-preview:hover .dz-custom-remove,
 .vue-dropzone > .dz-preview:hover .dz-show,
 .vue-dropzone > .dz-preview:hover .dz-download {
   opacity: 1;
 }
 
+.vue-dropzone > .dz-preview:hover .dz-custom-remove:hover,
 .vue-dropzone > .dz-preview:hover .dz-show:hover,
 .vue-dropzone > .dz-preview:hover .dz-download:hover {
   text-decoration: underline;

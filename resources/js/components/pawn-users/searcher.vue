@@ -52,6 +52,7 @@
             <slot
               name="search-result"
               v-bind:pawnUserItems="pawnUserItems"
+              v-bind:closabledPawnUserItems="closabledPawnUserItems"
             ></slot>
           </div>
         </div>
@@ -71,12 +72,23 @@ export default {
       type: Function,
       default: searchMixin.methods.searchPawnByCustomerData,
     },
+
+    autoFetch: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
     refresh() {
       return this.searchFn();
     },
+  },
+
+  mounted() {
+    if (this.autoFetch) {
+      this.searchFn();
+    }
   },
 };
 </script>

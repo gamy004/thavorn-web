@@ -97,7 +97,12 @@
         >
           <a class="ft-s-16">ปิดหน้าต่าง</a>
         </button>
-        <button type="button" class="btn btn-primary" @click="showPawnRenew">
+        <button
+          v-if="extendable"
+          type="button"
+          class="btn btn-primary"
+          @click="showPawnRenew"
+        >
           <a class="ft-s-16">ต่ออายุดอกเบี้ย</a>
         </button>
       </template>
@@ -123,6 +128,7 @@
                   <th scope="col">น้ำหนักทอง (กรัม)</th>
                   <th scope="col">มูลค่า (บาท)</th>
                   <th scope="col">ความเสียหาย</th>
+                  <th scope="col">สถานะไถ่ถอน</th>
                 </tr>
               </thead>
               <tbody>
@@ -147,6 +153,9 @@
                         ? pawnItem.item_damage.item_damage
                         : "ไม่ระบุ"
                     }}
+                  </td>
+                  <td>
+                    {{ pawnItem.complete ? "เรียบร้อย" : "ยังไม่เรียบร้อย" }}
                   </td>
                 </tr>
               </tbody>
@@ -180,6 +189,11 @@ export default {
     show: {
       type: Boolean,
       default: () => false,
+    },
+
+    extendable: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -247,7 +261,6 @@ export default {
       return this.pawn && this.pawn.id
         ? PawnItem.query()
             .where("pawn_id", this.pawn.id)
-            .where("complete", false)
             .with(["item_damage", "item_category"])
             .get()
         : [];

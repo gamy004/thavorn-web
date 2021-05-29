@@ -45,31 +45,79 @@
                 label="Fetching pawn"
                 variant="primary"
               ></b-spinner>
-              <table
-                v-else
-                class="table table-hover table-striped table-bordered mt-3 mb-3"
+
+              <pawn-user-searcher
+                ref="pawnUserSearcher"
+                :search-fn="searchFn"
+                auto-fetch
               >
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">เลขบัตรประชาชน</th>
-                    <th scope="col">ชื่อ</th>
-                    <th scope="col">นามสกุล</th>
-                    <th scope="col">เบอร์โทรศัพท์</th>
-                    <th scope="col">วันที่สร้าง</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(user, index) in users" :key="`user-${index}`">
-                    <th scope="row">{{ user.identity_card_id }}</th>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.phone_number }}</td>
-                    <td>
-                      {{ formatingDatetime(user.created_at, "DD MMM YYYY") }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <template v-slot:search-result="{ pawnUserItems = [] }">
+                  <b-table
+                    id="pawnTable"
+                    class="mt-3 mb-5"
+                    hover
+                    striped
+                    bordered
+                    :fields="fields"
+                    :items="pawnUserItems"
+                    :per-page="perPage"
+                    :current-page="currentPage"
+                  >
+                    <template #cell(pawn_no)="data">
+                      {{ data.item.pawn_no }}
+                    </template>
+
+                    <template #cell(customer_name)="data">
+                      {{ data.item.full_name }}
+                    </template>
+
+                    <template #cell(created_at)="data">
+                      {{
+                        formatingDatetime(data.item.created_at, "DD MMM YYYY")
+                      }}
+                    </template>
+
+                    <template #cell(next_paid_at)="data">
+                      {{
+                        formatingDatetime(data.item.next_paid_at, "DD MMM YYYY")
+                      }}
+                    </template>
+
+                    <template #cell(updated_at)="data">
+                      {{
+                        formatingDatetime(data.item.updated_at, "DD MMM YYYY")
+                      }}
+                    </template>
+
+                    <template #cell(complete)="data">
+                      {{ data.item.complete ? "เรียบร้อย" : "ยังไม่เรียบร้อย" }}
+                    </template>
+
+                    <template #cell(action)="data">
+                      <small class="my-2 mr-2">
+                        <a
+                          href="#"
+                          @click.prevent.stop="showPawnDetail(data.item)"
+                          >ดูรายละเอียด</a
+                        >
+                      </small>
+                    </template>
+                  </b-table>
+
+                  <b-pagination
+                    v-model="currentPage"
+                    :total-rows="pawnUserItems.length"
+                    :per-page="perPage"
+                    aria-controls="pawnTable"
+                  ></b-pagination>
+                </template>
+              </pawn-user-searcher>
+
+              <pawn-detail
+                :pawn="shownPawnUserItem"
+                :extendable="false"
+                v-model="showDetail"
+              ></pawn-detail>
             </div>
           </div>
         </div>
@@ -79,40 +127,62 @@
 </template>
 
 <script>
-import { datetimeMixin } from "../../mixins";
-import User from "models/User";
+import { datetimeMixin, searchMixin } from "../../mixins";
+import Pawn from "models/Pawn";
+import pawnUserSearcher from "../../components/pawn-users/searcher";
+import PawnUserItem from "../../models/PawnUserItem";
+import pawnDetail from "../../views/pawn/modal/pawnDetail";
 
 export default {
   mixins: [datetimeMixin],
 
-  components: {},
+  components: {
+    pawnDetail,
+    pawnUserSearcher,
+  },
 
   data() {
     return {
       users: [],
       loading: false,
+      searchFn: searchMixin.methods.searchAllPawnByCustomerDataWithItems,
+      shownPawnUserItem: new PawnUserItem(),
+      showDetail: false,
+      perPage: 50,
+      currentPage: 1,
+      fields: [
+        { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
+        { key: "customer_name", label: "ชื่อลูกค้า" },
+        { key: "created_at", label: "วันที่มาจำนำ" },
+        { key: "next_paid_at", label: "วันที่ครบกำหนดดอกเบี้ย" },
+        { key: "updated_at", label: "วันที่อัพเดทล่าสุด" },
+        { key: "complete", label: "สถานะไถ่ถอน" },
+        { key: "action", label: "" },
+      ],
     };
   },
-  computed: {},
 
   methods: {
-    async getUsers() {
+    async fetch() {
       try {
         this.loading = true;
-        let { response } = await User.api().get("users");
-        if (response && response.data && response.data.users) {
-          this.users = response.data.users;
-        }
+
+        await Pawn.api().get("/pawns");
       } catch (error) {
         console.error(error);
       } finally {
         this.loading = false;
       }
     },
+
+    showPawnDetail(data) {
+      this.shownPawnUserItem = new PawnUserItem({ ...data });
+      this.showDetail = true;
+    },
   },
 
   created() {
-    this.getUsers();
+    this.fetch();
   },
 };
 </script>

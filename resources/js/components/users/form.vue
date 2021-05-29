@@ -1,6 +1,6 @@
 <template>
   <b-form>
-    <b-form-row>
+    <b-form-row v-if="searchable">
       <b-form-group class="col-md-12">
         <label for="inputCustomer">ค้นหาลูกค้า</label>
         <v-select
@@ -186,6 +186,11 @@ export default {
   mixins: [disabledMixin, errorMixin, resetMixin],
 
   props: {
+    searchable: {
+      type: Boolean,
+      default: true,
+    },
+
     user: {
       type: User,
       default: () => new User(),

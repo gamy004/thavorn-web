@@ -38,6 +38,12 @@ export default class User extends Model {
         return {
             dataKey: "users",
             baseURL: "/api/users",
+
+            actions: {
+                update(id, data) {
+                    return this.patch(`/${id}`, { ...data });
+                }
+            }
         };
     }
 }

@@ -26,7 +26,9 @@
             </div>
             <div class="card-body">
               <pawn-user-searcher ref="pawnUserSearcher" :search-fn="searchFn">
-                <template v-slot:search-result="{ pawnUserItems = [] }">
+                <template
+                  v-slot:search-result="{ closabledPawnUserItems = [] }"
+                >
                   <table
                     class="table table-hover table-striped table-bordered mt-3 mb-5"
                   >

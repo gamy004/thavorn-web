@@ -618,73 +618,73 @@ var searchMixin = {
           _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _ref, _ref$select, select, _ref$includes, includes, params;
+        var _ref, _ref$select, select, _ref$includes, includes, _ref$filters, filters, params;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _ref = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {}, _ref$select = _ref.select, select = _ref$select === void 0 ? ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at'] : _ref$select, _ref$includes = _ref.includes, includes = _ref$includes === void 0 ? [] : _ref$includes;
-
-                if (_this.searchInput) {
-                  _context.next = 3;
-                  break;
-                }
-
-                return _context.abrupt("return");
-
-              case 3:
+                _ref = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : {}, _ref$select = _ref.select, select = _ref$select === void 0 ? ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at'] : _ref$select, _ref$includes = _ref.includes, includes = _ref$includes === void 0 ? [] : _ref$includes, _ref$filters = _ref.filters, filters = _ref$filters === void 0 ? [{
+                  key: 'complete',
+                  value: 0
+                }] : _ref$filters;
                 _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].deleteAll();
                 _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAll();
-                _context.prev = 5;
+                _context.prev = 3;
                 _this.search = true;
                 _this.loading = true;
                 params = {
-                  filters: [{
-                    key: 'complete',
-                    value: 0
-                  }],
-                  search: {
-                    keyword: _this.searchInput,
-                    fields: ['full_name', 'identity_card_id', 'pawn_no']
-                  },
+                  filters: filters,
                   select: select
                 };
+
+                if (_this.searchInput && _this.searchInput.length) {
+                  _this.$set(params, 'search', {
+                    keyword: _this.searchInput,
+                    fields: ['full_name', 'identity_card_id', 'pawn_no']
+                  });
+                }
 
                 if (includes.length) {
                   _this.$set(params, 'includes', includes);
                 }
 
-                _context.next = 12;
+                _context.next = 11;
                 return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].api().get('/', {
                   params: params
                 });
 
-              case 12:
-                _context.next = 17;
+              case 11:
+                _context.next = 16;
                 break;
 
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](5);
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](3);
                 console.log(_context.t0);
 
-              case 17:
-                _context.prev = 17;
+              case 16:
+                _context.prev = 16;
                 _this.loading = false;
-                return _context.finish(17);
+                return _context.finish(16);
 
-              case 20:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[5, 14, 17, 20]]);
+        }, _callee, null, [[3, 13, 16, 19]]);
       }))();
     },
     searchPawnByCustomerDataWithItems: function searchPawnByCustomerDataWithItems() {
       return this.searchPawnByCustomerData({
         select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value']
+      });
+    },
+    searchAllPawnByCustomerDataWithItems: function searchAllPawnByCustomerDataWithItems() {
+      return this.searchPawnByCustomerData({
+        select: ['pawns:id,full_name,identity_card_id,pawn_no,interest_rate,complete,customer_id,created_at,updated_at,latest_paid_at,next_paid_at,count_items,total_items_value'],
+        filters: []
       });
     }
   }

@@ -18,7 +18,6 @@
           v-on:vdropzone-error="onDropzoneError"
           v-on:vdropzone-success="onDropzoneSuccess"
           v-on:vdropzone-file-added="onDropzoneFileAdded"
-          v-on:vdropzone-removed-file="onDropzoneRemovedFile"
         ></vue-dropzone>
       </fieldset>
     </div>
@@ -153,7 +152,7 @@ export default {
                 </div>
                 <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
                 <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                <a class="dz-remove" href="javascript:undefined;" data-dz-remove>ลบไฟล์</a>
+                <a class="dz-custom-remove" href="javascript:undefined;" data-dz-custom-remove>ลบไฟล์</a>
                 <a class="dz-show" href="javascript:undefined;" data-dz-show>ดูภาพเต็มจอ</a>
                 <a class="dz-download" href="javascript:undefined;" data-dz-download>ดาว์นโหลด</a>
             </div>
@@ -210,6 +209,29 @@ export default {
     },
 
     bindEvent(file) {
+      const customRemoveButton = file.previewElement.querySelector(
+        "a[data-dz-custom-remove]"
+      );
+
+      if (customRemoveButton) {
+        customRemoveButton.addEventListener("click", async () => {
+          let promise;
+
+          try {
+            promise = await Evidence.api().destroy(file.id);
+
+            this.toastDeleteEvidenceSuccess = true;
+
+            this.$refs.dropzoneIdCard.removeFile(file);
+          } catch (error) {
+            console.error(error);
+            this.toastDeleteEvidenceFail = true;
+          }
+
+          return promise;
+        });
+      }
+
       const showButton = file.previewElement.querySelector("a[data-dz-show]");
 
       if (showButton) {
@@ -283,21 +305,6 @@ export default {
       const { data } = promise.response;
 
       return new Blob([data], { type: file.mime });
-    },
-
-    async onDropzoneRemovedFile(file) {
-      let promise;
-
-      try {
-        promise = await Evidence.api().destroy(file.id);
-
-        this.toastDeleteEvidenceSuccess = true;
-      } catch (error) {
-        console.error(error);
-        this.toastDeleteEvidenceFail = true;
-      }
-
-      return promise;
     },
 
     onDropzoneFileAdded(file) {

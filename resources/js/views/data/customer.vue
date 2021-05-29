@@ -40,6 +40,7 @@
                     <th scope="col">นามสกุล</th>
                     <th scope="col">เบอร์โทรศัพท์</th>
                     <th scope="col">วันที่สร้าง</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,16 @@
                     <td>
                       {{ formatingDatetime(user.created_at, "DD MMM YYYY") }}
                     </td>
+                    <td>
+                      <b-button
+                        variant="link"
+                        size="sm"
+                        class="p-0"
+                        @click="showDetail(user)"
+                      >
+                        ดูรายละเอียด
+                      </b-button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -59,44 +70,88 @@
         </div>
       </div>
     </div>
+
+    <user-modal
+      :user="showDetailUser"
+      v-model="showModalUser"
+      @success="toastUpdateUserSuccess = true"
+      @fail="toastUpdateUserFail = true"
+    ></user-modal>
+
+    <b-toast
+      id="pawn-close-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastUpdateUserSuccess"
+    >
+      อัพเดตข้อมูลลูกค้าสำเร็จ
+    </b-toast>
+
+    <b-toast
+      id="pawn-close-toast-fail"
+      variant="danger"
+      solid
+      no-close-button
+      v-model="toastUpdateUserFail"
+    >
+      อัพเดตข้อมูลลูกค้าไม่สำเร็จ
+    </b-toast>
   </div>
 </template>
 
 <script>
 import { datetimeMixin } from "../../mixins";
 import User from "models/User";
+import userModal from "../../components/users/modal";
 
 export default {
   mixins: [datetimeMixin],
 
-  components: {},
+  components: {
+    userModal,
+  },
 
   data() {
     return {
-      users: [],
+      showDetailUser: new User(),
+      showModalUser: false,
       loading: false,
+      toastUpdateUserSuccess: false,
+      toastUpdateUserFail: false,
     };
   },
-  computed: {},
+
+  watch: {
+    showModalUser(v) {
+      if (!v) {
+        this.showDetailUser = new User();
+      }
+    },
+  },
+
+  computed: {
+    users() {
+      return User.all();
+    },
+  },
 
   methods: {
     async getUsers() {
       try {
         this.loading = true;
 
-        let { response } = await User.api().get("/", {
-          params: {
-            // includes: ["pawns"],
-          },
-        });
-        if (response && response.data && response.data.users) {
-          this.users = response.data.users;
-        }
+        await User.api().get("/");
       } catch (error) {
         console.error(error);
       } finally {
         this.loading = false;
       }
+    },
+
+    showDetail(user) {
+      this.showDetailUser = new User({ ...user });
+      this.showModalUser = true;
     },
   },
 

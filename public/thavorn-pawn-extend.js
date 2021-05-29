@@ -72,6 +72,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
@@ -79,11 +80,20 @@ __webpack_require__.r(__webpack_exports__);
     searchFn: {
       type: Function,
       "default": _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerData
+    },
+    autoFetch: {
+      type: Boolean,
+      "default": false
     }
   },
   methods: {
     refresh: function refresh() {
       return this.searchFn();
+    }
+  },
+  mounted: function mounted() {
+    if (this.autoFetch) {
+      this.searchFn();
     }
   }
 });
@@ -102,7 +112,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins */ "./resources/js/mixins/index.js");
-/* harmony import */ var models_User__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/User */ "./resources/js/models/User.js");
+/* harmony import */ var models_Pawn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/Pawn */ "./resources/js/models/Pawn.js");
+/* harmony import */ var _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/pawn-users/searcher */ "./resources/js/components/pawn-users/searcher.vue");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _views_pawn_modal_pawnDetail__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../views/pawn/modal/pawnDetail */ "./resources/js/views/pawn/modal/pawnDetail.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -189,25 +208,103 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"]],
-  components: {},
+  components: {
+    pawnDetail: _views_pawn_modal_pawnDetail__WEBPACK_IMPORTED_MODULE_5__["default"],
+    pawnUserSearcher: _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
   data: function data() {
     return {
       users: [],
-      loading: false
+      loading: false,
+      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"].methods.searchAllPawnByCustomerDataWithItems,
+      shownPawnUserItem: new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"](),
+      showDetail: false,
+      perPage: 50,
+      currentPage: 1,
+      fields: [{
+        key: "pawn_no",
+        label: "เลขที่บัตรจำนำ"
+      }, {
+        key: "customer_name",
+        label: "ชื่อลูกค้า"
+      }, {
+        key: "created_at",
+        label: "วันที่มาจำนำ"
+      }, {
+        key: "next_paid_at",
+        label: "วันที่ครบกำหนดดอกเบี้ย"
+      }, {
+        key: "updated_at",
+        label: "วันที่อัพเดทล่าสุด"
+      }, {
+        key: "complete",
+        label: "สถานะไถ่ถอน"
+      }, {
+        key: "action",
+        label: ""
+      }]
     };
   },
-  computed: {},
   methods: {
-    getUsers: function getUsers() {
+    fetch: function fetch() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _yield$User$api$get, response;
-
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -215,40 +312,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
                 _this.loading = true;
                 _context.next = 4;
-                return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("users");
+                return models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/pawns");
 
               case 4:
-                _yield$User$api$get = _context.sent;
-                response = _yield$User$api$get.response;
-
-                if (response && response.data && response.data.users) {
-                  _this.users = response.data.users;
-                }
-
-                _context.next = 12;
+                _context.next = 9;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 6:
+                _context.prev = 6;
                 _context.t0 = _context["catch"](0);
                 console.error(_context.t0);
 
-              case 12:
-                _context.prev = 12;
+              case 9:
+                _context.prev = 9;
                 _this.loading = false;
-                return _context.finish(12);
+                return _context.finish(9);
 
-              case 15:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9, 12, 15]]);
+        }, _callee, null, [[0, 6, 9, 12]]);
       }))();
+    },
+    showPawnDetail: function showPawnDetail(data) {
+      this.shownPawnUserItem = new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"](_objectSpread({}, data));
+      this.showDetail = true;
     }
   },
   created: function created() {
-    this.getUsers();
+    this.fetch();
   }
 });
 
@@ -652,6 +746,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -667,6 +770,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       "default": function _default() {
         return false;
       }
+    },
+    extendable: {
+      type: Boolean,
+      "default": true
     }
   },
   model: {
@@ -760,7 +867,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     pawnItems: function pawnItems() {
-      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id).where("complete", false)["with"](["item_damage", "item_category"]).get() : [];
+      return this.pawn && this.pawn.id ? _models_PawnItem__WEBPACK_IMPORTED_MODULE_3__["default"].query().where("pawn_id", this.pawn.id)["with"](["item_damage", "item_category"]).get() : [];
     },
     payments: function payments() {
       return this.pawn && this.pawn.id ? _models_Payment__WEBPACK_IMPORTED_MODULE_1__["default"].query().where("pawn_id", this.pawn.id).get() : [];
@@ -1211,7 +1318,8 @@ var render = function() {
                         _c("span", [_vm._v("ผลการค้นหา")]),
                         _vm._v(" "),
                         _vm._t("search-result", null, {
-                          pawnUserItems: _vm.pawnUserItems
+                          pawnUserItems: _vm.pawnUserItems,
+                          closabledPawnUserItems: _vm.closabledPawnUserItems
                         })
                       ],
                       2
@@ -1322,69 +1430,188 @@ var render = function() {
                   ? _c("b-spinner", {
                       attrs: { label: "Fetching pawn", variant: "primary" }
                     })
-                  : _c(
-                      "table",
-                      {
-                        staticClass:
-                          "table table-hover table-striped table-bordered mt-3 mb-3"
-                      },
-                      [
-                        _c("thead", { staticClass: "thead-light" }, [
-                          _c("tr", [
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("เลขบัตรประชาชน")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("ชื่อ")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("นามสกุล")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("เบอร์โทรศัพท์")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("วันที่สร้าง")
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.users, function(user, index) {
-                            return _c("tr", { key: "user-" + index }, [
-                              _c("th", { attrs: { scope: "row" } }, [
-                                _vm._v(_vm._s(user.identity_card_id))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(user.first_name))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(user.last_name))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(user.phone_number))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  "\n                    " +
-                                    _vm._s(
-                                      _vm.formatingDatetime(
-                                        user.created_at,
-                                        "DD MMM YYYY"
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("pawn-user-searcher", {
+                  ref: "pawnUserSearcher",
+                  attrs: { "search-fn": _vm.searchFn, "auto-fetch": "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "search-result",
+                      fn: function(ref) {
+                        var pawnUserItems = ref.pawnUserItems
+                        if (pawnUserItems === void 0) pawnUserItems = []
+                        return [
+                          _c("b-table", {
+                            staticClass: "mt-3 mb-5",
+                            attrs: {
+                              id: "pawnTable",
+                              hover: "",
+                              striped: "",
+                              bordered: "",
+                              fields: _vm.fields,
+                              items: pawnUserItems,
+                              "per-page": _vm.perPage,
+                              "current-page": _vm.currentPage
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "cell(pawn_no)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(data.item.pawn_no) +
+                                          "\n                  "
                                       )
-                                    ) +
-                                    "\n                  "
-                                )
-                              ])
-                            ])
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(customer_name)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(data.item.full_name) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(created_at)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formatingDatetime(
+                                              data.item.created_at,
+                                              "DD MMM YYYY"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(next_paid_at)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formatingDatetime(
+                                              data.item.next_paid_at,
+                                              "DD MMM YYYY"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(updated_at)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm.formatingDatetime(
+                                              data.item.updated_at,
+                                              "DD MMM YYYY"
+                                            )
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(complete)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            data.item.complete
+                                              ? "เรียบร้อย"
+                                              : "ยังไม่เรียบร้อย"
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(action)",
+                                  fn: function(data) {
+                                    return [
+                                      _c(
+                                        "small",
+                                        { staticClass: "my-2 mr-2" },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              attrs: { href: "#" },
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  $event.stopPropagation()
+                                                  return _vm.showPawnDetail(
+                                                    data.item
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("ดูรายละเอียด")]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
                           }),
-                          0
-                        )
-                      ]
-                    )
+                          _vm._v(" "),
+                          _c("b-pagination", {
+                            attrs: {
+                              "total-rows": pawnUserItems.length,
+                              "per-page": _vm.perPage,
+                              "aria-controls": "pawnTable"
+                            },
+                            model: {
+                              value: _vm.currentPage,
+                              callback: function($$v) {
+                                _vm.currentPage = $$v
+                              },
+                              expression: "currentPage"
+                            }
+                          })
+                        ]
+                      }
+                    }
+                  ])
+                }),
+                _vm._v(" "),
+                _c("pawn-detail", {
+                  attrs: { pawn: _vm.shownPawnUserItem, extendable: false },
+                  model: {
+                    value: _vm.showDetail,
+                    callback: function($$v) {
+                      _vm.showDetail = $$v
+                    },
+                    expression: "showDetail"
+                  }
+                })
               ],
               1
             )
@@ -1934,19 +2161,21 @@ var render = function() {
                 [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ปิดหน้าต่าง")])]
               ),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
-                  on: { click: _vm.showPawnRenew }
-                },
-                [
-                  _c("a", { staticClass: "ft-s-16" }, [
-                    _vm._v("ต่ออายุดอกเบี้ย")
-                  ])
-                ]
-              )
+              _vm.extendable
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: { click: _vm.showPawnRenew }
+                    },
+                    [
+                      _c("a", { staticClass: "ft-s-16" }, [
+                        _vm._v("ต่ออายุดอกเบี้ย")
+                      ])
+                    ]
+                  )
+                : _vm._e()
             ]
           )
         ],
@@ -2002,6 +2231,10 @@ var render = function() {
                         _vm._v(" "),
                         _c("th", { attrs: { scope: "col" } }, [
                           _vm._v("ความเสียหาย")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("สถานะไถ่ถอน")
                         ])
                       ])
                     ]),
@@ -2039,6 +2272,18 @@ var render = function() {
                                   pawnItem.item_damage
                                     ? pawnItem.item_damage.item_damage
                                     : "ไม่ระบุ"
+                                ) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(
+                                  pawnItem.complete
+                                    ? "เรียบร้อย"
+                                    : "ยังไม่เรียบร้อย"
                                 ) +
                                 "\n                "
                             )

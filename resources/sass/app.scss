@@ -53,6 +53,7 @@
             background-color: rgb(60, 68, 177, .8) !important;
         }
 
+        .dz-custom-remove,
         .dz-show,
         .dz-download {
             position: absolute;
@@ -70,6 +71,10 @@
             opacity: 0;
         }
 
+        .dz-custom-remove {
+            margin-left: 15px;
+        }
+
         .dz-show {
             margin-left: 90px;
         }
@@ -79,6 +84,7 @@
         }
 
         &:hover {
+            .dz-custom-remove,
             .dz-show,
             .dz-download {
                 opacity: 1;
