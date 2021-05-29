@@ -72,5 +72,11 @@ export default {
       default: searchMixin.methods.searchPawnByCustomerData,
     },
   },
+
+  methods: {
+    refresh() {
+      return this.searchFn();
+    },
+  },
 };
 </script>

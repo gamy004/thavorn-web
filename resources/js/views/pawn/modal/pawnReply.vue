@@ -145,21 +145,76 @@
           </div>
         </div>
 
-        <evidence-uploader :user-id="pawn.customer_id"></evidence-uploader>
+        <evidence-uploader
+          ref="evidenceUploader"
+          :user-id="pawn.customer_id"
+        ></evidence-uploader>
       </div>
       <template slot="modal-footer" class="modal-footer ml-3 mr-3">
         <button
           type="button"
           class="btn btn-secondary"
+          :disabled="
+            ($refs.evidenceUploader
+              ? $refs.evidenceUploader.isProcessing
+              : false) || isSubmitting
+          "
           @click="closePawnReply(pawn.pawn_no)"
         >
-          <a class="ft-s-16">ปิดหน้าต่าง</a>
+          <b-spinner
+            v-if="
+              ($refs.evidenceUploader
+                ? $refs.evidenceUploader.isProcessing
+                : false) || isSubmitting
+            "
+          ></b-spinner>
+          <span v-else>ปิดหน้าต่าง</span>
         </button>
-        <button type="button" class="btn btn-success">
-          <a class="ft-s-16">ไถ่ถอน</a>
+        <button
+          type="button"
+          class="btn btn-primary"
+          :disabled="
+            loadingPawnItems ||
+            ($refs.evidenceUploader
+              ? $refs.evidenceUploader.isProcessing
+              : false) ||
+            isSubmitting
+          "
+          @click.prevent="submit(pawn.id)"
+        >
+          <b-spinner
+            v-if="
+              loadingPawnItems ||
+              ($refs.evidenceUploader
+                ? $refs.evidenceUploader.isProcessing
+                : false) ||
+              isSubmitting
+            "
+          ></b-spinner>
+          <span v-else>ไถ่ถอน</span>
         </button>
       </template>
     </b-modal>
+
+    <b-toast
+      id="pawn-close-toast-success"
+      variant="success"
+      solid
+      no-close-button
+      v-model="toastCloseSuccess"
+    >
+      ไถ่ถอนการจำนำสำเร็จ
+    </b-toast>
+
+    <b-toast
+      id="pawn-close-toast-fail"
+      variant="danger"
+      solid
+      no-close-button
+      v-model="toastCloseFail"
+    >
+      ไถ่ถอนการจำนำไม่สำเร็จ
+    </b-toast>
   </div>
 </template>
 
@@ -181,11 +236,14 @@ export default {
   data() {
     return {
       loadingPawnItems: false,
+      isSubmitting: false,
       status: true,
       form: {
         close_amount: null,
         interest_value: null,
       },
+      toastCloseFail: false,
+      toastCloseSuccess: false,
     };
   },
 
@@ -273,6 +331,35 @@ export default {
         console.error(error);
       } finally {
         this.loadingPawnItems = false;
+      }
+    },
+
+    async submit(id) {
+      let promise;
+
+      this.isSubmitting = true;
+
+      try {
+        promise = await Pawn.api().close(id, this.form.close_amount);
+
+        this.toastCloseSuccess = true;
+
+        setTimeout(() => {
+          this.$emit("success", promise);
+
+          this.form = {
+            close_amount: null,
+            interest_value: null,
+          };
+
+          this.isSubmitting = false;
+
+          this.$emit("change", false);
+        }, 2000);
+      } catch (error) {
+        this.toastCloseFail = true;
+        this.isSubmitting = false;
+        this.$emit("error", error);
       }
     },
   },

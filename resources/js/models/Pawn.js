@@ -110,6 +110,30 @@ export default class Pawn extends Model {
 
                         return response.data;
                     }
+                },
+
+                async close(id, amount) {
+                    let res;
+
+                    try {
+                        res = await this.post(
+                            `pawns/${id}/close`,
+                            { amount }
+                        );
+                    } catch (error) {
+                        throw error;
+                    }
+
+                    const { response } = res;
+
+                    if (response && response.data) {
+                        model.update({
+                            where: id,
+                            data: response.data
+                        })
+
+                        return response.data;
+                    }
                 }
             }
         };

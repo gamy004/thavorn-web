@@ -25,7 +25,7 @@
               <h5 class="my-3">ข้อมูลสินค้าจำนำ</h5>
             </div>
             <div class="card-body">
-              <pawn-user-searcher :search-fn="searchFn">
+              <pawn-user-searcher ref="pawnUserSearcher" :search-fn="searchFn">
                 <template v-slot:search-result="{ pawnUserItems = [] }">
                   <table
                     class="table table-hover table-striped table-bordered mt-3 mb-5"
@@ -41,7 +41,7 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(pawnUserItem, index) in pawnUserItems"
+                        v-for="(pawnUserItem, index) in closabledPawnUserItems"
                         :key="`pawn-${index}`"
                       >
                         <th scope="row">{{ pawnUserItem.pawn_no }}</th>
@@ -63,6 +63,7 @@
                             v-if="selectedReplyPawnNo === pawnUserItem.pawn_no"
                             :pawn="pawnUserItem"
                             v-model="showReply"
+                            @success="onClosePawnSuccess"
                           ></pawn-reply>
                         </td>
                       </tr>
@@ -80,6 +81,7 @@
 
 <script>
 import { datetimeMixin, searchMixin } from "../../mixins";
+import PawnUserItem from "../../models/PawnUserItem";
 import PawnUserSearcher from "../../components/pawn-users/searcher";
 import PawnReply from "./modal/pawnReply";
 
@@ -112,6 +114,13 @@ export default {
       this.selectedReplyPawnNo = id;
       this.showReply = true;
       // this.$bvModal.show(`pawn-reply-modal-${id}`);
+    },
+
+    async onClosePawnSuccess({ id, ...data }) {
+      PawnUserItem.update({
+        where: id,
+        data,
+      });
     },
   },
 };

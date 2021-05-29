@@ -79,7 +79,7 @@
         <button type="button" class="btn btn-secondary" @click="closePawnRenew">
           <span class="ft-s-16">ปิดหน้าต่าง</span>
         </button>
-        <button type="button" class="btn btn-success" @click.prevent="submit">
+        <button type="button" class="btn btn-primary" @click.prevent="submit">
           <b-spinner
             v-if="submitting"
             label="Submitting extend"

@@ -80,6 +80,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Function,
       "default": _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerData
     }
+  },
+  methods: {
+    refresh: function refresh() {
+      return this.searchFn();
+    }
   }
 });
 
@@ -174,6 +179,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -194,6 +201,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return {
       status: true,
+      isProcessing: false,
       dropzoneOptions: {
         url: "/api/files/upload/".concat(this.userId, "/evidences"),
         headers: {
@@ -213,7 +221,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             index = previews.length + 1;
           }
 
-          var fileName = "\u0E2B\u0E25\u0E31\u0E01\u0E10\u0E32\u0E19-".concat(index, ".").concat(file.name.split(".").pop());
+          var user = _this.user;
+          var fileName = "".concat(_this.user.evidenceFileNamePrefix, "-").concat(index, ".").concat(file.name.split(".").pop());
           return fileName;
         },
         capture: true,
@@ -231,6 +240,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       handler: function handler(userId) {
         this.fetch(userId);
       }
+    }
+  },
+  computed: {
+    user: function user() {
+      return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].query().find(this.userId);
     }
   },
   methods: {
@@ -289,7 +303,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (downloadButton) {
         downloadButton.addEventListener("click", function () {
           var a = document.createElement("a");
-          a.setAttribute("download", file.name);
+          a.setAttribute("download", file.original_name);
           a.setAttribute("href", "".concat(window.location.origin, "/").concat(file.path));
           a.click();
         });
@@ -435,6 +449,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (file.manuallyAdded) {
         this.bindEvent(file);
       }
+    },
+    onDropzoneProcessing: function onDropzoneProcessing() {
+      this.isProcessing = true;
+    },
+    onDropzoneComplete: function onDropzoneComplete() {
+      this.isProcessing = false;
     }
   }
 });
@@ -450,9 +470,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins */ "./resources/js/mixins/index.js");
-/* harmony import */ var _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/pawn-users/searcher */ "./resources/js/components/pawn-users/searcher.vue");
-/* harmony import */ var _modal_pawnReply__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal/pawnReply */ "./resources/js/views/pawn/modal/pawnReply.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins */ "./resources/js/mixins/index.js");
+/* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
+/* harmony import */ var _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/pawn-users/searcher */ "./resources/js/components/pawn-users/searcher.vue");
+/* harmony import */ var _modal_pawnReply__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modal/pawnReply */ "./resources/js/views/pawn/modal/pawnReply.vue");
+
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -533,18 +566,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
   components: {
-    PawnUserSearcher: _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PawnReply: _modal_pawnReply__WEBPACK_IMPORTED_MODULE_2__["default"]
+    PawnUserSearcher: _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_3__["default"],
+    PawnReply: _modal_pawnReply__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
-      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerDataWithItems,
+      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"].methods.searchPawnByCustomerDataWithItems,
       selectedReplyPawnNo: null,
       showReply: false
     };
@@ -560,6 +595,27 @@ __webpack_require__.r(__webpack_exports__);
     showPawnReply: function showPawnReply(id) {
       this.selectedReplyPawnNo = id;
       this.showReply = true; // this.$bvModal.show(`pawn-reply-modal-${id}`);
+    },
+    onClosePawnSuccess: function onClosePawnSuccess(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var id, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                id = _ref.id, data = _objectWithoutProperties(_ref, ["id"]);
+                _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"].update({
+                  where: id,
+                  data: data
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -766,6 +822,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -780,11 +891,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       loadingPawnItems: false,
+      isSubmitting: false,
       status: true,
       form: {
         close_amount: null,
         interest_value: null
-      }
+      },
+      toastCloseFail: false,
+      toastCloseSuccess: false
     };
   },
   props: {
@@ -874,6 +988,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee, null, [[1, 12, 15, 18]]);
+      }))();
+    },
+    submit: function submit(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var promise;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.isSubmitting = true;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return _models_Pawn__WEBPACK_IMPORTED_MODULE_2__["default"].api().close(id, _this2.form.close_amount);
+
+              case 4:
+                promise = _context2.sent;
+                _this2.toastCloseSuccess = true;
+                setTimeout(function () {
+                  _this2.$emit("success", promise);
+
+                  _this2.form = {
+                    close_amount: null,
+                    interest_value: null
+                  };
+                  _this2.isSubmitting = false;
+
+                  _this2.$emit("change", false);
+                }, 1000);
+                _context2.next = 14;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](1);
+                _this2.toastCloseFail = true;
+                _this2.isSubmitting = false;
+
+                _this2.$emit("error", _context2.t0);
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 9]]);
       }))();
     }
   }
@@ -1051,6 +1212,8 @@ var render = function() {
               ref: "dropzoneIdCard",
               attrs: { id: "dropzone", options: _vm.dropzoneOptions },
               on: {
+                "vdropzone-processing": _vm.onDropzoneProcessing,
+                "vdropzone-complete": _vm.onDropzoneComplete,
                 "vdropzone-thumbnail": _vm.onDropzoneThumbnail,
                 "vdropzone-error": _vm.onDropzoneError,
                 "vdropzone-success": _vm.onDropzoneSuccess,
@@ -1088,7 +1251,7 @@ var render = function() {
         {
           attrs: {
             id: "evidence-upload-toast-fail",
-            variant: "success",
+            variant: "danger",
             solid: "",
             "no-close-button": ""
           },
@@ -1128,7 +1291,7 @@ var render = function() {
         {
           attrs: {
             id: "evidence-delete-toast-fail",
-            variant: "success",
+            variant: "danger",
             solid: "",
             "no-close-button": ""
           },
@@ -1209,6 +1372,7 @@ var render = function() {
               { staticClass: "card-body" },
               [
                 _c("pawn-user-searcher", {
+                  ref: "pawnUserSearcher",
                   attrs: { "search-fn": _vm.searchFn },
                   scopedSlots: _vm._u([
                     {
@@ -1250,7 +1414,7 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "tbody",
-                                _vm._l(pawnUserItems, function(
+                                _vm._l(_vm.closabledPawnUserItems, function(
                                   pawnUserItem,
                                   index
                                 ) {
@@ -1305,6 +1469,9 @@ var render = function() {
                                         pawnUserItem.pawn_no
                                           ? _c("pawn-reply", {
                                               attrs: { pawn: pawnUserItem },
+                                              on: {
+                                                success: _vm.onClosePawnSuccess
+                                              },
                                               model: {
                                                 value: _vm.showReply,
                                                 callback: function($$v) {
@@ -1693,6 +1860,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("evidence-uploader", {
+                ref: "evidenceUploader",
                 attrs: { "user-id": _vm.pawn.customer_id }
               })
             ],
@@ -1707,25 +1875,104 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-secondary",
-                  attrs: { type: "button" },
+                  attrs: {
+                    type: "button",
+                    disabled:
+                      (_vm.$refs.evidenceUploader
+                        ? _vm.$refs.evidenceUploader.isProcessing
+                        : false) || _vm.isSubmitting
+                  },
                   on: {
                     click: function($event) {
                       return _vm.closePawnReply(_vm.pawn.pawn_no)
                     }
                   }
                 },
-                [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ปิดหน้าต่าง")])]
+                [
+                  (_vm.$refs.evidenceUploader
+                    ? _vm.$refs.evidenceUploader.isProcessing
+                    : false) || _vm.isSubmitting
+                    ? _c("b-spinner")
+                    : _c("span", [_vm._v("ปิดหน้าต่าง")])
+                ],
+                1
               ),
               _vm._v(" "),
               _c(
                 "button",
-                { staticClass: "btn btn-success", attrs: { type: "button" } },
-                [_c("a", { staticClass: "ft-s-16" }, [_vm._v("ไถ่ถอน")])]
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: {
+                    type: "button",
+                    disabled:
+                      _vm.loadingPawnItems ||
+                      (_vm.$refs.evidenceUploader
+                        ? _vm.$refs.evidenceUploader.isProcessing
+                        : false) ||
+                      _vm.isSubmitting
+                  },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit(_vm.pawn.id)
+                    }
+                  }
+                },
+                [
+                  _vm.loadingPawnItems ||
+                  (_vm.$refs.evidenceUploader
+                    ? _vm.$refs.evidenceUploader.isProcessing
+                    : false) ||
+                  _vm.isSubmitting
+                    ? _c("b-spinner")
+                    : _c("span", [_vm._v("ไถ่ถอน")])
+                ],
+                1
               )
             ]
           )
         ],
         2
+      ),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "pawn-close-toast-success",
+            variant: "success",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastCloseSuccess,
+            callback: function($$v) {
+              _vm.toastCloseSuccess = $$v
+            },
+            expression: "toastCloseSuccess"
+          }
+        },
+        [_vm._v("\n    ไถ่ถอนการจำนำสำเร็จ\n  ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-toast",
+        {
+          attrs: {
+            id: "pawn-close-toast-fail",
+            variant: "danger",
+            solid: "",
+            "no-close-button": ""
+          },
+          model: {
+            value: _vm.toastCloseFail,
+            callback: function($$v) {
+              _vm.toastCloseFail = $$v
+            },
+            expression: "toastCloseFail"
+          }
+        },
+        [_vm._v("\n    ไถ่ถอนการจำนำไม่สำเร็จ\n  ")]
       )
     ],
     1

@@ -80,6 +80,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Function,
       "default": _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerData
     }
+  },
+  methods: {
+    refresh: function refresh() {
+      return this.searchFn();
+    }
   }
 });
 
@@ -2274,7 +2279,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-success",
+                  staticClass: "btn btn-primary",
                   attrs: { type: "button" },
                   on: {
                     click: function($event) {

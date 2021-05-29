@@ -497,6 +497,9 @@ var searchMixin = {
     pawnUserItems: function pawnUserItems() {
       return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].query()["with"](['pawn_items']).all();
     },
+    closabledPawnUserItems: function closabledPawnUserItems() {
+      return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].query()["with"](['pawn_items']).where('complete', false).get();
+    },
     pawnItemsByPawnID: function pawnItemsByPawnID() {
       return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["groupBy"])(_models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].query().get(), function (pawn_item) {
         return pawn_item.pawn_id;

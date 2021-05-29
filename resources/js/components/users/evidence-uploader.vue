@@ -12,6 +12,8 @@
           ref="dropzoneIdCard"
           id="dropzone"
           :options="dropzoneOptions"
+          v-on:vdropzone-processing="onDropzoneProcessing"
+          v-on:vdropzone-complete="onDropzoneComplete"
           v-on:vdropzone-thumbnail="onDropzoneThumbnail"
           v-on:vdropzone-error="onDropzoneError"
           v-on:vdropzone-success="onDropzoneSuccess"
@@ -33,7 +35,7 @@
 
     <b-toast
       id="evidence-upload-toast-fail"
-      variant="success"
+      variant="danger"
       solid
       no-close-button
       v-model="toastUploadEvidenceFail"
@@ -53,7 +55,7 @@
 
     <b-toast
       id="evidence-delete-toast-fail"
-      variant="success"
+      variant="danger"
       solid
       no-close-button
       v-model="toastDeleteEvidenceFail"
@@ -85,6 +87,7 @@ export default {
   data() {
     return {
       status: true,
+      isProcessing: false,
       dropzoneOptions: {
         url: `/api/files/upload/${this.userId}/evidences`,
         headers: {
@@ -106,7 +109,11 @@ export default {
             index = previews.length + 1;
           }
 
-          const fileName = `หลักฐาน-${index}.${file.name.split(".").pop()}`;
+          const { user } = this;
+
+          const fileName = `${
+            this.user.evidenceFileNamePrefix
+          }-${index}.${file.name.split(".").pop()}`;
 
           return fileName;
         },
@@ -126,6 +133,12 @@ export default {
       handler(userId) {
         this.fetch(userId);
       },
+    },
+  },
+
+  computed: {
+    user() {
+      return User.query().find(this.userId);
     },
   },
 
@@ -213,7 +226,7 @@ export default {
         downloadButton.addEventListener("click", () => {
           const a = document.createElement("a");
 
-          a.setAttribute("download", file.name);
+          a.setAttribute("download", file.original_name);
           a.setAttribute("href", `${window.location.origin}/${file.path}`);
           a.click();
         });
@@ -291,6 +304,14 @@ export default {
       if (file.manuallyAdded) {
         this.bindEvent(file);
       }
+    },
+
+    onDropzoneProcessing() {
+      this.isProcessing = true;
+    },
+
+    onDropzoneComplete() {
+      this.isProcessing = false;
     },
   },
 };

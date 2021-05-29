@@ -24,6 +24,11 @@ export const searchMixin = {
         pawnUserItems() {
             return PawnUserItem.query().with(['pawn_items']).all();
         },
+        closabledPawnUserItems() {
+            return PawnUserItem.query().with(['pawn_items'])
+                .where('complete', false)
+                .get();
+        },
         pawnItemsByPawnID() {
             return groupBy(PawnItem.query().get(), pawn_item => pawn_item.pawn_id);
         },

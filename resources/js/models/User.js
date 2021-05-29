@@ -30,6 +30,10 @@ export default class User extends Model {
         };
     }
 
+    get evidenceFileNamePrefix() {
+        return `หลักฐาน-${this.first_name}-${this.last_name}`;
+    }
+
     static get apiConfig() {
         return {
             dataKey: "users",

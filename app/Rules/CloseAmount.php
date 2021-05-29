@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\IOCs\Data;
 use App\Models\Pawn;
 use Illuminate\Contracts\Validation\Rule;
 
