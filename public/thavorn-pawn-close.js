@@ -73,27 +73,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"]],
   props: {
-    searchFn: {
-      type: Function,
-      "default": _mixins__WEBPACK_IMPORTED_MODULE_0__["searchMixin"].methods.searchPawnByCustomerData
+    fields: {
+      type: Array,
+      "default": []
     },
-    autoFetch: {
-      type: Boolean,
-      "default": false
+    searchFn: {
+      type: String,
+      "default": "searchPawnByCustomerData"
     }
   },
   methods: {
+    itemProvider: function itemProvider() {
+      return this[this.searchFn]();
+    },
     refresh: function refresh() {
-      return this.searchFn();
-    }
-  },
-  mounted: function mounted() {
-    if (this.autoFetch) {
-      this.searchFn();
+      return this.$refs.pawnTable.refresh();
     }
   }
 });
@@ -125,12 +132,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -213,31 +220,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"], _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"]],
+  mixins: [_mixins__WEBPACK_IMPORTED_MODULE_1__["datetimeMixin"]],
   components: {
     PawnUserSearcher: _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_3__["default"],
     PawnReply: _modal_pawnReply__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
-      searchFn: _mixins__WEBPACK_IMPORTED_MODULE_1__["searchMixin"].methods.searchPawnByCustomerDataWithItems,
-      selectedReplyPawnNo: null,
-      showReply: false
+      selectedReplyPawn: null,
+      showReply: false,
+      toastCloseFail: false,
+      toastCloseSuccess: false,
+      fields: [{
+        key: "pawn_no",
+        label: "เลขที่บัตรจำนำ"
+      }, {
+        key: "count_items",
+        label: "จำนวนสินค้า (ชิ้น)"
+      }, {
+        key: "total_items_value",
+        label: "มูลค่าสินค้า (บาท)"
+      }, {
+        key: "interest_rate",
+        label: "อัตราดอกเบี้ย (%)"
+      }, {
+        key: "action",
+        label: "",
+        tdClass: "text-center"
+      }]
     };
   },
   watch: {
     showReply: function showReply(v) {
       if (!v) {
-        this.selectedReplyPawnNo = null;
+        this.selectedReplyPawn = null;
       }
     }
   },
   methods: {
-    showPawnReply: function showPawnReply(id) {
-      this.selectedReplyPawnNo = id;
-      this.showReply = true; // this.$bvModal.show(`pawn-reply-modal-${id}`);
+    showPawnReply: function showPawnReply(data) {
+      this.selectedReplyPawn = new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"](_objectSpread({}, data));
+      this.showReply = true;
     },
     onClosePawnSuccess: function onClosePawnSuccess(_ref) {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var id, data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -245,12 +272,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 id = _ref.id, data = _objectWithoutProperties(_ref, ["id"]);
+                _this.toastCloseSuccess = true;
                 _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"].update({
                   where: id,
                   data: data
                 });
 
-              case 2:
+                _this.$refs.pawnUserSearcher.refresh();
+
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -498,26 +528,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -537,9 +547,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         close_amount: null,
         interest_value: null
-      },
-      toastCloseFail: false,
-      toastCloseSuccess: false
+      }
     };
   },
   props: {
@@ -647,35 +655,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 promise = _context2.sent;
-                _this2.toastCloseSuccess = true;
-                setTimeout(function () {
-                  _this2.$emit("success", promise);
 
-                  _this2.form = {
-                    close_amount: null,
-                    interest_value: null
-                  };
-                  _this2.isSubmitting = false;
+                _this2.$emit("success", promise);
 
-                  _this2.$emit("change", false);
-                }, 1000);
-                _context2.next = 14;
+                _this2.$emit("change", false);
+
+                _context2.next = 12;
                 break;
 
               case 9:
                 _context2.prev = 9;
                 _context2.t0 = _context2["catch"](1);
-                _this2.toastCloseFail = true;
+
+                _this2.$emit("fail", _context2.t0);
+
+              case 12:
+                _context2.prev = 12;
                 _this2.isSubmitting = false;
+                _this2.form = {
+                  close_amount: null,
+                  interest_value: null
+                };
+                return _context2.finish(12);
 
-                _this2.$emit("error", _context2.t0);
-
-              case 14:
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 9]]);
+        }, _callee2, null, [[1, 9, 12, 16]]);
       }))();
     }
   }
@@ -715,6 +723,17 @@ var render = function() {
                 "ระบุชื่อ, นามสกุล, เลขบัตรประจำตัวประชาชน หรือเลขบัตรจำนำ",
               disabled: _vm.loading
             },
+            on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.refresh($event)
+              }
+            },
             model: {
               value: _vm.searchInput,
               callback: function($$v) {
@@ -736,7 +755,7 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.preventDefault()
-                return _vm.searchFn($event)
+                return _vm.refresh($event)
               }
             }
           },
@@ -745,59 +764,63 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-5" }, [
-      _c("div", { staticClass: "col-xl-12 d-block" }, [
-        !_vm.search
-          ? _c(
-              "h4",
-              {
-                staticClass: "text-black-50",
-                staticStyle: { "text-align": "center" }
+    _c("div", { staticClass: "row mt-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-xl-12 d-block" },
+        [
+          _c(
+            "b-table",
+            {
+              ref: "pawnTable",
+              staticClass: "mt-3 mb-5",
+              attrs: {
+                id: "pawnTable",
+                hover: "",
+                striped: "",
+                bordered: "",
+                fields: _vm.fields,
+                items: _vm.itemProvider,
+                "per-page": _vm.perPage,
+                "current-page": _vm.currentPage,
+                "table-busy": _vm.loading
               },
-              [_vm._v("\n        กรุณากรอกข้อมูลเพื่อทำการค้นหา\n      ")]
-            )
-          : _c(
-              "div",
-              [
-                _vm.loading
-                  ? _c("b-spinner", {
-                      attrs: { label: "Fetching pawn", variant: "primary" }
-                    })
-                  : !_vm.loading &&
-                    _vm.pawnUserItems &&
-                    _vm.pawnUserItems.length == 0
-                  ? _c(
-                      "h4",
-                      {
-                        staticClass: "text-black-50",
-                        staticStyle: { "text-align": "center" }
-                      },
-                      [
-                        _vm._v(
-                          "\n          ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง\n        "
-                        )
-                      ]
-                    )
-                  : !_vm.loading &&
-                    _vm.pawnUserItems &&
-                    _vm.pawnUserItems.length > 0
-                  ? _c(
-                      "div",
-                      [
-                        _c("span", [_vm._v("ผลการค้นหา")]),
-                        _vm._v(" "),
-                        _vm._t("search-result", null, {
-                          pawnUserItems: _vm.pawnUserItems,
-                          closabledPawnUserItems: _vm.closabledPawnUserItems
-                        })
-                      ],
-                      2
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
-      ])
+              scopedSlots: _vm._u(
+                [
+                  _vm._l(_vm.$scopedSlots, function(_, name) {
+                    return {
+                      key: name,
+                      fn: function(data) {
+                        return [_vm._t(name, null, null, data)]
+                      }
+                    }
+                  })
+                ],
+                null,
+                true
+              )
+            },
+            [_vm._t("default")],
+            2
+          ),
+          _vm._v(" "),
+          _c("b-pagination", {
+            attrs: {
+              "total-rows": _vm.totalRows,
+              "per-page": _vm.perPage,
+              "aria-controls": "pawnTable"
+            },
+            model: {
+              value: _vm.currentPage,
+              callback: function($$v) {
+                _vm.currentPage = $$v
+              },
+              expression: "currentPage"
+            }
+          })
+        ],
+        1
+      )
     ])
   ])
 }
@@ -878,121 +901,29 @@ var render = function() {
               [
                 _c("pawn-user-searcher", {
                   ref: "pawnUserSearcher",
-                  attrs: { "search-fn": _vm.searchFn },
+                  attrs: {
+                    fields: _vm.fields,
+                    "search-fn": "searchPawnByCustomerDataWithItems"
+                  },
                   scopedSlots: _vm._u([
                     {
-                      key: "search-result",
-                      fn: function(ref) {
-                        var closabledPawnUserItems = ref.closabledPawnUserItems
-                        if (closabledPawnUserItems === void 0)
-                          closabledPawnUserItems = []
+                      key: "cell(action)",
+                      fn: function(data) {
                         return [
                           _c(
-                            "table",
+                            "button",
                             {
-                              staticClass:
-                                "table table-hover table-striped table-bordered mt-3 mb-5"
+                              staticClass: "btn btn-primary btn-sm",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.showPawnReply(data.item)
+                                }
+                              }
                             },
                             [
-                              _c("thead", { staticClass: "thead-light" }, [
-                                _c("tr", [
-                                  _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("เลขที่บัตรจำนำ")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("จำนวนสินค้า (ชิ้น)")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("มูลค่าสินค้า (บาท)")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("อัตราดอกเบี้ย (%)")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", { attrs: { scope: "col" } }, [
-                                    _vm._v("การกระทำ")
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                _vm._l(closabledPawnUserItems, function(
-                                  pawnUserItem,
-                                  index
-                                ) {
-                                  return _c("tr", { key: "pawn-" + index }, [
-                                    _c("th", { attrs: { scope: "row" } }, [
-                                      _vm._v(_vm._s(pawnUserItem.pawn_no))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(pawnUserItem.count_items))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        "\n                        " +
-                                          _vm._s(
-                                            pawnUserItem.total_items_value
-                                          ) +
-                                          "\n                      "
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(pawnUserItem.interest_rate))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-success btn-sm ml-3",
-                                            on: {
-                                              click: function($event) {
-                                                $event.preventDefault()
-                                                return _vm.showPawnReply(
-                                                  pawnUserItem.pawn_no
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                          ไถ่ถอน\n                        "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm.selectedReplyPawnNo ===
-                                        pawnUserItem.pawn_no
-                                          ? _c("pawn-reply", {
-                                              attrs: { pawn: pawnUserItem },
-                                              on: {
-                                                success: _vm.onClosePawnSuccess
-                                              },
-                                              model: {
-                                                value: _vm.showReply,
-                                                callback: function($$v) {
-                                                  _vm.showReply = $$v
-                                                },
-                                                expression: "showReply"
-                                              }
-                                            })
-                                          : _vm._e()
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                }),
-                                0
+                              _vm._v(
+                                "\n                  ไถ่ถอน\n                "
                               )
                             ]
                           )
@@ -1000,7 +931,70 @@ var render = function() {
                       }
                     }
                   ])
-                })
+                }),
+                _vm._v(" "),
+                _vm.selectedReplyPawn
+                  ? _c("pawn-reply", {
+                      attrs: { pawn: _vm.selectedReplyPawn },
+                      on: {
+                        success: _vm.onClosePawnSuccess,
+                        fail: function($event) {
+                          _vm.toastCloseFail = true
+                        }
+                      },
+                      model: {
+                        value: _vm.showReply,
+                        callback: function($$v) {
+                          _vm.showReply = $$v
+                        },
+                        expression: "showReply"
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "b-toast",
+                  {
+                    attrs: {
+                      id: "pawn-close-toast-success",
+                      variant: "success",
+                      solid: "",
+                      "no-close-button": ""
+                    },
+                    model: {
+                      value: _vm.toastCloseSuccess,
+                      callback: function($$v) {
+                        _vm.toastCloseSuccess = $$v
+                      },
+                      expression: "toastCloseSuccess"
+                    }
+                  },
+                  [_vm._v("\n              ไถ่ถอนการจำนำสำเร็จ\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-toast",
+                  {
+                    attrs: {
+                      id: "pawn-close-toast-fail",
+                      variant: "danger",
+                      solid: "",
+                      "no-close-button": ""
+                    },
+                    model: {
+                      value: _vm.toastCloseFail,
+                      callback: function($$v) {
+                        _vm.toastCloseFail = $$v
+                      },
+                      expression: "toastCloseFail"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n              ไถ่ถอนการจำนำไม่สำเร็จ\n            "
+                    )
+                  ]
+                )
               ],
               1
             )
@@ -1439,46 +1433,6 @@ var render = function() {
           )
         ],
         2
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "pawn-close-toast-success",
-            variant: "success",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastCloseSuccess,
-            callback: function($$v) {
-              _vm.toastCloseSuccess = $$v
-            },
-            expression: "toastCloseSuccess"
-          }
-        },
-        [_vm._v("\n    ไถ่ถอนการจำนำสำเร็จ\n  ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-toast",
-        {
-          attrs: {
-            id: "pawn-close-toast-fail",
-            variant: "danger",
-            solid: "",
-            "no-close-button": ""
-          },
-          model: {
-            value: _vm.toastCloseFail,
-            callback: function($$v) {
-              _vm.toastCloseFail = $$v
-            },
-            expression: "toastCloseFail"
-          }
-        },
-        [_vm._v("\n    ไถ่ถอนการจำนำไม่สำเร็จ\n  ")]
       )
     ],
     1

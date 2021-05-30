@@ -14,48 +14,57 @@
           placeholder="ระบุชื่อ, นามสกุล, เลขบัตรประจำตัวประชาชน หรือเลขบัตรจำนำ"
           v-model="searchInput"
           :disabled="loading"
+          @keyup.enter="refresh"
         ></b-form-input>
       </div>
       <div class="col-sm-2">
         <button
           class="btn btn-primary btn-md"
           :disabled="loading"
-          @click.prevent="searchFn"
+          @click.prevent="refresh"
         >
           ค้นหา
         </button>
       </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-3">
       <div class="col-xl-12 d-block">
-        <h4 v-if="!search" style="text-align: center" class="text-black-50">
-          กรุณากรอกข้อมูลเพื่อทำการค้นหา
-        </h4>
-        <div v-else>
-          <b-spinner
-            v-if="loading"
-            label="Fetching pawn"
-            variant="primary"
-          ></b-spinner>
-          <h4
-            v-else-if="!loading && pawnUserItems && pawnUserItems.length == 0"
-            style="text-align: center"
-            class="text-black-50"
+        <!-- <slot
+          name="search-result"
+          v-bind:loading="loading"
+          v-bind:itemProvider="searchFn"
+          v-bind:pawnUserItems="pawnUserItems"
+          v-bind:closabledPawnUserItems="closabledPawnUserItems"
+        ></slot> -->
+        <b-table
+          id="pawnTable"
+          ref="pawnTable"
+          class="mt-3 mb-5"
+          hover
+          striped
+          bordered
+          :fields="fields"
+          :items="itemProvider"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :table-busy="loading"
+        >
+          <slot></slot>
+          <template
+            v-for="(_, name) in $scopedSlots"
+            :slot="name"
+            slot-scope="data"
           >
-            ไม่พบข้อมูลที่ต้องการ กรุณาตรวจสอบความถูกต้องอีกครั้ง
-          </h4>
-          <div
-            v-else-if="!loading && pawnUserItems && pawnUserItems.length > 0"
-          >
-            <span>ผลการค้นหา</span>
+            <slot :name="name" v-bind="data" />
+          </template>
+        </b-table>
 
-            <slot
-              name="search-result"
-              v-bind:pawnUserItems="pawnUserItems"
-              v-bind:closabledPawnUserItems="closabledPawnUserItems"
-            ></slot>
-          </div>
-        </div>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          aria-controls="pawnTable"
+        ></b-pagination>
       </div>
     </div>
   </form>
@@ -68,27 +77,25 @@ export default {
   mixins: [datetimeMixin, searchMixin],
 
   props: {
-    searchFn: {
-      type: Function,
-      default: searchMixin.methods.searchPawnByCustomerData,
+    fields: {
+      type: Array,
+      default: [],
     },
 
-    autoFetch: {
-      type: Boolean,
-      default: false,
+    searchFn: {
+      type: String,
+      default: "searchPawnByCustomerData",
     },
   },
 
   methods: {
-    refresh() {
-      return this.searchFn();
+    itemProvider() {
+      return this[this.searchFn]();
     },
-  },
 
-  mounted() {
-    if (this.autoFetch) {
-      this.searchFn();
-    }
+    refresh() {
+      return this.$refs.pawnTable.refresh();
+    },
   },
 };
 </script>

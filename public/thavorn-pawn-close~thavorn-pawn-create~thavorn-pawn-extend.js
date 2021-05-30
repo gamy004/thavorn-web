@@ -479,6 +479,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var searchMixin = {
   data: function data() {
     return {
+      perPage: 20,
+      currentPage: 1,
+      totalRows: 0,
       searchInput: "",
       search: false,
       loading: false,
@@ -618,7 +621,7 @@ var searchMixin = {
           _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _ref, _ref$select, select, _ref$includes, includes, _ref$filters, filters, params;
+        var _ref, _ref$select, select, _ref$includes, includes, _ref$filters, filters, limit, page, items, promise, params, _promise$response$dat, _promise$response$dat2, total, _promise$response$dat3, pawns;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -628,14 +631,18 @@ var searchMixin = {
                   key: 'complete',
                   value: 0
                 }] : _ref$filters;
+                limit = _this.perPage, page = _this.currentPage;
+                items = [];
                 _models_PawnItem__WEBPACK_IMPORTED_MODULE_2__["default"].deleteAll();
                 _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].deleteAll();
-                _context.prev = 3;
+                _context.prev = 5;
                 _this.search = true;
                 _this.loading = true;
                 params = {
                   filters: filters,
-                  select: select
+                  select: select,
+                  page: page,
+                  limit: limit
                 };
 
                 if (_this.searchInput && _this.searchInput.length) {
@@ -649,31 +656,38 @@ var searchMixin = {
                   _this.$set(params, 'includes', includes);
                 }
 
-                _context.next = 11;
+                _context.next = 13;
                 return _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_4__["default"].api().get('/', {
                   params: params
                 });
 
-              case 11:
-                _context.next = 16;
+              case 13:
+                promise = _context.sent;
+                _promise$response$dat = promise.response.data, _promise$response$dat2 = _promise$response$dat.total, total = _promise$response$dat2 === void 0 ? 0 : _promise$response$dat2, _promise$response$dat3 = _promise$response$dat.pawns, pawns = _promise$response$dat3 === void 0 ? [] : _promise$response$dat3;
+                _this.totalRows = total;
+                items = pawns;
+                _context.next = 22;
                 break;
 
-              case 13:
-                _context.prev = 13;
-                _context.t0 = _context["catch"](3);
+              case 19:
+                _context.prev = 19;
+                _context.t0 = _context["catch"](5);
                 console.log(_context.t0);
 
-              case 16:
-                _context.prev = 16;
+              case 22:
+                _context.prev = 22;
                 _this.loading = false;
-                return _context.finish(16);
+                return _context.finish(22);
 
-              case 19:
+              case 25:
+                return _context.abrupt("return", items);
+
+              case 26:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 13, 16, 19]]);
+        }, _callee, null, [[5, 19, 22, 25]]);
       }))();
     },
     searchPawnByCustomerDataWithItems: function searchPawnByCustomerDataWithItems() {

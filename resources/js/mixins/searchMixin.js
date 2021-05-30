@@ -7,6 +7,9 @@ import { sumBy, groupBy, mapValues, omit } from "lodash"
 export const searchMixin = {
     data() {
         return {
+            perPage: 20,
+            currentPage: 1,
+            totalRows: 0,
             searchInput: "",
             search: false,
             loading: false,
@@ -165,6 +168,9 @@ export const searchMixin = {
                 }
             ]
         } = {}) {
+            const { perPage: limit, currentPage: page } = this;
+            let items = [];
+
             PawnItem.deleteAll();
             PawnUserItem.deleteAll();
 
@@ -172,10 +178,13 @@ export const searchMixin = {
                 this.search = true;
                 this.loading = true;
 
-                let params = {
-                    filters,
-                    select
-                };
+                let promise,
+                    params = {
+                        filters,
+                        select,
+                        page,
+                        limit
+                    };
 
                 if (this.searchInput && this.searchInput.length) {
                     this.$set(
@@ -196,14 +205,21 @@ export const searchMixin = {
                     this.$set(params, 'includes', includes);
                 }
 
-                await PawnUserItem.api().get('/', {
+                promise = await PawnUserItem.api().get('/', {
                     params
                 });
+
+                const { total = 0, pawns = [] } = promise.response.data;
+
+                this.totalRows = total;
+                items = pawns;
             } catch (error) {
                 console.log(error);
             } finally {
                 this.loading = false;
             }
+
+            return items;
         },
 
         searchPawnByCustomerDataWithItems() {

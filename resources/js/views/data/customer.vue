@@ -24,47 +24,40 @@
               <h5 class="my-3">ข้อมูลลูกค้า</h5>
             </div>
             <div class="card-body">
-              <b-spinner
-                v-if="loading"
-                label="Fetching pawn"
-                variant="primary"
-              ></b-spinner>
-              <table
-                v-else
-                class="table table-hover table-striped table-bordered mt-3 mb-3"
+              <b-table
+                id="customerTable"
+                class="mt-3 mb-5"
+                hover
+                striped
+                bordered
+                :fields="fields"
+                :items="itemProvider"
+                :per-page="perPage"
+                :current-page="currentPage"
+                :table-busy="loading"
               >
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">เลขบัตรประชาชน</th>
-                    <th scope="col">ชื่อ</th>
-                    <th scope="col">นามสกุล</th>
-                    <th scope="col">เบอร์โทรศัพท์</th>
-                    <th scope="col">วันที่สร้าง</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(user, index) in users" :key="`user-${index}`">
-                    <th scope="row">{{ user.identity_card_id }}</th>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.phone_number }}</td>
-                    <td>
-                      {{ formatingDatetime(user.created_at, "DD MMM YYYY") }}
-                    </td>
-                    <td>
-                      <b-button
-                        variant="link"
-                        size="sm"
-                        class="p-0"
-                        @click="showDetail(user)"
-                      >
-                        ดูรายละเอียด
-                      </b-button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <template #cell(created_at)="data">
+                  {{ formatingDatetime(data.item.created_at, "DD MMM YYYY") }}
+                </template>
+
+                <template #cell(action)="data">
+                  <b-button
+                    variant="link"
+                    size="sm"
+                    class="p-0"
+                    @click="showDetail(data.item)"
+                  >
+                    ดูรายละเอียด
+                  </b-button>
+                </template>
+              </b-table>
+
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                aria-controls="customerTable"
+              ></b-pagination>
             </div>
           </div>
         </div>
@@ -119,6 +112,17 @@ export default {
       loading: false,
       toastUpdateUserSuccess: false,
       toastUpdateUserFail: false,
+      perPage: 20,
+      currentPage: 1,
+      totalRows: 0,
+      fields: [
+        { key: "identity_card_id", label: "เลขบัตรประชาชน" },
+        { key: "first_name", label: "ชื่อ" },
+        { key: "last_name", label: "นามสกุล" },
+        { key: "phone_number", label: "เบอร์โทรศัพท์" },
+        { key: "created_at", label: "วันที่สร้าง" },
+        { key: "action", label: "", tdClass: "text-center" },
+      ],
     };
   },
 
@@ -130,33 +134,39 @@ export default {
     },
   },
 
-  computed: {
-    users() {
-      return User.all();
-    },
-  },
-
   methods: {
-    async getUsers() {
+    async itemProvider() {
+      let items = [];
+
       try {
+        let promise;
+
         this.loading = true;
 
-        await User.api().get("/");
+        promise = await User.api().get("/", {
+          params: {
+            page: this.currentPage,
+            limit: this.perPage,
+          },
+        });
+
+        const { total = 0, users = [] } = promise.response.data;
+
+        this.totalRows = total;
+        items = users;
       } catch (error) {
         console.error(error);
       } finally {
         this.loading = false;
       }
+
+      return items;
     },
 
     showDetail(user) {
       this.showDetailUser = new User({ ...user });
       this.showModalUser = true;
     },
-  },
-
-  created() {
-    this.getUsers();
   },
 };
 </script>

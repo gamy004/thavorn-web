@@ -1472,13 +1472,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1493,7 +1486,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showModalUser: false,
       loading: false,
       toastUpdateUserSuccess: false,
-      toastUpdateUserFail: false
+      toastUpdateUserFail: false,
+      perPage: 20,
+      currentPage: 1,
+      totalRows: 0,
+      fields: [{
+        key: "identity_card_id",
+        label: "เลขบัตรประชาชน"
+      }, {
+        key: "first_name",
+        label: "ชื่อ"
+      }, {
+        key: "last_name",
+        label: "นามสกุล"
+      }, {
+        key: "phone_number",
+        label: "เบอร์โทรศัพท์"
+      }, {
+        key: "created_at",
+        label: "วันที่สร้าง"
+      }, {
+        key: "action",
+        label: "",
+        tdClass: "text-center"
+      }]
     };
   },
   watch: {
@@ -1503,54 +1519,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     }
   },
-  computed: {
-    users: function users() {
-      return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].all();
-    }
-  },
   methods: {
-    getUsers: function getUsers() {
+    itemProvider: function itemProvider() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var items, promise, _promise$response$dat, _promise$response$dat2, total, _promise$response$dat3, users;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
+                items = [];
+                _context.prev = 1;
                 _this.loading = true;
-                _context.next = 4;
-                return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/");
+                _context.next = 5;
+                return models_User__WEBPACK_IMPORTED_MODULE_2__["default"].api().get("/", {
+                  params: {
+                    page: _this.currentPage,
+                    limit: _this.perPage
+                  }
+                });
 
-              case 4:
-                _context.next = 9;
+              case 5:
+                promise = _context.sent;
+                _promise$response$dat = promise.response.data, _promise$response$dat2 = _promise$response$dat.total, total = _promise$response$dat2 === void 0 ? 0 : _promise$response$dat2, _promise$response$dat3 = _promise$response$dat.users, users = _promise$response$dat3 === void 0 ? [] : _promise$response$dat3;
+                _this.totalRows = total;
+                items = users;
+                _context.next = 14;
                 break;
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](0);
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](1);
                 console.error(_context.t0);
 
-              case 9:
-                _context.prev = 9;
+              case 14:
+                _context.prev = 14;
                 _this.loading = false;
-                return _context.finish(9);
+                return _context.finish(14);
 
-              case 12:
+              case 17:
+                return _context.abrupt("return", items);
+
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 6, 9, 12]]);
+        }, _callee, null, [[1, 11, 14, 17]]);
       }))();
     },
     showDetail: function showDetail(user) {
       this.showDetailUser = new models_User__WEBPACK_IMPORTED_MODULE_2__["default"](_objectSpread({}, user));
       this.showModalUser = true;
     }
-  },
-  created: function created() {
-    this.getUsers();
   }
 });
 
@@ -3407,99 +3430,78 @@ var render = function() {
                 "div",
                 { staticClass: "card-body" },
                 [
-                  _vm.loading
-                    ? _c("b-spinner", {
-                        attrs: { label: "Fetching pawn", variant: "primary" }
-                      })
-                    : _c(
-                        "table",
-                        {
-                          staticClass:
-                            "table table-hover table-striped table-bordered mt-3 mb-3"
-                        },
-                        [
-                          _c("thead", { staticClass: "thead-light" }, [
-                            _c("tr", [
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("เลขบัตรประชาชน")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("ชื่อ")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("นามสกุล")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("เบอร์โทรศัพท์")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } }, [
-                                _vm._v("วันที่สร้าง")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { scope: "col" } })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.users, function(user, index) {
-                              return _c("tr", { key: "user-" + index }, [
-                                _c("th", { attrs: { scope: "row" } }, [
-                                  _vm._v(_vm._s(user.identity_card_id))
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(user.first_name))]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(user.last_name))]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(user.phone_number))]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(
-                                        _vm.formatingDatetime(
-                                          user.created_at,
-                                          "DD MMM YYYY"
-                                        )
-                                      ) +
-                                      "\n                  "
+                  _c("b-table", {
+                    staticClass: "mt-3 mb-5",
+                    attrs: {
+                      id: "customerTable",
+                      hover: "",
+                      striped: "",
+                      bordered: "",
+                      fields: _vm.fields,
+                      items: _vm.itemProvider,
+                      "per-page": _vm.perPage,
+                      "current-page": _vm.currentPage,
+                      "table-busy": _vm.loading
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "cell(created_at)",
+                        fn: function(data) {
+                          return [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(
+                                  _vm.formatingDatetime(
+                                    data.item.created_at,
+                                    "DD MMM YYYY"
                                   )
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "td",
-                                  [
-                                    _c(
-                                      "b-button",
-                                      {
-                                        staticClass: "p-0",
-                                        attrs: { variant: "link", size: "sm" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.showDetail(user)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                      ดูรายละเอียด\n                    "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
+                                ) +
+                                "\n              "
+                            )
+                          ]
+                        }
+                      },
+                      {
+                        key: "cell(action)",
+                        fn: function(data) {
+                          return [
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "p-0",
+                                attrs: { variant: "link", size: "sm" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showDetail(data.item)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  ดูรายละเอียด\n                "
                                 )
-                              ])
-                            }),
-                            0
-                          )
-                        ]
-                      )
+                              ]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-pagination", {
+                    attrs: {
+                      "total-rows": _vm.totalRows,
+                      "per-page": _vm.perPage,
+                      "aria-controls": "customerTable"
+                    },
+                    model: {
+                      value: _vm.currentPage,
+                      callback: function($$v) {
+                        _vm.currentPage = $$v
+                      },
+                      expression: "currentPage"
+                    }
+                  })
                 ],
                 1
               )

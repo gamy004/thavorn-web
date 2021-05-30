@@ -195,26 +195,6 @@
         </button>
       </template>
     </b-modal>
-
-    <b-toast
-      id="pawn-close-toast-success"
-      variant="success"
-      solid
-      no-close-button
-      v-model="toastCloseSuccess"
-    >
-      ไถ่ถอนการจำนำสำเร็จ
-    </b-toast>
-
-    <b-toast
-      id="pawn-close-toast-fail"
-      variant="danger"
-      solid
-      no-close-button
-      v-model="toastCloseFail"
-    >
-      ไถ่ถอนการจำนำไม่สำเร็จ
-    </b-toast>
   </div>
 </template>
 
@@ -242,8 +222,6 @@ export default {
         close_amount: null,
         interest_value: null,
       },
-      toastCloseFail: false,
-      toastCloseSuccess: false,
     };
   },
 
@@ -341,25 +319,17 @@ export default {
 
       try {
         promise = await Pawn.api().close(id, this.form.close_amount);
-
-        this.toastCloseSuccess = true;
-
-        setTimeout(() => {
-          this.$emit("success", promise);
-
-          this.form = {
-            close_amount: null,
-            interest_value: null,
-          };
-
-          this.isSubmitting = false;
-
-          this.$emit("change", false);
-        }, 1000);
+        this.$emit("success", promise);
+        this.$emit("change", false);
       } catch (error) {
-        this.toastCloseFail = true;
+        this.$emit("fail", error);
+      } finally {
         this.isSubmitting = false;
-        this.$emit("error", error);
+
+        this.form = {
+          close_amount: null,
+          interest_value: null,
+        };
       }
     },
   },

@@ -222,7 +222,7 @@ export default {
 
   methods: {
     showPawnRenew() {
-      this.$emit("renew", this.pawn.pawn_no);
+      this.$emit("renew", this.pawn);
       // this.$bvModal.hide(`pawn-detail-modal-${this.pawn.pawn_no}`);
       // this.$bvModal.show(`pawn-renew-modal-${this.pawn.pawn_no}`);
     },

@@ -80,11 +80,7 @@
           <span class="ft-s-16">ปิดหน้าต่าง</span>
         </button>
         <button type="button" class="btn btn-primary" @click.prevent="submit">
-          <b-spinner
-            v-if="submitting"
-            label="Submitting extend"
-            variant="primary"
-          ></b-spinner>
+          <b-spinner v-if="submitting" label="Submitting extend"></b-spinner>
           <span v-else class="ft-s-16">ต่ออายุ</span>
         </button>
       </template>

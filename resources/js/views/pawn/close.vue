@@ -25,54 +25,48 @@
               <h5 class="my-3">ข้อมูลสินค้าจำนำ</h5>
             </div>
             <div class="card-body">
-              <pawn-user-searcher ref="pawnUserSearcher" :search-fn="searchFn">
-                <template
-                  v-slot:search-result="{ closabledPawnUserItems = [] }"
-                >
-                  <table
-                    class="table table-hover table-striped table-bordered mt-3 mb-5"
+              <pawn-user-searcher
+                ref="pawnUserSearcher"
+                :fields="fields"
+                search-fn="searchPawnByCustomerDataWithItems"
+              >
+                <template #cell(action)="data">
+                  <button
+                    @click.prevent="showPawnReply(data.item)"
+                    class="btn btn-primary btn-sm"
                   >
-                    <thead class="thead-light">
-                      <tr>
-                        <th scope="col">เลขที่บัตรจำนำ</th>
-                        <th scope="col">จำนวนสินค้า (ชิ้น)</th>
-                        <th scope="col">มูลค่าสินค้า (บาท)</th>
-                        <th scope="col">อัตราดอกเบี้ย (%)</th>
-                        <th scope="col">การกระทำ</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(pawnUserItem, index) in closabledPawnUserItems"
-                        :key="`pawn-${index}`"
-                      >
-                        <th scope="row">{{ pawnUserItem.pawn_no }}</th>
-                        <td>{{ pawnUserItem.count_items }}</td>
-                        <td>
-                          {{ pawnUserItem.total_items_value }}
-                        </td>
-                        <td>{{ pawnUserItem.interest_rate }}</td>
-                        <td>
-                          <button
-                            @click.prevent="showPawnReply(pawnUserItem.pawn_no)"
-                            class="btn btn-success btn-sm ml-3"
-                          >
-                            ไถ่ถอน
-                          </button>
-
-                          <!-- Modal สรุปรายการไถ่ถอน -->
-                          <pawn-reply
-                            v-if="selectedReplyPawnNo === pawnUserItem.pawn_no"
-                            :pawn="pawnUserItem"
-                            v-model="showReply"
-                            @success="onClosePawnSuccess"
-                          ></pawn-reply>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    ไถ่ถอน
+                  </button>
                 </template>
               </pawn-user-searcher>
+
+              <pawn-reply
+                v-if="selectedReplyPawn"
+                :pawn="selectedReplyPawn"
+                v-model="showReply"
+                @success="onClosePawnSuccess"
+                @fail="toastCloseFail = true"
+              ></pawn-reply>
+
+              <b-toast
+                id="pawn-close-toast-success"
+                variant="success"
+                solid
+                no-close-button
+                v-model="toastCloseSuccess"
+              >
+                ไถ่ถอนการจำนำสำเร็จ
+              </b-toast>
+
+              <b-toast
+                id="pawn-close-toast-fail"
+                variant="danger"
+                solid
+                no-close-button
+                v-model="toastCloseFail"
+              >
+                ไถ่ถอนการจำนำไม่สำเร็จ
+              </b-toast>
             </div>
           </div>
         </div>
@@ -82,13 +76,13 @@
 </template>
 
 <script>
-import { datetimeMixin, searchMixin } from "../../mixins";
+import { datetimeMixin } from "../../mixins";
 import PawnUserItem from "../../models/PawnUserItem";
 import PawnUserSearcher from "../../components/pawn-users/searcher";
 import PawnReply from "./modal/pawnReply";
 
 export default {
-  mixins: [datetimeMixin, searchMixin],
+  mixins: [datetimeMixin],
 
   components: {
     PawnUserSearcher,
@@ -97,32 +91,43 @@ export default {
 
   data() {
     return {
-      searchFn: searchMixin.methods.searchPawnByCustomerDataWithItems,
-      selectedReplyPawnNo: null,
+      selectedReplyPawn: null,
       showReply: false,
+      toastCloseFail: false,
+      toastCloseSuccess: false,
+      fields: [
+        { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
+        { key: "count_items", label: "จำนวนสินค้า (ชิ้น)" },
+        { key: "total_items_value", label: "มูลค่าสินค้า (บาท)" },
+        { key: "interest_rate", label: "อัตราดอกเบี้ย (%)" },
+        { key: "action", label: "", tdClass: "text-center" },
+      ],
     };
   },
 
   watch: {
     showReply(v) {
       if (!v) {
-        this.selectedReplyPawnNo = null;
+        this.selectedReplyPawn = null;
       }
     },
   },
 
   methods: {
-    showPawnReply(id) {
-      this.selectedReplyPawnNo = id;
+    showPawnReply(data) {
+      this.selectedReplyPawn = new PawnUserItem({ ...data });
       this.showReply = true;
-      // this.$bvModal.show(`pawn-reply-modal-${id}`);
     },
 
     async onClosePawnSuccess({ id, ...data }) {
+      this.toastCloseSuccess = true;
+
       PawnUserItem.update({
         where: id,
         data,
       });
+
+      this.$refs.pawnUserSearcher.refresh();
     },
   },
 };
