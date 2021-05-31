@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Api\Contracts\ApiInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class PawnUserItemApi extends BaseApi implements ApiInterface
+class PawnUserApi extends BaseApi implements ApiInterface
 {
     public function __construct(Pawn $q)
     {
