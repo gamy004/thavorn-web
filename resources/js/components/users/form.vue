@@ -246,7 +246,7 @@ export default {
       loading();
 
       try {
-        await User.api().get("users", {
+        await User.api().get("/", {
           params: {
             search: {
               keyword,

@@ -58,7 +58,7 @@ export const searchMixin = {
             });
         },
         fetchUserPawn(keyword = "", fieldKeys = []) {
-            return User.api().get("users", {
+            return User.api().get("/", {
                 params: {
                     search: {
                         keyword: keyword,
