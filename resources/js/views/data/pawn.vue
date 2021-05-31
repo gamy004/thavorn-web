@@ -38,10 +38,6 @@
                 :fields="fields"
                 search-fn="searchAllPawnByCustomerDataWithItems"
               >
-                <template #cell(customer_name)="data">
-                  {{ data.item.full_name }}
-                </template>
-
                 <template #cell(created_at)="data">
                   {{ formatingDatetime(data.item.created_at, "DD MMM YYYY") }}
                 </template>
@@ -54,9 +50,9 @@
                   {{ formatingDatetime(data.item.updated_at, "DD MMM YYYY") }}
                 </template>
 
-                <!-- <template #cell(complete)="data">
+                <template #cell(complete)="data">
                   {{ data.item.complete ? "เรียบร้อย" : "ยังไม่เรียบร้อย" }}
-                </template> -->
+                </template>
 
                 <template #cell(action)="data">
                   <small class="my-2 mr-2">
@@ -100,11 +96,11 @@ export default {
       showDetail: false,
       fields: [
         { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
-        { key: "customer_name", label: "ชื่อลูกค้า" },
+        { key: "full_name", label: "ชื่อ-สกุล ลูกค้า" },
         { key: "created_at", label: "วันที่มาจำนำ" },
         { key: "next_paid_at", label: "วันที่ครบกำหนดดอกเบี้ย" },
         { key: "updated_at", label: "วันที่อัพเดทล่าสุด" },
-        // { key: "complete", label: "สถานะไถ่ถอน" },
+        { key: "complete", label: "สถานะไถ่ถอน" },
         { key: "action", label: "", tdClass: "text-center" },
       ],
     };

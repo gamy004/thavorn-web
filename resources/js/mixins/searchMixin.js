@@ -183,7 +183,8 @@ export const searchMixin = {
                         filters,
                         select,
                         page,
-                        limit
+                        limit,
+                        sort: ["-pawn_no"]
                     };
 
                 if (this.searchInput && this.searchInput.length) {

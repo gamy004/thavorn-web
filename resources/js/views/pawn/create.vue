@@ -35,8 +35,8 @@
               ></b-spinner>
 
               <div v-else>
-                <small v-if="pawn && pawn.pawn_no"
-                  >เลขบัตรจำนำ: {{ pawn.pawn_no }}</small
+                <b v-if="pawn && pawn.pawn_no"
+                  >เลขบัตรจำนำ: {{ pawn.pawn_no }}</b
                 >
               </div>
             </div>
@@ -206,7 +206,9 @@ export default {
       this.fetchingLastestPawnNo = true;
 
       try {
-        result = await Pawn.api().get("/generate-number", { save: false });
+        result = await Pawn.api().get("/pawns/generate-number", {
+          save: false,
+        });
       } catch (error) {
         console.log(error);
       } finally {

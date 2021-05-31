@@ -118,6 +118,7 @@ export default {
       toastSuccess: false,
       fields: [
         { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
+        { key: "full_name", label: "ชื่อ-สกุล ลูกค้า" },
         { key: "created_at", label: "วันที่มาจำนำ" },
         { key: "next_paid_at", label: "วันที่ครบกำหนดดอกเบี้ย" },
         { key: "updated_at", label: "วันที่อัพเดทล่าสุด" },

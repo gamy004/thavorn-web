@@ -529,7 +529,7 @@ var searchMixin = {
     fetchUserPawn: function fetchUserPawn() {
       var keyword = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
       var fieldKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("users", {
+      return _models_User__WEBPACK_IMPORTED_MODULE_3__["default"].api().get("/", {
         params: {
           search: {
             keyword: keyword,
@@ -642,7 +642,8 @@ var searchMixin = {
                   filters: filters,
                   select: select,
                   page: page,
-                  limit: limit
+                  limit: limit,
+                  sort: ["-pawn_no"]
                 };
 
                 if (_this.searchInput && _this.searchInput.length) {

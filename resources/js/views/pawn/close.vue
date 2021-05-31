@@ -97,6 +97,7 @@ export default {
       toastCloseSuccess: false,
       fields: [
         { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
+        { key: "full_name", label: "ชื่อ-สกุล ลูกค้า" },
         { key: "count_items", label: "จำนวนสินค้า (ชิ้น)" },
         { key: "total_items_value", label: "มูลค่าสินค้า (บาท)" },
         { key: "interest_rate", label: "อัตราดอกเบี้ย (%)" },
