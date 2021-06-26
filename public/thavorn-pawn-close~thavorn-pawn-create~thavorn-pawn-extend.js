@@ -333,7 +333,7 @@ var datetimeMixin = {
   },
   methods: {
     diffMonth: function diffMonth(monthStart, monthEnd) {
-      return Math.ceil(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months', true));
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months');
     }
   }
 };

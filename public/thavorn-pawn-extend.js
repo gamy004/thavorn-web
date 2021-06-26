@@ -957,8 +957,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     },
     selectedMonthDescription: function selectedMonthDescription() {
-      var monthStart = this.formatingDatetime(this.selectedDate.start, "MMM YYYY");
-      var monthEnd = this.formatingDatetime(this.selectedDate.end, "MMM YYYY");
+      var monthStart = this.formatingDatetime(this.selectedDate.start, "DD MMM YYYY");
+      var monthEnd = this.formatingDatetime(this.selectedDate.end, "DD MMM YYYY");
       var description = monthStart;
 
       if (monthStart !== monthEnd) {

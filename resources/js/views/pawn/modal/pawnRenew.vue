@@ -204,12 +204,12 @@ export default {
     selectedMonthDescription() {
       const monthStart = this.formatingDatetime(
         this.selectedDate.start,
-        "MMM YYYY"
+        "DD MMM YYYY"
       );
 
       const monthEnd = this.formatingDatetime(
         this.selectedDate.end,
-        "MMM YYYY"
+        "DD MMM YYYY"
       );
 
       let description = monthStart;
