@@ -40,6 +40,11 @@ class PawnController extends BaseApiController {
         return $this->api->getCloseAmount($pawn);
     }
 
+    public function getDashboard(Request $request)
+    {
+        return $this->api->getSummary($request->all());
+    }
+
     public function generateNumber()
     {
         return $this->api->generateNumber();

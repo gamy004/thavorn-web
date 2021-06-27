@@ -15,6 +15,11 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: "/dashboard",
+        name: "dashboard",
+        component: VIEWS.DATA.DASHBOARD
+    },
+    {
         path: "/pawns/create",
         name: "pawn-create",
         component: VIEWS.PAWN.CREATE

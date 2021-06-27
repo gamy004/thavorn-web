@@ -32,6 +32,7 @@ Route::group([
         'as' => 'pawns.',
         'prefix' => 'pawns',
     ], function () {
+        Route::get('/dashboard', 'PawnController@getDashboard')->name('dashboard');
         Route::get('/generate-number', 'PawnController@generateNumber')->name('generate-number');
         Route::post('{pawn}/pay', 'PawnController@pay')->name('pay');
         Route::post('{pawn}/close', 'PawnController@close')->name('close');

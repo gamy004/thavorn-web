@@ -8,7 +8,10 @@ use App\IOCs\DBCol;
 use App\Models\Pawn;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Payment;
+use App\Models\PawnItem;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Api\Contracts\ApiInterface;
 
@@ -103,6 +106,59 @@ class PawnApi extends BaseApi implements ApiInterface
 
     public function getCloseAmount(Pawn $pawn, array $raw = []) {
         return $pawn->getClosePayment();
+    }
+
+    public function getSummary(array $raw=[])
+    {
+        $base_model = $this->getOriginalModel();
+
+        $pawn_table = model_table(Pawn::class);
+        $pawn_items_table = model_table(PawnItem::class);
+        $payment_table = model_table(Payment::class);
+
+        $complete_field = DBCol::COMPLETE;
+        $item_value_field = DBCol::ITEM_VALUE;
+        $month_amount_field = DBCol::MONTH_AMOUNT;
+        $id_field = DBCol::ID;
+        $deleted_at_field = DBCol::DELETED_AT;
+
+        $total_close_query_name = 'queryTotalCloseValue';
+        $total_close_query = $base_model->leftJoin(
+            $payment_table,
+            function($join) use ($pawn_table, $payment_table, $deleted_at_field) {
+                $join->on(
+                    sprintf('%s.%s', $pawn_table, DBCol::ID),
+                    '=',
+                    sprintf('%s.%s', $payment_table, Pawn::FK)
+                )->whereNull("$payment_table.$deleted_at_field");
+            }
+        )
+        ->select([
+            DB::raw("SUM(IF($payment_table.$month_amount_field <= 0, $payment_table.amount, 0)) as complete_total_close_value")
+        ])
+        ->first();
+
+        $total_query = $base_model->leftJoin(
+            $pawn_items_table,
+            function($join) use ($pawn_table, $pawn_items_table, $deleted_at_field) {
+                $join->on(
+                    sprintf('%s.%s', $pawn_table, DBCol::ID),
+                    '=',
+                    sprintf('%s.%s', $pawn_items_table, Pawn::FK)
+                )->whereNull("$pawn_items_table.$deleted_at_field");
+            }
+        )
+        ->select([
+            DB::raw("SUM($pawn_items_table.$item_value_field) as total_item_value"),
+            DB::raw("SUM(IF($pawn_items_table.$complete_field = 1, $pawn_items_table.$item_value_field, 0)) as complete_total_item_value")
+        ])
+        ->first();
+
+        return [
+            "total_item_value" => $total_query->total_item_value,
+            "complete_total_item_value" => $total_query->complete_total_item_value,
+            "complete_total_close_value" => $total_close_query->complete_total_close_value
+        ];
     }
 
     public function generateNumber() {

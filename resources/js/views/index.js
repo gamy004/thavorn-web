@@ -1,5 +1,5 @@
 // export const HOME = () =>
-    // import(/* webpackChunkName: "thavorn-home" */ "./home");
+// import(/* webpackChunkName: "thavorn-home" */ "./home");
 // export const SIGNIN = () => import( /* webpackChunkName: "thavorn-auth" */ 'auth/views/login');
 // export const SIGNUP = () => import( /* webpackChunkName: "thavorn-auth" */ 'auth/views/register');
 // export const PASSWORD = {
@@ -15,10 +15,13 @@ export const PAWN = {
     EXTEND: () =>
         import(/* webpackChunkName: "thavorn-pawn-extend" */ "./pawn/extend"),
     CLOSE: () =>
-        import(/* webpackChunkName: "thavorn-pawn-close" */ "./pawn/close")        
+        import(/* webpackChunkName: "thavorn-pawn-close" */ "./pawn/close")
 };
 
 export const DATA = {
+    DASHBOARD: () =>
+        import(/* webpackChunkName: "thavorn-pawn-dashboard" */ "./data/dashboard"),
+
     CUSTOMER: () =>
         import(/* webpackChunkName: "thavorn-pawn-create" */ "./data/customer"),
     PAWN: () =>

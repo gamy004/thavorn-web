@@ -16,7 +16,14 @@
         </router-link>
       </div> -->
       <button
-        class="toggle-sidebar rounded-circle btn btn-sm bg-white shadow-sm-dark text-primary"
+        class="
+          toggle-sidebar
+          rounded-circle
+          btn btn-sm
+          bg-white
+          shadow-sm-dark
+          text-primary
+        "
         v-b-tooltip.hover
         title="Expand Sidebar"
         v-bind:class="{ 'is-active': sidebarCollapsed }"
@@ -74,9 +81,17 @@ import {
   faClock,
   faReply,
   faDatabase,
+  faColumns,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faArrowsAltH, faHandHoldingUsd, faClock, faReply, faDatabase);
+library.add(
+  faArrowsAltH,
+  faHandHoldingUsd,
+  faClock,
+  faReply,
+  faDatabase,
+  faColumns
+);
 
 export default {
   components: {
@@ -89,6 +104,16 @@ export default {
   data() {
     return {
       menu: [
+        {
+          title: "ภาพรวม",
+          href: "/dashboard",
+          icon: {
+            element: "font-awesome-icon",
+            attributes: {
+              icon: "columns",
+            },
+          },
+        },
         {
           title: "การจำนำ",
           href: "/pawns/create",
