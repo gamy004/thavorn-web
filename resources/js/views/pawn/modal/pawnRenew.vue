@@ -275,7 +275,7 @@ export default {
             selectedStartDateDay
           );
         }
-        console.log(targetSelectedEndDate);
+
         this.$set(this.selectedDate, "end", targetSelectedEndDate);
       }
     },
