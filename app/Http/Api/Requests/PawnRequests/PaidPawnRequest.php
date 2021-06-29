@@ -27,6 +27,8 @@ class PaidPawnRequest extends FormRequest
         return [
             'month_amount' => 'required|numeric|min:0',
             'amount' => ['required', 'numeric', 'min:0', new PaidAmount($this->pawn, $this->month_amount)],
+            'time_start_at' => 'required|string',
+            'time_end_at' => 'required|string'
         ];
     }
 }

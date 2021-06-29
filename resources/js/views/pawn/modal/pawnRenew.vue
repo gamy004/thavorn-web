@@ -40,7 +40,7 @@
                   minimum-view="month"
                   maximum-view="month"
                   :disabledDates="disabledDateEnd"
-                  v-model="selectedDate.end"
+                  v-model="selectedDateEnd"
                 ></datepicker>
               </div>
             </div>
@@ -121,6 +121,7 @@ export default {
       submitting: false,
       checkingPaidAmount: false,
       toastSuccess: false,
+      selectedDateEnd: null,
       selectedDate: {
         start: this.pawn
           ? new Date(
@@ -144,7 +145,7 @@ export default {
       immediate: true,
       handler: "onSelectedStartDateChanged",
     },
-    "selectedDate.end": "onSelectedEndDateChanged",
+    selectedDateEnd: "onSelectedEndDateChanged",
     monthAmount: {
       immediate: true,
       handler: "onMonthAmountChanged",
@@ -194,7 +195,7 @@ export default {
         to = new Date(this.selectedDate.start);
       }
 
-      to.setMonth(to.getMonth() + 1);
+      to.setDate(to.getDate() + 30);
 
       return {
         to,
@@ -233,13 +234,27 @@ export default {
 
     onSelectedStartDateChanged(selectedStartDate) {
       if (selectedStartDate) {
-        const selectedStartDateMonth = selectedStartDate.getMonth();
+        let selectedEndDate;
+        const lastDateOfStartMonth = this.getEndOfMonthDate(selectedStartDate);
+        const selectedStartDateDay = selectedStartDate.getDate();
 
-        const selectedEndDate = new Date(selectedStartDate);
+        if (lastDateOfStartMonth.getDate() === selectedStartDateDay) {
+          const nextDate = new Date(selectedStartDate);
 
-        selectedEndDate.setMonth(selectedStartDateMonth + 1);
+          nextDate.setDate(nextDate.getDate() + 1);
+
+          selectedEndDate = this.getEndOfMonthDate(nextDate);
+        } else {
+          selectedEndDate = new Date(
+            selectedStartDate.getFullYear(),
+            selectedStartDate.getMonth() + 1,
+            selectedStartDateDay
+          );
+        }
 
         this.$set(this.selectedDate, "end", selectedEndDate);
+
+        this.selectedDateEnd = new Date(selectedEndDate);
       }
     },
 
@@ -247,14 +262,21 @@ export default {
       const selectedStartDate = this.selectedDate.start;
 
       if (selectedEndDate) {
+        let targetSelectedEndDate = new Date(selectedEndDate);
+        const lastDateOfStartMonth = this.getEndOfMonthDate(selectedStartDate);
         const selectedStartDateDay = selectedStartDate.getDate();
-        const selectedEndDateDay = selectedEndDate.getDate();
 
-        if (selectedStartDateDay !== selectedEndDateDay) {
-          selectedEndDate.setDate(selectedStartDateDay);
-
-          this.$set(this.selectedDate, "end", selectedEndDate);
+        if (lastDateOfStartMonth.getDate() === selectedStartDateDay) {
+          targetSelectedEndDate = this.getEndOfMonthDate(targetSelectedEndDate);
+        } else {
+          targetSelectedEndDate = new Date(
+            targetSelectedEndDate.getFullYear(),
+            targetSelectedEndDate.getMonth(),
+            selectedStartDateDay
+          );
         }
+        console.log(targetSelectedEndDate);
+        this.$set(this.selectedDate, "end", targetSelectedEndDate);
       }
     },
 
@@ -294,7 +316,9 @@ export default {
         res = await Pawn.api().extend(
           this.pawn.id,
           this.form.month_amount,
-          this.form.paid_amount
+          this.form.paid_amount,
+          this.selectedDate.start.toDateString(),
+          this.selectedDate.end.toDateString()
         );
       } catch (error) {
         console.error(error);

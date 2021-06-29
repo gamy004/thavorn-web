@@ -4,6 +4,7 @@ namespace App\Http\Api\Providers;
 
 use Exception;
 use App\IOCs\Data;
+use Carbon\Carbon;
 use App\IOCs\DBCol;
 use App\Models\Pawn;
 use App\Models\Role;
@@ -79,8 +80,18 @@ class PawnApi extends BaseApi implements ApiInterface
     }
 
     public function pay(Pawn $pawn, array $raw = []) {
-        if (isset($raw["amount"]) && isset($raw["month_amount"])) {
-            $pawn->pay($raw["amount"], $raw["month_amount"]);
+        if (
+            isset($raw["amount"]) &&
+            isset($raw["month_amount"]) &&
+            isset($raw["time_start_at"]) &&
+            isset($raw["time_end_at"])
+        ) {
+            $pawn->pay(
+                $raw["amount"],
+                $raw["month_amount"],
+                $raw["time_start_at"],
+                $raw["time_end_at"]
+            );
         }
 
         return $pawn;
@@ -133,8 +144,23 @@ class PawnApi extends BaseApi implements ApiInterface
                 )->whereNull("$payment_table.$deleted_at_field");
             }
         )
+        ->where(sprintf('%s.%s', $pawn_table, $complete_field), 1)
+        ->when(isset($raw['time_start_at']), function ($query) use ($raw, $payment_table) {
+            $query->where(
+                sprintf('%s.%s', $payment_table, DBCol::CREATED_AT),
+                '>=',
+                Carbon::make($raw['time_start_at'])->toDatetimeString()
+            );
+        })
+        ->when(isset($raw['time_end_at']), function ($query) use ($raw, $payment_table) {
+            $query->where(
+                sprintf('%s.%s', $payment_table, DBCol::CREATED_AT),
+                '<',
+                Carbon::make($raw['time_end_at'])->addDay()->toDatetimeString()
+            );
+        })
         ->select([
-            DB::raw("SUM(IF($payment_table.$month_amount_field <= 0, $payment_table.amount, 0)) as complete_total_close_value")
+            DB::raw("SUM($payment_table.amount) as complete_total_close_value")
         ])
         ->first();
 
@@ -148,15 +174,29 @@ class PawnApi extends BaseApi implements ApiInterface
                 )->whereNull("$pawn_items_table.$deleted_at_field");
             }
         )
+        ->when(isset($raw['time_start_at']), function ($query) use ($raw, $pawn_items_table) {
+            $query->where(
+                sprintf('%s.%s', $pawn_items_table, DBCol::CREATED_AT),
+                '>=',
+                Carbon::make($raw['time_start_at'])->toDatetimeString()
+            );
+        })
+        ->when(isset($raw['time_end_at']), function ($query) use ($raw, $pawn_items_table) {
+            $query->where(
+                sprintf('%s.%s', $pawn_items_table, DBCol::CREATED_AT),
+                '<',
+                Carbon::make($raw['time_end_at'])->addDay()->toDatetimeString()
+            );
+        })
         ->select([
             DB::raw("SUM($pawn_items_table.$item_value_field) as total_item_value"),
-            DB::raw("SUM(IF($pawn_items_table.$complete_field = 1, $pawn_items_table.$item_value_field, 0)) as complete_total_item_value")
+            DB::raw("SUM(IF($pawn_items_table.$complete_field = 1, 0, $pawn_items_table.$item_value_field)) as incomplete_total_item_value")
         ])
         ->first();
 
         return [
             "total_item_value" => $total_query->total_item_value,
-            "complete_total_item_value" => $total_query->complete_total_item_value,
+            "incomplete_total_item_value" => $total_query->incomplete_total_item_value,
             "complete_total_close_value" => $total_close_query->complete_total_close_value
         ];
     }

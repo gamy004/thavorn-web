@@ -120,6 +120,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pawn_users_searcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/pawn-users/searcher */ "./resources/js/components/pawn-users/searcher.vue");
 /* harmony import */ var _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../models/PawnUserItem */ "./resources/js/models/PawnUserItem.js");
 /* harmony import */ var _views_pawn_modal_pawnDetail__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../views/pawn/modal/pawnDetail */ "./resources/js/views/pawn/modal/pawnDetail.vue");
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -204,10 +206,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
+
+
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faExclamationCircle"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins__WEBPACK_IMPORTED_MODULE_0__["datetimeMixin"]],
   components: {
@@ -218,6 +241,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       shownPawnUserItem: new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"](),
       showDetail: false,
+      monthThreshold: 4,
       fields: [{
         key: "pawn_no",
         label: "เลขที่บัตรจำนำ"
@@ -247,6 +271,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     showPawnDetail: function showPawnDetail(data) {
       this.shownPawnUserItem = new _models_PawnUserItem__WEBPACK_IMPORTED_MODULE_2__["default"](_objectSpread({}, data));
       this.showDetail = true;
+    },
+    isAlert: function isAlert(item) {
+      var targetDate = new Date(item.next_paid_at || item.created_at);
+      return this.diffMonthCurrent(targetDate) >= this.monthThreshold;
+    },
+    getClassesNextPaidAt: function getClassesNextPaidAt(item) {
+      return {
+        "text-danger": this.isAlert(item)
+      };
     }
   }
 });
@@ -906,6 +939,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       submitting: false,
       checkingPaidAmount: false,
       toastSuccess: false,
+      selectedDateEnd: null,
       selectedDate: {
         start: this.pawn ? new Date(this.pawn.next_paid_at ? this.pawn.next_paid_at : this.pawn.created_at) : null,
         end: null
@@ -921,7 +955,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       immediate: true,
       handler: "onSelectedStartDateChanged"
     },
-    "selectedDate.end": "onSelectedEndDateChanged",
+    selectedDateEnd: "onSelectedEndDateChanged",
     monthAmount: {
       immediate: true,
       handler: "onMonthAmountChanged"
@@ -951,7 +985,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         to = new Date(this.selectedDate.start);
       }
 
-      to.setMonth(to.getMonth() + 1);
+      to.setDate(to.getDate() + 30);
       return {
         to: to
       };
@@ -977,23 +1011,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSelectedStartDateChanged: function onSelectedStartDateChanged(selectedStartDate) {
       if (selectedStartDate) {
-        var selectedStartDateMonth = selectedStartDate.getMonth();
-        var selectedEndDate = new Date(selectedStartDate);
-        selectedEndDate.setMonth(selectedStartDateMonth + 1);
+        var selectedEndDate;
+        var lastDateOfStartMonth = this.getEndOfMonthDate(selectedStartDate);
+        var selectedStartDateDay = selectedStartDate.getDate();
+
+        if (lastDateOfStartMonth.getDate() === selectedStartDateDay) {
+          var nextDate = new Date(selectedStartDate);
+          nextDate.setDate(nextDate.getDate() + 1);
+          selectedEndDate = this.getEndOfMonthDate(nextDate);
+        } else {
+          selectedEndDate = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth() + 1, selectedStartDateDay);
+        }
+
         this.$set(this.selectedDate, "end", selectedEndDate);
+        this.selectedDateEnd = new Date(selectedEndDate);
       }
     },
     onSelectedEndDateChanged: function onSelectedEndDateChanged(selectedEndDate) {
       var selectedStartDate = this.selectedDate.start;
 
       if (selectedEndDate) {
+        var targetSelectedEndDate = new Date(selectedEndDate);
+        var lastDateOfStartMonth = this.getEndOfMonthDate(selectedStartDate);
         var selectedStartDateDay = selectedStartDate.getDate();
-        var selectedEndDateDay = selectedEndDate.getDate();
 
-        if (selectedStartDateDay !== selectedEndDateDay) {
-          selectedEndDate.setDate(selectedStartDateDay);
-          this.$set(this.selectedDate, "end", selectedEndDate);
+        if (lastDateOfStartMonth.getDate() === selectedStartDateDay) {
+          targetSelectedEndDate = this.getEndOfMonthDate(targetSelectedEndDate);
+        } else {
+          targetSelectedEndDate = new Date(targetSelectedEndDate.getFullYear(), targetSelectedEndDate.getMonth(), selectedStartDateDay);
         }
+
+        console.log(targetSelectedEndDate);
+        this.$set(this.selectedDate, "end", targetSelectedEndDate);
       }
     },
     onMonthAmountChanged: function onMonthAmountChanged(monthAmount) {
@@ -1062,7 +1111,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this2.submitting = true;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return _models_Pawn__WEBPACK_IMPORTED_MODULE_3__["default"].api().extend(_this2.pawn.id, _this2.form.month_amount, _this2.form.paid_amount);
+                return _models_Pawn__WEBPACK_IMPORTED_MODULE_3__["default"].api().extend(_this2.pawn.id, _this2.form.month_amount, _this2.form.paid_amount, _this2.selectedDate.start.toDateString(), _this2.selectedDate.end.toDateString());
 
               case 4:
                 res = _context2.sent;
@@ -1279,7 +1328,7 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "d-70 mx-auto rounded font-size-xxl bg-white text-center shadow-sm"
+                    "\n              d-70\n              mx-auto\n              rounded\n              font-size-xxl\n              bg-white\n              text-center\n              shadow-sm\n            "
                 },
                 [
                   _c("font-awesome-icon", {
@@ -1335,16 +1384,29 @@ var render = function() {
                       key: "cell(next_paid_at)",
                       fn: function(data) {
                         return [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(
-                                _vm.formatingDatetime(
-                                  data.item.next_paid_at,
-                                  "DD MMM YYYY"
-                                )
-                              ) +
-                              "\n              "
-                          )
+                          _c(
+                            "span",
+                            { class: _vm.getClassesNextPaidAt(data.item) },
+                            [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(
+                                    _vm.formatingDatetime(
+                                      data.item.next_paid_at,
+                                      "DD MMM YYYY"
+                                    )
+                                  ) +
+                                  "\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm.isAlert(data.item)
+                            ? _c("font-awesome-icon", {
+                                staticClass: "text-danger ml-2",
+                                attrs: { icon: "exclamation-circle" }
+                              })
+                            : _vm._e()
                         ]
                       }
                     },
@@ -2176,11 +2238,11 @@ var render = function() {
                           disabledDates: _vm.disabledDateEnd
                         },
                         model: {
-                          value: _vm.selectedDate.end,
+                          value: _vm.selectedDateEnd,
                           callback: function($$v) {
-                            _vm.$set(_vm.selectedDate, "end", $$v)
+                            _vm.selectedDateEnd = $$v
                           },
-                          expression: "selectedDate.end"
+                          expression: "selectedDateEnd"
                         }
                       })
                     ],

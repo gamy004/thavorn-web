@@ -54,7 +54,7 @@
                         wrapper-class="datepicker-wrapper-flush w-100"
                         calendar-class="datepicker datepicker-inline"
                         :language="th"
-                        minimum-view="month"
+                        minimum-view="day"
                         maximum-view="month"
                         placeholder="วันที่เริ่มต้น"
                         clear-button
@@ -82,7 +82,7 @@
                         wrapper-class="datepicker-wrapper-flush w-100"
                         calendar-class="datepicker datepicker-inline"
                         :language="th"
-                        minimum-view="month"
+                        minimum-view="day"
                         maximum-view="month"
                         placeholder="วันที่สิ้นสุด"
                         clear-button
@@ -122,9 +122,9 @@
                             ></font-awesome-icon>
                           </div>
                           <div class="mt-3 line-height-sm">
-                            <b class="font-size-lg text-black pr-1"
-                              >234,000,000</b
-                            >
+                            <b class="font-size-lg text-black pr-1">{{
+                              totalItemValue
+                            }}</b>
                             <div class="text-black-50">ผลรวมยอดจำนำทั้งหมด</div>
                           </div>
                         </div>
@@ -153,7 +153,9 @@
                             ></font-awesome-icon>
                           </div>
                           <div class="mt-3 line-height-sm">
-                            <b class="font-size-lg text-black pr-1">234,000</b>
+                            <b class="font-size-lg text-black pr-1">{{
+                              incompleteTotalItemValue
+                            }}</b>
                             <div class="text-black-50">ยอดจำนำปัจจุบัน</div>
                           </div>
                         </div>
@@ -182,9 +184,9 @@
                             ></font-awesome-icon>
                           </div>
                           <div class="mt-3 line-height-sm">
-                            <b class="font-size-lg text-black pr-1"
-                              >134,000,000</b
-                            >
+                            <b class="font-size-lg text-black pr-1">{{
+                              completeTotalCloseValue
+                            }}</b>
                             <div class="text-black-50">ยอดไถ่ถอนทั้งหมด</div>
                           </div>
                         </div>
@@ -255,17 +257,39 @@ export default {
         start: null,
         end: null,
       },
+      totalItemValue: 0,
+      incompleteTotalItemValue: 0,
+      completeTotalCloseValue: 0,
     };
+  },
+
+  watch: {
+    "selectedDate.start": "fetch",
+    "selectedDate.end": "fetch",
   },
 
   methods: {
     async fetch() {
-      let result;
+      let result,
+        params = {};
 
       this.fetching = true;
 
+      if (this.selectedDate.start) {
+        this.$set(
+          params,
+          "time_start_at",
+          this.selectedDate.start.toDateString()
+        );
+      }
+
+      if (this.selectedDate.end) {
+        this.$set(params, "time_end_at", this.selectedDate.end.toDateString());
+      }
+
       try {
         result = await Pawn.api().get("/pawns/dashboard", {
+          params,
           save: false,
         });
       } catch (error) {
@@ -277,7 +301,15 @@ export default {
       const { response } = result;
 
       if (response && response.data) {
-        //
+        const {
+          total_item_value = null,
+          incomplete_total_item_value = null,
+          complete_total_close_value = null,
+        } = response.data;
+
+        this.totalItemValue = total_item_value || 0;
+        this.incompleteTotalItemValue = incomplete_total_item_value || 0;
+        this.completeTotalCloseValue = complete_total_close_value || 0;
       }
     },
   },

@@ -254,6 +254,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -271,54 +273,76 @@ _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__["library"].add(_f
       selectedDate: {
         start: null,
         end: null
-      }
+      },
+      totalItemValue: 0,
+      incompleteTotalItemValue: 0,
+      completeTotalCloseValue: 0
     };
+  },
+  watch: {
+    "selectedDate.start": "fetch",
+    "selectedDate.end": "fetch"
   },
   methods: {
     fetch: function fetch() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var result, _result, response;
+        var result, params, _result, response, _response$data, _response$data$total_, total_item_value, _response$data$incomp, incomplete_total_item_value, _response$data$comple, complete_total_close_value;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                params = {};
                 _this.fetching = true;
-                _context.prev = 1;
-                _context.next = 4;
+
+                if (_this.selectedDate.start) {
+                  _this.$set(params, "time_start_at", _this.selectedDate.start.toDateString());
+                }
+
+                if (_this.selectedDate.end) {
+                  _this.$set(params, "time_end_at", _this.selectedDate.end.toDateString());
+                }
+
+                _context.prev = 4;
+                _context.next = 7;
                 return models_Pawn__WEBPACK_IMPORTED_MODULE_5__["default"].api().get("/pawns/dashboard", {
+                  params: params,
                   save: false
                 });
 
-              case 4:
-                result = _context.sent;
-                _context.next = 10;
-                break;
-
               case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](1);
-                console.log(_context.t0);
+                result = _context.sent;
+                _context.next = 13;
+                break;
 
               case 10:
                 _context.prev = 10;
-                _this.fetching = false;
-                return _context.finish(10);
+                _context.t0 = _context["catch"](4);
+                console.log(_context.t0);
 
               case 13:
+                _context.prev = 13;
+                _this.fetching = false;
+                return _context.finish(13);
+
+              case 16:
                 _result = result, response = _result.response;
 
-                if (response && response.data) {//
+                if (response && response.data) {
+                  _response$data = response.data, _response$data$total_ = _response$data.total_item_value, total_item_value = _response$data$total_ === void 0 ? null : _response$data$total_, _response$data$incomp = _response$data.incomplete_total_item_value, incomplete_total_item_value = _response$data$incomp === void 0 ? null : _response$data$incomp, _response$data$comple = _response$data.complete_total_close_value, complete_total_close_value = _response$data$comple === void 0 ? null : _response$data$comple;
+                  _this.totalItemValue = total_item_value || 0;
+                  _this.incompleteTotalItemValue = incomplete_total_item_value || 0;
+                  _this.completeTotalCloseValue = complete_total_close_value || 0;
                 }
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 7, 10, 13]]);
+        }, _callee, null, [[4, 10, 13, 16]]);
       }))();
     }
   },
@@ -405,7 +429,7 @@ var render = function() {
                               "wrapper-class": "datepicker-wrapper-flush w-100",
                               "calendar-class": "datepicker datepicker-inline",
                               language: _vm.th,
-                              "minimum-view": "month",
+                              "minimum-view": "day",
                               "maximum-view": "month",
                               placeholder: "วันที่เริ่มต้น",
                               "clear-button": ""
@@ -444,7 +468,7 @@ var render = function() {
                               "wrapper-class": "datepicker-wrapper-flush w-100",
                               "calendar-class": "datepicker datepicker-inline",
                               language: _vm.th,
-                              "minimum-view": "month",
+                              "minimum-view": "day",
                               "maximum-view": "month",
                               placeholder: "วันที่สิ้นสุด",
                               "clear-button": ""
@@ -495,7 +519,17 @@ var render = function() {
                               1
                             ),
                             _vm._v(" "),
-                            _vm._m(1)
+                            _c("div", { staticClass: "mt-3 line-height-sm" }, [
+                              _c(
+                                "b",
+                                { staticClass: "font-size-lg text-black pr-1" },
+                                [_vm._v(_vm._s(_vm.totalItemValue))]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-black-50" }, [
+                                _vm._v("ผลรวมยอดจำนำทั้งหมด")
+                              ])
+                            ])
                           ])
                         ])
                       ])
@@ -530,7 +564,17 @@ var render = function() {
                               1
                             ),
                             _vm._v(" "),
-                            _vm._m(2)
+                            _c("div", { staticClass: "mt-3 line-height-sm" }, [
+                              _c(
+                                "b",
+                                { staticClass: "font-size-lg text-black pr-1" },
+                                [_vm._v(_vm._s(_vm.incompleteTotalItemValue))]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-black-50" }, [
+                                _vm._v("ยอดจำนำปัจจุบัน")
+                              ])
+                            ])
                           ])
                         ])
                       ])
@@ -562,7 +606,17 @@ var render = function() {
                               1
                             ),
                             _vm._v(" "),
-                            _vm._m(3)
+                            _c("div", { staticClass: "mt-3 line-height-sm" }, [
+                              _c(
+                                "b",
+                                { staticClass: "font-size-lg text-black pr-1" },
+                                [_vm._v(_vm._s(_vm.completeTotalCloseValue))]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-black-50" }, [
+                                _vm._v("ยอดไถ่ถอนทั้งหมด")
+                              ])
+                            ])
                           ])
                         ])
                       ])
@@ -586,44 +640,6 @@ var staticRenderFns = [
       _c("h5", { staticClass: "display-4 mt-1 mb-2 font-weight-bold" }, [
         _vm._v("ภาพรวม")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 line-height-sm" }, [
-      _c("b", { staticClass: "font-size-lg text-black pr-1" }, [
-        _vm._v("234,000,000")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-black-50" }, [
-        _vm._v("ผลรวมยอดจำนำทั้งหมด")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 line-height-sm" }, [
-      _c("b", { staticClass: "font-size-lg text-black pr-1" }, [
-        _vm._v("234,000")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-black-50" }, [_vm._v("ยอดจำนำปัจจุบัน")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 line-height-sm" }, [
-      _c("b", { staticClass: "font-size-lg text-black pr-1" }, [
-        _vm._v("134,000,000")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-black-50" }, [_vm._v("ยอดไถ่ถอนทั้งหมด")])
     ])
   }
 ]

@@ -40,21 +40,21 @@ export default class Payment extends Model {
         let description = `${payment_datetime}`;
 
         if (this.time_start_at || this.time_end_at) {
-            let time_start_month = formatingDatetime(this.time_start_at, "MMM");
+            let time_start_month = formatingDatetime(this.time_start_at, "DD MMM YY");
 
-            description += ` - ต่ออายุดอกเบี้ยเดือน ${time_start_month}`;
+            description += ` - ต่ออายุดอกเบี้ย ${time_start_month}`;
 
             if (this.time_end_at !== null && this.time_start_at !== this.time_end_at) {
                 let time_end = new Date(this.time_end_at);
 
                 time_end.setMonth(time_end.getMonth());
 
-                let time_end_month = formatingDatetime(time_end, "MMM");
+                let time_end_month = formatingDatetime(time_end, "DD MMM YY");
 
                 description += ` - ${time_end_month}`;
             }
 
-            description += ` (${this.month_amount} เดือน)`;
+            description += this.month_amount > 0 ? ` (${this.month_amount} เดือน)` : ' (ไถ่ถอน)';
         }
 
         return description;

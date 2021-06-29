@@ -333,7 +333,19 @@ var datetimeMixin = {
   },
   methods: {
     diffMonth: function diffMonth(monthStart, monthEnd) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months');
+      moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('th');
+      return Math.ceil(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthEnd).diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(monthStart), 'months', true));
+    },
+    diffMonthCurrent: function diffMonthCurrent(date) {
+      moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('th');
+      return Math.ceil(moment__WEBPACK_IMPORTED_MODULE_0___default()().diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(date), 'months', true));
+    },
+    isEndOfMonthDate: function isEndOfMonthDate(date) {
+      var possibleEndOfMonthDate = [28, 29, 30, 31];
+      return possibleEndOfMonthDate.includes(date.getDate());
+    },
+    getEndOfMonthDate: function getEndOfMonthDate(date) {
+      return new Date(date.getFullYear(), date.getMonth() + 1, 0);
     }
   }
 };

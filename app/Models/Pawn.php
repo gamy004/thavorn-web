@@ -178,7 +178,7 @@ class Pawn extends Model
         // }
 
         $diff_day = $latest->diffInDays($current, false);
-        
+
         $due_month = 0;
         $due_day = 0;
         // dump($diff_day);
@@ -288,22 +288,22 @@ class Pawn extends Model
         ];
     }
 
-    public function pay($amount, $month)
+    public function pay($amount, $month, $time_start_at, $time_end_at)
     {
-        $new_time_paid  = $this->getNewPaidTime($month);
-        $time_start_at  = $new_time_paid[DBCol::TIME_START_AT];
-        $time_end_at    = $new_time_paid[DBCol::TIME_END_AT];
-
+        // $new_time_paid  = $this->getNewPaidTime($month);
+        // $time_start_at  = $new_time_paid[DBCol::TIME_START_AT];
+        // $time_end_at    = $new_time_paid[DBCol::TIME_END_AT];
+        
         $this->payments()->create([
             DBCol::AMOUNT => $amount,
             DBCol::MONTH_AMOUNT => $month,
-            DBCol::TIME_START_AT => $new_time_paid[DBCol::TIME_START_AT]->toDatetimeString(),
-            DBCol::TIME_END_AT => $new_time_paid[DBCol::TIME_END_AT]->toDatetimeString(),
+            DBCol::TIME_START_AT => Carbon::make($time_start_at)->toDatetimeString(),
+            DBCol::TIME_END_AT => Carbon::make($time_end_at)->toDatetimeString()
         ]);
 
         $this->update([
             DBCol::LATEST_PAID_AT => Carbon::now()->toDatetimeString(),
-            DBCol::NEXT_PAID_AT => $new_time_paid[DBCol::TIME_END_AT]->toDatetimeString()
+            DBCol::NEXT_PAID_AT => Carbon::make($time_end_at)->toDatetimeString()
         ]);
 
         return $this;

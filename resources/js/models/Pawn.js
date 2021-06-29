@@ -88,13 +88,13 @@ export default class Pawn extends Model {
                     }
                 },
 
-                async extend(id, month_amount, amount) {
+                async extend(id, month_amount, amount, time_start_at, time_end_at) {
                     let res;
 
                     try {
                         res = await this.post(
                             `pawns/${id}/pay`,
-                            { month_amount, amount },
+                            { month_amount, amount, time_start_at, time_end_at },
                             {
                                 save: false
                             }

@@ -20,7 +20,7 @@ export const datetimeMixin = {
 
     formatingDatetime: () => {
       return (datetime, format) => {
-        moment.locale('th')
+        moment.locale('th');
         // if (moment(datetime).format('hh') === '12') {
         //   let date = moment(datetime).format("DD MMM YYYY")
         //   let minute = moment(datetime).format("hh:mma").substr(2)
@@ -37,7 +37,29 @@ export const datetimeMixin = {
 
   methods: {
     diffMonth(monthStart, monthEnd) {
-      return moment(monthEnd).diff(moment(monthStart), 'months');
+      moment.locale('th');
+
+      return Math.ceil(moment(monthEnd).diff(moment(monthStart), 'months', true));
+    },
+
+    diffMonthCurrent(date) {
+      moment.locale('th');
+
+      return Math.ceil(moment().diff(moment(date), 'months', true));
+    },
+
+    isEndOfMonthDate(date) {
+      const possibleEndOfMonthDate = [28, 29, 30, 31];
+
+      return possibleEndOfMonthDate.includes(date.getDate());
+    },
+
+    getEndOfMonthDate(date) {
+      return new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0
+      );
     }
   }
 }

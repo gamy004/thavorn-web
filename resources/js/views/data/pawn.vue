@@ -5,7 +5,15 @@
         <div class="col-xl-7 d-block d-xl-flex align-items-center">
           <div class="pr-0 pr-xl-4 mb-4 mb-xl-0">
             <div
-              class="d-70 mx-auto rounded font-size-xxl bg-white text-center shadow-sm"
+              class="
+                d-70
+                mx-auto
+                rounded
+                font-size-xxl
+                bg-white
+                text-center
+                shadow-sm
+              "
             >
               <font-awesome-icon icon="database" class="text-primary mt-1" />
             </div>
@@ -43,7 +51,17 @@
                 </template>
 
                 <template #cell(next_paid_at)="data">
-                  {{ formatingDatetime(data.item.next_paid_at, "DD MMM YYYY") }}
+                  <span :class="getClassesNextPaidAt(data.item)">
+                    {{
+                      formatingDatetime(data.item.next_paid_at, "DD MMM YYYY")
+                    }}
+                  </span>
+
+                  <font-awesome-icon
+                    v-if="isAlert(data.item)"
+                    icon="exclamation-circle"
+                    class="text-danger ml-2"
+                  />
                 </template>
 
                 <template #cell(updated_at)="data">
@@ -81,6 +99,10 @@ import { datetimeMixin } from "../../mixins";
 import pawnUserSearcher from "../../components/pawn-users/searcher";
 import PawnUserItem from "../../models/PawnUserItem";
 import pawnDetail from "../../views/pawn/modal/pawnDetail";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faExclamationCircle);
 
 export default {
   mixins: [datetimeMixin],
@@ -94,6 +116,7 @@ export default {
     return {
       shownPawnUserItem: new PawnUserItem(),
       showDetail: false,
+      monthThreshold: 4,
       fields: [
         { key: "pawn_no", label: "เลขที่บัตรจำนำ" },
         { key: "full_name", label: "ชื่อ-สกุล ลูกค้า" },
@@ -110,6 +133,18 @@ export default {
     showPawnDetail(data) {
       this.shownPawnUserItem = new PawnUserItem({ ...data });
       this.showDetail = true;
+    },
+
+    isAlert(item) {
+      const targetDate = new Date(item.next_paid_at || item.created_at);
+
+      return this.diffMonthCurrent(targetDate) >= this.monthThreshold;
+    },
+
+    getClassesNextPaidAt(item) {
+      return {
+        "text-danger": this.isAlert(item),
+      };
     },
   },
 };
