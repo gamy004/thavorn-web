@@ -138,7 +138,10 @@ export default {
     isAlert(item) {
       const targetDate = new Date(item.next_paid_at || item.created_at);
 
-      return this.diffMonthCurrent(targetDate) >= this.monthThreshold;
+      return (
+        !item.complete &&
+        this.diffMonthCurrent(targetDate) >= this.monthThreshold
+      );
     },
 
     getClassesNextPaidAt(item) {
